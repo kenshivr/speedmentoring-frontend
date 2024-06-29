@@ -1,25 +1,7 @@
-import React, { useState } from 'react';
-import Layout from './Components/Layout';
+import React from 'react';
+import Layout from '../Components/Layout';
 
-function App() {
-
-  const [alumnoID, setAlumnoID] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const response = await fetch('http://localhost:3001/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ AlumnoID: alumnoID, password }),
-    });
-
-    const data = await response.json();
-    console.log(data);
-  };
-
+export default function Page() {
   return (
     <Layout navbar={true} userType="none">
       <div> 
@@ -40,32 +22,18 @@ function App() {
               </div>
 
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
-                <form onSubmit={handleSubmit}>
+                <form>
                   <div className="mb-3">
-                    <label htmlFor="exampleFormControlInput1" className="form-label text-white responsive-text">AlumnoID</label>
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      id="exampleFormControlInput1" 
-                      value={alumnoID} 
-                      onChange={(e) => setAlumnoID(e.target.value)} 
-                    />
+                    <label htmlFor="exampleFormControlInput1" className="form-label text-white responsive-text">Correo</label>
+                    <input type="email" className="form-control" id="exampleFormControlInput1"/>
                   </div>
                   <div className="mb-3">
                     <label htmlFor="inputPassword" className="form-label text-white responsive-text">Contraseña</label>
-                    <input 
-                      type="password" 
-                      className="form-control" 
-                      id="inputPassword" 
-                      value={password} 
-                      onChange={(e) => setPassword(e.target.value)} 
-                    />
+                    <input type="password" className="form-control" id="inputPassword" />
                   </div>
                   <div className="mb-3">
                     <h6 style={{ color: 'white', fontSize: '13px', textAlign: 'center' }}>
-                      <a href="/Login/Search_count" style={{ color: 'white', textDecoration: 'underline' }}>
-                        ¿Haz olvidado tu contraseña?
-                      </a>
+                      <a href="/login/buscarCuenta" style={{ color: 'white', textDecoration: 'underline' }}>¿Haz olvidado tu contraseña?</a>
                     </h6>
                   </div>
                   <button
@@ -88,5 +56,3 @@ function App() {
     </Layout>
   );
 }
-
-export default App;
