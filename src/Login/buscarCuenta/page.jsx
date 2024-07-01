@@ -1,10 +1,13 @@
 import React from 'react';
-import Layout from '../Components/Layout';
+import Layout from '../../components/Layout';
 
-export default function Page() {
+export default function Search_count() {
   return (
     <Layout navbar={true} userType="none">
-      <div> 
+      <div>
+        <div className="alert alert-info mx-5" role="alert">
+          Para recuperar su contraseña, ingrese la dirección de correo electrónico que registró en la plataforma.
+        </div>
         <div className="container-sm my-5" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '25px' }}>
           <div className="container">
             <div className="row w-100 no-gutters">
@@ -27,15 +30,6 @@ export default function Page() {
                     <label htmlFor="exampleFormControlInput1" className="form-label text-white responsive-text">Correo</label>
                     <input type="email" className="form-control" id="exampleFormControlInput1"/>
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="inputPassword" className="form-label text-white responsive-text">Contraseña</label>
-                    <input type="password" className="form-control" id="inputPassword" />
-                  </div>
-                  <div className="mb-3">
-                    <h6 style={{ color: 'white', fontSize: '13px', textAlign: 'center' }}>
-                      <a href="/login/buscarCuenta" style={{ color: 'white', textDecoration: 'underline' }}>¿Haz olvidado tu contraseña?</a>
-                    </h6>
-                  </div>
                   <button
                     type="submit"
                     className="btn w-100"
@@ -45,7 +39,7 @@ export default function Page() {
                       borderColor: '#EFCA45',
                       borderRadius: '20px'
                     }}>
-                    Ingresar
+                    Buscar
                   </button>
                 </form>
               </div>

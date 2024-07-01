@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Layout from './Components/Layout';
+import Layout from './components/Layout/Layout';
 
 function App() {
 
@@ -63,7 +63,7 @@ function App() {
                   </div>
                   <div className="mb-3">
                     <h6 style={{ color: 'white', fontSize: '13px', textAlign: 'center' }}>
-                      <a href="/Login/Search_count" style={{ color: 'white', textDecoration: 'underline' }}>
+                      <a href="/login/buscarCuenta" style={{ color: 'white', textDecoration: 'underline' }}>
                         ¿Haz olvidado tu contraseña?
                       </a>
                     </h6>
