@@ -3,10 +3,13 @@ import styles from '../../Styles/Header.css'
 
 export default function Header() {
   return (
+
     <div>
       <nav className="navbar navbar-light" style={{ backgroundColor: '#002B7A' }}>
         <div className="container">
+
           <div className="row w-100 no-gutters">
+
             <div className="col-4 d-flex align-items-center justify-content-start">
               <a className="navbar-brand" href="https://www.acatlan.unam.mx/">
                 <img 
@@ -16,9 +19,10 @@ export default function Header() {
                 />
               </a>
             </div>
+            
             <div className="col-4 d-flex align-items-center justify-content-center">
-              
             </div>
+
             <div className="col-4 d-flex align-items-center justify-content-end">
               <a className="navbar-brand" href="https://www.unam.mx/">
                 <img 
@@ -28,9 +32,12 @@ export default function Header() {
                 />
               </a>
             </div>
+
           </div>
+
         </div>
       </nav>
     </div>
+    
   );
 }
