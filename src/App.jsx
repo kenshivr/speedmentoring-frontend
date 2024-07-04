@@ -1,5 +1,5 @@
-import { React, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { React, useState, useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -22,13 +22,35 @@ import BuscarCuentaPage from './Login/buscarCuenta/page';
 function App() {
 
   const [user, setUser] = useState('');
-  const [userId, setUserId] = useState('RFC1234567890');
+  const [userId, setUserId] = useState('');
+
+  // Obtener la ruta actual
+  const location = useLocation();
+
+  // Funcion para determinar si se muestra la barra navegadora
+  const showNavbar = () => {
+    // Mostrar la navbar si el usuario no esta en la pagina login
+    return location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/login/buscarCuenta';
+  };
+
+  // Almacenar el userId en localStorage cuando se establece 
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+  }, []);
+
+  // Escuchar cambios en userId y actualizar localstorage
+  useEffect(() => {
+    localStorage.setItem('userId', userId);
+  }, [userId]);
 
   return (
     <>
       <Header />
       
-      {(
+      {showNavbar() && (
         user === 'admin' ? (
           <Navbar_admin />
         ) : user === 'student' ? (

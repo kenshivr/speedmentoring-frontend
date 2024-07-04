@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function LoginPage({ setUser, setUserId }) {
 
   const [userCurrent, setUserCurrent] = useState(''); 
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,11 +23,22 @@ function LoginPage({ setUser, setUserId }) {
       }
 
       const data = await response.json();
-      console.log(data);
-
+      
       if (data.userType) {
         setUser(data.userType);
         setUserId(data.userId);
+      }
+
+      if (data.userType === 'student' ) { // Si el usuario es un estudiante se le redirigue a su perfil
+        navigate('/Estudiante/page');
+      }
+
+      if (data.userType === 'mentor') { // Si el usuario es un mentor se le redirigue a su perfil
+        navigate('/Mentor/perfil/page');
+      }
+
+      if (data.userType === 'admin') { // Si el usuario es un admin se le redirigue a su perfil
+        navigate('/Admin/page');
       }
 
     } catch (error) {
