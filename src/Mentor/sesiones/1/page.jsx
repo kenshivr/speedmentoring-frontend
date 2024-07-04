@@ -1,9 +1,7 @@
 import React from 'react';
-import Layout from '../../../components/Layout/Layout';
 
 export default function Page() {
   return (
-    <Layout navbar={true} userType="mentor">
         <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1800px', minHeight:'600px', margin: 'auto' }}>
             <div className="row justify-content-evenly">
                 <div className="col-12 col-md-4 order-last order-md-first m-1 d-flex flex-column" style={{ backgroundColor: '#F5E6E8', borderColor: '#908486', borderRadius: '20px', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
@@ -36,6 +34,5 @@ export default function Page() {
                 </div>
             </div>
         </div>
-    </Layout>
   );
 }

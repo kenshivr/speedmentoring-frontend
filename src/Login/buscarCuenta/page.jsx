@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 export default function BuscarCuentaPage() {
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/api/buscar', { email });
+      const response = await axios.post('http://localhost:3001/api/buscar', { id });
       if (response.data.success) {
         alert('Se ha enviado un correo con la nueva contraseña.');
       } else {
@@ -45,11 +45,11 @@ export default function BuscarCuentaPage() {
                 <div className="mb-3">
                   <label htmlFor="emailInput" className="form-label text-white responsive-text">Correo</label>
                   <input 
-                    type="email" 
+                    type="text" 
                     className="form-control" 
                     id="emailInput" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
+                    value={id} 
+                    onChange={(e) => setId(e.target.value)} 
                   />
                 </div>
                 <button

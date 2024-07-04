@@ -1,9 +1,7 @@
 import React from 'react';
-import Layout from '../../components/Layout';
 
 export default function Page() {
   return (
-    <Layout navbar={true} userType="mentor">
       <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius:'50px', maxWidth: '1000px', margin: 'auto' }}>
         <div className="container p-3">
           <div className="row g-0 text-center mb-3">
@@ -118,6 +116,5 @@ export default function Page() {
           </div>
         </div>
       </div>
-    </Layout>
   );
 }

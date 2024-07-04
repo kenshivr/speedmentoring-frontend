@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function LoginPage() {
-  const [alumnoID, setAlumnoID] = useState('');
+function LoginPage({ setUser, setUserId }) {
+
+  const [userCurrent, setUserCurrent] = useState(''); 
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (event) => {
@@ -13,20 +14,25 @@ function LoginPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ AlumnoID: alumnoID, password }),
+        body: JSON.stringify({ user: userCurrent, password: password }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Error en la solicitud');
       }
-  
+
       const data = await response.json();
-      console.log(data); // Aquí puedes hacer algo con la respuesta, como redirigir al usuario o mostrar un mensaje de éxito
-  
+      console.log(data);
+
+      if (data.userType) {
+        setUser(data.userType);
+        setUserId(data.userId);
+      }
+
     } catch (error) {
-      console.error('Error al iniciar sesión:', error);
+      console.error('Error al mandar la solicitud post:', error);
     }
-  };  
+  };
 
   return (
     <div className="container-sm my-5 help" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '25px' }}>
@@ -52,8 +58,8 @@ function LoginPage() {
                   type="text" 
                   className="form-control" 
                   id="exampleFormControlInput1" 
-                  value={alumnoID} 
-                  onChange={(e) => setAlumnoID(e.target.value)} 
+                  value={userCurrent} 
+                  onChange={(e) => setUserCurrent(e.target.value)} 
                 />
               </div>
               <div className="mb-3">
