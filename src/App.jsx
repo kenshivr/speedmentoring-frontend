@@ -6,18 +6,30 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 
-import Navbar_m from "./components/Layout/Navbar_mentor";
-import Navbar_s from "./components/Layout/Navbar_student";
-import Navbar_admin from "./components/Layout/Navbar_admin";
+import NavbarMentor from "./components/Layout/Navbar_mentor";
+import NavbarStudent from "./components/Layout/Navbar_student";
+import NavbarAdmin from "./components/Layout/Navbar_admin";
 
 import LoginPage from './Login/page';
+import BuscarCuentaPage from './Login/buscarCuenta/page';
+
 import MentorPage from './Mentor/page';
 import MentorPerfil from './Mentor/perfil/page';
 import MentorSesiones from './Mentor/sesiones/page';
 import MentorSesiones1 from './Mentor/sesiones/1/page';
 import MentorChangePassword from './Mentor/perfil/changePassword/page';
 
-import BuscarCuentaPage from './Login/buscarCuenta/page';
+import EstudiantePage from './Estudiante/page';
+import EstudianteEvento from './Estudiante/eventos/page';
+import EstudiantePerfil from './Estudiante/perfil/page';
+import EstudianteSesiones from './Estudiante/sesiones/page';
+import EstudianteSesiones1 from './Estudiante/sesiones/1/page';
+
+import AdminPage from './Admin/page';
+import AdminEstadisticas from './Admin/estadisticas/page';
+import AdminReporte from './Admin/reporte/page';
+import AdminUsuarios from './Admin/usuarios/page';
+import AdminAgregarUsuario from './Admin/usuarios/newUser/page';
 
 function App() {
 
@@ -30,11 +42,11 @@ function App() {
       
       {(
         user === 'admin' ? (
-          <Navbar_admin />
+          <NavbarAdmin />
         ) : user === 'student' ? (
-          <Navbar_s />
+          <NavbarStudent />
         ) : user === 'mentor' ? (
-          <Navbar_m />
+          <NavbarMentor />
         ) : (
           <></>
         )
@@ -51,6 +63,18 @@ function App() {
         <Route path="/Mentor/sesiones/page" element={<MentorSesiones />} /> 
         <Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
         <Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
+
+        <Route path="/Estudiante" element={<EstudiantePage />} />
+        <Route path="/Estudiante/eventos/page" element={<EstudianteEvento />} />
+        <Route path="/Estudiante/perfil/page" element={<EstudiantePerfil />} />
+        <Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones />} />
+        <Route path="/Estudiante/sesiones/page/1" element={<EstudianteSesiones1 />} />
+
+        <Route path="/Admin" element={<AdminPage />} />
+        <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
+        <Route path="/Admin/reporte/page" element={<AdminReporte />} />
+        <Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
+        <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
 
       </Routes>
       

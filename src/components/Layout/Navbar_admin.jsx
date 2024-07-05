@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Navbar() {
+function NavbarAdmin() {
   return (
     <div>
       <nav className="navbar" style={{ backgroundColor: '#EFCA45' }}>
@@ -33,3 +33,4 @@ export default function Navbar() {
     </div>
   )
 }
+export default NavbarAdmin;
