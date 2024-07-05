@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 export default function Page({ userId }) {
@@ -8,25 +8,42 @@ export default function Page({ userId }) {
   const [company, setCompany] = useState('');
   const [position, setPosition] = useState('');
   const [specialty, setSpecialty] = useState('');
+  const [specialties, setSpecialties] = useState([]);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/api/getUserProfile/${userId}`);
-        const { numerotelefono, correoelectronico, empresa, puesto, especialidad } = response.data;
-        setPhoneNumber(numerotelefono);
-        setEmail(correoelectronico);
-        setCompany(empresa);
-        setPosition(puesto);
-        setSpecialty(especialidad);
-      } catch (error) {
-        alert('Error al obtener los datos del usuario: ' + error.response.data.message);
-      }
-    };
-
-    fetchUserData();
+  // Función para obtener datos de usuario
+  const fetchUserData = useCallback(async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/getUserProfile/${userId}`);
+      const { numerotelefono, correoelectronico, empresa, puesto, especialidad } = response.data;
+      setPhoneNumber(numerotelefono);
+      setEmail(correoelectronico);
+      setCompany(empresa);
+      setPosition(puesto);
+      setSpecialty(especialidad);
+    } catch (error) {
+      alert('Error al obtener los datos del usuario: ' + error.response.data.message);
+    }
   }, [userId]);
 
+  const fetchSpecialties = useCallback(async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/getSpecialties');
+      setSpecialties(response.data);
+
+    } catch (error) {
+      alert("Error al obtener las especialidades" + error.response.data.message);
+    }
+  }, []);
+
+  // useEffect solo se ejecuta una vez cuando el componente se monta
+  useEffect(() => {
+    if (userId) {
+      fetchUserData();
+      fetchSpecialties();
+    }
+  }, [fetchUserData, fetchSpecialties, userId]);
+
+  // Función para manejar la actualización del perfil
   const handleSave = async () => {
     try {
       const response = await axios.post('http://localhost:3001/api/updateProfileMentor', {
@@ -48,7 +65,6 @@ export default function Page({ userId }) {
       <div className="container">
         <h2 className="mx-5">Cuenta</h2>
         <div className="m-5">
-
           <div className="mb-3 row">
             <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Nombre</label>
             <div className="col-sm-10">
@@ -119,14 +135,14 @@ export default function Page({ userId }) {
                 <select
                   className="form-select auto-width-select"
                   id="especialidad"
-                  value="Prueba"
+                  value={specialty}
                   onChange={(e) => setSpecialty(e.target.value)}
                   aria-label="Default select example"
                 >
                   <option value=''>Seleccionar</option>
-                  <option value="Ciencia de datos">Ciencia de datos</option>
-                  <option value="Desarrollo web">Desarrollo web</option>
-                  <option value="Machine Learning">Machine Learning</option>
+                  {specialties.map((specialty, index) => (
+                    <option key={index} value={specialty.especialidad}>{specialty.especialidad}</option>
+                  ))}
                 </select>
               </div>
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">

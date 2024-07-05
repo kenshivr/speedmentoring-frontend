@@ -1,5 +1,5 @@
-import { React, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { React, useState, useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -34,13 +34,37 @@ import AdminAgregarUsuario from './Admin/usuarios/newUser/page';
 function App() {
 
   const [user, setUser] = useState('');
-  const [userId, setUserId] = useState('RFC1234567890');
+  const [userId, setUserId] = useState('');
+
+  // Obtener la ruta actual
+  const location = useLocation();
+
+  // Funcion para determinar si se muestra la barra navegadora
+  const showNavbar = () => {
+    // Mostrar la navbar si el usuario no esta en la pagina login o en la pagina de buscar cuenta debido a contraseña perdida
+    return location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/login/buscarCuenta';
+  };
+
+  // Almacenar el userId en localStorage cuando se establece 
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+  }, []);
+
+  // Escuchar cambios en userId y actualizar localstorage
+  useEffect(() => {
+    localStorage.setItem('userId', userId);
+  }, [userId]);
 
   return (
     <>
       <Header />
+
+      {/* Dependiendo de que tipo de usuario se loguee, se muestra una barra de navegacion diferente */}
       
-      {(
+      {showNavbar() && (
         user === 'admin' ? (
           <NavbarAdmin />
         ) : user === 'student' ? (
@@ -52,25 +76,31 @@ function App() {
         )
       )}
 
+      {/* Los route van dentro de routes porque react asi lo necesita */}
+
       <Routes>
 
+        {/* Rutas para que react pueda renderizar las paginas de login */}
         <Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} />} />
         <Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} />} />
         <Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
 
-        <Route path="/Mentor" element={<MentorPage />} />
-        <Route path="/Mentor/perfil/page" element={<MentorPerfil userId={userId} />} /> 
-        <Route path="/Mentor/sesiones/page" element={<MentorSesiones />} /> 
-        <Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
-        <Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
+        {/* Rutas para que react pueda renderizar las paginas de mentor */}
+        {/* Listo */}<Route path="/Mentor/page" element={<MentorPage />} />
+        {/* Listo */}<Route path="/Mentor/perfil/page" element={<MentorPerfil userId={userId} />} /> 
+        {/* Agenda */}<Route path="/Mentor/sesiones/page" element={<MentorSesiones />} /> 
+        {/* Reporte de una llamada dentro de agenda */}<Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
+        {/* Cambiar la contraseña pero aun no se liga a ninguna pagina */}<Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
 
-        <Route path="/Estudiante" element={<EstudiantePage />} />
+        {/* Rutas para que react pueda renderizar las paginas de estudiante, actualmente vacias */}
+        <Route path="/Estudiante/page" element={<EstudiantePage />} />
         <Route path="/Estudiante/eventos/page" element={<EstudianteEvento />} />
         <Route path="/Estudiante/perfil/page" element={<EstudiantePerfil />} />
         <Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones />} />
         <Route path="/Estudiante/sesiones/page/1" element={<EstudianteSesiones1 />} />
 
-        <Route path="/Admin" element={<AdminPage />} />
+        {/* Rutas para que react pueda renderizar las paginas del administrador, actualmente vacias */}
+        <Route path="/Admin/page" element={<AdminPage />} />
         <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
         <Route path="/Admin/reporte/page" element={<AdminReporte />} />
         <Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
