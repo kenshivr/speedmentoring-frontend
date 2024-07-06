@@ -1,16 +1,31 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Page() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+
+  const validatePassword = (pass) => {
+    const characteristics = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]{8,20}$/;
+    return characteristics.test(pass);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (newPassword !== confirmPassword) {
       alert('Las contraseñas no coinciden');
+      return;
+    }
+
+    if (!validatePassword(newPassword)) {
+      alert('La contraseña no cumple con los requisitos');
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
       return;
     }
 
@@ -25,11 +40,18 @@ export default function Page() {
 
       if (response.data.success) {
         alert('Contraseña actualizada correctamente');
+        navigate('/Mentor/perfil/page'); // Redirigir a la página principal del mentor
       } else {
         alert('Error al actualizar la contraseña');
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
       }
     } catch (error) {
       console.error('Error al actualizar la contraseña:', error);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
     }
   };
 
@@ -46,7 +68,7 @@ export default function Page() {
                 <small className="text-body-secondary">La contraseña debe contener:</small>
               </h6>
               <h6>
-                <small className="text-body-secondary">- Al menos 8 carácteres.</small>
+                <small className="text-body-secondary">- Al menos 8 carácteres y máximo 20 caracteres.</small>
               </h6>
               <h6>
                 <small className="text-body-secondary">- Al menos una letra mayúscula (A-Z).</small>
@@ -58,7 +80,7 @@ export default function Page() {
                 <small className="text-body-secondary">- Al menos un número (0-9).</small>
               </h6>
               <h6>
-                <small className="text-body-secondary">- Al menos un carácter especial (@, &, $, #, ...)</small>
+                <small className="text-body-secondary">- Al menos un carácter especial (!, ", #, $, %, &, ', (, ), *, +)</small>
               </h6>
             </div>
           </div>

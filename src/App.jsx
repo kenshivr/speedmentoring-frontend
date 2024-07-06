@@ -90,7 +90,7 @@ function App() {
         {/* Listo */}<Route path="/Mentor/perfil/page" element={<MentorPerfil userId={userId} />} /> 
         {/* Agenda */}<Route path="/Mentor/sesiones/page" element={<MentorSesiones />} /> 
         {/* Reporte de una llamada dentro de agenda */}<Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
-        {/* Cambiar la contraseña pero aun no se liga a ninguna pagina */}<Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
+        {/* Listo */}<Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
 
         {/* Rutas para que react pueda renderizar las paginas de estudiante, actualmente vacias */}
         <Route path="/Estudiante/page" element={<EstudiantePage />} />
