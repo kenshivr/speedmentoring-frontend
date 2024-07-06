@@ -88,7 +88,7 @@ function App() {
         {/* Rutas para que react pueda renderizar las paginas de mentor */}
         {/* Listo */}<Route path="/Mentor/page" element={<MentorPage />} />
         {/* Listo */}<Route path="/Mentor/perfil/page" element={<MentorPerfil userId={userId} />} /> 
-        {/* Agenda */}<Route path="/Mentor/sesiones/page" element={<MentorSesiones />} /> 
+        {/* Listo */}<Route path="/Mentor/sesiones/page" element={<MentorSesiones userId={userId} />} /> 
         {/* Reporte de una llamada dentro de agenda */}<Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
         {/* Listo */}<Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
 
