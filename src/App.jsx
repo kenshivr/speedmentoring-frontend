@@ -31,6 +31,18 @@ import AdminReporte from './Admin/reporte/page';
 import AdminUsuarios from './Admin/usuarios/page';
 import AdminAgregarUsuario from './Admin/usuarios/newUser/page';
 
+// Componente para la página no encontrada
+const NotFound = () => (
+  <div className="text-center">
+    <h1 className='fw-bold mb-3' style={{ color: '#EFCA45', fontSize: '15vw' }}>¡Oops!</h1>
+    <h2 style={{ color: '#4F3F05' }}>404 - Página no encontrada</h2>
+    <p style={{ color: '#4F3F05' }}>La página que estás buscando no existe.</p>
+    <a className ='btn align-items-center justify-content-center p-2' href="/" style={{ backgroundColor: '#002B7A', color: 'white', maxWidth:'150px', borderRadius:'20px', fontSize:'13px'}}>
+      Ir a la página principal
+    </a>
+  </div>
+);
+
 function App() {
 
   const [user, setUser] = useState('');
@@ -105,6 +117,9 @@ function App() {
         <Route path="/Admin/reporte/page" element={<AdminReporte />} />
         <Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
         <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
+
+        {/* Ruta para manejar 404 */}
+        <Route path="*" element={<NotFound />} />
 
       </Routes>
       
