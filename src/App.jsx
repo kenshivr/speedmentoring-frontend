@@ -97,7 +97,7 @@ function App() {
         <Route path="/Estudiante/eventos/page" element={<EstudianteEvento />} />
         <Route path="/Estudiante/perfil/page" element={<EstudiantePerfil />} />
         <Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones />} />
-        <Route path="/Estudiante/sesiones/page/1" element={<EstudianteSesiones1 />} />
+        <Route path="/Estudiante/sesiones/1/page" element={<EstudianteSesiones1 />} />
 
         {/* Rutas para que react pueda renderizar las paginas del administrador, actualmente vacias */}
         <Route path="/Admin/page" element={<AdminPage />} />
