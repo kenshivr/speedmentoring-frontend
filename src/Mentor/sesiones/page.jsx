@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 
-export default function Page({ userId }) { // userId es el identificador unico del mentor actual
+export default function Page({ userId }) {
+  const [sessions, setSessions] = useState([]);
+  const [filteredSessions, setFilteredSessions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const [sessions, setSessions] = useState([]); // Todas las sesiones registradas del mentor
-  const [filteredSessions, setFilteredSessions] = useState([]); // Sesiones filtradas por la busqueda
-  const [searchTerm, setSearchTerm] = useState(''); // Termino por el cual se van a filtrar las sesiones (nombre, fecha o N/A)
-
-  useEffect(() => {  // Funcion que solo se ejecuta al entrar
-
-    console.log('Se ejecuta el useEffect');
-
+  useEffect(() => {
     if (userId) {
       axios.get(`http://localhost:3001/api/showSesionesMentor/${userId}`)
         .then((response) => {
@@ -18,22 +15,20 @@ export default function Page({ userId }) { // userId es el identificador unico d
             setSessions(response.data.data);
             setFilteredSessions(response.data.data); // Inicialmente mostrar todas las sesiones
           } else {
-            console.error('No sessions found');
+            console.error('No se encontraron sesiones');
           }
         })
         .catch((error) => {
-          console.error('Error fetching sessions:', error);
+          console.error('Error al obtener sesiones:', error);
         });
     }
   }, [userId]);
 
-  // Función para manejar cambios en el campo de búsqueda
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     filterSessions(event.target.value);
   };
 
-  // Función para filtrar sesiones según el término de búsqueda
   const filterSessions = (term) => {
     if (!term.trim()) {
       setFilteredSessions(sessions); // Mostrar todas las sesiones si no hay término de búsqueda
@@ -41,7 +36,6 @@ export default function Page({ userId }) { // userId es el identificador unico d
     }
 
     const filtered = sessions.filter((session) => {
-      // Filtrar por fecha (convertida a formato legible), nombre del alumno y reporte N/A
       const formattedDate = new Date(session.fecha).toLocaleDateString();
       return (
         formattedDate.includes(term) ||
@@ -52,6 +46,13 @@ export default function Page({ userId }) { // userId es el identificador unico d
 
     setFilteredSessions(filtered);
   };
+
+  function handleLink(session) {
+    return () => {
+      console.log('Se ingresa el sesionid en el localstorage');
+      localStorage.setItem('sesionId', session.sesionid);
+    };
+  }
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
@@ -81,7 +82,6 @@ export default function Page({ userId }) { // userId es el identificador unico d
         </div>
         <div className="table-responsive p-2 justify-content-center align-items-center text-center">
           <table className="table table-hover">
-
             <thead>
               <tr>
                 <th scope="col">Fecha</th>
@@ -90,11 +90,10 @@ export default function Page({ userId }) { // userId es el identificador unico d
                 <th scope="col"></th>
               </tr>
             </thead>
-
             <tbody className="table-light">
-              {filteredSessions.map((session) => (
-                <tr key={session.fecha}>
-                  <td scope="row">{new Date(session.fecha).toLocaleDateString()}</td>
+              {filteredSessions.map((session, index) => (
+                <tr key={index}>
+                  <td>{new Date(session.fecha).toLocaleDateString()}</td>
                   <td>{session.nombre}</td>
                   <td>
                     {session.reporteid ? (
@@ -108,13 +107,14 @@ export default function Page({ userId }) { // userId es el identificador unico d
                   </td>
                   <td>
                     <button className="btn btn-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z" /></svg>
+                      <Link to={`/Mentor/sesiones/1/page`} onClick={handleLink(session)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z" /></svg>
+                      </Link>
                     </button>
                   </td>
                 </tr>
               ))}
             </tbody>
-
           </table>
         </div>
       </div>

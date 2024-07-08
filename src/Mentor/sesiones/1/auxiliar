@@ -1,0 +1,126 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+export default function Page() {
+  const [reporte, setReporte] = useState({});
+  const [editable, setEditable] = useState(false);
+  const [texto, setTexto] = useState('');
+  const [calificacion, setCalificacion] = useState('');
+  const [fecha, setFecha] = useState('');
+
+  useEffect(() => {
+    const fetchReporte = async () => {
+      try {
+        const sesionId = localStorage.getItem('sesionId');
+        if (sesionId) {
+          const response = await axios.get(`http://localhost:3001/api/reporte/${sesionId}`);
+          if (response.data.success) {
+            setReporte(response.data.data);
+            setTexto(response.data.data.texto_reporte);
+            setFecha(response.data.data.fecha_reporte);
+            setCalificacion(response.data.data.calificacion_alumno);
+          } else {
+            console.error('Error al obtener detalles del reporte:', response.data.message);
+          }
+        } else {
+          console.error('No se encontró sesionId en localStorage');
+        }
+      } catch (error) {
+        console.error('Error en la solicitud para obtener detalles del reporte:', error);
+      }
+    };
+
+    fetchReporte();
+  }, []);
+
+  const handleEditToggle = () => {
+    setEditable(!editable);
+  };
+
+  const handleTextoChange = (event) => {
+    setTexto(event.target.value);
+  };
+
+  const handleCalificacionChange = (event) => {
+    setCalificacion(event.target.value);
+  };
+
+  const handleUpdateReporte = async () => {
+    try {
+      const sesionId = localStorage.getItem('sesionId');
+      if (sesionId) {
+        const response = await axios.post(`http://localhost:3001/api/reporte/${sesionId}`, {
+          texto_reporte: texto,
+          calificacion_alumno: calificacion,
+          fecha: fecha,
+        });
+
+        if (response.data.success) {
+          console.log('Reporte actualizado con éxito');
+          setEditable(false);
+          setReporte({
+            ...reporte,
+            texto_reporte: texto,
+            calificacion_alumno: calificacion,
+          });
+        } else {
+          console.error('Error al actualizar el reporte:', response.data.message);
+        }
+      } else {
+        console.error('No se encontró sesionId en localStorage');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud para actualizar el reporte:', error);
+    }
+  };
+
+  return (
+    <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1800px', minHeight: '600px', margin: 'auto' }}>
+      <div className="row justify-content-evenly">
+        <div className="col-12 col-md-4 order-last order-md-first m-1 d-flex flex-column" style={{ backgroundColor: '#F5E6E8', borderColor: '#908486', borderRadius: '20px', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
+          <div className='container p-3'>
+            <h2>{new Date(reporte.fecha_reporte).toLocaleDateString()}</h2>
+            <h6>Mentor - {reporte.nombre_mentor}</h6>
+          </div>
+          <form className="d-flex flex-column align-items-center mt-auto p-4">
+            {editable ? (
+              <input
+                type="number"
+                value={calificacion}
+                onChange={handleCalificacionChange}
+                style={{ fontSize: '60px' }}
+              />
+            ) : (
+              <label style={{ fontSize: '60px' }}>{calificacion}</label>
+            )}
+            <button className="btn btn-warning btn-outline-dark mt-2" role="button" style={{ borderRadius: '20px' }} onClick={handleEditToggle}>
+              {editable ? 'Guardar' : 'Modificar calificación'}
+            </button>
+          </form>
+        </div>
+
+        <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor: '#908486', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
+          <textarea
+            className="flex-grow-1 p-2"
+            style={{ border: 'none', resize: 'none', outline: 'none', width: '100%' }}
+            value={texto}
+            onChange={handleTextoChange}
+            disabled={!editable}
+            placeholder="Escribe el texto del reporte..."
+            rows={10}
+          />
+          <div className="d-flex justify-content-center p-4">
+            {editable && (
+              <button className="btn btn-warning btn-outline-dark" onClick={handleUpdateReporte}>
+                Guardar Cambios
+              </button>
+            )}
+            <button className="btn btn-warning btn-outline-dark ms-2" onClick={handleEditToggle}>
+              {editable ? 'Cancelar' : 'Editar'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
