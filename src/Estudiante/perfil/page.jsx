@@ -30,6 +30,12 @@ export default function Page() {
                 <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="317285361@pcpuma.acatlan.unam.mx" />
               </div>
             </div>
+            <div className="mb-3 row">
+              <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Contraseña</label>
+              <div className="col-sm-10">
+                <a className='btn btn-sm' href='/Estudiante/perfil/changePassword/page' style={{ backgroundColor:'#EFCA45', color:'#3A2E01', borderRadius:'20px' }}>Cambiar contraseña</a>
+              </div>
+            </div>
             <div className="mb-3 row d-flex align-items-center justify-content-center my-4">
                 <button
                   type="submit"
