@@ -294,7 +294,6 @@ export default function Retroalim() {
                         </div>
                     </div>
                     <div class="form-group mt-2">
-                        <legend>Fortalezas y áreas de mejora</legend>
                         <div className='container p-3 my-3' style={{ backgroundColor:'#F5E6E8', color:'black', borderRadius:'20px' }}>
                             <label className='mb-3' for="question">¿En qué áreas crees que tu mentor podría mejorar?</label>
                             <div class="form-check">
