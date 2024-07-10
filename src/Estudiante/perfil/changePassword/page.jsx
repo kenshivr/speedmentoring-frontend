@@ -158,7 +158,7 @@ export default function Page() {
                 <a
                   type="button"
                   className="btn w-75"
-                  href='/Mentor/perfil'
+                  href='/Mentor/perfil/page'
                   style={{
                     backgroundColor: '#A0BAEB',
                     color: '#4E4E4E',
