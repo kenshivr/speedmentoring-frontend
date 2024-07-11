@@ -6,9 +6,9 @@ const Page = () => {
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-5 m-1 d-flex flex-column p-3">
           <div className='mb-3'>
-          <div> 
-          <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto' }}>
+            <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto' }}>
             <div className="container">
+
               <div className="container text-center">
                 <div className="row align-items-start p-4">
                   <div className="col">
@@ -101,9 +101,9 @@ const Page = () => {
                   </div>
                 </div>
               </div>
+
             </div>
-          </div>
-        </div>
+            </div>
           </div>
         </div>
       </div>

@@ -74,7 +74,7 @@ function LoginPage({ setUser, setUserId }) {
           <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label text-white responsive-text">AlumnoID</label>
+                <label htmlFor="exampleFormControlInput1" className="form-label text-white responsive-text">Usuario</label>
                 <input
                   type="text"
                   className="form-control"

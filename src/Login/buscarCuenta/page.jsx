@@ -20,11 +20,11 @@ export default function BuscarCuentaPage() {
   };
 
   return (
-    <div>
-      <div className="alert alert-info mx-5" role="alert">
+    <div className='mx-5'>
+      <div className="alert alert-info m-4" role="alert">
         Para recuperar su contraseña, ingrese la dirección de correo electrónico que registró en la plataforma.
       </div>
-      <div className="container-sm my-5" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '25px' }}>
+      <div className="container-sm my-2" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '25px' }}>
         <div className="container">
           <div className="row w-100 no-gutters">
             <div className="col-md-6 d-flex align-items-center justify-content-center">

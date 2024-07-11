@@ -24,6 +24,8 @@ import EstudianteEvento from './Estudiante/eventos/page';
 import EstudiantePerfil from './Estudiante/perfil/page';
 import EstudianteSesiones from './Estudiante/sesiones/page';
 import EstudianteSesiones1 from './Estudiante/sesiones/1/page';
+import EstudianteSesiones1r from './Estudiante/sesiones/1/retroalim';
+import EstudianteChangePassword from './Estudiante/perfil/changePassword/page';
 
 import AdminPage from './Admin/page';
 import AdminEstadisticas from './Admin/estadisticas/page';
@@ -110,6 +112,10 @@ function App() {
         {/* Listo */}<Route path="/Estudiante/perfil/page" element={<EstudiantePerfil />} />
         {/* Listo*/}<Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones userId={userId} />} />
         {/* Listo */}<Route path="/Estudiante/sesiones/1/page" element={<EstudianteSesiones1 />} />
+
+        {/* Hechas por erick */}
+        <Route path="/Estudiante/sesiones/1/retroalim" element={<EstudianteSesiones1r />} />
+        <Route path="/Estudiante/perfil/changePassword/page" element={<EstudianteChangePassword />} /> 
 
         {/* Rutas para que react pueda renderizar las paginas del administrador, actualmente vacias */}
         <Route path="/Admin/page" element={<AdminPage />} />
