@@ -86,7 +86,7 @@ const Page = () => {
                       <a
                         type="button"
                         className="btn w-75"
-                        href='/Estudiante/eventos'
+                        href='/Estudiante/eventos/page'
                         style={{
                           backgroundColor: '#EFCA45',
                           color:'#3A2E01',

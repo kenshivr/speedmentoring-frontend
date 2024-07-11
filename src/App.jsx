@@ -93,33 +93,33 @@ function App() {
       <Routes>
 
         {/* Rutas para que react pueda renderizar las paginas de login */}
-        <Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} />} />
-        <Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} />} />
-        <Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
+        {/* Listo */}<Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} />} />
+        {/* Listo */}<Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} />} />
+        {/* Listo */}<Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
 
         {/* Rutas para que react pueda renderizar las paginas de mentor */}
         {/* Listo */}<Route path="/Mentor/page" element={<MentorPage />} />
         {/* Listo */}<Route path="/Mentor/perfil/page" element={<MentorPerfil userId={userId} />} /> 
         {/* Listo */}<Route path="/Mentor/sesiones/page" element={<MentorSesiones userId={userId} />} /> 
-        {/* Reporte de una llamada dentro de agenda */}<Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
+        {/* Listo */}<Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
         {/* Listo */}<Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
 
         {/* Rutas para que react pueda renderizar las paginas de estudiante, actualmente vacias */}
-        <Route path="/Estudiante/page" element={<EstudiantePage />} />
-        <Route path="/Estudiante/eventos/page" element={<EstudianteEvento />} />
-        <Route path="/Estudiante/perfil/page" element={<EstudiantePerfil />} />
-        <Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones />} />
-        <Route path="/Estudiante/sesiones/1/page" element={<EstudianteSesiones1 />} />
+        {/* Semi-lista (faltan incorporar los eventos) */}<Route path="/Estudiante/page" element={<EstudiantePage />} />
+        {/* Semi-lista (faltan incorporar los eventos y ponerle funcionalidad a los botones siguiente y anterior) */}<Route path="/Estudiante/eventos/page" element={<EstudianteEvento />} />
+        {/* Listo */}<Route path="/Estudiante/perfil/page" element={<EstudiantePerfil />} />
+        {/* Listo*/}<Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones userId={userId} />} />
+        {/* Listo */}<Route path="/Estudiante/sesiones/1/page" element={<EstudianteSesiones1 />} />
 
         {/* Rutas para que react pueda renderizar las paginas del administrador, actualmente vacias */}
         <Route path="/Admin/page" element={<AdminPage />} />
         <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
         <Route path="/Admin/reporte/page" element={<AdminReporte />} />
-        <Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
+        {/* Falta esta */}<Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
         <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
 
         {/* Ruta para manejar 404 */}
-        <Route path="*" element={<NotFound />} />
+        {/* Listo */}<Route path="*" element={<NotFound />} />
 
       </Routes>
       

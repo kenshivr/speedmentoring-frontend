@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 function LoginPage({ setUser, setUserId }) {
   const [userCurrent, setUserCurrent] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null); // Estado para manejar errores
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -30,14 +30,17 @@ function LoginPage({ setUser, setUserId }) {
       }
 
       if (data.userType === 'student') {
+        // localStorage.setItem('userType', 'student');
         navigate('/Estudiante/page');
       }
 
       if (data.userType === 'mentor') {
+        // localStorage.setItem('userType', 'mentor');
         navigate('/Mentor/page');
       }
 
       if (data.userType === 'admin') {
+        // localStorage.setItem('userType', 'admin');
         navigate('/Admin/page');
       }
 
