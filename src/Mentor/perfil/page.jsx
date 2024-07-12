@@ -68,7 +68,7 @@ export default function Page({ userId }) {
   return (
     <div className="container-sm my-5" style={{ backgroundColor: 'rgba(245, 230, 232, 0.8)', borderRadius: '25px' }}>
       <div className="container">
-        <h2 className="mx-5">Cuenta</h2>
+        <h2 className="pt-4 ps-5">Cuenta</h2>
         <div className="m-5">
           <div className="mb-3 row">
             <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Nombre</label>
