@@ -9,17 +9,21 @@ export default function Page({ userId }) {
   const [position, setPosition] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [specialties, setSpecialties] = useState([]);
+  const [academicDegree, setAcademicDegree] = useState('');
+  const [hasMasters, setHasMasters] = useState(false);
 
   // Función para obtener datos de usuario
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getUserProfile/${userId}`);
-      const { numerotelefono, correoelectronico, empresa, puesto, especialidad } = response.data;
+      const { numerotelefono, correoelectronico, empresa, puesto, especialidad, gradoAcademico, maestria } = response.data;
       setPhoneNumber(numerotelefono);
       setEmail(correoelectronico);
       setCompany(empresa);
       setPosition(puesto);
       setSpecialty(especialidad);
+      setAcademicDegree(gradoAcademico);
+      setHasMasters(maestria);
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + error.response.data.message);
     }
@@ -29,7 +33,6 @@ export default function Page({ userId }) {
     try {
       const response = await axios.get('http://localhost:3001/api/getSpecialties');
       setSpecialties(response.data);
-
     } catch (error) {
       alert("Error al obtener las especialidades" + error.response.data.message);
     }
@@ -53,6 +56,8 @@ export default function Page({ userId }) {
         company,
         position,
         specialty,
+        academicDegree,
+        hasMasters,
       });
       alert(response.data.message);
     } catch (error) {
@@ -129,11 +134,41 @@ export default function Page({ userId }) {
           </div>
 
           <div className="mb-3 row">
+            <label htmlFor="academicDegree" className="col-sm-2 col-form-label">Grado Académico</label>
+            <div className="col-sm-10">
+              <input
+                className="form-control"
+                type="text"
+                id="academicDegree"
+                value={academicDegree}
+                onChange={(e) => setAcademicDegree(e.target.value)}
+                aria-label="Grado Académico"
+              />
+            </div>
+          </div>
+
+          <div className="mb-3 row">
+            <label htmlFor="hasMasters" className="col-sm-2 col-form-label">Maestría</label>
+            <div className="col-sm-10">
+              <select
+                className="form-select"
+                id="hasMasters"
+                value={hasMasters ? 'Sí' : 'No'}
+                onChange={(e) => setHasMasters(e.target.value === 'Sí')}
+                aria-label="Maestría"
+              >
+                <option value='No'>No</option>
+                <option value='Sí'>Sí</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="mb-3 row">
             <div className="row w-100 no-gutters">
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
-                <label htmlFor="especialidad" className="col-sm-4 col-form-label mx-2">Especialidad</label>
+                <label htmlFor="especialidad" className="col-sm-4 col-form-label">Especialidad</label>
                 <select
-                  className="form-select auto-width-select"
+                  className="form-select auto-width-select mx-2"
                   id="especialidad"
                   value={specialty}
                   onChange={(e) => setSpecialty(e.target.value)}
