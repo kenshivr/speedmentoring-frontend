@@ -10,16 +10,10 @@ function LoginPage({ setUser, setUserId }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user: userCurrent, password: password }),
-      });
+      const response = await fetch(`http://localhost:3001/api/login?user=${userCurrent}&password=${password}`);
 
       if (!response.ok) {
-        throw new Error('Error en la solicitud');
+        throw new Error('Usuario o contraseña incorrectos');
       }
 
       const data = await response.json();
@@ -27,33 +21,32 @@ function LoginPage({ setUser, setUserId }) {
       if (data.userType) {
         setUser(data.userType);
         setUserId(data.userId);
-      }
-
-      if (data.userType === 'student') {
-        // localStorage.setItem('userType', 'student');
-        navigate('/Estudiante/page');
-      }
-
-      if (data.userType === 'mentor') {
-        // localStorage.setItem('userType', 'mentor');
-        navigate('/Mentor/page');
-      }
-
-      if (data.userType === 'admin') {
-        // localStorage.setItem('userType', 'admin');
-        navigate('/Admin/page');
+        switch(data.userType) {
+          case 'student':
+            navigate('/Estudiante/page');
+            break;
+          case 'mentor':
+            navigate('/Mentor/page');
+            break;
+          case 'admin':
+            navigate('/Admin/page');
+            break;
+          default:
+            setError('Usuario o contraseña incorrectos');
+        }
+      } else {
+        setError('Usuario o contraseña incorrectos');
       }
 
     } catch (error) {
-      console.log('Error al mandar la solicitud post:', error);
-      setError('Usuario o contraseña incorrectos'); // Establecer mensaje de error
+      setError('Usuario o contraseña incorrectos');
     }
   };
 
   return (
     <div className="container-sm my-5 help" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '25px' }}>
       <div className="container">
-        {error && ( // Mostrar alerta si hay un error
+        {error && (
           <div className="alert alert-danger" role="alert">
             {error}
           </div>
