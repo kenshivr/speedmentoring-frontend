@@ -118,7 +118,33 @@ export default function Page({ userId }) {
               />
             </div>
           </div>
-
+          <div className="row justify-content-Evenly">
+            <label htmlFor="staticPassword" className="col-sm-2 col-form-label">Contraseña</label>
+            <div className="col-sm-6">
+              <button
+                type="button"
+                className="btn btn-sm w-50"
+                style={{ 
+                  backgroundColor: '#EFCA45', 
+                  color: '#4F3F05', 
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s' 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EFCA45';
+                  e.currentTarget.style.color = '#4F3F05';
+                }}
+                onClick={() => window.location.href = 'http://localhost:3000/Mentor/perfil/changePassword/page'}
+              >
+                Modificar
+              </button>
+            </div>
+          </div>
           <div className="my-5 mb-3 row">
             <label htmlFor="company" className="col-sm-2 col-form-label">Empresa</label>
             <div className="col-sm-10">
@@ -198,7 +224,21 @@ export default function Page({ userId }) {
                 <button
                   type="button"
                   className="btn w-100"
-                  style={{ backgroundColor: '#002B7A', color: '#FFFFFF', borderRadius: '20px' }}
+                  style={{ 
+                    backgroundColor: '#002B7A', 
+                    color: '#FFFFFF', 
+                    border: '1px solid #000',
+                    borderRadius: '20px',
+                    transition: 'background-color 0.3s, color 0.3s' 
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#002B7A';
+                    e.currentTarget.style.color = '#FFFFFF';
+                  }}
                   onClick={handleSave}
                 >
                   Guardar

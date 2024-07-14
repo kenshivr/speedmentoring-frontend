@@ -3,14 +3,11 @@ import React, { useState, useEffect } from 'react';
 
 export default function Page() {
   const [editableTexto, setEditableTexto] = useState(false);
-  const [editableCalificacion, setEditableCalificacion] = useState(false);
 
   const [texto, setTexto] = useState('');
   const [originalTexto, setOriginalTexto] = useState(''); 
   const [fecha, setFecha] = useState('');
   const [nombre, setNombre] = useState('');
-  const [calificacion, setCalificacion] = useState('');
-  const [originalCalificacion, setOriginalCalificacion] = useState('');
 
   useEffect(() => {
     const fetchReporte = async () => {
@@ -23,8 +20,6 @@ export default function Page() {
             setOriginalTexto(response.data.data.texto || '');
             setFecha(response.data.data.fecha || '');
             setNombre(response.data.data.nombre || '');
-            setCalificacion(response.data.data.calificacion || '');
-            setOriginalCalificacion(response.data.data.calificacion || '');
           } else {
             console.error('Error al obtener detalles del reporte:', response.data.message);
           }
@@ -49,25 +44,8 @@ export default function Page() {
     setEditableTexto(!editableTexto);
   };
 
-  const handleEditCalificacionToggle = (e) => {
-    e.preventDefault();
-    if (editableCalificacion) {
-      setCalificacion(originalCalificacion); // Restaurar la calificación original si se cancela la edición
-    } else {
-      setOriginalCalificacion(calificacion); // Guardar la calificación actual al comenzar a editar
-    }
-    setEditableCalificacion(!editableCalificacion);
-  };
-
   const handleTextoChange = (event) => {
     setTexto(event.target.value);
-  };
-
-  const handleCalificacionChange = (event) => {
-    const value = event.target.value;
-    if (value === '' || (value >= 1 && value <= 10)) {
-      setCalificacion(value);
-    }
   };
 
   const handleUpdateTexto = async () => {
@@ -78,7 +56,6 @@ export default function Page() {
       if (sesionId) {
         const response = await axios.post(`http://localhost:3001/api/reporte/${sesionId}`, {
           texto: texto,
-          calificacion: calificacion,
           fecha: fechanueva,
         });
 
@@ -96,33 +73,6 @@ export default function Page() {
     }
   };
 
-  const handleUpdateCalificacion = async (e) => {
-    e.preventDefault(); // Evitar el refresco de la página
-    try {
-      const sesionId = localStorage.getItem('sesionId');
-      const fechanueva = new Date(fecha).toISOString().split('T')[0];
-
-      if (sesionId) {
-        const response = await axios.post(`http://localhost:3001/api/reporte/${sesionId}`, {
-          texto: texto,
-          calificacion: calificacion,
-          fecha: fechanueva,
-        });
-
-        if (response.data.success) {
-          console.log('Calificación actualizada con éxito');
-          setEditableCalificacion(false);
-        } else {
-          console.error('Error al actualizar la calificación:', response.data.message);
-        }
-      } else {
-        console.error('No se encontró sesionId en localStorage');
-      }
-    } catch (error) {
-      console.error('Error en la solicitud para actualizar la calificación:', error);
-    }
-  };
-
   return (
     <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1800px', minHeight: '600px', margin: 'auto' }}>
       <div className="row justify-content-evenly">
@@ -133,46 +83,16 @@ export default function Page() {
             <h2>{new Date(fecha).toLocaleDateString()}</h2>
             <h6>Mentor - {nombre}</h6>
           </div>
-
-          <form className="d-flex flex-column align-items-center mt-auto p-4">
-
-            {editableCalificacion ? (
-              <input
-                type="number"
-                value={calificacion}
-                onChange={handleCalificacionChange} 
-                min={1}
-                max={10}
-                style={{ fontSize: '24px', width: '100px' }}
-              />
-            ) : (
-              <label style={{ fontSize: '60px' }}>{calificacion}</label>
-            )}
-
-            <div>
-              {editableCalificacion && (
-                <button className="btn btn-warning btn-outline-dark mt-2" role="button" style={{ borderRadius: '20px' }} onClick={handleUpdateCalificacion}>
-                  Guardar Cambios
-                </button>
-              )}
-              <button className="btn btn-warning btn-outline-dark mt-2" role="button" style={{ borderRadius: '20px' }} onClick={handleEditCalificacionToggle}>
-                {editableCalificacion ? 'Cancelar' : 'Modificar calificación'}
-              </button>
-            </div>
-
-          </form>
-
         </div>
 
         <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor: '#908486', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
-          
           <textarea
             className="flex-grow-1 p-2"
             style={{ border: 'none', resize: 'none', outline: 'none', width: '100%' }}
             value={texto || ''}
             onChange={handleTextoChange}
             disabled={!editableTexto}
-            placeholder="Escribe el texto del reporte..."
+            placeholder="Escribe aquí tu reporte de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, ..."
             rows={10}
           />
 
