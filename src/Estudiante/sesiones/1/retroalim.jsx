@@ -362,13 +362,16 @@ export default function Retroalim() {
                       Guardar
                     </button>
                 </div>
-                <div className='mx-5'>
-                    <button 
-                      className="btn btn-warning btn-outline-dark" 
+                <div className='mx-2'>
+                    <a
+                      type="button"
+                      className="btn w-75"
+                      href='/Estudiante/sesiones/1/page'
                       style={{ 
                         backgroundColor: 'white', 
                         color: '#4F3F05', 
                         border: '1px solid #000', 
+                        minWidth: '100px',
                         transition: 'background-color 0.3s, color 0.3s' 
                       }}
                       onMouseEnter={(e) => {
@@ -379,9 +382,9 @@ export default function Retroalim() {
                         e.currentTarget.style.backgroundColor = 'white';
                         e.currentTarget.style.color = '#4F3F05';
                       }}
-                    >
+                      >
                       Cancelar
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

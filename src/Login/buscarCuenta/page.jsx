@@ -22,7 +22,7 @@ export default function BuscarCuentaPage() {
   return (
     <div className='mx-5'>
       <div className="alert alert-info m-4" role="alert">
-        Para recuperar su contraseña, ingrese la dirección de correo electrónico que registró en la plataforma.
+        Para recuperar su contraseña, ingresa tu RFC (mentores) o número de cuenta (estudiantes).
       </div>
       <div className="container-sm my-2" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '25px' }}>
         <div className="container">
@@ -43,7 +43,7 @@ export default function BuscarCuentaPage() {
             <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="emailInput" className="form-label text-white responsive-text">Correo</label>
+                  <label htmlFor="emailInput" className="form-label text-white responsive-text">Usuario</label>
                   <input 
                     type="text" 
                     className="form-control" 
@@ -55,11 +55,20 @@ export default function BuscarCuentaPage() {
                 <button
                   type="submit"
                   className="btn w-100"
-                  style={{
-                    backgroundColor: '#EFCA45',
-                    color: '#4F3F05',
-                    borderColor: '#EFCA45',
-                    borderRadius: '20px'
+                  style={{ 
+                    backgroundColor: '#EFCA45', 
+                    color: '#4F3F05', 
+                    border: '1px solid #000',
+                    borderRadius: '20px',
+                    transition: 'background-color 0.3s, color 0.3s' 
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#EFCA45';
+                    e.currentTarget.style.color = '#4F3F05';
                   }}>
                   Buscar
                 </button>
