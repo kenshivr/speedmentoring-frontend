@@ -49,6 +49,8 @@ function App() {
 
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState('');
+  const [specialty, setSpecialty] = useState('');
+  const [sesionId, setSesionId] = useState(0);
 
   // Obtener la ruta actual
   const location = useLocation();
@@ -95,27 +97,27 @@ function App() {
       <Routes>
 
         {/* Rutas para que react pueda renderizar las paginas de login */}
-        {/* Listo */}<Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} />} />
-        {/* Listo */}<Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} />} />
+        {/* Listo */}<Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty}/>} />
+        {/* Listo */}<Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty}/>} />
         {/* Listo */}<Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
 
         {/* Rutas para que react pueda renderizar las paginas de mentor */}
-        {/* Listo */}<Route path="/Mentor/page" element={<MentorPage />} />
-        {/* Listo */}<Route path="/Mentor/perfil/page" element={<MentorPerfil userId={userId} />} /> 
-        {/* Listo */}<Route path="/Mentor/sesiones/page" element={<MentorSesiones userId={userId} />} /> 
-        {/* Listo */}<Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
-        {/* Listo */}<Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
+        {/*  */}<Route path="/Mentor/page" element={<MentorPage />} />
+        {/*  */}<Route path="/Mentor/perfil/page" element={<MentorPerfil userId={userId} />} /> 
+        {/*  */}<Route path="/Mentor/sesiones/page" element={<MentorSesiones userId={userId} />} /> 
+        {/*  */}<Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
+        {/*  */}<Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
 
         {/* Rutas para que react pueda renderizar las paginas de estudiante, actualmente vacias */}
-        {/* Semi-lista (faltan incorporar los eventos) */}<Route path="/Estudiante/page" element={<EstudiantePage />} />
-        {/* Semi-lista (faltan incorporar los eventos y ponerle funcionalidad a los botones siguiente y anterior) */}<Route path="/Estudiante/eventos/page" element={<EstudianteEvento />} />
+        {/* Listo */}<Route path="/Estudiante/page" element={<EstudiantePage specialty={specialty}/>} />
+        {/* Listo */}<Route path="/Estudiante/eventos/page" element={<EstudianteEvento />} />
         {/* Listo */}<Route path="/Estudiante/perfil/page" element={<EstudiantePerfil />} />
-        {/* Listo*/}<Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones userId={userId} />} />
-        {/* Listo */}<Route path="/Estudiante/sesiones/1/page" element={<EstudianteSesiones1 />} />
+        {/* Listo */}<Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones userId={userId} setSesionId={setSesionId} />} />
+        {/* Listo */}<Route path="/Estudiante/sesiones/1/page" element={<EstudianteSesiones1 sesionId={sesionId} setSesionId={setSesionId} />} />
 
         {/* Hechas por erick */}
         <Route path="/Estudiante/sesiones/1/retroalim" element={<EstudianteSesiones1r />} />
-        <Route path="/Estudiante/perfil/changePassword/page" element={<EstudianteChangePassword />} /> 
+        {/* Listo */}<Route path="/Estudiante/perfil/changePassword/page" element={<EstudianteChangePassword />} /> 
 
         {/* Rutas para que react pueda renderizar las paginas del administrador, actualmente vacias */}
         <Route path="/Admin/page" element={<AdminPage />} />
