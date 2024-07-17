@@ -32,6 +32,7 @@ import AdminEstadisticas from './Admin/estadisticas/page';
 import AdminReporte from './Admin/reporte/page';
 import AdminUsuarios from './Admin/usuarios/page';
 import AdminAgregarUsuario from './Admin/usuarios/newUser/page';
+import AdminAgregarEvento from './Admin/nuevoEvento/page';
 
 // Componente para la página no encontrada
 const NotFound = () => (
@@ -141,6 +142,7 @@ function App() {
 
         {/* Rutas para que react pueda renderizar las paginas del administrador, actualmente vacias */}
         <Route path="/Admin/page" element={<AdminPage />} />
+        <Route path="/Admin/nuevoEvento/page" element={<AdminAgregarEvento />} />
         <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
         <Route path="/Admin/reporte/page" element={<AdminReporte />} />
         {/* Falta esta */}<Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
