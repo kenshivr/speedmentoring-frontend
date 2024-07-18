@@ -13,7 +13,7 @@ export default function Page({ userId }) {
         .then((response) => {
           if (response.data.success) {
             setSessions(response.data.data);
-            setFilteredSessions(response.data.data); // Inicialmente mostrar todas las sesiones
+            setFilteredSessions(response.data.data);
           } else {
             console.error('No se encontraron sesiones');
           }
@@ -46,11 +46,8 @@ export default function Page({ userId }) {
     setFilteredSessions(filtered);
   };
 
-  function handleLink(session) {
-    return () => {
-      console.log(session);
-      localStorage.setItem('sesionId', session.sesionid);
-    };
+  function handleCLickLinkSesion(sesionid) {
+    localStorage.setItem('sesionId', sesionid);
   }
 
   return (
@@ -85,7 +82,7 @@ export default function Page({ userId }) {
               <tr>
                 <th scope="col">Fecha</th>
                 <th scope="col">Reporte</th>
-                <th scope="col"></th>
+                <th scope="col">Nombre</th>
               </tr>
             </thead>
             <tbody className="table-light">
@@ -94,20 +91,26 @@ export default function Page({ userId }) {
                   <td>{new Date(session.fecha).toLocaleDateString()}</td>
                   <td>
                     {session.reporteid ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#00CC00">
-                        <path d="M0 0h24v24H0V0z" fill="none"/>
-                        <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                      </svg>
+                      <Link 
+                        to='/Estudiante/sesiones/1/page'
+                        onClick={() => handleCLickLinkSesion(session.sesionid)}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#00CC00">
+                          <path d="M0 0h24v24H0V0z" fill="none"/>
+                          <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                        </svg>
+                      </Link>
                     ) : (
-                      'N/A'
+                      <Link 
+                        to='/Estudiante/sesiones/1/page'
+                        onClick={() => handleCLickLinkSesion(session.sesionid)}
+                        >
+                        N/A
+                      </Link>
                     )}
                   </td>
                   <td>
-                    <button className="btn btn-sm">
-                      <Link to={`/Estudiante/sesiones/1/page`} onClick={handleLink(session)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z" /></svg>
-                      </Link>
-                    </button>
+                    {session.nombre}
                   </td>
                 </tr>
               ))}

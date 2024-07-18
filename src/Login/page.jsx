@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function LoginPage({ setUser, setUserId }) {
+function LoginPage({ setUser, setUserId, setSpecialty }) {
   const [userCurrent, setUserCurrent] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -9,8 +9,18 @@ function LoginPage({ setUser, setUserId }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const response = await fetch(`http://localhost:3001/api/login?user=${userCurrent}&password=${password}`);
+// <<<<<<< HEAD
+//     try {
+//       const response = await fetch(`http://localhost:3001/api/login?user=${userCurrent}&password=${password}`);
+// =======
+      const response = await fetch('http://localhost:3001/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user: userCurrent, password: password }),
+      });
+// >>>>>>> temporal
 
       if (!response.ok) {
         throw new Error('Usuario o contraseña incorrectos');
@@ -21,26 +31,46 @@ function LoginPage({ setUser, setUserId }) {
       if (data.userType) {
         setUser(data.userType);
         setUserId(data.userId);
-        switch(data.userType) {
-          case 'student':
-            navigate('/Estudiante/page');
-            break;
-          case 'mentor':
-            navigate('/Mentor/page');
-            break;
-          case 'admin':
-            navigate('/Admin/page');
-            break;
-          default:
-            setError('Usuario o contraseña incorrectos');
-        }
-      } else {
-        setError('Usuario o contraseña incorrectos');
+// <<<<<<< HEAD
+//         switch(data.userType) {
+//           case 'student':
+//             navigate('/Estudiante/page');
+//             break;
+//           case 'mentor':
+//             navigate('/Mentor/page');
+//             break;
+//           case 'admin':
+//             navigate('/Admin/page');
+//             break;
+//           default:
+//             setError('Usuario o contraseña incorrectos');
+//         }
+//       } else {
+//         setError('Usuario o contraseña incorrectos');
+//       }
+
+//     } catch (error) {
+//       setError('Usuario o contraseña incorrectos');
+//     }
+// =======
+        setSpecialty(data.specialty);
       }
 
-    } catch (error) {
-      setError('Usuario o contraseña incorrectos');
-    }
+      if (data.userType === 'student') {
+        // localStorage.setItem('userType', 'student');
+        navigate('/Estudiante/page');
+      }
+
+      if (data.userType === 'mentor') {
+        // localStorage.setItem('userType', 'mentor');
+        navigate('/Mentor/page');
+      }
+
+      if (data.userType === 'admin') {
+        // localStorage.setItem('userType', 'admin');
+        navigate('/Admin/page');
+      }
+// >>>>>>> temporal
   };
 
   return (

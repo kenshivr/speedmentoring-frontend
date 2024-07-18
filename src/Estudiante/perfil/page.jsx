@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Page() {
   const user = localStorage.getItem('userId');
@@ -8,14 +9,13 @@ export default function Page() {
   const [periodo, setPeriodo] = useState('');
   const [especialidad, setEspecialidad] = useState('');
 
-  // Función para obtener los datos del estudiante
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
-      const { nombre, periodo, especialidad } = response.data;
-      setNombre(nombre);
-      setPeriodo(periodo);
-      setEspecialidad(especialidad);
+      const { Nombre, Periodo, Especialidad } = response.data;
+      setNombre(Nombre);
+      setPeriodo(Periodo);
+      setEspecialidad(Especialidad);
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + error.response.data.message);
     }
@@ -23,26 +23,9 @@ export default function Page() {
 
   useEffect(() => {
     if (user) {
-      fetchUserData(); // Llama a fetchUserData cuando el componente se monta y user está definido
+      fetchUserData();
     }
   }, [fetchUserData, user]);
-
-  // Manejar cambio en la especialidad
-  const handleEspecialidadChange = (event) => {
-    setEspecialidad(event.target.value);
-  };
-
-  // Guardar cambios en la especialidad
-  const handleSave = async () => {
-    try {
-      await axios.put(`http://localhost:3001/api/updateStudent/${user}`, { especialidad });
-      alert('Especialidad actualizada correctamente');
-      // Opcional: Actualizar la vista con los nuevos datos después de la actualización
-      fetchUserData();
-    } catch (error) {
-      alert('Error al guardar los cambios: ' + error.response.data.message);
-    }
-  };
 
   return (
     <div className="container-sm my-5" style={{ backgroundColor: 'rgba(245, 230, 232, 0.8)', borderRadius: '25px' }}>
@@ -57,47 +40,38 @@ export default function Page() {
                 readOnly 
                 className="form-control-plaintext" 
                 id="staticEmail" 
-                value={nombre || ' '} 
+                value={nombre || ''} 
               />
             </div>
           </div>
           <div className="mb-3 row justify-content-between">
-            <label htmlFor="staticEmail" className="col-sm-4 col-form-label">Especialidad</label>
+            <label htmlFor="especialidad" className="col-sm-4 col-form-label">Especialidad</label>
             <div className="col-sm-7">
               <input
                 type="text"
-                className="form-control"
+                readOnly
+                className="form-control-plaintext"
                 id="especialidad"
-                value={especialidad || ' '} 
-                onChange={handleEspecialidadChange}
+                value={especialidad || ''}
               />
             </div>
           </div>
           <div className="mb-3 row justify-content-between">
-            <label htmlFor="staticEmail" className="col-sm-4 col-form-label">Especialidad</label>
+            <label htmlFor="periodo" className="col-sm-4 col-form-label">Periodo</label>
             <div className="col-sm-6">
               <input 
                 type="text" 
                 readOnly 
                 className="form-control-plaintext" 
-                id="staticEmail" 
-                value={periodo}
+                id="periodo" 
+                value={periodo || ''} 
               />
             </div>
           </div>
           <div className="mb-3 row d-flex align-items-center justify-content-center my-4">
-            <button
-              type="button"
-              className="btn btn-sm w-50 my-4"
-              style={{
-                backgroundColor: '#002B7A',
-                color: '#FFFFFF',
-                borderRadius: '20px'
-              }}
-              onClick={handleSave}
-            >
-              Guardar
-            </button>
+            <Link to="/Estudiante/perfil/changePassword/page" className="btn btn-sm w-50 my-4" style={{ backgroundColor: '#002B7A', color: '#FFFFFF', borderRadius: '20px' }}>
+              Cambiar contraseña
+            </Link>
           </div>
         </div>
       </div>
