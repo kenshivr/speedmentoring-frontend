@@ -4,6 +4,7 @@ import axios from 'axios';
 export default function Page({ userId }) {
 
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [position, setPosition] = useState('');
@@ -14,34 +15,27 @@ export default function Page({ userId }) {
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getUserProfile/${userId}`);
-      const { numerotelefono, correoelectronico, empresa, puesto, especialidad } = response.data;
-      setPhoneNumber(numerotelefono);
-      setEmail(correoelectronico);
-      setCompany(empresa);
-      setPosition(puesto);
-      setSpecialty(especialidad);
+      const { Nombre, NumeroTelefono, CorreoElectronico, Empresa, Puesto, Especialidad, especialidades } = response.data;
+      setNombre(response.data.mentor.Nombre);
+      setPhoneNumber(response.data.mentor.NumeroTelefono);
+      setEmail(response.data.mentor.CorreoElectronico);
+      setCompany(response.data.mentor.Empresa);
+      setPosition(response.data.mentor.Puesto);
+      setSpecialty(response.data.mentor.Especialidad);
+      setSpecialties(response.data.especialidades);
+
+      console.log(response.data.especialidades);
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + error.response.data.message);
     }
   }, [userId]);
 
-  const fetchSpecialties = useCallback(async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/api/getSpecialties');
-      setSpecialties(response.data);
-
-    } catch (error) {
-      alert("Error al obtener las especialidades" + error.response.data.message);
-    }
-  }, []);
-
   // useEffect solo se ejecuta una vez cuando el componente se monta
   useEffect(() => {
     if (userId) {
       fetchUserData();
-      fetchSpecialties();
     }
-  }, [fetchUserData, fetchSpecialties, userId]);
+  }, [userId, fetchUserData]);
 
   // Función para manejar la actualización del perfil
   const handleSave = async () => {
@@ -68,7 +62,13 @@ export default function Page({ userId }) {
           <div className="mb-3 row">
             <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Nombre</label>
             <div className="col-sm-10">
-              <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="Erick Pérez Mendoza" />
+              <input 
+                type="text" 
+                readOnly 
+                className="form-control-plaintext" 
+                id="staticEmail" 
+                value={nombre}
+              />
             </div>
           </div>
 
@@ -132,6 +132,7 @@ export default function Page({ userId }) {
             <div className="row w-100 no-gutters">
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
                 <label htmlFor="especialidad" className="col-sm-4 col-form-label mx-2">Especialidad</label>
+                
                 <select
                   className="form-select auto-width-select"
                   id="especialidad"
@@ -140,10 +141,11 @@ export default function Page({ userId }) {
                   aria-label="Default select example"
                 >
                   <option value=''>Seleccionar</option>
-                  {specialties.map((specialty, index) => (
-                    <option key={index} value={specialty.especialidad}>{specialty.especialidad}</option>
+                  {specialties.map((especialidad, index) => (
+                    <option key={index} value={especialidad}>{especialidad}</option>
                   ))}
                 </select>
+
               </div>
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
                 <button
