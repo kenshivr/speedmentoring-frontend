@@ -126,11 +126,20 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
               <button
                 type="submit"
                 className="btn w-100"
-                style={{
-                  backgroundColor: '#EFCA45',
-                  color: '#4F3F05',
-                  borderColor: '#EFCA45',
-                  borderRadius: '20px'
+                style={{ 
+                  backgroundColor: '#EFCA45', 
+                  color: '#4F3F05', 
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s' 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EFCA45';
+                  e.currentTarget.style.color = '#4F3F05';
                 }}>
                 Ingresar
               </button>

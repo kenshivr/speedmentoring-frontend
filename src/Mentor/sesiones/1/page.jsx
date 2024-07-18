@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 export default function Page() {
   
   const [texto, setTexto] = useState('');
-  const [fecha, setFecha] = useState('');bgt5fv4r
+  const [fecha, setFecha] = useState('');
   const [nombre, setNombre] = useState('');
   const [originalTexto, setOriginalTexto] = useState(''); 
   const [editableTexto, setEditableTexto] = useState(false);
@@ -85,14 +85,13 @@ export default function Page() {
         </div>
 
         <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor: '#908486', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
-          
           <textarea
             className="flex-grow-1 p-2"
             style={{ border: 'none', resize: 'none', outline: 'none', width: '100%' }}
             value={texto || ''}
             onChange={handleTextoChange}
             disabled={!editableTexto}
-            placeholder="Escribe el texto del reporte..."
+            placeholder="Escribe aquí tu reporte de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, ..."
             rows={10}
           />
 

@@ -245,9 +245,57 @@ const Retroalim = () => {
             <button type="submit" className="btn btn-primary">Enviar Retroalimentación</button>
           </form>
         </div>
+
+        <div className='row p-3'>
+            <div className='container d-flex justify-content-end'>
+                <div className='mx-1'>
+                    <button 
+                      className="btn btn-warning btn-outline-dark" 
+                      style={{ 
+                        backgroundColor: '#EFCA45', 
+                        color: '#000', 
+                        border: '1px solid #000', 
+                        transition: 'background-color 0.3s, color 0.3s' 
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#000';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#EFCA45';
+                        e.currentTarget.style.color = '#000';
+                      }}
+                    >
+                      Guardar
+                    </button>
+                </div>
+                <div className='mx-2'>
+                    <a
+                      type="button"
+                      className="btn w-75"
+                      href='/Estudiante/sesiones/1/page'
+                      style={{ 
+                        backgroundColor: 'white', 
+                        color: '#4F3F05', 
+                        border: '1px solid #000', 
+                        minWidth: '100px',
+                        transition: 'background-color 0.3s, color 0.3s' 
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#000';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'white';
+                        e.currentTarget.style.color = '#4F3F05';
+                      }}
+                      >
+                      Cancelar
+                    </a>
+                </div>
+            </div>
+        </div>
       </div>
     </div>
   );
 };
-
-export default Retroalim;

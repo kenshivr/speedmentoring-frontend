@@ -148,10 +148,20 @@ export default function Page() {
                 <button
                   type="submit"
                   className="btn w-75"
-                  style={{
-                    backgroundColor: '#002B7A',
-                    color: 'white',
-                    borderRadius: '20px'
+                  style={{ 
+                    backgroundColor: '#002B7A', 
+                    color: 'white', 
+                    border: '1px solid #000',
+                    borderRadius:'20px',
+                    transition: 'background-color 0.3s, color 0.3s' 
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#002B7A';
+                    e.currentTarget.style.color = 'white';
                   }}>
                   Guardar
                 </button>
@@ -160,12 +170,23 @@ export default function Page() {
                 <a
                   type="button"
                   className="btn w-75"
-                  href='/Mentor/perfil/page'
-                  style={{
-                    backgroundColor: '#A0BAEB',
-                    color: '#4E4E4E',
-                    borderRadius: '20px'
-                  }}>
+                  href='/Estudiante/perfil/page'
+                  style={{ 
+                    backgroundColor: '#A0BAEB', 
+                    color: '#4E4E4E', 
+                    border: '1px solid #000',
+                    borderRadius:'20px',
+                    transition: 'background-color 0.3s, color 0.3s' 
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#A0BAEB';
+                    e.currentTarget.style.color = '#4E4E4E';
+                  }}
+                  >
                   Cancelar
                 </a>
               </div>

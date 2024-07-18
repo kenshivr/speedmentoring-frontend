@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // TERMINAR ESTA PAGINA
 
 export default function Page({ userId }) {
-
   const [phoneNumber, setPhoneNumber] = useState('');
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
@@ -16,21 +15,18 @@ export default function Page({ userId }) {
     try {
       const response = await axios.get(`http://localhost:3001/api/getUserProfile/${userId}`);
       const { Nombre, NumeroTelefono, CorreoElectronico, Empresa, Puesto, Especialidad, especialidades } = response.data;
-      setNombre(response.data.mentor.Nombre);
-      setPhoneNumber(response.data.mentor.NumeroTelefono);
-      setEmail(response.data.mentor.CorreoElectronico);
-      setCompany(response.data.mentor.Empresa);
-      setPosition(response.data.mentor.Puesto);
-      setSpecialty(response.data.mentor.Especialidad);
-      setSpecialties(response.data.especialidades);
-
-      console.log(response.data.especialidades);
+      setNombre(Nombre);
+      setPhoneNumber(NumeroTelefono);
+      setEmail(CorreoElectronico);
+      setCompany(Empresa);
+      setPosition(Puesto);
+      setSpecialty(Especialidad);
+      setSpecialties(especialidades);
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + error.response.data.message);
     }
   }, [userId]);
 
-  // useEffect solo se ejecuta una vez cuando el componente se monta
   useEffect(() => {
     if (userId) {
       fetchUserData();
@@ -57,10 +53,17 @@ export default function Page({ userId }) {
   return (
     <div className="container-sm my-5" style={{ backgroundColor: 'rgba(245, 230, 232, 0.8)', borderRadius: '25px' }}>
       <div className="container">
-        <h2 className="mx-5">Cuenta</h2>
+        <h2 className="pt-4 ps-5">Cuenta</h2>
         <div className="m-5">
           <div className="mb-3 row">
-            <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Nombre</label>
+            <label htmlFor="staticFullName" className="col-sm-2 col-form-label">Nombre Completo</label>
+            <div className="col-sm-10">
+              <input type="text" readOnly className="form-control-plaintext" id="staticFullName" value={`${firstName} ${lastName1} ${lastName2}`} />
+            </div>
+          </div>
+
+          <div className="mb-3 row">
+            <label htmlFor="staticRfc" className="col-sm-2 col-form-label">RFC</label>
             <div className="col-sm-10">
               <input 
                 type="text" 
@@ -99,7 +102,33 @@ export default function Page({ userId }) {
               />
             </div>
           </div>
-
+          <div className="row justify-content-Evenly">
+            <label htmlFor="staticPassword" className="col-sm-2 col-form-label">Contraseña</label>
+            <div className="col-sm-6">
+              <button
+                type="button"
+                className="btn btn-sm w-50"
+                style={{ 
+                  backgroundColor: '#EFCA45', 
+                  color: '#4F3F05', 
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s' 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EFCA45';
+                  e.currentTarget.style.color = '#4F3F05';
+                }}
+                onClick={() => window.location.href = 'http://localhost:3000/Mentor/perfil/changePassword/page'}
+              >
+                Modificar
+              </button>
+            </div>
+          </div>
           <div className="my-5 mb-3 row">
             <label htmlFor="company" className="col-sm-2 col-form-label">Empresa</label>
             <div className="col-sm-10">
@@ -129,12 +158,42 @@ export default function Page({ userId }) {
           </div>
 
           <div className="mb-3 row">
+            <label htmlFor="academicDegree" className="col-sm-2 col-form-label">Grado Académico</label>
+            <div className="col-sm-10">
+              <input
+                className="form-control"
+                type="text"
+                id="academicDegree"
+                value={academicDegree}
+                onChange={(e) => setAcademicDegree(e.target.value)}
+                aria-label="Grado Académico"
+              />
+            </div>
+          </div>
+
+          <div className="mb-3 row">
+            <label htmlFor="hasMasters" className="col-sm-2 col-form-label">Maestría</label>
+            <div className="col-sm-10">
+              <select
+                className="form-select"
+                id="hasMasters"
+                value={hasMasters ? 'Sí' : 'No'}
+                onChange={(e) => setHasMasters(e.target.value === 'Sí')}
+                aria-label="Maestría"
+              >
+                <option value='No'>No</option>
+                <option value='Sí'>Sí</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="mb-3 row">
             <div className="row w-100 no-gutters">
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
                 <label htmlFor="especialidad" className="col-sm-4 col-form-label mx-2">Especialidad</label>
                 
                 <select
-                  className="form-select auto-width-select"
+                  className="form-select auto-width-select mx-2"
                   id="especialidad"
                   value={specialty}
                   onChange={(e) => setSpecialty(e.target.value)}
@@ -151,7 +210,21 @@ export default function Page({ userId }) {
                 <button
                   type="button"
                   className="btn w-100"
-                  style={{ backgroundColor: '#002B7A', color: '#FFFFFF', borderRadius: '20px' }}
+                  style={{ 
+                    backgroundColor: '#002B7A', 
+                    color: '#FFFFFF', 
+                    border: '1px solid #000',
+                    borderRadius: '20px',
+                    transition: 'background-color 0.3s, color 0.3s' 
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#002B7A';
+                    e.currentTarget.style.color = '#FFFFFF';
+                  }}
                   onClick={handleSave}
                 >
                   Guardar
