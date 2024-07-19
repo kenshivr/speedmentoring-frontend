@@ -32,6 +32,7 @@ import AdminEstadisticas from './Admin/estadisticas/page';
 import AdminReporte from './Admin/reporte/page';
 import AdminUsuarios from './Admin/usuarios/page';
 import AdminAgregarUsuario from './Admin/usuarios/newUser/page';
+import AdminEditarUsuario from './Admin/usuarios/editUser/page';
 import AdminAgregarEvento from './Admin/nuevoEvento/page';
 
 // Componente para la página no encontrada
@@ -147,6 +148,9 @@ function App() {
         <Route path="/Admin/reporte/page" element={<AdminReporte />} />
         {/* Falta esta */}<Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
         <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
+        <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} />
+
+        
 
         {/* Ruta para manejar 404 */}
         {/* Listo */}<Route path="*" element={<NotFound />} />

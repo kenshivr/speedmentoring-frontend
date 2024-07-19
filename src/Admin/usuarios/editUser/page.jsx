@@ -50,6 +50,10 @@ export default function Page() {
                   <option value="3">Base de datos</option>
                 </select>
               </div>
+              <div className="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Contraseña (HASH)</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder='Contraseña escrita en HASH'/>
+              </div>
               <div className="d-flex justify-content-center align-items-center mb-3" style={{ height: '100px' }}>
                 <button
                   type="submit"
@@ -60,7 +64,7 @@ export default function Page() {
                     borderColor: '#EFCA45',
                     borderRadius: '20px'
                   }}>
-                  Registrar
+                  Editar
                 </button>
               </div>
             </div>
@@ -130,6 +134,10 @@ export default function Page() {
                 <label htmlFor="exampleFormControlInput3" className="form-label">Grado académico</label>
                 <input className="form-control" id="exampleFormControlInput3" placeholder="Ejemplo de grado académico" />
               </div>
+              <div className="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Contraseña (HASH)</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder='Contraseña escrita en HASH'/>
+              </div>
               <div className="d-flex justify-content-center align-items-center mb-3" style={{ height: '100px' }}>
                 <button
                   type="submit"
@@ -140,7 +148,7 @@ export default function Page() {
                     borderColor: '#EFCA45',
                     borderRadius: '20px'
                   }}>
-                  Registrar
+                  Editar
                 </button>
               </div>
             </div>
