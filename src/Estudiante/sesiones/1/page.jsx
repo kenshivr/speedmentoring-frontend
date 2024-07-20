@@ -60,7 +60,6 @@ export default function Page() {
         });
 
         if (response.data.success) {
-          console.log('Texto actualizado con éxito');
           setEditableTexto(false);
         } else {
           console.error('Error al actualizar el texto:', response.data.message);

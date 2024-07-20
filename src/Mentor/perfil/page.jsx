@@ -1,27 +1,33 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios'; // TERMINAR ESTA PAGINA
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Page({ userId }) {
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [nombre, setNombre] = useState('');
-  const [email, setEmail] = useState('');
-  const [company, setCompany] = useState('');
-  const [position, setPosition] = useState('');
-  const [specialty, setSpecialty] = useState('');
-  const [specialties, setSpecialties] = useState([]);
+  const [paterno, setPaterno] = useState('');
+  const [materno, setMaterno] = useState('');
+  const [telefono, setTelefono] = useState(0);
+  const [correo, setCorreo] = useState('');
+  const [empresa, setEmpresa] = useState('');
+  const [puesto, setPuesto] = useState('');
+  const [especialidad, setEspecialidad] = useState('');
+  const [grado, setGrado] = useState('');
+  const [especialidades, setEspecialidades] = useState([]);
 
   // Función para obtener datos de usuario
   const fetchUserData = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/getUserProfile/${userId}`);
-      const { Nombre, NumeroTelefono, CorreoElectronico, Empresa, Puesto, Especialidad, especialidades } = response.data;
-      setNombre(Nombre);
-      setPhoneNumber(NumeroTelefono);
-      setEmail(CorreoElectronico);
-      setCompany(Empresa);
-      setPosition(Puesto);
-      setSpecialty(Especialidad);
-      setSpecialties(especialidades);
+      const response = await axios.get(`http://localhost:3001/api/getProfileMentor/${userId}`);
+      setNombre(response.data.Nombre);
+      setPaterno(response.data.ApellidoPaterno);
+      setMaterno(response.data.ApellidoMaterno);
+      setTelefono(response.data.NumeroTelefono);
+      setCorreo(response.data.CorreoElectronico);
+      setEmpresa(response.data.Empresa);
+      setPuesto(response.data.Puesto);
+      setEspecialidad(response.data.Especialidad);
+      setGrado(response.data.GradoAcademico);
+      setEspecialidades(response.data.especialidades);
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + error.response.data.message);
     }
@@ -35,20 +41,28 @@ export default function Page({ userId }) {
 
   // Función para manejar la actualización del perfil
   const handleSave = async () => {
+
+
     try {
-      const response = await axios.post('http://localhost:3001/api/updateProfileMentor', {
-        userId,
-        phoneNumber,
-        email,
-        company,
-        position,
-        specialty,
+      const response = await axios.post(`http://localhost:3001/api/updateProfileMentor/${userId}`, {
+        telefono,
+        correo,
+        empresa,
+        puesto,
+        grado,
+        especialidad
       });
       alert(response.data.message);
     } catch (error) {
       alert('Error al guardar los datos: ' + error.response.data.message);
     }
   };
+
+  if (!userId) {
+    return <div>Loading...</div>; // Mostrar un mensaje de carga mientras se obtienen los datos
+  }
+
+  
 
   return (
     <div className="container-sm my-5" style={{ backgroundColor: 'rgba(245, 230, 232, 0.8)', borderRadius: '25px' }}>
@@ -58,7 +72,7 @@ export default function Page({ userId }) {
           <div className="mb-3 row">
             <label htmlFor="staticFullName" className="col-sm-2 col-form-label">Nombre Completo</label>
             <div className="col-sm-10">
-              <input type="text" readOnly className="form-control-plaintext" id="staticFullName" value={`${firstName} ${lastName1} ${lastName2}`} />
+              <input type="text" readOnly className="form-control-plaintext" id="staticFullName" value={`${nombre} ${paterno} ${materno}`} />
             </div>
           </div>
 
@@ -70,7 +84,7 @@ export default function Page({ userId }) {
                 readOnly 
                 className="form-control-plaintext" 
                 id="staticEmail" 
-                value={nombre}
+                value={userId}
               />
             </div>
           </div>
@@ -82,8 +96,8 @@ export default function Page({ userId }) {
                 className="form-control"
                 type="text"
                 id="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
                 aria-label="Número de teléfono"
               />
             </div>
@@ -96,8 +110,8 @@ export default function Page({ userId }) {
                 className="form-control"
                 type="text"
                 id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
                 aria-label="Correo electrónico"
               />
             </div>
@@ -105,15 +119,19 @@ export default function Page({ userId }) {
           <div className="row justify-content-Evenly">
             <label htmlFor="staticPassword" className="col-sm-2 col-form-label">Contraseña</label>
             <div className="col-sm-6">
-              <button
-                type="button"
-                className="btn btn-sm w-50"
+
+              <Link
+                to="/Mentor/perfil/changePassword/page" // Usa el path relativo a tu enrutador
                 style={{ 
+                  display: 'inline-block', 
                   backgroundColor: '#EFCA45', 
                   color: '#4F3F05', 
                   border: '1px solid #000',
                   borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s' 
+                  transition: 'background-color 0.3s, color 0.3s', 
+                  textAlign: 'center', 
+                  textDecoration: 'none', 
+                  padding: '0.5rem 1rem'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = '#000';
@@ -123,10 +141,10 @@ export default function Page({ userId }) {
                   e.currentTarget.style.backgroundColor = '#EFCA45';
                   e.currentTarget.style.color = '#4F3F05';
                 }}
-                onClick={() => window.location.href = 'http://localhost:3000/Mentor/perfil/changePassword/page'}
               >
                 Modificar
-              </button>
+              </Link>
+
             </div>
           </div>
           <div className="my-5 mb-3 row">
@@ -136,8 +154,8 @@ export default function Page({ userId }) {
                 className="form-control"
                 type="text"
                 id="company"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
+                value={empresa}
+                onChange={(e) => setEmpresa(e.target.value)}
                 aria-label="Empresa"
               />
             </div>
@@ -150,8 +168,8 @@ export default function Page({ userId }) {
                 className="form-control"
                 type="text"
                 id="position"
-                value={position}
-                onChange={(e) => setPosition(e.target.value)}
+                value={puesto}
+                onChange={(e) => setPuesto(e.target.value)}
                 aria-label="Puesto"
               />
             </div>
@@ -164,48 +182,33 @@ export default function Page({ userId }) {
                 className="form-control"
                 type="text"
                 id="academicDegree"
-                value={academicDegree}
-                onChange={(e) => setAcademicDegree(e.target.value)}
+                value={grado}
+                onChange={(e) => setGrado(e.target.value)}
                 aria-label="Grado Académico"
               />
             </div>
           </div>
 
           <div className="mb-3 row">
-            <label htmlFor="hasMasters" className="col-sm-2 col-form-label">Maestría</label>
-            <div className="col-sm-10">
-              <select
-                className="form-select"
-                id="hasMasters"
-                value={hasMasters ? 'Sí' : 'No'}
-                onChange={(e) => setHasMasters(e.target.value === 'Sí')}
-                aria-label="Maestría"
-              >
-                <option value='No'>No</option>
-                <option value='Sí'>Sí</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="mb-3 row">
             <div className="row w-100 no-gutters">
+
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
                 <label htmlFor="especialidad" className="col-sm-4 col-form-label mx-2">Especialidad</label>
-                
+
                 <select
                   className="form-select auto-width-select mx-2"
                   id="especialidad"
-                  value={specialty}
-                  onChange={(e) => setSpecialty(e.target.value)}
+                  value={especialidad}
+                  onChange={(e) => setEspecialidad(e.target.value)}
                   aria-label="Default select example"
                 >
-                  <option value=''>Seleccionar</option>
-                  {specialties.map((especialidad, index) => (
-                    <option key={index} value={especialidad}>{especialidad}</option>
-                  ))}
+                {especialidades.map((especialidadObj, index) => (
+                    <option key={index} value={especialidadObj.Especialidad}>{especialidadObj.Especialidad}</option>
+                ))}
                 </select>
 
               </div>
+
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
                 <button
                   type="button"

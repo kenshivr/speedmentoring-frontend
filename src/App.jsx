@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
-
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Header from './components/Layout/Header';
@@ -67,41 +66,52 @@ const NotFound = () => (
   </div>
 );
 
+// Componente para proteger rutas
+const ProtectedRoute = ({ element: Element, isAuthenticated, ...rest }) => {
+  return isAuthenticated ? <Element {...rest} /> : <Navigate to="/login" />;
+};
+
 function App() {
 
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [sesionId, setSesionId] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Obtener la ruta actual
   const location = useLocation();
 
-  // Funcion para determinar si se muestra la barra navegadora
+  // Función para determinar si se muestra la barra navegadora
   const showNavbar = () => {
-    // Mostrar la navbar si el usuario no esta en la pagina login o en la pagina de buscar cuenta debido a contraseña perdida
+    // Mostrar la navbar si el usuario no está en la página login o en la página de buscar cuenta debido a contraseña perdida
     return location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/login/buscarCuenta';
   };
 
   // Almacenar el userId en localStorage cuando se establece 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
+    const storedUser = localStorage.getItem('user');
     if (storedUserId) {
       setUserId(storedUserId);
+      setIsAuthenticated(true);
+      if (storedUser) {
+        setUser(storedUser);
+      }
     }
   }, []);
 
   // Escuchar cambios en userId y actualizar localstorage
   useEffect(() => {
     localStorage.setItem('userId', userId);
-  }, [userId]);
+    localStorage.setItem('user', user);
+  }, [userId, user]);
 
   return (
     <>
       <Header />
 
-      {/* Dependiendo de que tipo de usuario se loguee, se muestra una barra de navegacion diferente */}
-      
+      {/* Dependiendo de qué tipo de usuario se loguee, se muestra una barra de navegación diferente */}
       {showNavbar() && (
         user === 'admin' ? (
           <NavbarAdmin />
@@ -114,45 +124,39 @@ function App() {
         )
       )}
 
-      {/* Los route van dentro de routes porque react asi lo necesita */}
-
+      {/* Los route van dentro de routes porque react así lo necesita */}
       <Routes>
+        {/* Rutas para que react pueda renderizar las páginas de login */}
+        <Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
+        <Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
+        <Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
 
-        {/* Rutas para que react pueda renderizar las paginas de login */}
-        {/* Listo */}<Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty}/>} />
-        {/* Listo */}<Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty}/>} />
-        {/* Listo */}<Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
+        {/* Rutas protegidas para las páginas de mentor */}
+        <Route path="/Mentor/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPage} />} />
+        <Route path="/Mentor/perfil/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPerfil} userId={userId} />} />
+        <Route path="/Mentor/sesiones/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones} userId={userId} />} />
+        <Route path="/Mentor/sesiones/1/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1} />} />
+        <Route path="/Mentor/perfil/changePassword/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorChangePassword} userId={userId} />} />
 
-        {/* Rutas para que react pueda renderizar las paginas de mentor */}
-        {/*  */}<Route path="/Mentor/page" element={<MentorPage />} />
-        {/*  */}<Route path="/Mentor/perfil/page" element={<MentorPerfil userId={userId} />} /> 
-        {/*  */}<Route path="/Mentor/sesiones/page" element={<MentorSesiones userId={userId} />} /> 
-        {/*  */}<Route path="/Mentor/sesiones/1/page" element={<MentorSesiones1 />} /> 
-        {/*  */}<Route path="/Mentor/perfil/changePassword/page" element={<MentorChangePassword />} /> 
+        {/* Rutas protegidas para las páginas de estudiante */}
+        <Route path="/Estudiante/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePage} specialty={specialty} />} />
+        <Route path="/Estudiante/eventos/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteEvento} />} />
+        <Route path="/Estudiante/perfil/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePerfil} />} />
+        <Route path="/Estudiante/sesiones/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones} userId={userId} setSesionId={setSesionId} />} />
+        <Route path="/Estudiante/sesiones/1/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1} sesionId={sesionId} setSesionId={setSesionId} />} />
+        <Route path="/Estudiante/perfil/changePassword/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteChangePassword} />} />
 
-        {/* Rutas para que react pueda renderizar las paginas de estudiante, actualmente vacias */}
-        {/* Listo */}<Route path="/Estudiante/page" element={<EstudiantePage specialty={specialty}/>} />
-        {/* Listo */}<Route path="/Estudiante/eventos/page" element={<EstudianteEvento />} />
-        {/* Listo */}<Route path="/Estudiante/perfil/page" element={<EstudiantePerfil />} />
-        {/* Listo */}<Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones userId={userId} setSesionId={setSesionId} />} />
-        {/* Listo */}<Route path="/Estudiante/sesiones/1/page" element={<EstudianteSesiones1 sesionId={sesionId} setSesionId={setSesionId} />} />
-
-        {/* Hechas por erick */}
-        <Route path="/Estudiante/sesiones/1/retroalim" element={<EstudianteSesiones1r />} />
-        {/* Listo */}<Route path="/Estudiante/perfil/changePassword/page" element={<EstudianteChangePassword />} /> 
-
-        {/* Rutas para que react pueda renderizar las paginas del administrador, actualmente vacias */}
-        <Route path="/Admin/page" element={<AdminPage />} />
-        <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
-        <Route path="/Admin/reporte/page" element={<AdminReporte />} />
-        {/* Falta esta */}<Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
-        <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
+        {/* Rutas protegidas para las páginas del administrador */}
+        <Route path="/Admin/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} />} />
+        <Route path="/Admin/estadisticas/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticas} />} />
+        <Route path="/Admin/reporte/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminReporte} />} />
+        <Route path="/Admin/usuarios/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminUsuarios} />} />
+        <Route path="/Admin/usuarios/NewUser/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarUsuario} />} />
 
         {/* Ruta para manejar 404 */}
-        {/* Listo */}<Route path="*" element={<NotFound />} />
-
+        <Route path="*" element={<NotFound />} />
       </Routes>
-      
+
       <Footer />
     </>
   );

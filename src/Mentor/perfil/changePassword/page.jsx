@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Page() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const navigate = useNavigate();
 
   const validatePassword = (pass) => {
     const characteristics = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]{8,20}$/;
@@ -40,7 +39,6 @@ export default function Page() {
 
       if (response.data.success) {
         alert('Contraseña actualizada correctamente');
-        navigate('/Mentor/perfil/page'); // Redirigir a la página principal del mentor
       } else {
         alert('Error al actualizar la contraseña');
         setCurrentPassword('');
@@ -160,32 +158,34 @@ export default function Page() {
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = '#002B7A';
                     e.currentTarget.style.color = 'white';
-                  }}>
-                  Guardar
+                  }}
+                  onClick={handleSubmit}
+                >
+                Guardar
                 </button>
               </div>
               <div className="d-flex justify-content-center align-items-center" style={{ height: '50px' }}>
-                <a
-                  type="button"
-                  className="btn w-75"
-                  href='/Mentor/perfil/page'
-                  style={{ 
-                    backgroundColor: '#A0BAEB', 
-                    color: '#4E4E4E', 
-                    border: '1px solid #000',
-                    borderRadius:'20px',
-                    transition: 'background-color 0.3s, color 0.3s' 
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#000';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#A0BAEB';
-                    e.currentTarget.style.color = '#4E4E4E';
-                  }}>
-                  Cancelar
-                </a>
+              <Link
+                to="/Mentor/perfil/page"
+                className="btn w-75"
+                style={{ 
+                  backgroundColor: '#A0BAEB', 
+                  color: '#4E4E4E', 
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s' 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#A0BAEB';
+                  e.currentTarget.style.color = '#4E4E4E';
+                }}
+              >
+                Cancelar
+              </Link>
               </div>
             </div>
           </div>
