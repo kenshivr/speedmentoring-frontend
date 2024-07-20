@@ -18,6 +18,8 @@ export default function Page() {
 
     if (newPassword !== confirmPassword) {
       alert('Las contraseñas no coinciden');
+      console.log(currentPassword);
+      console.log(confirmPassword);
       return;
     }
 
@@ -32,7 +34,7 @@ export default function Page() {
     const userId = localStorage.getItem('userId');
 
     try {
-      const response = await axios.put('http://localhost:3001/api/changePassMentor', {
+      const response = await axios.put('http://localhost:3001/api/changePassStudent', {
         userId,
         currentPassword,
         newPassword,
@@ -40,7 +42,7 @@ export default function Page() {
 
       if (response.data.success) {
         alert('Contraseña actualizada correctamente');
-        navigate('/Mentor/perfil/page'); // Redirigir a la página principal del mentor
+        navigate('/Estudiante/perfil/page'); // Redirigir a la página principal del mentor
       } else {
         alert('Error al actualizar la contraseña');
         setCurrentPassword('');

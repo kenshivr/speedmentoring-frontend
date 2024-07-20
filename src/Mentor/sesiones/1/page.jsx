@@ -2,12 +2,12 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 export default function Page() {
-  const [editableTexto, setEditableTexto] = useState(false);
-
+  
   const [texto, setTexto] = useState('');
-  const [originalTexto, setOriginalTexto] = useState(''); 
   const [fecha, setFecha] = useState('');
   const [nombre, setNombre] = useState('');
+  const [originalTexto, setOriginalTexto] = useState(''); 
+  const [editableTexto, setEditableTexto] = useState(false);
 
   useEffect(() => {
     const fetchReporte = async () => {
@@ -51,12 +51,10 @@ export default function Page() {
   const handleUpdateTexto = async () => {
     try {
       const sesionId = localStorage.getItem('sesionId');
-      const fechanueva = new Date(fecha).toISOString().split('T')[0];
 
       if (sesionId) {
         const response = await axios.post(`http://localhost:3001/api/reporte/${sesionId}`, {
-          texto: texto,
-          fecha: fechanueva,
+          texto: texto
         });
 
         if (response.data.success) {
@@ -83,6 +81,7 @@ export default function Page() {
             <h2>{new Date(fecha).toLocaleDateString()}</h2>
             <h6>Mentor - {nombre}</h6>
           </div>
+
         </div>
 
         <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor: '#908486', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>

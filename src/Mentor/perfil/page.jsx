@@ -1,57 +1,37 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // TERMINAR ESTA PAGINA
 
 export default function Page({ userId }) {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [position, setPosition] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [specialties, setSpecialties] = useState([]);
-  const [academicDegree, setAcademicDegree] = useState('');
-  const [hasMasters, setHasMasters] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName1, setLastName1] = useState('');
-  const [lastName2, setLastName2] = useState('');
-  const [rfc, setRfc] = useState('');
 
   // Función para obtener datos de usuario
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getUserProfile/${userId}`);
-      const { nombre, apellidoPaterno, apellidoMaterno, rfc, numerotelefono, correoelectronico, empresa, puesto, especialidad, gradoAcademico, maestria } = response.data;
-      setFirstName(nombre);
-      setLastName1(apellidoPaterno);
-      setLastName2(apellidoMaterno);
-      setRfc(rfc);
-      setPhoneNumber(numerotelefono);
-      setEmail(correoelectronico);
-      setCompany(empresa);
-      setPosition(puesto);
-      setSpecialty(especialidad);
-      setAcademicDegree(gradoAcademico);
-      setHasMasters(maestria);
+      const { Nombre, NumeroTelefono, CorreoElectronico, Empresa, Puesto, Especialidad, especialidades } = response.data;
+      setNombre(Nombre);
+      setPhoneNumber(NumeroTelefono);
+      setEmail(CorreoElectronico);
+      setCompany(Empresa);
+      setPosition(Puesto);
+      setSpecialty(Especialidad);
+      setSpecialties(especialidades);
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + error.response.data.message);
     }
   }, [userId]);
 
-  const fetchSpecialties = useCallback(async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/api/getSpecialties');
-      setSpecialties(response.data);
-    } catch (error) {
-      alert("Error al obtener las especialidades" + error.response.data.message);
-    }
-  }, []);
-
-  // useEffect solo se ejecuta una vez cuando el componente se monta
   useEffect(() => {
     if (userId) {
       fetchUserData();
-      fetchSpecialties();
     }
-  }, [fetchUserData, fetchSpecialties, userId]);
+  }, [userId, fetchUserData]);
 
   // Función para manejar la actualización del perfil
   const handleSave = async () => {
@@ -63,8 +43,6 @@ export default function Page({ userId }) {
         company,
         position,
         specialty,
-        academicDegree,
-        hasMasters,
       });
       alert(response.data.message);
     } catch (error) {
@@ -87,7 +65,13 @@ export default function Page({ userId }) {
           <div className="mb-3 row">
             <label htmlFor="staticRfc" className="col-sm-2 col-form-label">RFC</label>
             <div className="col-sm-10">
-              <input type="text" readOnly className="form-control-plaintext" id="staticRfc" value={rfc} />
+              <input 
+                type="text" 
+                readOnly 
+                className="form-control-plaintext" 
+                id="staticEmail" 
+                value={nombre}
+              />
             </div>
           </div>
 
@@ -206,7 +190,8 @@ export default function Page({ userId }) {
           <div className="mb-3 row">
             <div className="row w-100 no-gutters">
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
-                <label htmlFor="especialidad" className="col-sm-4 col-form-label">Especialidad</label>
+                <label htmlFor="especialidad" className="col-sm-4 col-form-label mx-2">Especialidad</label>
+                
                 <select
                   className="form-select auto-width-select mx-2"
                   id="especialidad"
@@ -215,10 +200,11 @@ export default function Page({ userId }) {
                   aria-label="Default select example"
                 >
                   <option value=''>Seleccionar</option>
-                  {specialties.map((specialty, index) => (
-                    <option key={index} value={specialty.especialidad}>{specialty.especialidad}</option>
+                  {specialties.map((especialidad, index) => (
+                    <option key={index} value={especialidad}>{especialidad}</option>
                   ))}
                 </select>
+
               </div>
               <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
                 <button

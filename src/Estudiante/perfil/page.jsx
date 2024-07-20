@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Page() {
   const user = localStorage.getItem('userId');
@@ -9,14 +10,13 @@ export default function Page() {
   const [especialidad, setEspecialidad] = useState('');
   const [especialidades, setEspecialidades] = useState([]);
 
-  // Función para obtener los datos del estudiante
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
-      const { nombre, periodo, especialidad } = response.data;
-      setNombre(nombre);
-      setPeriodo(periodo);
-      setEspecialidad(especialidad);
+      const { Nombre, Periodo, Especialidad } = response.data;
+      setNombre(Nombre);
+      setPeriodo(Periodo);
+      setEspecialidad(Especialidad);
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + error.response.data.message);
     }
@@ -68,10 +68,26 @@ export default function Page() {
                 readOnly
                 className="form-control-plaintext" 
                 id="staticEmail" 
-                value={nombre || ' '} 
+                value={nombre || ''} 
               />
             </div>
           </div>
+{/* <<<<<<< HEAD
+          <div className="mb-3 row justify-content-between">
+            <label htmlFor="especialidad" className="col-sm-4 col-form-label">Especialidad</label>
+            <div className="col-sm-7">
+              <input
+                type="text"
+                readOnly
+                className="form-control-plaintext"
+                id="especialidad"
+                value={especialidad || ''}
+              />
+            </div>
+          </div>
+          <div className="mb-3 row justify-content-between">
+            <label htmlFor="periodo" className="col-sm-4 col-form-label">Periodo</label>
+======= */}
           <div className="mb-3 row justify-content-Evenly">
             <label htmlFor="especialidad" className="col-sm-4 col-form-label">Especialidad</label>
             <div className="col-sm-7">
@@ -90,13 +106,14 @@ export default function Page() {
           </div>
           <div className="mb-3 row justify-content-Evenly">
             <label htmlFor="staticEmail" className="col-sm-4 col-form-label">Periodo</label>
+
             <div className="col-sm-6">
               <input 
                 type="text" 
                 readOnly 
                 className="form-control-plaintext" 
-                id="staticEmail" 
-                value={periodo}
+                id="periodo" 
+                value={periodo || ''} 
               />
             </div>
           </div>
@@ -128,6 +145,11 @@ export default function Page() {
             </div>
           </div>
           <div className="mb-3 row d-flex align-items-center justify-content-center my-4">
+
+            <Link to="/Estudiante/perfil/changePassword/page" className="btn btn-sm w-50 my-4" style={{ backgroundColor: '#002B7A', color: '#FFFFFF', borderRadius: '20px' }}>
+              Cambiar contraseña
+            </Link>
+
             <button
               type="button"
               className="btn btn-sm w-50 my-4"
@@ -150,6 +172,7 @@ export default function Page() {
             >
               Guardar
             </button>
+
           </div>
         </div>
       </div>

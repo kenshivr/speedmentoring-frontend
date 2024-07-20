@@ -8,10 +8,11 @@ export default function Page() {
   const [fecha, setFecha] = useState('');
   const [nombre, setNombre] = useState('');
 
+  const sesionId = localStorage.getItem('sesionId');
+
   useEffect(() => {
     const fetchReporte = async () => {
       try {
-        const sesionId = localStorage.getItem('sesionId');
         if (sesionId) {
           const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
           if (response.data.success) {
@@ -80,6 +81,7 @@ export default function Page() {
             <h2>{new Date(fecha).toLocaleDateString()}</h2>
             <h6>Mentor - {nombre}</h6>
           </div>
+
           <div className="container d-flex flex-column align-items-center mt-auto p-4">
             <a
               type="button"
@@ -105,6 +107,7 @@ export default function Page() {
               Retroalimentación del mentor
             </a>
           </div>
+
         </div>
 
         <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor: '#908486', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>

@@ -49,7 +49,6 @@ export default function Page({ userId }) {
 
   function handleLink(session) {
     return () => {
-      console.log('Se ingresa el sesionid en el localstorage');
       localStorage.setItem('sesionId', session.sesionid);
     };
   }

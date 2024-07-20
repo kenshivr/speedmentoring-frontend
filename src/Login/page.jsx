@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function LoginPage({ setUser, setUserId }) {
+function LoginPage({ setUser, setUserId, setSpecialty }) {
   const [userCurrent, setUserCurrent] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -9,7 +9,10 @@ function LoginPage({ setUser, setUserId }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
+// <<<<<<< HEAD
+//     try {
+//       const response = await fetch(`http://localhost:3001/api/login?user=${userCurrent}&password=${password}`);
+// =======
       const response = await fetch('http://localhost:3001/api/login', {
         method: 'POST',
         headers: {
@@ -17,9 +20,10 @@ function LoginPage({ setUser, setUserId }) {
         },
         body: JSON.stringify({ user: userCurrent, password: password }),
       });
+// >>>>>>> temporal
 
       if (!response.ok) {
-        throw new Error('Error en la solicitud');
+        throw new Error('Usuario o contraseña incorrectos');
       }
 
       const data = await response.json();
@@ -27,6 +31,29 @@ function LoginPage({ setUser, setUserId }) {
       if (data.userType) {
         setUser(data.userType);
         setUserId(data.userId);
+// <<<<<<< HEAD
+//         switch(data.userType) {
+//           case 'student':
+//             navigate('/Estudiante/page');
+//             break;
+//           case 'mentor':
+//             navigate('/Mentor/page');
+//             break;
+//           case 'admin':
+//             navigate('/Admin/page');
+//             break;
+//           default:
+//             setError('Usuario o contraseña incorrectos');
+//         }
+//       } else {
+//         setError('Usuario o contraseña incorrectos');
+//       }
+
+//     } catch (error) {
+//       setError('Usuario o contraseña incorrectos');
+//     }
+// =======
+        setSpecialty(data.specialty);
       }
 
       if (data.userType === 'student') {
@@ -43,17 +70,13 @@ function LoginPage({ setUser, setUserId }) {
         // localStorage.setItem('userType', 'admin');
         navigate('/Admin/page');
       }
-
-    } catch (error) {
-      console.log('Error al mandar la solicitud post:', error);
-      setError('Usuario o contraseña incorrectos'); // Establecer mensaje de error
-    }
+// >>>>>>> temporal
   };
 
   return (
     <div className="container-sm my-5 help" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '25px' }}>
       <div className="container">
-        {error && ( // Mostrar alerta si hay un error
+        {error && (
           <div className="alert alert-danger" role="alert">
             {error}
           </div>
