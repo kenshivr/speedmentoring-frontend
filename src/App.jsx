@@ -149,7 +149,6 @@ function App() {
         <Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
         <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
         <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} />
-
         
 
         {/* Ruta para manejar 404 */}
