@@ -164,7 +164,7 @@ function App() {
         {/* Hechas por erick */}
         <Route path="/Estudiante/sesiones/1/retroalim" element={<EstudianteSesiones1r />} />
 
-        <Route path="/Admin/page" element={<AdminPage />} />{/* Usada para administrar los eventos */}
+        <Route path="/Admin/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} userId={userId} />} />{/* Usada para administrar los eventos */}
         <Route path="/Admin/nuevoEvento/page" element={<AdminAgregarEvento />} />
         <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />{/* Todavía no está terminada */}
         <Route path="/Admin/reporte/page" element={<AdminReporte />} />{/* Todavía no está terminada */}

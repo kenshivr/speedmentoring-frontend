@@ -10,9 +10,10 @@ export default function Page() {
   const [link, setLink] = useState('');
 
   useEffect(() => {
-    axios.get('/api/specialties')
+    axios.get('http://localhost:3001/api/especialidades')
       .then(response => {
         setSpecialties(response.data);
+        console.log(response.data);
       })
       .catch(error => {
         console.error('There was an error fetching the specialties!', error);
@@ -62,19 +63,20 @@ export default function Page() {
           </form>
         </div>
         <div className="col-12 col-md-5 d-flex flex-column pt-4 mt-2">
-          <form>
-            <select 
-              className="form-select" 
-              aria-label="Default select example"
-              value={specialty}
-              onChange={(e) => setSpecialty(e.target.value)}
-            >
-              <option selected>Especialidad</option>
-              {specialties.map((spec, index) => (
-                <option key={index} value={spec}>{spec}</option>
-              ))}
-            </select>
-          </form>
+        <form>
+          <select 
+            className="form-select" 
+            aria-label="Default select example"
+            value={specialty}
+            onChange={(e) => setSpecialty(e.target.value)}
+          >
+            <option value="" disabled>Especialidad</option>
+            {specialties.map((spec, index) => (
+              <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
+            ))}
+          </select>
+        </form>
+
         </div>
       </div>
       <legend className="row mt-4 ms-4">Descripción</legend>

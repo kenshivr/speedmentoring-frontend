@@ -9,10 +9,6 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-// <<<<<<< HEAD
-//     try {
-//       const response = await fetch(`http://localhost:3001/api/login?user=${userCurrent}&password=${password}`);
-// =======
       const response = await fetch('http://localhost:3001/api/login', {
         method: 'POST',
         headers: {
@@ -20,7 +16,8 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
         },
         body: JSON.stringify({ user: userCurrent, password: password }),
       });
-// >>>>>>> temporal
+
+      console.log(response.data);
 
       if (!response.ok) {
         throw new Error('Usuario o contraseña incorrectos');
@@ -31,46 +28,21 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
       if (data.userType) {
         setUser(data.userType);
         setUserId(data.userId);
-// <<<<<<< HEAD
-//         switch(data.userType) {
-//           case 'student':
-//             navigate('/Estudiante/page');
-//             break;
-//           case 'mentor':
-//             navigate('/Mentor/page');
-//             break;
-//           case 'admin':
-//             navigate('/Admin/page');
-//             break;
-//           default:
-//             setError('Usuario o contraseña incorrectos');
-//         }
-//       } else {
-//         setError('Usuario o contraseña incorrectos');
-//       }
-
-//     } catch (error) {
-//       setError('Usuario o contraseña incorrectos');
-//     }
-// =======
         setSpecialty(data.specialty);
       }
 
       if (data.userType === 'student') {
-        // localStorage.setItem('userType', 'student');
         navigate('/Estudiante/page');
       }
 
       if (data.userType === 'mentor') {
-        // localStorage.setItem('userType', 'mentor');
         navigate('/Mentor/page');
       }
 
       if (data.userType === 'admin') {
-        // localStorage.setItem('userType', 'admin');
         navigate('/Admin/page');
       }
-// >>>>>>> temporal
+
   };
 
   return (
