@@ -141,12 +141,12 @@ function App() {
         <Route path="/Estudiante/sesiones/1/retroalim" element={<EstudianteSesiones1r />} />
         <Route path="/Estudiante/perfil/changePassword/page" element={<EstudianteChangePassword />} /> 
 
-        {/* Rutas para que react pueda renderizar las paginas del administrador, actualmente vacias */}
-        <Route path="/Admin/page" element={<AdminPage />} />
+
+        <Route path="/Admin/page" element={<AdminPage />} />{/* Usada para administrar los eventos */}
         <Route path="/Admin/nuevoEvento/page" element={<AdminAgregarEvento />} />
-        <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
-        <Route path="/Admin/reporte/page" element={<AdminReporte />} />
-        {/* Falta esta */}<Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
+        <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />{/* Todavía no está terminada */}
+        <Route path="/Admin/reporte/page" element={<AdminReporte />} />{/* Todavía no está terminada */}
+        <Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
         <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
         <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} />
 

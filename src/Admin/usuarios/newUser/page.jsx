@@ -1,10 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function Page() {
   const [userType, setUserType] = useState('none');
+  const [especialidades, setEspecialidades] = useState([]);
+  const [mentores, setMentores] = useState([]);
+  const [formData, setFormData] = useState({
+    cuenta: '',
+    mentor: '',
+    especialidad: '',
+    nombre: '',
+    apellidoPaterno: '',
+    apellidoMaterno: '',
+    empresa: '',
+    rfc: '',
+    maestria: false,
+    email: '',
+    telefono: '',
+    puesto: '',
+    grado: ''
+  });
+
+  useEffect(() => {
+    // Fetch especialidades
+    fetch('/api/especialidades')
+      .then(response => response.json())
+      .then(data => setEspecialidades(data));
+
+    // Fetch mentores
+    fetch('/api/mentores')
+      .then(response => response.json())
+      .then(data => setMentores(data));
+  }, []);
 
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch('/api/registro', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...formData, userType }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // Handle success, e.g., show a success message or redirect
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        // Handle error, e.g., show an error message
+      });
   };
 
   return (
@@ -22,131 +79,132 @@ export default function Page() {
           <option value="mentor">Mentor</option>
         </select>
       </div>
-      <div className="container-sm my-1" style={{ backgroundColor: 'white', borderRadius: '50px', color: 'white', maxWidth: '1000px', minHeight:'410px', margin: 'auto' }}>
-        {userType === 'estudiante' && (
-          <div className="row justify-content-evenly pt-3" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '50px', color: 'white', maxWidth: '1000px', margin: 'auto' }}>
-            <div className="col-12 col-md-5 order-first order-md-first m-1 d-flex flex-column p-3">
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">Número de cuenta</label>
-                <input className="form-control" id="exampleFormControlInput1" placeholder="Ejemplo de número de cuenta" />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">Mentor</label>
-                <select className="form-select" aria-label="Default select example">
-                  <option selected>Mentor</option>
-                  <option value="1">José Luis Mejia Soto</option>
-                  <option value="2">Brayan Vidal Romero</option>
-                  <option value="3">Janine Farfan Romero</option>
-                </select>
-              </div>
-              
-            </div>
-            <div className="col-12 col-md-5 order-last order-md-last m-1 d-flex flex-column p-3 pt-5">
-              <div className='mb-3' style={{ maxWidth: '500px' }}>
-                <select className="form-select" aria-label="Default select example">
-                  <option selected>Especialidad</option>
-                  <option value="1">Ciencia de datos</option>
-                  <option value="2">Desarrollo web</option>
-                  <option value="3">Base de datos</option>
-                </select>
-              </div>
-              <div className="d-flex justify-content-center align-items-center mb-3" style={{ height: '100px' }}>
-                <button
-                  type="submit"
-                  className="btn w-75"
-                  style={{
-                    backgroundColor: '#EFCA45',
-                    color: '#4F3F05',
-                    borderColor: '#EFCA45',
-                    borderRadius: '20px'
-                  }}>
-                  Registrar
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-        {userType === 'mentor' && (
-          <div className="row justify-content-evenly" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '50px', color: 'white', maxWidth: '1000px', minHeight:'410px', margin: 'auto' }}>
-            <div className="col-12 col-md-5 order-first order-md-first m-1 d-flex flex-column p-3">
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">Nombre(s)</label>
-                <input className="form-control" id="exampleFormControlInput1" placeholder="Ejemplo de nombre" />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput2" className="form-label">Apellido paterno</label>
-                <input className="form-control" id="exampleFormControlInput2" placeholder="Ejemplo de apellido" />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput3" className="form-label">Apellido materno</label>
-                <input className="form-control" id="exampleFormControlInput3" placeholder="Ejemplo de apellido" />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput3" className="form-label">Empresa</label>
-                <input className="form-control" id="exampleFormControlInput3" placeholder="Ejemplo de empresa" />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput3" className="form-label">RFC</label>
-                <input className="form-control" id="exampleFormControlInput3" placeholder="Ejemplo de RFC" />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput3" className="form-label">Maestría</label>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Si
-                  </label>
+      <form onSubmit={handleSubmit}>
+        <div className="container-sm my-1" style={{ backgroundColor: 'white', borderRadius: '50px', color: 'white', maxWidth: '1000px', minHeight:'410px', margin: 'auto' }}>
+          {userType === 'estudiante' && (
+            <div className="row justify-content-evenly pt-3" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '50px', color: 'white', maxWidth: '1000px', margin: 'auto' }}>
+              <div className="col-12 col-md-5 order-first order-md-first m-1 d-flex flex-column p-3">
+                <div className="mb-3">
+                  <label htmlFor="cuenta" className="form-label">Número de cuenta</label>
+                  <input className="form-control" id="cuenta" name="cuenta" placeholder="Ejemplo de número de cuenta" onChange={handleChange} />
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked/>
-                  <label class="form-check-label" for="flexRadioDefault2">
-                    No
-                  </label>
+                <div className="mb-3">
+                  <label htmlFor="mentor" className="form-label">Mentor</label>
+                  <select className="form-select" aria-label="Default select example" name="mentor" onChange={handleChange}>
+                    <option value="" selected>Mentor</option>
+                    {mentores.map((mentor) => (
+                      <option key={mentor.id} value={mentor.id}>{mentor.nombre}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="col-12 col-md-5 order-last order-md-last m-1 d-flex flex-column p-3 pt-5">
+                <div className='mb-3' style={{ maxWidth: '500px' }}>
+                  <select className="form-select" aria-label="Default select example" name="especialidad" onChange={handleChange}>
+                    <option value="" selected>Especialidad</option>
+                    {especialidades.map((especialidad) => (
+                      <option key={especialidad.id} value={especialidad.id}>{especialidad.nombre}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="d-flex justify-content-center align-items-center mb-3" style={{ height: '100px' }}>
+                  <button
+                    type="submit"
+                    className="btn w-75"
+                    style={{
+                      backgroundColor: '#EFCA45',
+                      color: '#4F3F05',
+                      borderColor: '#EFCA45',
+                      borderRadius: '20px'
+                    }}>
+                    Registrar
+                  </button>
                 </div>
               </div>
             </div>
-            <div className="col-12 col-md-5 order-last order-md-last m-1 d-flex flex-column p-3">
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput5" className="form-label">Correo electrónico</label>
-                <input type="email" className="form-control" id="exampleFormControlInput5" placeholder="nombre@ejemplo.com" />
+          )}
+          {userType === 'mentor' && (
+            <div className="row justify-content-evenly" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '50px', color: 'white', maxWidth: '1000px', minHeight:'410px', margin: 'auto' }}>
+              <div className="col-12 col-md-5 order-first order-md-first m-1 d-flex flex-column p-3">
+                <div className="mb-3">
+                  <label htmlFor="nombre" className="form-label">Nombre(s)</label>
+                  <input className="form-control" id="nombre" name="nombre" placeholder="Ejemplo de nombre" onChange={handleChange} />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="apellidoPaterno" className="form-label">Apellido paterno</label>
+                  <input className="form-control" id="apellidoPaterno" name="apellidoPaterno" placeholder="Ejemplo de apellido" onChange={handleChange} />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="apellidoMaterno" className="form-label">Apellido materno</label>
+                  <input className="form-control" id="apellidoMaterno" name="apellidoMaterno" placeholder="Ejemplo de apellido" onChange={handleChange} />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="empresa" className="form-label">Empresa</label>
+                  <input className="form-control" id="empresa" name="empresa" placeholder="Ejemplo de empresa" onChange={handleChange} />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="rfc" className="form-label">RFC</label>
+                  <input className="form-control" id="rfc" name="rfc" placeholder="Ejemplo de RFC" onChange={handleChange} />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="maestria" className="form-label">Maestría</label>
+                  <div className="form-check">
+                    <input className="form-check-input" type="radio" name="maestria" id="maestriaSi" value="true" onChange={handleChange} />
+                    <label className="form-check-label" htmlFor="maestriaSi">
+                      Sí
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="radio" name="maestria" id="maestriaNo" value="false" onChange={handleChange} />
+                    <label className="form-check-label" htmlFor="maestriaNo">
+                      No
+                    </label>
+                  </div>
+                </div>
               </div>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput6" className="form-label">Teléfono</label>
-                <input className="form-control" id="exampleFormControlInput6" placeholder="Ejemplo de teléfono" />
-              </div>
-              <div className='mb-4 mt-4' style={{ maxWidth: '500px' }}>
-                <select className="form-select" aria-label="Default select example">
-                  <option selected>Especialidad</option>
-                  <option value="1">Ciencia de datos</option>
-                  <option value="2">Desarrollo web</option>
-                  <option value="3">Base de datos</option>
-                </select>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput3" className="form-label">Puesto</label>
-                <input className="form-control" id="exampleFormControlInput3" placeholder="Ejemplo de puesto" />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput3" className="form-label">Grado académico</label>
-                <input className="form-control" id="exampleFormControlInput3" placeholder="Ejemplo de grado académico" />
-              </div>
-              <div className="d-flex justify-content-center align-items-center mb-3" style={{ height: '100px' }}>
-                <button
-                  type="submit"
-                  className="btn w-75"
-                  style={{
-                    backgroundColor: '#EFCA45',
-                    color: '#4F3F05',
-                    borderColor: '#EFCA45',
-                    borderRadius: '20px'
-                  }}>
-                  Registrar
-                </button>
+              <div className="col-12 col-md-5 order-last order-md-last m-1 d-flex flex-column p-3">
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">Correo electrónico</label>
+                  <input type="email" className="form-control" id="email" name="email" placeholder="nombre@ejemplo.com" onChange={handleChange} />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="telefono" className="form-label">Teléfono</label>
+                  <input className="form-control" id="telefono" name="telefono" placeholder="Ejemplo de teléfono" onChange={handleChange} />
+                </div>
+                <div className='mb-4 mt-4' style={{ maxWidth: '500px' }}>
+                  <select className="form-select" aria-label="Default select example" name="especialidad" onChange={handleChange}>
+                    <option value="" selected>Especialidad</option>
+                    {especialidades.map((especialidad) => (
+                      <option key={especialidad.id} value={especialidad.id}>{especialidad.nombre}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="puesto" className="form-label">Puesto</label>
+                  <input className="form-control" id="puesto" name="puesto" placeholder="Ejemplo de puesto" onChange={handleChange} />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="grado" className="form-label">Grado académico</label>
+                  <input className="form-control" id="grado" name="grado" placeholder="Ejemplo de grado académico" onChange={handleChange} />
+                </div>
+                <div className="d-flex justify-content-center align-items-center mb-3" style={{ height: '100px' }}>
+                  <button
+                    type="submit"
+                    className="btn w-75"
+                    style={{
+                      backgroundColor: '#EFCA45',
+                      color: '#4F3F05',
+                      borderColor: '#EFCA45',
+                      borderRadius: '20px'
+                    }}>
+                    Registrar
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </form>
     </div>
   );
 }
