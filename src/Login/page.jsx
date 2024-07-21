@@ -9,6 +9,7 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
       const response = await fetch('http://localhost:3001/api/login', {
         method: 'POST',
         headers: {
@@ -17,10 +18,9 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
         body: JSON.stringify({ user: userCurrent, password: password }),
       });
 
-      console.log(response.data);
-
-      if (!response.ok) {
-        throw new Error('Usuario o contraseña incorrectos');
+      if (!response.ok || response.status === 401) {
+        alert('Usuario o contraseña incorrectos!');
+        return;
       }
 
       const data = await response.json();
@@ -29,20 +29,26 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
         setUser(data.userType);
         setUserId(data.userId);
         setSpecialty(data.specialty);
-      }
 
-      if (data.userType === 'student') {
-        navigate('/Estudiante/page');
+        switch (data.userType) {
+          case 'student':
+            navigate('/Estudiante/page');
+            break;
+          case 'mentor':
+            navigate('/Mentor/page');
+            break;
+          case 'admin':
+            navigate('/Admin/page');
+            break;
+          default:
+            navigate('/');
+        }
+      } else {
+        alert('Error al obtener los datos del usuario');
       }
-
-      if (data.userType === 'mentor') {
-        navigate('/Mentor/page');
-      }
-
-      if (data.userType === 'admin') {
-        navigate('/Admin/page');
-      }
-
+    } catch (error) {
+      alert('Error en la solicitud al servidor');
+    }
   };
 
   return (
@@ -98,12 +104,12 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
               <button
                 type="submit"
                 className="btn w-100"
-                style={{ 
-                  backgroundColor: '#EFCA45', 
-                  color: '#4F3F05', 
+                style={{
+                  backgroundColor: '#EFCA45',
+                  color: '#4F3F05',
                   border: '1px solid #000',
                   borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s' 
+                  transition: 'background-color 0.3s, color 0.3s'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = '#000';

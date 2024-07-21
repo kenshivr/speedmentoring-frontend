@@ -4,19 +4,44 @@ import { Link } from 'react-router-dom';
 
 const Page = () => {
   const [events, setEvents] = useState([]);
+  const [specialty, setSpecialty] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const userId = localStorage.getItem('userId');
+
+  const fetchSpecialty = useCallback(async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/getSpecialties/${userId}`);
+      setSpecialty(response.data[0].EspecialidadID);
+    } catch (error) {
+      alert('Error al obtener la especialidad del alumno: ' + error);
+    }
+  }, [userId]);
 
   const fetchEvents = useCallback(async () => {
+    if (specialty === null) return;
+
     try {
-      const response = await axios.get('http://localhost:3001/api/getEventsStudent/1');
-      setEvents(response.data);
+      const response = await axios.get(`http://localhost:3001/api/getEventsStudent/${specialty}`);
+      setEvents(response.data.slice(0, 3)); // Mostrar solo los primeros 3 eventos
     } catch (error) {
       alert('Error al obtener los eventos: ' + error);
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  }, [specialty]);
+
+  useEffect(() => {
+    fetchSpecialty();
+  }, [fetchSpecialty]);
 
   useEffect(() => {
     fetchEvents();
-  }, [fetchEvents]);
+  }, [specialty, fetchEvents]);
+
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <div className="container-sm my-1 mt-5 p-2" style={{ maxWidth: '1800px', margin: 'auto' }}>
@@ -27,41 +52,46 @@ const Page = () => {
               <div className="container">
                 <div className="container text-center">
                   <div className="row align-items-start p-4">
-                    <div className="col">
-                    </div>
+                    <div className="col"></div>
                     <div className="col" style={{ borderBottom: "2px solid white" }}>
                       <h4 style={{ color: "white" }}>Eventos recientes</h4>
                     </div>
-                    <div className="col">
-                    </div>
+                    <div className="col"></div>
                   </div>
                 </div>
                 <div className="container p-2" style={{ color: 'white' }}>
-                  {events.map(event => (
-                    <div key={event.EventoID} className="row my-5">
-                      <div className="col">
-                        <div className="row">
-                          <div className="col">
-                            <h5>{event.Nombre}</h5>
+                  {events.length > 0 ? (
+                    events.map(event => (
+                      <div key={event.EventoID} className="row my-5">
+                        <div className="col">
+                          <div className="row">
+                            <div className="col">
+                              <h5>{event.Nombre}</h5>
+                            </div>
+                          </div>
+                          <div className="row">
+                            <h6 style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '15px' }}>
+                              {event.Descripción}
+                            </h6>
+                          </div>
+                          <div className="row">
+                            <h6 style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '11px' }}>
+                              Fecha de publicación: {new Date(event.Fecha).toLocaleDateString()} a las {new Date(event.Fecha).toLocaleTimeString()}
+                            </h6>
                           </div>
                         </div>
-                        <div className="row">
-                          <h6 style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '15px' }}>
-                            {event.Descripción}
-                          </h6>
-                        </div>
-                        <div className="row">
-                          <h6 style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '11px' }}>
-                            Fecha de publicación: {new Date(event.Fecha).toLocaleDateString()} a las {new Date(event.Fecha).toLocaleTimeString()}
-                          </h6>
-                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="row my-5">
+                      <div className="col text-center">
+                        <h6>No existen eventos asociados a tu especialidad, se aconseja revisar todos los eventos.</h6>
                       </div>
                     </div>
-                  ))}
+                  )}
                   <div className="row my-5">
                     <div className="row">
-                      <div className="col">
-                      </div>
+                      <div className="col"></div>
                       <div className="col" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         <Link
                           type="button"
@@ -77,8 +107,7 @@ const Page = () => {
                           Ver más
                         </Link>
                       </div>
-                      <div className="col">
-                      </div>
+                      <div className="col"></div>
                     </div>
                   </div>
                 </div>

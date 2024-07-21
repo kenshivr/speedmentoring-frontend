@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Importa useNavigate
 
 export default function Page() {
+  const [eventId, setEventId] = useState();
   const [eventName, setEventName] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [specialties, setSpecialties] = useState([]);
@@ -11,19 +12,47 @@ export default function Page() {
   const [hasLink, setHasLink] = useState(false);
   const [link, setLink] = useState('');
 
+  const navigate = useNavigate(); // Inicializa useNavigate
+
   useEffect(() => {
+    const eventId = localStorage.getItem('eventId');
+    if (eventId) {
+      setEventId(eventId);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Obtener especialidades
     axios.get('http://localhost:3001/api/especialidades')
       .then(response => {
         setSpecialties(response.data);
       })
       .catch(error => {
-        console.error('There was an error fetching the specialties!', error);
+        console.error('Error fetching specialties:', error);
       });
-  }, []);
+
+    // Obtener detalles del evento para editar
+    if (eventId) {
+      axios.get(`http://localhost:3001/api/getEvent/${eventId}`)
+        .then(response => {
+          const event = response.data;
+          setEventId(event.EventoID);
+          setEventName(event.Nombre);
+          setSpecialty(event.Especialidad);
+          setDescription(event.Descripción);
+          setDate(event.Fecha.split('T')[0]);
+          setHasLink(!!event.Link);
+          setLink(event.Link || '');
+        })
+        .catch(error => {
+          console.error('Error fetching event details:', error);
+        });
+    }
+  }, [eventId]);
 
   const handleSave = (event) => {
     event.preventDefault();
-    
+
     const eventData = {
       eventName,
       specialty,
@@ -32,26 +61,20 @@ export default function Page() {
       link: hasLink ? link : ''
     };
 
-  
-    axios.post('http://localhost:3001/api/newEventAdmin', eventData)
+    axios.post(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
       .then(response => {
-        alert('Event saved successfully!');
-        setEventName('');
-        setSpecialty('');
-        setDescription('');
-        setDate('');
-        setHasLink(false);
-        setLink('');
+        alert('Event updated successfully!');
+        navigate('/Admin/page'); // Redirige a /Admin/page después del guardado
       })
       .catch(error => {
-        alert('Verificar si los datos estan en el formato correcto, no fue posible agregar el nuevo evento.');
-        console.error('There was an error saving the event!', error);
+        alert('Error updating the event. Please check the input data.');
+        console.error('Error updating event:', error);
       });
   };
 
   return (
     <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'20px' }}>
-      <h1 className='ms-4'>Nuevo evento</h1>
+      <h1 className='ms-4'>Editar evento</h1>
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-6 d-flex flex-column">
           <form>
@@ -59,7 +82,7 @@ export default function Page() {
             <input 
               type="text" 
               className="form-control" 
-              id="eventoID_1" 
+              id="nombreEvento"
               placeholder="Ejemplo de nombre del evento"
               value={eventName}
               onChange={(e) => setEventName(e.target.value)}
@@ -67,20 +90,19 @@ export default function Page() {
           </form>
         </div>
         <div className="col-12 col-md-5 d-flex flex-column pt-4 mt-2">
-        <form>
-          <select 
-            className="form-select" 
-            aria-label="Default select example"
-            value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
-          >
-            <option value="" disabled>Especialidad</option>
-            {specialties.map((spec, index) => (
-              <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
-            ))}
-          </select>
-        </form>
-
+          <form>
+            <select 
+              className="form-select" 
+              aria-label="Especialidad"
+              value={specialty}
+              onChange={(e) => setSpecialty(e.target.value)}
+            >
+              <option value="" disabled>Especialidad</option>
+              {specialties.map((spec, index) => (
+                <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
+              ))}
+            </select>
+          </form>
         </div>
       </div>
       <legend className="row mt-4 ms-4">Descripción</legend>
@@ -95,15 +117,15 @@ export default function Page() {
           />
         </div>
       </div>
-      <label htmlFor="nombreEvento" className="form-label">Fecha</label>
-        <input 
-          type="text" 
-          className="form-control" 
-          id="eventoID_1" 
-          placeholder="Fecha del evento. Ejemplo: 2024-01-01"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+      <label htmlFor="fechaEvento" className="form-label">Fecha</label>
+      <input 
+        type="text" 
+        className="form-control" 
+        id="fechaEvento" 
+        placeholder="Fecha del evento. Ejemplo: 2024-01-01"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+      />
       <div className="row justify-content-evenly mt-4">
         <div className="col-12 col-md-3 d-flex flex-column">
           <legend>¿Botón para más información?</legend>
@@ -115,12 +137,12 @@ export default function Page() {
                 className="form-check-input" 
                 type="radio" 
                 name="flexRadioDefault" 
-                id="flexRadioDefault1" 
+                id="linkYes" 
                 checked={hasLink}
                 onChange={() => setHasLink(true)}
               />
-              <label className="form-check-label" htmlFor="flexRadioDefault1">
-                Si
+              <label className="form-check-label" htmlFor="linkYes">
+                Sí
               </label>
             </div>
             <div className="form-check">
@@ -128,11 +150,11 @@ export default function Page() {
                 className="form-check-input" 
                 type="radio" 
                 name="flexRadioDefault" 
-                id="flexRadioDefault2"
+                id="linkNo"
                 checked={!hasLink}
                 onChange={() => setHasLink(false)}
               />
-              <label className="form-check-label" htmlFor="flexRadioDefault2">
+              <label className="form-check-label" htmlFor="linkNo">
                 No
               </label>
             </div>
@@ -143,7 +165,7 @@ export default function Page() {
             <input 
               type="text" 
               className="form-control" 
-              id="eventoLink_1" 
+              id="eventoLink" 
               placeholder="Ejemplo de link"
               value={link}
               onChange={(e) => setLink(e.target.value)}
@@ -178,27 +200,27 @@ export default function Page() {
           </form>
         </div>
         <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-        <Link
-          type="button"
-          className="btn w-100"
-          to="/Admin/page"
-          style={{ 
-            backgroundColor: '#EBE4CA', 
-            color: '#4F3F05', 
-            border: '1px solid #000',
-            borderRadius: '20px',
-            transition: 'background-color 0.3s, color 0.3s' 
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#000';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#EBE4CA';
-            e.currentTarget.style.color = '#4F3F05';
-          }}>
-          Cancelar
-        </Link>
+          <Link
+            type="button"
+            className="btn w-100"
+            to="/Admin/page"
+            style={{ 
+              backgroundColor: '#EBE4CA', 
+              color: '#4F3F05', 
+              border: '1px solid #000',
+              borderRadius: '20px',
+              transition: 'background-color 0.3s, color 0.3s' 
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#000';
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#EBE4CA';
+              e.currentTarget.style.color = '#4F3F05';
+            }}>
+            Cancelar
+          </Link>
         </div>
       </div>
     </div>

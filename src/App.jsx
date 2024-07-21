@@ -5,9 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 
+import NavbarAdmin from "./components/Layout/Navbar_admin";
 import NavbarMentor from "./components/Layout/Navbar_mentor";
 import NavbarStudent from "./components/Layout/Navbar_student";
-import NavbarAdmin from "./components/Layout/Navbar_admin";
 
 import LoginPage from './Login/page';
 import BuscarCuentaPage from './Login/buscarCuenta/page';
@@ -19,20 +19,21 @@ import MentorSesiones1 from './Mentor/sesiones/1/page';
 import MentorChangePassword from './Mentor/perfil/changePassword/page';
 
 import EstudiantePage from './Estudiante/page';
-import EstudianteEvento from './Estudiante/eventos/page';
 import EstudiantePerfil from './Estudiante/perfil/page';
+import EstudianteEvento from './Estudiante/eventos/page';
 import EstudianteSesiones from './Estudiante/sesiones/page';
 import EstudianteSesiones1 from './Estudiante/sesiones/1/page';
 import EstudianteSesiones1r from './Estudiante/sesiones/1/retroalim';
 import EstudianteChangePassword from './Estudiante/perfil/changePassword/page';
 
 import AdminPage from './Admin/page';
-import AdminEstadisticas from './Admin/estadisticas/page';
 import AdminReporte from './Admin/reporte/page';
 import AdminUsuarios from './Admin/usuarios/page';
+import AdminEditEvent from './Admin/editarEvento/page';
+import AdminEstadisticas from './Admin/estadisticas/page';
+import AdminAgregarEvento from './Admin/nuevoEvento/page';
 import AdminAgregarUsuario from './Admin/usuarios/newUser/page';
 import AdminEditarUsuario from './Admin/usuarios/editUser/page';
-import AdminAgregarEvento from './Admin/nuevoEvento/page';
 
 // Componente para la página no encontrada
 const NotFound = () => (
@@ -79,6 +80,7 @@ function App() {
   const [userId, setUserId] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [sesionId, setSesionId] = useState(0);
+  const [eventId, setEventId] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Obtener la ruta actual
@@ -148,12 +150,6 @@ function App() {
         <Route path="/Estudiante/sesiones/1/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1} sesionId={sesionId} setSesionId={setSesionId} />} />
         <Route path="/Estudiante/perfil/changePassword/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteChangePassword} />} />
 
-        {/* // <Route path="/Admin/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} />} />
-        // <Route path="/Admin/estadisticas/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticas} />} />
-        // <Route path="/Admin/reporte/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminReporte} />} />
-        // <Route path="/Admin/usuarios/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminUsuarios} />} />
-        // <Route path="/Admin/usuarios/NewUser/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarUsuario} />} /> */}
-
         {/* Rutas para que react pueda renderizar las paginas de estudiante, actualmente vacias */}
         {/* Listo */}<Route path="/Estudiante/page" element={<EstudiantePage specialty={specialty}/>} />
         {/* Listo */}<Route path="/Estudiante/eventos/page" element={<EstudianteEvento />} />
@@ -162,15 +158,16 @@ function App() {
         {/* Listo */}<Route path="/Estudiante/sesiones/1/page" element={<EstudianteSesiones1 sesionId={sesionId} setSesionId={setSesionId} />} />
 
         {/* Hechas por erick */}
-        <Route path="/Estudiante/sesiones/1/retroalim" element={<EstudianteSesiones1r />} />
+        {/* <Route path="/Estudiante/sesiones/1/retroalim" element={<EstudianteSesiones1r />} /> */}
 
-        <Route path="/Admin/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} userId={userId} />} />{/* Usada para administrar los eventos */}
-        <Route path="/Admin/nuevoEvento/page" element={<AdminAgregarEvento />} />
-        <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />{/* Todavía no está terminada */}
-        <Route path="/Admin/reporte/page" element={<AdminReporte />} />{/* Todavía no está terminada */}
+        <Route path="/Admin/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} userId={userId} />} />
+        <Route path="/Admin/editarEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditEvent} />} />
+        <Route path="/Admin/nuevoEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
+        {/* <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
+        <Route path="/Admin/reporte/page" element={<AdminReporte />} />
         <Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
         <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
-        <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} />
+        <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} /> */}
 
         {/* Ruta para manejar 404 */}
         <Route path="*" element={<NotFound />} />
