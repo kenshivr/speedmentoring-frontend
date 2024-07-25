@@ -143,7 +143,7 @@ function App() {
         <Route path="/Mentor/perfil/changePassword/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorChangePassword} userId={userId} />} />
 
         {/* Rutas protegidas para las páginas de estudiante */}
-        <Route path="/Estudiante/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePage} specialty={specialty} />} />
+        <Route path="/Estudiante/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePage} specialty={specialty} userId={userId} />} />
         <Route path="/Estudiante/eventos/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteEvento} />} />
         <Route path="/Estudiante/perfil/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePerfil} />} />
         <Route path="/Estudiante/sesiones/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones} userId={userId} setSesionId={setSesionId} />} />
@@ -163,9 +163,9 @@ function App() {
         <Route path="/Admin/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} userId={userId} />} />
         <Route path="/Admin/editarEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditEvent} />} />
         <Route path="/Admin/nuevoEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
+        <Route path="/Admin/usuarios/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminUsuarios} />} />
         {/* <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
         <Route path="/Admin/reporte/page" element={<AdminReporte />} />
-        <Route path="/Admin/usuarios/page" element={<AdminUsuarios />} />
         <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
         <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} /> */}
 

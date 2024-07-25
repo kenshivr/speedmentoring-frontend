@@ -2,12 +2,12 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Page = () => {
+const Page = ({ userId }) => {
   const [events, setEvents] = useState([]);
   const [specialty, setSpecialty] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const userId = localStorage.getItem('userId');
+  // const userId = localStorage.getItem('userId');
 
   const fetchSpecialty = useCallback(async () => {
     try {
