@@ -34,8 +34,8 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius:'50px', maxWidth: '1000px', margin: 'auto' }}>
-      <div className="container p-3">
+    <div className="container-sm my-5 p-3">
+      <div className="container-sm p-4" style={{ backgroundColor: '#002B7A', borderRadius:'50px', maxWidth: '1000px', margin: 'auto' }}>
         <div className="row g-0 text-center mb-3">
           <div className="col-sm-6 col-md-12">
 
@@ -50,15 +50,15 @@ export default function Page() {
                 // value={}
                 // onChange={}
               />
-              
-              <Link 
-                className="btn btn-danger btn-outline-light btn-sm" 
-                to="/Admin/usuarios/newUser/page"
+
+              <Link
+                to="/Admin/usuarios/NewUser/page"
+                className="btn btn-danger btn-outline-light btn-sm"
                 role="button"
               >
                 Nuevo usuario
               </Link>
-            
+
             </form>
 
           </div>
@@ -69,7 +69,7 @@ export default function Page() {
               <tr>
                 <th scope="col">Seleccionar</th>
                 <th scope="col">ID</th>
-                <th scope="col">Estado</th>
+                <th scope="col">Estatus</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido paterno</th>
                 <th scope="col">Apellido materno</th>
@@ -150,6 +150,33 @@ export default function Page() {
 
             </tbody>
           </table>
+        </div>
+      </div>
+      <div className='position-relative'>
+        <div className="position-absolute top-50 start-50 translate-middle">
+          <div className='container mt-5 p-2'>
+            <Link
+              className="btn btn-sm"
+              to={`/Admin/usuarios/importarUsuarios`}
+              style={{
+                backgroundColor: '#EFCA45',
+                color: '#4F3F05',
+                border: '1px solid #000',
+                borderRadius: '20px',
+                transition: 'background-color 0.3s, color 0.3s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F9E6A5';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#EFCA45';
+                e.currentTarget.style.color = '#4F3F05';
+              }}
+            >
+              Importar usuarios
+            </Link>
+          </div>
         </div>
       </div>
     </div>

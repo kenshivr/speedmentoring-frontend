@@ -10,9 +10,7 @@ export default function Page({ userId }) {
   const [correo, setCorreo] = useState('');
   const [empresa, setEmpresa] = useState('');
   const [puesto, setPuesto] = useState('');
-  const [especialidad, setEspecialidad] = useState('');
   const [grado, setGrado] = useState('');
-  const [especialidades, setEspecialidades] = useState([]);
 
   // Función para obtener datos de usuario
   const fetchUserData = useCallback(async () => {
@@ -25,9 +23,7 @@ export default function Page({ userId }) {
       setCorreo(response.data.CorreoElectronico);
       setEmpresa(response.data.Empresa);
       setPuesto(response.data.Puesto);
-      setEspecialidad(response.data.Especialidad);
       setGrado(response.data.GradoAcademico);
-      setEspecialidades(response.data.especialidades);
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + error.response.data.message);
     }
@@ -41,16 +37,13 @@ export default function Page({ userId }) {
 
   // Función para manejar la actualización del perfil
   const handleSave = async () => {
-
-
     try {
       const response = await axios.post(`http://localhost:3001/api/updateProfileMentor/${userId}`, {
         telefono,
         correo,
         empresa,
         puesto,
-        grado,
-        especialidad
+        grado
       });
       alert(response.data.message);
     } catch (error) {
@@ -59,13 +52,11 @@ export default function Page({ userId }) {
   };
 
   if (!userId) {
-    return <div>Loading...</div>; // Mostrar un mensaje de carga mientras se obtienen los datos
+    return <div className="container-sm my-5" style={{ backgroundColor: 'rgba(213, 213, 213, 0.8)', borderRadius: '25px', minHeight:'660px' }}><div className='position-absolute top-50 start-50 translate-middle'>Cargando...</div></div>; // Mostrar un mensaje de carga mientras se obtienen los datos
   }
 
-  
-
   return (
-    <div className="container-sm my-5" style={{ backgroundColor: 'rgba(245, 230, 232, 0.8)', borderRadius: '25px' }}>
+    <div className="container-sm my-5" style={{ backgroundColor: 'rgba(213, 213, 213, 0.8)', borderRadius: '25px' }}>
       <div className="container">
         <h2 className="pt-4 ps-5">Cuenta</h2>
         <div className="m-5">
@@ -190,49 +181,52 @@ export default function Page({ userId }) {
           </div>
 
           <div className="mb-3 row">
-            <div className="row w-100 no-gutters">
-
-              <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
-                <label htmlFor="especialidad" className="col-sm-4 col-form-label mx-2">Especialidad</label>
-
-                <select
-                  className="form-select auto-width-select mx-2"
-                  id="especialidad"
-                  value={especialidad}
-                  onChange={(e) => setEspecialidad(e.target.value)}
-                  aria-label="Default select example"
-                >
-                {especialidades.map((especialidadObj, index) => (
-                    <option key={index} value={especialidadObj.Especialidad}>{especialidadObj.Especialidad}</option>
-                ))}
-                </select>
-
-              </div>
-
-              <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
-                <button
-                  type="button"
-                  className="btn w-100"
-                  style={{ 
-                    backgroundColor: '#002B7A', 
-                    color: '#FFFFFF', 
-                    border: '1px solid #000',
-                    borderRadius: '20px',
-                    transition: 'background-color 0.3s, color 0.3s' 
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#000';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#002B7A';
-                    e.currentTarget.style.color = '#FFFFFF';
-                  }}
-                  onClick={handleSave}
-                >
-                  Guardar
-                </button>
-              </div>
+            <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
+            </div>
+            <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
+              <button
+                type="button"
+                className="btn w-100 mx-2"
+                style={{ 
+                  backgroundColor: '#002B7A', 
+                  color: '#FFFFFF', 
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s' 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#002B7A';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                onClick={handleSave}
+              >
+                Guardar
+              </button>
+              <Link
+                type="button"
+                className="btn w-100"
+                to="/Mentor/page"
+                style={{ 
+                  backgroundColor: '#A0BAEB', 
+                  color: '#4F3F05', 
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s' 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#A0BAEB';
+                  e.currentTarget.style.color = '#4F3F05';
+                }}>
+                Cancelar
+              </Link>
             </div>
           </div>
 
