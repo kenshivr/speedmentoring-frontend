@@ -31,6 +31,7 @@ import AdminEspecialidades from './Admin/especialidades/page';
 import AdminNuevaEspecialidad from './Admin/especialidades/nuevaEspecialidad/page';
 import AdminEditarEspecialidad from './Admin/especialidades/nuevaEspecialidad/editarEspecialidad';
 import AdminUsuarios from './Admin/usuarios/page';
+import AdminImportarUsuarios from './Admin/usuarios/importarUsuarios';
 import AdminEditEvent from './Admin/editarEvento/page';
 import AdminEstadisticas from './Admin/estadisticas/page';
 import AdminAgregarEvento from './Admin/nuevoEvento/page';
@@ -92,7 +93,7 @@ function App() {
   const showNavbar = () => {
     // Mostrar la navbar si el usuario no está en la página login o en la página de buscar cuenta debido a contraseña perdida
     return location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/login/buscarCuenta';
-  };
+  };  
 
   // Almacenar el userId en localStorage cuando se establece 
   useEffect(() => {
@@ -166,16 +167,20 @@ function App() {
         <Route path="/Admin/editarEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditEvent} />} />
         <Route path="/Admin/nuevoEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
         <Route path="/Admin/usuarios/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminUsuarios} />} />
-        {/* <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
-        <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
-        <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} /> */}
 
-        {/*Paginas para administrar las especialidades*/}
-        {/*
+        {/* 
+        <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
+        <Route path="/Admin/especialidades/page" element={<AdminEspecialidades />} />
+        <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
+        <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} /> 
+        */}
+
+
+        {/* Nuevas páginas */}
         <Route path="/Admin/especialidades/page" element={<AdminEspecialidades />}/>
         <Route path="/Admin/especialidades/nuevaEspecialidad/page" element={<AdminNuevaEspecialidad />}/>
         <Route path="/Admin/especialidades/nuevaEspecialidad/editarEspecialidad" element={<AdminEditarEspecialidad />}/>
-        */}
+        <Route path="/Admin/usuarios/importarUsuarios" element={<AdminImportarUsuarios />} />
 
         {/* Ruta para manejar 404 */}
         <Route path="*" element={<NotFound />} />
