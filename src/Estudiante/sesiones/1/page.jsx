@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Page() {
   const [editableTexto, setEditableTexto] = useState(false);
@@ -75,24 +76,26 @@ export default function Page() {
   return (
     <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1800px', minHeight: '600px', margin: 'auto' }}>
       <div className="row justify-content-evenly">
-        <div className="col-12 col-md-4 order-last order-md-first m-1 d-flex flex-column" style={{ backgroundColor: '#F5E6E8', borderColor: '#908486', borderRadius: '20px', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
+        <div className="col-12 col-md-4 order-last order-md-first m-1 d-flex flex-column" style={{ backgroundColor: 'rgba(213,213,213,0.8)', borderColor: '#908486', borderRadius: '20px', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
           <div className='container p-3'>
             <h2>{new Date(fecha).toLocaleDateString()}</h2>
             <h6>Mentor - {nombre}</h6>
           </div>
 
           <div className="container d-flex flex-column align-items-center mt-auto p-4">
-            <a
-              type="button"
-              className="btn w-75"
-              href='/Estudiante/sesiones/1/retroalim'
+            <Link
+              to="/Estudiante/sesiones/1/retroalim" // Usa el path relativo a tu enrutador
               style={{ 
+                display: 'inline-block', 
                 backgroundColor: '#EFCA45', 
                 color: '#3A2E01', 
                 border: '1px solid #000',
-                borderRadius:'20px',
-                maxWidth:'250px',
-                transition: 'background-color 0.3s, color 0.3s' 
+                borderRadius: '20px',
+                transition: 'background-color 0.3s, color 0.3s', 
+                textAlign: 'center', 
+                textDecoration: 'none', 
+                padding: '0.5rem 1rem', 
+                maxWidth: '250px' // Manteniendo la propiedad original
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#000';
@@ -102,9 +105,9 @@ export default function Page() {
                 e.currentTarget.style.backgroundColor = '#EFCA45';
                 e.currentTarget.style.color = '#3A2E01';
               }}
-              >
+            >
               Retroalimentación del mentor
-            </a>
+            </Link>
           </div>
 
         </div>

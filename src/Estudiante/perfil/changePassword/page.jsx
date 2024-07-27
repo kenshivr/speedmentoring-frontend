@@ -54,7 +54,7 @@ export default function Page() {
   };
 
   return (
-    <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor: '#F5E6E8', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+    <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor: 'rgba(213,213,213,0.8)', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
       <form onSubmit={handleSubmit}>
         <div className="row justify-content-evenly">
           <div className="col-12 col-md-6 m-1 d-flex flex-column p-3">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Page() {
   const [students, setStudents] = useState([]);
@@ -49,9 +50,15 @@ export default function Page() {
                 // value={}
                 // onChange={}
               />
-              
-              <a className="btn btn-danger btn-outline-light btn-sm" href="/Admin/usuarios/NewUser/page" role="button">Nuevo usuario</a>
-            
+
+              <Link
+                to="/Admin/usuarios/NewUser/page"
+                className="btn btn-danger btn-outline-light btn-sm"
+                role="button"
+              >
+                Nuevo usuario
+              </Link>
+
             </form>
 
           </div>
@@ -62,7 +69,7 @@ export default function Page() {
               <tr>
                 <th scope="col">Seleccionar</th>
                 <th scope="col">ID</th>
-                <th scope="col">Estado</th>
+                <th scope="col">Estatus</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido paterno</th>
                 <th scope="col">Apellido materno</th>

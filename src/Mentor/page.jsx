@@ -7,7 +7,7 @@ const MentorPage = () => {
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-6 m-1 d-flex flex-column p-3" style={{ backgroundColor: 'grey', borderRadius:'20px' }}>
           <div className='mb-3' style={{ backgroundColor: 'orange' }}>
-            Mentor/page
+            Mentor pagina principal
           </div>
         </div>
       </div>
