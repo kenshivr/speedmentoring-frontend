@@ -21,7 +21,7 @@ function NavbarAdmin() {
             </li>
             <li className="nav-item">
               <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/reporte">
-                Reporte
+                Especialidades
               </Link>
             </li>
             <li className="nav-item">

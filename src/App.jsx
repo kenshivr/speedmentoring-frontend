@@ -27,7 +27,9 @@ import EstudianteSesiones1r from './Estudiante/sesiones/1/retroalim';
 import EstudianteChangePassword from './Estudiante/perfil/changePassword/page';
 
 import AdminPage from './Admin/page';
-import AdminReporte from './Admin/reporte/page';
+import AdminEspecialidades from './Admin/especialidades/page';
+import AdminNuevaEspecialidad from './Admin/especialidades/nuevaEspecialidad/page';
+import AdminEditarEspecialidad from './Admin/especialidades/nuevaEspecialidad/editarEspecialidad';
 import AdminUsuarios from './Admin/usuarios/page';
 import AdminEditEvent from './Admin/editarEvento/page';
 import AdminEstadisticas from './Admin/estadisticas/page';
@@ -165,9 +167,15 @@ function App() {
         <Route path="/Admin/nuevoEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
         <Route path="/Admin/usuarios/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminUsuarios} />} />
         {/* <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
-        <Route path="/Admin/reporte/page" element={<AdminReporte />} />
         <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
         <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} /> */}
+
+        {/*Paginas para administrar las especialidades*/}
+        {/*
+        <Route path="/Admin/especialidades/page" element={<AdminEspecialidades />}/>
+        <Route path="/Admin/especialidades/nuevaEspecialidad/page" element={<AdminNuevaEspecialidad />}/>
+        <Route path="/Admin/especialidades/nuevaEspecialidad/editarEspecialidad" element={<AdminEditarEspecialidad />}/>
+        */}
 
         {/* Ruta para manejar 404 */}
         <Route path="*" element={<NotFound />} />
