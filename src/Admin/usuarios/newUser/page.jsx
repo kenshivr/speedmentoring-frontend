@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Page() {
-  const [userType, setUserType] = useState('none');
+  const [userType, setUserType] = useState('');
   const [especialidades, setEspecialidades] = useState([]);
   const [mentores, setMentores] = useState([]);
-  const [formData, setFormData] = useState({
-    cuenta: '',
-    mentor: '',
+
+  const [formDataMentor, setFormDataMentor] = useState({
     especialidad: '',
     nombre: '',
     apellidoPaterno: '',
@@ -20,6 +19,12 @@ export default function Page() {
     grado: ''
   });
 
+  const [formDataAlumno, setFormDataAlumno] = useState({
+    cuenta: '',
+    mentor: '',
+    especialidad: ''
+  });
+
   useEffect(() => {
     // Fetch especialidades
     fetch('/api/especialidades')
@@ -27,42 +32,42 @@ export default function Page() {
       .then(data => setEspecialidades(data));
 
     // Fetch mentores
-    fetch('/api/mentores')
+    fetch('/api/mentors')
       .then(response => response.json())
       .then(data => setMentores(data));
   }, []);
 
-  const handleUserTypeChange = (e) => {
-    setUserType(e.target.value);
-  };
+  // const handleUserTypeChange = (e) => {
+  //   setUserType(e.target.value);
+  // };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData(prevState => ({
+  //     ...prevState,
+  //     [name]: value
+  //   }));
+  // };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch('/api/registro', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ...formData, userType }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        // Handle success, e.g., show a success message or redirect
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        // Handle error, e.g., show an error message
-      });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   fetch('/api/registro', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ ...formData, userType }),
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log('Success:', data);
+  //       // Handle success, e.g., show a success message or redirect
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error:', error);
+  //       // Handle error, e.g., show an error message
+  //     });
+  // };
 
   return (
     <div>

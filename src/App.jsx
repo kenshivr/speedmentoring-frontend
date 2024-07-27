@@ -164,9 +164,9 @@ function App() {
         <Route path="/Admin/editarEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditEvent} />} />
         <Route path="/Admin/nuevoEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
         <Route path="/Admin/usuarios/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminUsuarios} />} />
+        <Route path="/Admin/usuarios/NewUser/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarUsuario} />} />
         {/* <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
         <Route path="/Admin/reporte/page" element={<AdminReporte />} />
-        <Route path="/Admin/usuarios/NewUser/page" element={<AdminAgregarUsuario />} />
         <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} /> */}
 
         {/* Ruta para manejar 404 */}
