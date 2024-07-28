@@ -31,9 +31,13 @@ export default function ManageSpecialties() {
   };
 
   const filteredSpecialties = specialties.filter(specialty => 
-    specialty.SpecialtyID.toString().includes(searchTerm) ||
-    specialty.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    specialty.EspecialidadID.toString().includes(searchTerm) ||
+    specialty.Especialidad.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleEditClick = (id) => {
+    localStorage.setItem('EspecialidadID', id);
+  };
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
@@ -97,13 +101,13 @@ export default function ManageSpecialties() {
             </thead>
             <tbody className="table-light">
               {filteredSpecialties.map((specialty) => (
-                <tr key={specialty.SpecialtyID}>
-                  <td>{specialty.SpecialtyID}</td>
-                  <td>{specialty.Name}</td>
+                <tr key={specialty.EspecialidadID}>
+                  <td>{specialty.EspecialidadID}</td>
+                  <td>{specialty.Especialidad}</td>
                   <td>
                     <Link
                       className="btn btn-sm"
-                      to={`/Admin/nuevaEspecialidad/editarEspecialidad/${specialty.SpecialtyID}`}
+                      to={`/Admin/especialidades/nuevaEspecialidad/editarEspecialidad`}
                       style={{
                         backgroundColor: '#EFCA45',
                         color: '#4F3F05',
@@ -119,6 +123,7 @@ export default function ManageSpecialties() {
                         e.currentTarget.style.backgroundColor = '#EFCA45';
                         e.currentTarget.style.color = '#4F3F05';
                       }}
+                      onClick={() => handleEditClick(specialty.EspecialidadID)}
                     >
                       Editar
                     </Link>

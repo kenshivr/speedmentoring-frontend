@@ -11,7 +11,6 @@ export default function Page() {
       try {
         const response = await axios.get(`http://localhost:3001/api/mentors`);
         const data = response.data;
-        console.log(response.data);
         setMentors(data);
       } catch (error) {
         console.error("Error en la obtencion de los mentores:", error);
@@ -22,7 +21,6 @@ export default function Page() {
       try {
         const response = await axios.get(`http://localhost:3001/api/students`);
         const data = response.data;
-        console.log(response.data);
         setStudents(data);
       } catch (error) {
         console.error("Error en la obtencion de los estudiantes: ", error);
@@ -52,7 +50,7 @@ export default function Page() {
               />
 
               <Link
-                to="/Admin/usuarios/NewUser/page"
+                to="/Admin/usuarios/newUser/page"
                 className="btn btn-danger btn-outline-light btn-sm"
                 role="button"
               >

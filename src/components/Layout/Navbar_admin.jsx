@@ -20,12 +20,12 @@ function NavbarAdmin() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/reporte">
+              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/especialidades/page">
                 Especialidades
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/usuarios">
+              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/usuarios/page">
                 Usuarios
               </Link>
             </li>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Page() {
@@ -43,9 +43,9 @@ export default function Page() {
     <div className='container mt-5 p-3' style={{ maxWidth: '950px' }}>
       <div className='container-sm my-3 p-4' style={{ backgroundColor: '#002B7A', borderRadius: '50px', color: 'white' }}>
         <div className='row mb-5 m-2'>
-            <div class="container mt-3" style={{ backgroundColor:''}}>
-            <h1 class="mb-4">Instrucciones para la Importación de Usuarios</h1>
-            <div class="alert alert-info" role="alert">
+            <div className="container mt-3" style={{ backgroundColor:''}}>
+            <h1 className="mb-4">Instrucciones para la Importación de Usuarios</h1>
+            <div className="alert alert-info" role="alert">
                 Para importar usuarios a través de un archivo CSV, asegúrate de seguir las siguientes especificaciones para que el proceso sea exitoso:
             </div>
 
@@ -71,7 +71,7 @@ export default function Page() {
 
             Ejemplo:
             <pre style={{ backgroundColor:'lightgrey', color:'black' }}><code className='p-1'>
-                123456789,Juan,Pérez,López,2024,Desarrollo Web,María Gómez,5520309010
+                123456789,Juan,Pérez,López,2024-1,Desarrollo Web,María Gómez,5520309010
             </code></pre>
 
             <h3>3. Datos necesarios para Mentores:</h3>
@@ -93,7 +93,7 @@ export default function Page() {
                 ABC123456789,Laura,Martínez,García,Ciencia de datos,TechCorp,Analista,1,laura.martinez@techcorp.com,5510203040
             </code></pre>
 
-            <div class="alert alert-warning mt-4" role="alert">
+            <div className="alert alert-warning mt-4" role="alert">
                 <strong>Nota:</strong> Asegúrate de que cada columna esté correctamente alineada y de que no haya filas vacías o datos incorrectos. Los errores en el formato del archivo pueden provocar problemas durante la importación.
             </div>
 

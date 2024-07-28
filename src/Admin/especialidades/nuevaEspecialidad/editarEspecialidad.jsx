@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export default function EditSpecialty() {
-  const { id } = useParams(); // Suponiendo que el ID de la especialidad se pasa como parámetro en la URL
+export default function AdminEditarEspecialidad() {
+  const id = localStorage.getItem('EspecialidadID');
   const [specialtyName, setSpecialtyName] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Cargar la especialidad cuando el componente se monta
   useEffect(() => {
     const fetchSpecialty = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/specialties/${id}`);
+        const response = await axios.get(`http://localhost:3001/api/especialidad/${id}`);
         if (response.data) {
-          setSpecialtyName(response.data.name);
+          setSpecialtyName(response.data.Especialidad);
         } else {
           setErrorMessage('No se pudo cargar la especialidad.');
         }
@@ -34,7 +33,7 @@ export default function EditSpecialty() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:3001/api/updateSpecialty/${id}`, { name: specialtyName });
+      const response = await axios.put(`http://localhost:3001/api/updateSpecialty/${id}`, { Especialidad: specialtyName });
       if (response.data.success) {
         setSuccessMessage('Especialidad actualizada con éxito.');
       } else {
