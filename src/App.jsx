@@ -15,6 +15,8 @@ import BuscarCuentaPage from './Login/buscarCuenta/page';
 import MentorPage from './Mentor/page';
 import MentorEvento from './Mentor/eventos';
 import MentorPerfil from './Mentor/perfil/page';
+import MentorNuevaSesion from './Mentor/sesiones/nuevaSesion';
+import MentorEditarSesion from './Mentor/sesiones/editarSesion';
 import MentorSesiones from './Mentor/sesiones/page';
 import MentorSesiones1 from './Mentor/sesiones/1/page';
 import MentorChangePassword from './Mentor/perfil/changePassword/page';
@@ -190,6 +192,8 @@ function App() {
         <Route path="/Admin/especialidades/nuevaEspecialidad/editarEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEspecialidad} />}/>
         {/* Lista */}<Route path="/Admin/usuarios/importarUsuarios" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminImportarUsuarios} />} />
         <Route path='/Mentor/eventos' element={<MentorEvento />}/>
+        <Route path='/Mentor/sesiones/nuevaSesion' element={<MentorNuevaSesion />}/>
+        <Route path='/Mentor/sesiones/editarSesion' element={<MentorEditarSesion />}/>
 
         {/* Ruta para manejar 404 */}
         <Route path="*" element={<NotFound />} />
