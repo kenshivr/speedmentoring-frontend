@@ -36,10 +36,10 @@ export default function Page({ userId }) {
     }
 
     const filtered = sessions.filter((session) => {
-      const formattedDate = new Date(session.fecha).toLocaleDateString();
+      const formattedDate = new Date(session.Fecha).toLocaleDateString();
       return (
         formattedDate.includes(term) ||
-        (!session.reporteid && term.toLowerCase() === 'n/a')
+        (!session.ReporteID && term.toLowerCase() === 'n/a')
       );
     });
 
@@ -47,6 +47,7 @@ export default function Page({ userId }) {
   };
 
   function handleCLickLinkSesion(sesionid) {
+    console.log(sesionid);
     localStorage.setItem('sesionId', sesionid);
   }
 
@@ -108,12 +109,12 @@ export default function Page({ userId }) {
             <tbody className="table-light">
               {filteredSessions.map((session, index) => (
                 <tr key={index}>
-                  <td>{new Date(session.fecha).toLocaleDateString()}</td>
+                  <td>{new Date(session.Fecha).toLocaleDateString()}</td>
                   <td>
                     {session.reporteid ? (
                       <Link 
                         to='/Estudiante/sesiones/verSesion'
-                        onClick={() => handleCLickLinkSesion(session.sesionid)}
+                        onClick={() => handleCLickLinkSesion(session.SesionID)}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#00CC00">
                           <path d="M0 0h24v24H0V0z" fill="none"/>
@@ -123,14 +124,14 @@ export default function Page({ userId }) {
                     ) : (
                       <Link 
                         to='/Estudiante/sesiones/verSesion'
-                        onClick={() => handleCLickLinkSesion(session.sesionid)}
+                        onClick={() => handleCLickLinkSesion(session.SesionID)}
                         >
                         N/A
                       </Link>
                     )}
                   </td>
                   <td>
-                    {session.nombre}
+                    {session.MentorNombre}
                   </td>
                 </tr>
               ))}

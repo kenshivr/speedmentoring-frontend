@@ -6,12 +6,19 @@ const StudentPage = () => {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
+    const userId = localStorage.getItem('userId');
     // Obtener sesiones desde el servidor para el estudiante logueado
-    fetch('/api/student/sessions') // Asegúrate de que la ruta API sea correcta para obtener las sesiones del estudiante
+    fetch(`http://localhost:3001/api/showSesionesStudent/${userId}`) // Asegúrate de que la ruta API sea correcta para obtener las sesiones del estudiante
       .then(response => response.json())
       .then(data => {
-        setSessions(data);
-        setFilteredSessions(data);
+        if (data.success) {
+          data.data[0].Fecha = data.data[0].Fecha.split('T')[0];
+          setSessions(data.data);
+          setFilteredSessions(data.data);
+        } else {
+          setSessions([]);
+          setFilteredSessions([]);
+        }
       })
       .catch(error => console.error('Error fetching sessions:', error));
   }, []);
@@ -20,14 +27,15 @@ const StudentPage = () => {
     // Filtrar sesiones basadas en la búsqueda
     setFilteredSessions(
       sessions.filter(session =>
-        session.title.toLowerCase().includes(search.toLowerCase())
+        session.SesionID.toString().includes(search)
       )
     );
   }, [search, sessions]);
-
+  
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
+  
 
   return (
     <div className='container p-5'>
@@ -79,18 +87,18 @@ const StudentPage = () => {
             <table className="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col">Título</th>
+                  <th scope="col">ID</th>
                   <th scope="col">Fecha</th>
-                  <th scope="col">Descripción</th>
+                  <th scope="col">Periodo</th>
                 </tr>
               </thead>
               <tbody className="table-light">
                 {filteredSessions.length > 0 ? (
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
-                      <td>{session.title}</td>
-                      <td>{session.date}</td>
-                      <td>{session.description}</td>
+                      <td>{session.SesionID}</td>
+                      <td>{session.Fecha}</td>
+                      <td>{session.Periodo}</td>
                     </tr>
                   ))
                 ) : (

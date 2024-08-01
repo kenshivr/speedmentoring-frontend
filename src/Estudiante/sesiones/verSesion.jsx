@@ -17,6 +17,7 @@ export default function Page() {
         if (sesionId) {
           const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
           if (response.data.success) {
+            console.log(response.data);
             setTexto(response.data.data.texto || '');
             setOriginalTexto(response.data.data.texto || '');
             setFecha(response.data.data.fecha || '');
