@@ -84,7 +84,7 @@ export default function Page() {
 
           <div className="container d-flex flex-column align-items-center mt-auto p-4">
             <Link
-              to="/Estudiante/sesiones/1/retroalim" // Usa el path relativo a tu enrutador
+              to="/Estudiante/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
               style={{ 
                 display: 'inline-block', 
                 backgroundColor: '#EFCA45', 

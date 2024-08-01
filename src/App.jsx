@@ -24,10 +24,10 @@ import MentorChangePassword from './Mentor/perfil/changePassword';
 import EstudianteInicio from './Estudiante/inicio';
 import EstudiantePerfil from './Estudiante/perfil';
 import EstudianteEvento from './Estudiante/eventos';
-import EstudianteSesiones from './Estudiante/sesiones/page';
-import EstudianteSesiones1 from './Estudiante/sesiones/1/page';
-import EstudianteSesiones1r from './Estudiante/sesiones/1/retroalim';
-import EstudianteChangePassword from './Estudiante/changePassword';
+import EstudianteSesiones from './Estudiante/sesiones';
+import EstudianteSesiones1 from './Estudiante/sesiones/verSesion';
+import EstudianteSesiones1r from './Estudiante/sesiones/verSesion/retroalimentacion';
+import EstudianteChangePassword from './Estudiante/perfil/changePassword';
 
 import AdminPage from './Admin/page';
 import AdminEspecialidades from './Admin/especialidades/page';
@@ -152,9 +152,9 @@ function App() {
         <Route path="/Estudiante/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteInicio} specialty={specialty} userId={userId} />} />
         <Route path="/Estudiante/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteEvento} />} />
         <Route path="/Estudiante/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePerfil} />} />
-        <Route path="/Estudiante/sesiones/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones} userId={userId} setSesionId={setSesionId} />} />
-        <Route path="/Estudiante/sesiones/1/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1} sesionId={sesionId} setSesionId={setSesionId} />} />
-        <Route path="/Estudiante/changePassword" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteChangePassword} />} />
+        <Route path="/Estudiante/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones} userId={userId} setSesionId={setSesionId} />} />
+        <Route path="/Estudiante/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1} sesionId={sesionId} setSesionId={setSesionId} />} />
+        <Route path="/Estudiante/perfil/changePassword" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteChangePassword} />} />
 
         {/* Rutas para que react pueda renderizar las paginas de estudiante, actualmente vacias
         <Route path="/Estudiante/page" element={<EstudianteInicio specialty={specialty}/>} />

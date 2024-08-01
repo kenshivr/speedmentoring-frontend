@@ -21,7 +21,7 @@ function NavbarStudent() {
 
             <li className="nav-item">
               <Link 
-                to={"/Estudiante/sesiones/page"}
+                to={"/Estudiante/sesiones"}
                 className="nav-link" 
                 style={{ color: '#3A2E01', fontWeight: 'bold' }}
               >

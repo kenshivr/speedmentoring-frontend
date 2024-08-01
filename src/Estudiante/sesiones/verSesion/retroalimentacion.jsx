@@ -273,7 +273,7 @@
 //                     <a
 //                       type="button"
 //                       className="btn w-75"
-//                       href='/Estudiante/sesiones/1/page'
+//                       href='/Estudiante/sesiones/verSesion'
 //                       style={{ 
 //                         backgroundColor: 'white', 
 //                         color: '#4F3F05', 

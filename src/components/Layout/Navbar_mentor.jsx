@@ -19,16 +19,6 @@ function NavbarMentor() {
             </li>
 
             <li className="nav-item">
-              <Link 
-                to="/Mentor/eventos"
-                className="nav-link" 
-                style={{ color: '#3A2E01', fontWeight: 'bold' }} 
-              >
-                Eventos
-              </Link>
-            </li>
-
-            <li className="nav-item">
               <Link
                 to="/Mentor/sesiones"
                 className="nav-link"
@@ -38,6 +28,16 @@ function NavbarMentor() {
               </Link>
             </li>
             
+            <li className="nav-item">
+              <Link 
+                to="/Mentor/eventos"
+                className="nav-link" 
+                style={{ color: '#3A2E01', fontWeight: 'bold' }} 
+              >
+                Eventos
+              </Link>
+            </li>
+
           </ul>
 
           <ul className="nav justify-content-end">

@@ -87,7 +87,7 @@ export default function Page() {
               <label htmlFor="staticPassword" className="mt-3 col-sm-4 col-form-label">Contraseña</label>
               <div className="col-sm-6">
                 <Link
-                  to="/Estudiante/changePassword"
+                  to="/Estudiante/perfil/changePassword"
                   className="btn btn-sm w-50 my-4"
                   style={{ 
                     backgroundColor: '#EFCA45', 

@@ -112,7 +112,7 @@ export default function Page({ userId }) {
                   <td>
                     {session.reporteid ? (
                       <Link 
-                        to='/Estudiante/sesiones/1/page'
+                        to='/Estudiante/sesiones/verSesion'
                         onClick={() => handleCLickLinkSesion(session.sesionid)}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#00CC00">
@@ -122,7 +122,7 @@ export default function Page({ userId }) {
                       </Link>
                     ) : (
                       <Link 
-                        to='/Estudiante/sesiones/1/page'
+                        to='/Estudiante/sesiones/verSesion'
                         onClick={() => handleCLickLinkSesion(session.sesionid)}
                         >
                         N/A
