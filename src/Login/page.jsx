@@ -32,7 +32,7 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
 
         switch (data.userType) {
           case 'student':
-            navigate('/Estudiante/page');
+            navigate('/Estudiante/inicio');
             break;
           case 'mentor':
             navigate('/Mentor/page');

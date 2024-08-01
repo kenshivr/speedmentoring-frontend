@@ -69,6 +69,13 @@ export default function EventsPage() {
                                 Fecha de publicación: {new Date(event.Fecha).toLocaleDateString()} a las {new Date(event.Fecha).toLocaleTimeString()}
                               </h6>
                             </div>
+                            <div className="row">
+                              <div className='d-flex justify-content-start'>
+                                <a href={event.Link} target="_blank" rel="noopener noreferrer" style={{ color: '#EFCA45', fontSize: '12px' }}>
+                                  {event.Link}
+                                </a>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </li>

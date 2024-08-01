@@ -52,18 +52,18 @@ export default function Page({ userId }) {
   };
 
   if (!userId) {
-    return <div className="container-sm my-5" style={{ backgroundColor: 'rgba(213, 213, 213, 0.8)', borderRadius: '25px', minHeight:'660px' }}><div className='position-absolute top-50 start-50 translate-middle'>Cargando...</div></div>; // Mostrar un mensaje de carga mientras se obtienen los datos
+    return <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', borderRadius: '25px', minHeight:'660px' }}><div className='position-absolute top-50 start-50 translate-middle'>Cargando...</div></div>; // Mostrar un mensaje de carga mientras se obtienen los datos
   }
 
   return (
-    <div className="container-sm my-5" style={{ backgroundColor: 'rgba(213, 213, 213, 0.8)', borderRadius: '25px' }}>
+    <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', color:'white', borderRadius: '25px' }}>
       <div className="container">
         <h2 className="pt-4 ps-5">Cuenta</h2>
         <div className="m-5">
           <div className="mb-3 row">
             <label htmlFor="staticFullName" className="col-sm-2 col-form-label">Nombre Completo</label>
             <div className="col-sm-10">
-              <input type="text" readOnly className="form-control-plaintext" id="staticFullName" value={`${nombre} ${paterno} ${materno}`} />
+              <input type="text" readOnly className="form-control-plaintext px-2" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'7px' }} id="staticFullName" value={`${nombre} ${paterno} ${materno}`} />
             </div>
           </div>
 
@@ -73,7 +73,8 @@ export default function Page({ userId }) {
               <input 
                 type="text" 
                 readOnly 
-                className="form-control-plaintext" 
+                className="form-control-plaintext px-2"
+                style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'7px' }} 
                 id="staticEmail" 
                 value={userId}
               />
@@ -188,10 +189,10 @@ export default function Page({ userId }) {
                 type="button"
                 className="btn w-100 mx-2"
                 style={{ 
-                  backgroundColor: '#002B7A', 
-                  color: '#FFFFFF', 
+                  backgroundColor: '#EFCA45', 
+                  color: 'black', 
                   border: '1px solid #000',
-                  borderRadius: '20px',
+                  borderRadius:'20px',
                   transition: 'background-color 0.3s, color 0.3s' 
                 }}
                 onMouseEnter={(e) => {
@@ -199,8 +200,8 @@ export default function Page({ userId }) {
                   e.currentTarget.style.color = 'white';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#002B7A';
-                  e.currentTarget.style.color = '#FFFFFF';
+                  e.currentTarget.style.backgroundColor = '#EFCA45';
+                  e.currentTarget.style.color = 'black';
                 }}
                 onClick={handleSave}
               >
@@ -222,7 +223,7 @@ export default function Page({ userId }) {
                   e.currentTarget.style.color = 'white';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#A0BAEB';
+                  e.currentTarget.style.backgroundColor = '#EBE4CA';
                   e.currentTarget.style.color = '#4F3F05';
                 }}>
                 Cancelar

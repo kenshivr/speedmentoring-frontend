@@ -31,11 +31,11 @@ export default function EventsPage() {
   const selectedEvents = events.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="container-sm my-1 mt-5 p-2" style={{ maxWidth: '1800px', margin: 'auto' }}>
+    <div className="container-sm p-2" style={{ maxWidth: '1800px', margin: 'auto' }}>
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-5 m-1 d-flex flex-column p-3">
           <div className='mb-3'>
-            <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto' }}>
+            <div className="container-sm mt-3" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto' }}>
               <div className="container">
                 <div className="container text-center">
                   <div className="row align-items-start p-4">
@@ -68,6 +68,13 @@ export default function EventsPage() {
                               <h6 style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '11px' }}>
                                 Fecha de publicación: {new Date(event.Fecha).toLocaleDateString()} a las {new Date(event.Fecha).toLocaleTimeString()}
                               </h6>
+                            </div>
+                            <div className="row">
+                              <div className='d-flex justify-content-start'>
+                                <a href={event.Link} target="_blank" rel="noopener noreferrer" style={{ color: '#EFCA45', fontSize: '12px' }}>
+                                  {event.Link}
+                                </a>
+                              </div>
                             </div>
                           </div>
                         </div>

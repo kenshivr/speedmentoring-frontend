@@ -37,7 +37,7 @@ const MentorPage = () => {
   };
 
   return (
-    <div className='container p-5 my-5'>
+    <div className='container p-5'>
       <div className="container-sm p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
         <div className="container p-3">
           <div className="row g-0 text-center mb-3 p-3" style={{backgroundColor:'white', borderRadius:'25px'}}>
@@ -110,7 +110,7 @@ const MentorPage = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3">Se debe de agendar una nueva sesión ...</td>
+                    <td colSpan="4">Se debe de agendar una nueva sesión ...</td>
                   </tr>
                 )}
               </tbody>
