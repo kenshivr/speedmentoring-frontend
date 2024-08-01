@@ -24,7 +24,7 @@ export default function Header() {
             </div>
 
             <div className="col-4 d-flex align-items-center justify-content-end">
-              <a className="navbar-brand" href="https://www.unam.mx/">
+              <a className="navbar-brand" href="https://mac.acatlan.unam.mx/">
                 <img 
                   src="https://francia.unam.mx/wp-content/uploads/2021/10/Logo-UNAM-Blanco-Landscape.png" 
                   alt="Logo UNAM" 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function EditSessionPage() {
   const { id } = useParams(); // Obtiene el ID de la sesión desde la URL

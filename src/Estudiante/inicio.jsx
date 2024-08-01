@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
-const MentorPage = () => {
+const StudentPage = () => {
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    // Obtener sesiones desde el servidor
-    fetch('/api/sessions')
+    // Obtener sesiones desde el servidor para el estudiante logueado
+    fetch('/api/student/sessions') // Asegúrate de que la ruta API sea correcta para obtener las sesiones del estudiante
       .then(response => response.json())
       .then(data => {
         setSessions(data);
@@ -21,26 +20,20 @@ const MentorPage = () => {
     // Filtrar sesiones basadas en la búsqueda
     setFilteredSessions(
       sessions.filter(session =>
-        session.studentName.toLowerCase().includes(search.toLowerCase())
+        session.title.toLowerCase().includes(search.toLowerCase())
       )
     );
   }, [search, sessions]);
-
-  function handleLink(session) {
-    return () => {
-      localStorage.setItem('sesionId', session.sesionid);
-    };
-  }
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
 
   return (
-    <div className='container p-5 my-5'>
+    <div className='container p-5'>
       <div className="container-sm p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
         <div className="container p-3">
-          <div className="row g-0 text-center mb-3 p-3" style={{backgroundColor:'white', borderRadius:'25px'}}>
+          <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='col-sm-4 px-2'>
               <legend>Agenda</legend>
             </div>
@@ -86,31 +79,23 @@ const MentorPage = () => {
             <table className="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col">Alumno</th>
+                  <th scope="col">Título</th>
                   <th scope="col">Fecha</th>
                   <th scope="col">Descripción</th>
-                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody className="table-light">
                 {filteredSessions.length > 0 ? (
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
-                      <td>{session.studentName}</td>
+                      <td>{session.title}</td>
                       <td>{session.date}</td>
                       <td>{session.description}</td>
-                      <td>
-                        <button className="btn btn-sm">
-                          <Link to={`/Mentor/sesiones/editarSesion`} onClick={handleLink(session)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z" /></svg>
-                          </Link>
-                        </button>
-                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3">Se debe de agendar una nueva sesión ...</td>
+                    <td colSpan="3">No se encontraron sesiones. Por favor, comuníquese con su mentor para agendar las próximas sesiones.</td>
                   </tr>
                 )}
               </tbody>
@@ -118,35 +103,8 @@ const MentorPage = () => {
           </div>
         </div>
       </div>
-      <div className='position-relative'>
-        <div className="position-absolute top-50 start-50 translate-middle">
-          <div className='container mt-5 p-2'>
-            <Link
-              className="btn btn-sm px-3"
-              to={`/Mentor/sesiones/nuevaSesion`}
-              style={{
-                backgroundColor: '#EFCA45',
-                color: '#4F3F05',
-                border: '1px solid #000',
-                borderRadius: '20px',
-                transition: 'background-color 0.3s, color 0.3s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#F9E6A5';
-                e.currentTarget.style.color = 'black';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#EFCA45';
-                e.currentTarget.style.color = '#4F3F05';
-              }}
-            >
-              Nueva sesión
-            </Link>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
 
-export default MentorPage;
+export default StudentPage;

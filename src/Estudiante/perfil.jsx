@@ -50,14 +50,14 @@ export default function Page() {
   };
 
   return (
-    <div className="container-sm my-5" style={{ backgroundColor: 'rgba(213, 213, 213, 0.8)', borderRadius: '25px' }}>
+    <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', color:'white', borderRadius: '25px' }}>
       <div className="container">
         <h2 className="mx-4 pt-4">Cuenta</h2>
         <div className="m-5">
 
           <div className="mb-3 row justify-content-Evenly">
             <label htmlFor="staticEmail" className="col-sm-4 col-form-label">Nombre</label>
-            <div className="col-sm-6">
+            <div className="col-sm-6 ps-4" style={{ backgroundColor:'white', borderRadius:'25px'}}>
               <input 
                 type="text" 
                 readOnly
@@ -72,7 +72,7 @@ export default function Page() {
 
             <div className="mb-3 row justify-content-Evenly">
               <label htmlFor="staticEmail" className="col-sm-4 col-form-label">Periodo</label>
-              <div className="col-sm-6">
+              <div className="col-sm-6 ms-2 ps-4" style={{ backgroundColor:'white', borderRadius:'25px'}}>
                 <input 
                   type="text" 
                   readOnly 
@@ -87,7 +87,7 @@ export default function Page() {
               <label htmlFor="staticPassword" className="mt-3 col-sm-4 col-form-label">Contraseña</label>
               <div className="col-sm-6">
                 <Link
-                  to="/Estudiante/perfil/changePassword/page"
+                  to="/Estudiante/changePassword"
                   className="btn btn-sm w-50 my-4"
                   style={{ 
                     backgroundColor: '#EFCA45', 
@@ -118,8 +118,8 @@ export default function Page() {
                   type="button"
                   className="btn btn-sm w-50 my-4 mx-3"
                   style={{ 
-                    backgroundColor: '#002B7A', 
-                    color: 'white', 
+                    backgroundColor: '#EFCA45', 
+                    color: 'black', 
                     border: '1px solid #000',
                     borderRadius:'20px',
                     transition: 'background-color 0.3s, color 0.3s' 
@@ -129,8 +129,8 @@ export default function Page() {
                     e.currentTarget.style.color = 'white';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#002B7A';
-                    e.currentTarget.style.color = 'white';
+                    e.currentTarget.style.backgroundColor = '#EFCA45';
+                    e.currentTarget.style.color = 'black';
                   }}
                   onClick={handleSave}
                 >
@@ -139,7 +139,7 @@ export default function Page() {
                 <Link
                   type="button"
                   className="btn btn-sm w-50 mx-3"
-                  to="/estudiante/page"
+                  to="/Estudiante/inicio"
                   style={{ 
                     backgroundColor: '#A0BAEB', 
                     color: '#4F3F05', 
@@ -152,7 +152,7 @@ export default function Page() {
                     e.currentTarget.style.color = 'white';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#A0BAEB';
+                    e.currentTarget.style.backgroundColor = '#EBE4CA';
                     e.currentTarget.style.color = '#4F3F05';
                   }}>
                   Cancelar

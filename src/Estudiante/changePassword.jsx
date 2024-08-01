@@ -54,14 +54,14 @@ export default function Page() {
   };
 
   return (
-    <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor: 'rgba(213,213,213,0.8)', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+    <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor: '#002B7A', borderRadius: '50px', color:'white', maxWidth: '1000px', margin: 'auto' }}>
       <form onSubmit={handleSubmit}>
         <div className="row justify-content-evenly">
           <div className="col-12 col-md-6 m-1 d-flex flex-column p-3">
             <div className="mb-3">
               <h1>Cambiar contraseña</h1>
             </div>
-            <div className='mb-3'>
+            <div className='mb-3 p-3' style={{ backgroundColor:'rgba(255,255,255,0.8)', borderRadius:'25px'}}>
               <h6>
                 <small className="text-body-secondary">La contraseña debe contener:</small>
               </h6>
@@ -116,7 +116,7 @@ export default function Page() {
                   />
                 </div>
                 <div className="col-auto">
-                  <span id="passwordHelpInline" className="form-text">
+                  <span id="passwordHelpInline" className="form-text" style={{ color:'white' }}>
                     Debe ser de 8-20 carácteres.
                   </span>
                 </div>
@@ -145,8 +145,8 @@ export default function Page() {
                   type="submit"
                   className="btn w-75"
                   style={{ 
-                    backgroundColor: '#002B7A', 
-                    color: 'white', 
+                    backgroundColor: '#EFCA45', 
+                    color: 'black', 
                     border: '1px solid #000',
                     borderRadius:'20px',
                     transition: 'background-color 0.3s, color 0.3s' 
@@ -156,19 +156,19 @@ export default function Page() {
                     e.currentTarget.style.color = 'white';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#002B7A';
-                    e.currentTarget.style.color = 'white';
+                    e.currentTarget.style.backgroundColor = '#EFCA45';
+                    e.currentTarget.style.color = 'black';
                   }}>
                   Guardar
                 </button>
               </div>
               <div className="d-flex justify-content-center align-items-center" style={{ height: '50px' }}>
               <Link
-                to="/Estudiante/perfil/page"
+                to="/Estudiante/perfil"
                 className="btn w-75"
                 style={{ 
                   backgroundColor: '#A0BAEB', 
-                  color: '#4E4E4E', 
+                  color: '#4F3F05', 
                   border: '1px solid #000',
                   borderRadius: '20px',
                   transition: 'background-color 0.3s, color 0.3s' 
@@ -178,10 +178,9 @@ export default function Page() {
                   e.currentTarget.style.color = 'white';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#A0BAEB';
-                  e.currentTarget.style.color = '#4E4E4E';
-                }}
-              >
+                  e.currentTarget.style.backgroundColor = '#EBE4CA';
+                  e.currentTarget.style.color = '#4F3F05';
+                }}>
                 Cancelar
               </Link>
               </div>

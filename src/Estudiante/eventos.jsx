@@ -31,11 +31,11 @@ export default function EventsPage() {
   const selectedEvents = events.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="container-sm my-1 mt-5 p-2" style={{ maxWidth: '1800px', margin: 'auto' }}>
+    <div className="container-sm p-2" style={{ maxWidth: '1800px', margin: 'auto' }}>
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-5 m-1 d-flex flex-column p-3">
           <div className='mb-3'>
-            <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto' }}>
+            <div className="container-sm mt-3" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto' }}>
               <div className="container">
                 <div className="container text-center">
                   <div className="row align-items-start p-4">
