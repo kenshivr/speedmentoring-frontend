@@ -12,14 +12,14 @@ import NavbarStudent from "./components/Layout/Navbar_student";
 import LoginPage from './Login/page';
 import BuscarCuentaPage from './Login/buscarCuenta/page';
 
-import MentorPage from './Mentor/page';
+import MentorPage from './Mentor/inicio';
 import MentorEvento from './Mentor/eventos';
-import MentorPerfil from './Mentor/perfil/page';
+import MentorPerfil from './Mentor/perfil';
 import MentorNuevaSesion from './Mentor/sesiones/nuevaSesion';
 import MentorEditarSesion from './Mentor/sesiones/editarSesion';
-import MentorSesiones from './Mentor/sesiones/page';
-import MentorSesiones1 from './Mentor/sesiones/1/page';
-import MentorChangePassword from './Mentor/perfil/changePassword/page';
+import MentorSesiones from './Mentor/sesiones';
+import MentorSesiones1 from './Mentor/sesiones/verSesion';
+import MentorChangePassword from './Mentor/perfil/changePassword';
 
 import EstudianteInicio from './Estudiante/inicio';
 import EstudiantePerfil from './Estudiante/perfil';
@@ -142,11 +142,11 @@ function App() {
         <Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
 
         +{/* Rutas protegidas para las páginas de mentor */}
-        <Route path="/Mentor/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPage} />} />
-        <Route path="/Mentor/perfil/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPerfil} userId={userId} />} />
-        <Route path="/Mentor/sesiones/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones} userId={userId} />} />
-        <Route path="/Mentor/sesiones/1/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1} />} />
-        <Route path="/Mentor/perfil/changePassword/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorChangePassword} userId={userId} />} />
+        <Route path="/Mentor/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPage} />} />
+        <Route path="/Mentor/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPerfil} userId={userId} />} />
+        <Route path="/Mentor/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones} userId={userId} />} />
+        <Route path="/Mentor/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1} />} />
+        <Route path="/Mentor/perfil/changePassword" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorChangePassword} userId={userId} />} />
 
         {/* Rutas protegidas para las páginas de estudiante */}
         <Route path="/Estudiante/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteInicio} specialty={specialty} userId={userId} />} />

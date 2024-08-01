@@ -159,7 +159,7 @@ export default function Page() {
                         <Link
                           type="button"
                           className="btn w-100"
-                          to="/Mentor/page"
+                          to="/Mentor/inicio"
                           style={{ 
                             backgroundColor: '#EBE4CA', 
                             color: '#4F3F05', 

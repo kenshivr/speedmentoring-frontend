@@ -164,7 +164,7 @@ export default function Page() {
               </div>
               <div className="d-flex justify-content-center align-items-center" style={{ height: '50px' }}>
               <Link
-                to="/Mentor/perfil/page"
+                to="/Mentor/perfil"
                 className="btn w-75"
                 style={{ 
                   backgroundColor: '#A0BAEB', 

@@ -125,7 +125,7 @@ export default function Page({ userId }) {
             <div className="col-sm-6">
 
               <Link
-                to="/Mentor/perfil/changePassword/page" // Usa el path relativo a tu enrutador
+                to="/Mentor/perfil/changePassword" // Usa el path relativo a tu enrutador
                 style={{ 
                   display: 'inline-block', 
                   backgroundColor: '#EFCA45', 
@@ -227,7 +227,7 @@ export default function Page({ userId }) {
               <Link
                 type="button"
                 className="btn w-100"
-                to="/Mentor/page"
+                to="/Mentor/inicio"
                 style={{ 
                   backgroundColor: '#A0BAEB', 
                   color: '#4F3F05', 
