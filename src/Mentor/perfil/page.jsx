@@ -11,6 +11,17 @@ export default function Page({ userId }) {
   const [empresa, setEmpresa] = useState('');
   const [puesto, setPuesto] = useState('');
   const [grado, setGrado] = useState('');
+  const [grados, setGrados] = useState([]);
+
+  // Función para obtener los grados académicos
+  const fetchGrados = useCallback(async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/getAcademicDegrees');
+      setGrados(response.data);
+    } catch (error) {
+      alert('Error al obtener los grados académicos: ' + error.response.data.message);
+    }
+  }, []);
 
   // Función para obtener datos de usuario
   const fetchUserData = useCallback(async () => {
@@ -32,8 +43,9 @@ export default function Page({ userId }) {
   useEffect(() => {
     if (userId) {
       fetchUserData();
+      fetchGrados();
     }
-  }, [userId, fetchUserData]);
+  }, [userId, fetchUserData, fetchGrados]);
 
   // Función para manejar la actualización del perfil
   const handleSave = async () => {
@@ -170,14 +182,19 @@ export default function Page({ userId }) {
           <div className="mb-3 row">
             <label htmlFor="academicDegree" className="col-sm-2 col-form-label">Grado Académico</label>
             <div className="col-sm-10">
-              <input
+              <select
                 className="form-control"
-                type="text"
                 id="academicDegree"
                 value={grado}
                 onChange={(e) => setGrado(e.target.value)}
                 aria-label="Grado Académico"
-              />
+              >
+                {grados.map((grado) => (
+                  <option key={grado.id} value={grado.nombre}>
+                    {grado.nombre}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 

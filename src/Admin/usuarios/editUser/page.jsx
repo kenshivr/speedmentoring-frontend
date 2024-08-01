@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function EditProfilePage({ userType }) {
   const [especialidades, setEspecialidades] = useState([]);
+  const [gradosAcademicos, setGradosAcademicos] = useState([]);
   const [formData, setFormData] = useState({
     cuenta: '',
     mentor: '',
@@ -25,9 +26,12 @@ export default function EditProfilePage({ userType }) {
       .then(response => response.json())
       .then(data => setEspecialidades(data));
 
+    // Fetch grados académicos
+    fetch('/api/grados-academicos')
+      .then(response => response.json())
+      .then(data => setGradosAcademicos(data));
+
     // Fetch user data
-    // Aquí deberías hacer una llamada para obtener los datos del usuario
-    // Simulamos con datos de ejemplo
     fetch(`/api/user/${userType}`)
       .then(response => response.json())
       .then(data => setFormData(data));
@@ -285,14 +289,20 @@ export default function EditProfilePage({ userType }) {
               </div>
               <div className="mb-3">
                 <label htmlFor="grado" className="form-label">Grado académico</label>
-                <input
-                  className="form-control"
+                <select
+                  className="form-select"
                   id="grado"
                   name="grado"
                   value={formData.grado}
-                  placeholder="Ejemplo de grado académico"
                   onChange={handleChange}
-                />
+                >
+                  <option value="">Grado académico</option>
+                  {gradosAcademicos.map((grado) => (
+                    <option key={grado.id} value={grado.id}>
+                      {grado.nombre}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="mb-3">
                 <label htmlFor="password" className="form-label">Contraseña (HASH)</label>
