@@ -9,14 +9,15 @@ export default function Page() {
   const [description, setDescription] = useState('');
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState('');
+  const mentorRFC = 'RFC_DEL_MENTOR_ACTUAL'; // Reemplaza esto con el RFC del mentor actual
 
   useEffect(() => {
-    // Cargar alumnos desde el servidor
-    fetch('/api/students')
+    // Cargar alumnos desde el servidor filtrados por el mentor actual
+    fetch(`/api/students?mentorRFC=${mentorRFC}`)
       .then(response => response.json())
       .then(data => setStudents(data))
       .catch(error => console.error('Error fetching students:', error));
-  }, []);
+  }, [mentorRFC]);
 
   const toggleDateEditor = () => {
     setShowDateEditor(!showDateEditor);

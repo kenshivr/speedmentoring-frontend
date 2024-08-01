@@ -9,10 +9,17 @@ export default function EditSessionPage() {
   const [description, setDescription] = useState('');
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState('');
+  const [mentorRFC, setMentorRFC] = useState(''); // Aquí debes obtener el RFC del mentor
 
   useEffect(() => {
-    // Cargar alumnos desde el servidor
-    fetch('/api/students')
+    // Obtener el RFC del mentor del usuario (puedes adaptarlo a tu lógica de autenticación)
+    fetch('/api/mentor/me')  // Asumiendo que tienes un endpoint para obtener el RFC del mentor actual
+      .then(response => response.json())
+      .then(data => setMentorRFC(data.RFC))
+      .catch(error => console.error('Error fetching mentor info:', error));
+    
+    // Cargar alumnos asignados al mentor actual
+    fetch(`/api/mentors/${mentorRFC}/students`)
       .then(response => response.json())
       .then(data => setStudents(data))
       .catch(error => console.error('Error fetching students:', error));
@@ -27,7 +34,7 @@ export default function EditSessionPage() {
         setSelectedStudent(data.studentId);
       })
       .catch(error => console.error('Error fetching session:', error));
-  }, [id]);
+  }, [id, mentorRFC]);
 
   const toggleDateEditor = () => {
     setShowDateEditor(!showDateEditor);

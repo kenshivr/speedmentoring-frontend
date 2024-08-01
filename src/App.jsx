@@ -157,14 +157,14 @@ function App() {
         <Route path="/Estudiante/perfil/changePassword" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteChangePassword} />} />
 
         {/* Rutas para que react pueda renderizar las paginas de estudiante, actualmente vacias
-        <Route path="/Estudiante/page" element={<EstudianteInicio specialty={specialty}/>} />
-        <Route path="EstudianteInicio/Estudiante/eventos" element={<EstudianteEvento />} />
+        <Route path="/Estudiante/inicio" element={<EstudianteInicio specialty={specialty}/>} />
+        <Route path="Estudiante/eventos" element={<EstudianteEvento />} />
         <Route path="/Estudiante/perfil" element={<EstudiantePerfil />} />
-        <Route path="/Estudiante/sesiones/page" element={<EstudianteSesiones userId={userId} setSesionId={setSesionId} />} />
-        <Route path="/Estudiante/sesiones/1/page" element={<EstudianteSesiones1 sesionId={sesionId} setSesionId={setSesionId} />} />  */}
+        <Route path="/Estudiante/sesiones" element={<EstudianteSesiones userId={userId} setSesionId={setSesionId} />} />
+        <Route path="/Estudiante/sesiones/verSesion" element={<EstudianteSesiones1 sesionId={sesionId} setSesionId={setSesionId} />} />  */}
 
         {/* Hechas por erick */}
-        {/* <Route path="/Estudiante/sesiones/1/retroalim" element={<EstudianteSesiones1r />} /> */}
+        {/* <Route path="/Estudiante/sesiones/verSesion/retroalimentacion" element={<EstudianteSesiones1r />} /> */}
 
         <Route path="/Admin/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} userId={userId} />} />
         <Route path="/Admin/editarEvento/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditEvent} />} />

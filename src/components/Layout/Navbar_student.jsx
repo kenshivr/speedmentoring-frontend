@@ -20,6 +20,16 @@ function NavbarStudent() {
             </li>
 
             <li className="nav-item">
+              <Link
+                to={"/Estudiante/sesiones/editarSesion"}
+                className="nav-link"
+                style={{ color: '#3A2E01', fontWeight: 'bold' }}
+              >
+                Agenda
+              </Link>
+            </li>
+
+            <li className="nav-item">
               <Link 
                 to={"/Estudiante/sesiones"}
                 className="nav-link" 
