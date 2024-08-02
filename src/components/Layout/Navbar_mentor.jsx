@@ -20,16 +20,6 @@ function NavbarMentor() {
 
             <li className="nav-item">
               <Link
-                to={"/Mentor/sesiones/editarSesion"}
-                className="nav-link"
-                style={{ color: '#3A2E01', fontWeight: 'bold' }}
-              >
-                Agenda
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link
                 to="/Mentor/sesiones"
                 className="nav-link"
                 style={{ color: '#3A2E01', fontWeight: 'bold' }}
