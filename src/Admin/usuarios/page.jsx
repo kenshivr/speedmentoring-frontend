@@ -65,7 +65,6 @@ export default function Page() {
           <table className="table table-hover">
             <thead>
               <tr>
-                <th scope="col">Seleccionar</th>
                 <th scope="col">ID</th>
                 <th scope="col">Estatus</th>
                 <th scope="col">Nombre</th>
@@ -80,7 +79,6 @@ export default function Page() {
                 <th scope="col">Sesiones</th>
                 <th scope="col">Reportes enviados</th>
                 <th scope="col">Reportes no enviados</th>
-                <th scope="col">Último login</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -88,11 +86,6 @@ export default function Page() {
 
               {mentors.map(mentor => (
                 <tr key={mentor.MentorRFC}>
-                  <td>
-                    <div>
-                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-                    </div>
-                  </td>
                   <td>{mentor.MentorRFC}</td>
                   <td>{mentor.Estado}</td>
                   <td>{mentor.Nombre}</td>
@@ -102,7 +95,6 @@ export default function Page() {
                   <td>{mentor.NumeroTelefono}</td>
                   <td>{mentor.EspecialidadID}</td>
                   <td>{mentor.CorreoElectronico}</td>
-                  <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
@@ -118,11 +110,6 @@ export default function Page() {
 
               {students.map(student => (
                 <tr key={student.AlumnoID}>
-                  <td>
-                    <div>
-                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-                    </div>
-                  </td>
                   <td>{student.AlumnoID}</td>
                   <td>{student.Estado}</td>
                   <td>{student.Nombre}</td>
@@ -131,7 +118,6 @@ export default function Page() {
                   <td>{'Alumno'}</td>
                   <td>{'N/A'}</td>
                   <td>{student.EspecialidadID}</td>
-                  <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>

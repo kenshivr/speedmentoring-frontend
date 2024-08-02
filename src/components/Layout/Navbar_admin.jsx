@@ -15,7 +15,7 @@ function NavbarAdmin() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/estadisticas">
+              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/estadisticas/page">
                 Estadísticas
               </Link>
             </li>

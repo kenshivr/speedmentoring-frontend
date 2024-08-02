@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-
 
 export default function Page() {
   const [eventos, setEventos] = useState([]);
@@ -16,7 +13,9 @@ export default function Page() {
       try {
         const response = await axios.get('http://localhost:3001/api/getEventsFull');
         if (response.data) {
-          setEventos(response.data);
+          // Ordenar eventos por EventoID en orden descendente
+          const sortedEventos = response.data.sort((a, b) => b.EventoID - a.EventoID);
+          setEventos(sortedEventos);
         } else {
           console.error('Error al obtener eventos:', response.data.message);
         }
