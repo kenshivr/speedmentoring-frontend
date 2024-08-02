@@ -176,7 +176,6 @@ function App() {
         <Route path="/Admin/reporte/page" element={<AdminReporte />} />
         <Route path="/Admin/usuarios/editUser/page" element={<AdminEditarUsuario />} /> */}
 
-        <Route path="/Admin/estadisticas/page" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticas} />} />
         
         {/* 
         <Route path="/Admin/estadisticas/page" element={<AdminEstadisticas />} />
