@@ -15,14 +15,17 @@ export default function Page() {
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
-      const { Nombre, Periodo } = response.data;
-      setNombre(Nombre);
+      const { Nombre, ApellidoPaterno, ApellidoMaterno, Periodo } = response.data;
+
+      // Concatenar los nombres y apellidos
+      const fullName = `${Nombre || ''} ${ApellidoPaterno || ''} ${ApellidoMaterno || ''}`.trim();
+      
+      // Actualizar el estado con el nombre completo y el período
+      setNombre(fullName);
       setPeriodo(Periodo);
-      // Eliminar asignación para especialidades
-      // setEspecialidad(Especialidad);
-      // setEspecialidades(response.data.especialidades);
+
     } catch (error) {
-      alert('Error al obtener los datos del usuario: ' + error.response.data.message);
+      alert('Error al obtener los datos del usuario: ' + (error.response?.data?.message || error.message));
     }
   }, [user]);
 

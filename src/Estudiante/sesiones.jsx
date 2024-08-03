@@ -12,6 +12,7 @@ export default function Page({ userId }) {
       axios.get(`http://localhost:3001/api/showSesionesStudent/${userId}`)
         .then((response) => {
           if (response.data.success) {
+            console.log(response.data.data);
             setSessions(response.data.data);
             setFilteredSessions(response.data.data);
           } else {
@@ -37,62 +38,64 @@ export default function Page({ userId }) {
 
     const filtered = sessions.filter((session) => {
       const formattedDate = new Date(session.Fecha).toLocaleDateString();
+      const mentorName = session.MentorNombre.toLowerCase();
       return (
         formattedDate.includes(term) ||
-        (!session.ReporteID && term.toLowerCase() === 'n/a')
+        (!session.reporteid && term.toLowerCase() === 'n/a') ||
+        mentorName.includes(term.toLowerCase())
       );
     });
 
     setFilteredSessions(filtered);
   };
 
-  function handleCLickLinkSesion(sesionid) {
+  const handleCLickLinkSesion = (sesionid) => {
     console.log(sesionid);
     localStorage.setItem('sesionId', sesionid);
-  }
+  };
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
       <div className="container p-3">
         <div className="row g-0 text-center mb-3">
-        <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
+          <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='col-sm-4 px-2'>
               <legend>Historial de sesiones</legend>
             </div>
             <div className="col-sm-8 px-2 mt-1">
               <form className="d-flex" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Buscar"
-                aria-label="Search"
-                style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px" }}
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
-              <button
-                className="btn btn-outline-success"
-                type="button"
-                style={{ 
-                  backgroundColor: '#EFCA45', 
-                  color: '#4F3F05', 
-                  border: '1px solid #000',
-                  borderColor: "#EFCA45",
-                  borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s' 
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#F9E6A5';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#EFCA45';
-                  e.currentTarget.style.color = '#4F3F05';
-                }}
-                onClick={() => filterSessions(searchTerm)}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
-              </button>
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Buscar"
+                  aria-label="Search"
+                  style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px" }}
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+                <button
+                  className="btn btn-outline-success"
+                  type="button"
+                  style={{ 
+                    backgroundColor: '#EFCA45', 
+                    color: '#4F3F05', 
+                    border: '1px solid #000',
+                    borderColor: "#EFCA45",
+                    borderRadius: '20px',
+                    transition: 'background-color 0.3s, color 0.3s' 
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#F9E6A5';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#EFCA45';
+                    e.currentTarget.style.color = '#4F3F05';
+                  }}
+                  onClick={() => filterSessions(searchTerm)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
+                </button>
               </form>
             </div>
           </div>
@@ -111,28 +114,27 @@ export default function Page({ userId }) {
                 <tr key={index}>
                   <td>{new Date(session.Fecha).toLocaleDateString()}</td>
                   <td>
-                    {session.reporteid ? (
+                    {session.ReporteID ? (
                       <Link 
                         to='/Estudiante/sesiones/verSesion'
                         onClick={() => handleCLickLinkSesion(session.SesionID)}
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#00CC00">
-                          <path d="M0 0h24v24H0V0z" fill="none"/>
-                          <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                        </svg>
+                        {session.TextoExplicativo ? (
+                          <span>✔</span> // Palomita si existe TextoExplicativo
+                        ) : (
+                          'n/a' // Mostrar 'n/a' si no existe TextoExplicativo
+                        )}
                       </Link>
                     ) : (
                       <Link 
                         to='/Estudiante/sesiones/verSesion'
                         onClick={() => handleCLickLinkSesion(session.SesionID)}
-                        >
-                        N/A
+                      >
+                        n/a
                       </Link>
                     )}
                   </td>
-                  <td>
-                    {session.MentorNombre}
-                  </td>
+                  <td>{session.MentorNombre}</td>
                 </tr>
               ))}
             </tbody>

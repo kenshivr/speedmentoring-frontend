@@ -39,6 +39,9 @@ export default function Page() {
 
       if (response.data.success) {
         alert('Contraseña actualizada correctamente');
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
       } else {
         alert('Error al actualizar la contraseña');
         setCurrentPassword('');

@@ -12,7 +12,6 @@ const StudentPage = () => {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          data.data[0].Fecha = data.data[0].Fecha.split('T')[0];
           setSessions(data.data);
           setFilteredSessions(data.data);
         } else {
@@ -26,8 +25,10 @@ const StudentPage = () => {
   useEffect(() => {
     // Filtrar sesiones basadas en la búsqueda
     setFilteredSessions(
-      sessions.filter(session =>
-        session.SesionID.toString().includes(search)
+      sessions.filter(session => 
+        session.SesionID.toString().includes(search) ||
+        session.Fecha.includes(search) ||
+        session.Periodo.toLowerCase().includes(search.toLowerCase())
       )
     );
   }, [search, sessions]);
@@ -97,7 +98,7 @@ const StudentPage = () => {
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
                       <td>{session.SesionID}</td>
-                      <td>{session.Fecha}</td>
+                      <td>{session.Fecha.split('T')[0]}</td>
                       <td>{session.Periodo}</td>
                     </tr>
                   ))
