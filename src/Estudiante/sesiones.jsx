@@ -41,7 +41,7 @@ export default function Page({ userId }) {
       const mentorName = session.MentorNombre.toLowerCase();
       return (
         formattedDate.includes(term) ||
-        session.nombre.toLowerCase().includes(term.toLowerCase()) ||
+        mentorName.toLowerCase().includes(term.toLowerCase()) ||
         (!session.ReporteID && term.toLowerCase() === 'n/a')
       );
     });
