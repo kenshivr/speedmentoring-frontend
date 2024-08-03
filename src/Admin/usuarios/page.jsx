@@ -118,7 +118,7 @@ export default function Page() {
                   <td>{'Alumno'}</td>
                   <td>{'N/A'}</td>
                   <td>{student.EspecialidadID}</td>
-                  <td>{'N/A'}</td>
+                  <td>{student.AlumnoID ? `${student.AlumnoID}@pcpuma.acatlan.unam.mx` : 'N/A'}</td>
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>

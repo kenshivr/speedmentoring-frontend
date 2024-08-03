@@ -35,7 +35,7 @@ export default function Page() {
   
     axios.post('http://localhost:3001/api/newEventAdmin', eventData)
       .then(response => {
-        alert('Event saved successfully!');
+        alert('Evento creado correctamente!');
         setEventName('');
         setSpecialty('');
         setDescription('');
@@ -45,7 +45,7 @@ export default function Page() {
       })
       .catch(error => {
         alert('Verificar si los datos estan en el formato correcto, no fue posible agregar el nuevo evento.');
-        console.error('There was an error saving the event!', error);
+        console.error('Hubo un error al guardar el evento!', error);
       });
   };
 

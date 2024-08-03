@@ -36,9 +36,10 @@ export default function Page({ userId }) {
     }
 
     const filtered = sessions.filter((session) => {
-      const formattedDate = new Date(session.Fecha).toLocaleDateString();
+      const formattedDate = new Date(session.fecha).toLocaleDateString();
       return (
         formattedDate.includes(term) ||
+        session.nombre.toLowerCase().includes(term.toLowerCase()) ||
         (!session.ReporteID && term.toLowerCase() === 'n/a')
       );
     });
@@ -46,9 +47,10 @@ export default function Page({ userId }) {
     setFilteredSessions(filtered);
   };
 
-  function handleCLickLinkSesion(sesionid) {
-    console.log(sesionid);
-    localStorage.setItem('sesionId', sesionid);
+  function handleCLickLinkSesion(session) {
+    return () => {
+      localStorage.setItem('sesionId', session.sesionid);
+    };
   }
 
   return (
@@ -109,7 +111,7 @@ export default function Page({ userId }) {
             <tbody className="table-light">
               {filteredSessions.map((session, index) => (
                 <tr key={index}>
-                  <td>{new Date(session.Fecha).toLocaleDateString()}</td>
+                  <td>{new Date(session.fecha).toLocaleDateString()}</td>
                   <td>
                     {session.reporteid ? (
                       <Link 
