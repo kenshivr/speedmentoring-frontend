@@ -6,29 +6,32 @@ const MentorPage = () => {
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [search, setSearch] = useState('');
 
+  const userId = localStorage.getItem('userId');
+
   useEffect(() => {
     // Obtener sesiones desde el servidor
-    fetch('/api/sessions')
+    fetch(`http://localhost:3001/api/showSesionesMentor/${userId}`)
       .then(response => response.json())
       .then(data => {
-        setSessions(data);
-        setFilteredSessions(data);
+        console.log(data.data[0]);
+        setSessions(data.data);
+        setFilteredSessions(data.data);
       })
       .catch(error => console.error('Error fetching sessions:', error));
   }, []);
 
-  useEffect(() => {
-    // Filtrar sesiones basadas en la búsqueda
-    setFilteredSessions(
-      sessions.filter(session =>
-        session.studentName.toLowerCase().includes(search.toLowerCase())
-      )
-    );
-  }, [search, sessions]);
+  // useEffect(() => {
+  //   // Filtrar sesiones basadas en la búsqueda
+  //   setFilteredSessions(
+  //     sessions.filter(session =>
+  //       session.studentName.toLowerCase().includes(search.toLowerCase())
+  //     )
+  //   );
+  // }, [search, sessions]);
 
   function handleLink(session) {
     return () => {
-      localStorage.setItem('sesionId', session.sesionid);
+      localStorage.setItem('sesionId', session.SesionID);
     };
   }
 
@@ -88,7 +91,7 @@ const MentorPage = () => {
                 <tr>
                   <th scope="col">Alumno</th>
                   <th scope="col">Fecha</th>
-                  <th scope="col">Descripción</th>
+                  <th scope="col">Periodo</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -96,9 +99,9 @@ const MentorPage = () => {
                 {filteredSessions.length > 0 ? (
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
-                      <td>{session.studentName}</td>
-                      <td>{session.date}</td>
-                      <td>{session.description}</td>
+                      <td>{`${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`}</td>
+                      <td>{session.Fecha.split('T')[0]}</td>
+                      <td>{session.Periodo}</td>
                       <td>
                         <button className="btn btn-sm">
                           <Link to={`/Mentor/sesiones/editarSesion`} onClick={handleLink(session)}>
