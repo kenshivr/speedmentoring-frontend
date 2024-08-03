@@ -36,7 +36,7 @@ export default function Page({ userId }) {
     }
 
     const filtered = sessions.filter((session) => {
-      const formattedDate = new Date(session.fecha).toLocaleDateString();
+      const formattedDate = new Date(session.Fecha).toLocaleDateString();
       return (
         formattedDate.includes(term) ||
         session.nombre.toLowerCase().includes(term.toLowerCase()) ||
@@ -111,7 +111,7 @@ export default function Page({ userId }) {
             <tbody className="table-light">
               {filteredSessions.map((session, index) => (
                 <tr key={index}>
-                  <td>{new Date(session.fecha).toLocaleDateString()}</td>
+                  <td>{new Date(session.Fecha).toLocaleDateString()}</td>
                   <td>
                     {session.reporteid ? (
                       <Link 

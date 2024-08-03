@@ -28,7 +28,7 @@ export default function Page() {
         setSpecialties(response.data);
       })
       .catch(error => {
-        console.error('Error fetching specialties:', error);
+        console.error('Error al obtener especialidades:', error);
       });
 
     // Obtener detalles del evento para editar
@@ -45,7 +45,7 @@ export default function Page() {
           setLink(event.Link || '');
         })
         .catch(error => {
-          console.error('Error fetching event details:', error);
+          console.error('Error al obtener los detalles del evento:', error);
         });
     }
   }, [eventId]);
@@ -63,12 +63,12 @@ export default function Page() {
 
     axios.post(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
       .then(response => {
-        alert('Event updated successfully!');
+        alert('¡Evento actualizado exitosamente!');
         navigate('/Admin/page'); // Redirige a /Admin/page después del guardado
       })
       .catch(error => {
-        alert('Error updating the event. Please check the input data.');
-        console.error('Error updating event:', error);
+        alert('Error al actualizar el evento. Por favor, verifique los datos ingresados.');
+        console.error('Error al actualizar el evento:', error);
       });
   };
 
