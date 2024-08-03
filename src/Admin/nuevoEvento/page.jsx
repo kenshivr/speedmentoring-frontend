@@ -7,7 +7,6 @@ export default function Page() {
   const [specialty, setSpecialty] = useState('');
   const [specialties, setSpecialties] = useState([]);
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
   const [hasLink, setHasLink] = useState(false);
   const [link, setLink] = useState('');
 
@@ -28,24 +27,22 @@ export default function Page() {
       eventName,
       specialty,
       description,
-      date,
+      date: new Date().toISOString().split('T')[0], // Asignar la fecha actual
       link: hasLink ? link : ''
     };
 
-  
     axios.post('http://localhost:3001/api/newEventAdmin', eventData)
       .then(response => {
-        alert('Event saved successfully!');
+        alert('Evento creado correctamente!');
         setEventName('');
         setSpecialty('');
         setDescription('');
-        setDate('');
         setHasLink(false);
         setLink('');
       })
       .catch(error => {
-        alert('Verificar si los datos estan en el formato correcto, no fue posible agregar el nuevo evento.');
-        console.error('There was an error saving the event!', error);
+        alert('Verificar si los datos están en el formato correcto, no fue posible agregar el nuevo evento.');
+        console.error('Hubo un error al guardar el evento!', error);
       });
   };
 
@@ -67,20 +64,19 @@ export default function Page() {
           </form>
         </div>
         <div className="col-12 col-md-5 d-flex flex-column pt-4 mt-2">
-        <form>
-          <select 
-            className="form-select" 
-            aria-label="Default select example"
-            value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
-          >
-            <option value="" disabled>Especialidad</option>
-            {specialties.map((spec, index) => (
-              <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
-            ))}
-          </select>
-        </form>
-
+          <form>
+            <select 
+              className="form-select" 
+              aria-label="Default select example"
+              value={specialty}
+              onChange={(e) => setSpecialty(e.target.value)}
+            >
+              <option value="" disabled>Especialidad</option>
+              {specialties.map((spec, index) => (
+                <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
+              ))}
+            </select>
+          </form>
         </div>
       </div>
       <legend className="row mt-4 ms-4">Descripción</legend>
@@ -95,15 +91,6 @@ export default function Page() {
           />
         </div>
       </div>
-      <label htmlFor="nombreEvento" className="form-label">Fecha</label>
-        <input 
-          type="text" 
-          className="form-control" 
-          id="eventoID_1" 
-          placeholder="Fecha del evento. Ejemplo: 2024-01-01"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
       <div className="row justify-content-evenly mt-4">
         <div className="col-12 col-md-3 d-flex flex-column">
           <legend>¿Botón para más información?</legend>
@@ -178,27 +165,27 @@ export default function Page() {
           </form>
         </div>
         <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-        <Link
-          type="button"
-          className="btn w-100"
-          to="/Admin/page"
-          style={{ 
-            backgroundColor: '#EBE4CA', 
-            color: '#4F3F05', 
-            border: '1px solid #000',
-            borderRadius: '20px',
-            transition: 'background-color 0.3s, color 0.3s' 
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#000';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#EBE4CA';
-            e.currentTarget.style.color = '#4F3F05';
-          }}>
-          Cancelar
-        </Link>
+          <Link
+            type="button"
+            className="btn w-100"
+            to="/Admin/page"
+            style={{ 
+              backgroundColor: '#EBE4CA', 
+              color: '#4F3F05', 
+              border: '1px solid #000',
+              borderRadius: '20px',
+              transition: 'background-color 0.3s, color 0.3s' 
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#000';
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#EBE4CA';
+              e.currentTarget.style.color = '#4F3F05';
+            }}>
+            Cancelar
+          </Link>
         </div>
       </div>
     </div>

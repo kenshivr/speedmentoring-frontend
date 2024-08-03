@@ -41,18 +41,19 @@ export default function Page({ userId }) {
       const mentorName = session.MentorNombre.toLowerCase();
       return (
         formattedDate.includes(term) ||
-        (!session.reporteid && term.toLowerCase() === 'n/a') ||
-        mentorName.includes(term.toLowerCase())
+        session.nombre.toLowerCase().includes(term.toLowerCase()) ||
+        (!session.ReporteID && term.toLowerCase() === 'n/a')
       );
     });
 
     setFilteredSessions(filtered);
   };
 
-  const handleCLickLinkSesion = (sesionid) => {
-    console.log(sesionid);
-    localStorage.setItem('sesionId', sesionid);
-  };
+  function handleCLickLinkSesion(session) {
+    return () => {
+      localStorage.setItem('sesionId', session.sesionid);
+    };
+  }
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>

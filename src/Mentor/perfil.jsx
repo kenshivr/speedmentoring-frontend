@@ -19,7 +19,7 @@ export default function Page({ userId }) {
       const response = await axios.get('http://localhost:3001/api/getAcademicDegrees');
       setGrados(response.data);
     } catch (error) {
-      alert('Error al obtener los grados académicos: ' + error.response.data.message);
+      //alert('Error al obtener los grados académicos: ' + error.response.data.message);
     }
   }, []);
 

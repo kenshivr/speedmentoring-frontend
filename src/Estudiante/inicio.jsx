@@ -12,8 +12,13 @@ const StudentPage = () => {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          setSessions(data.data);
-          setFilteredSessions(data.data);
+          // Formatear la fecha
+          const formattedData = data.data.map(session => ({
+            ...session,
+            Fecha: formatDate(session.Fecha)
+          }));
+          setSessions(formattedData);
+          setFilteredSessions(formattedData);
         } else {
           setSessions([]);
           setFilteredSessions([]);
@@ -32,11 +37,15 @@ const StudentPage = () => {
       )
     );
   }, [search, sessions]);
-  
+
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
-  
+
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('-');
+    return `${parseInt(day)}/${parseInt(month)}/${year}`;
+  };
 
   return (
     <div className='container p-5'>

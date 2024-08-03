@@ -149,7 +149,9 @@ export default function Page() {
                   <select className="form-select" aria-label="Default select example" name="MentorRFC" onChange={handleChange}>
                     <option value="">Mentor</option>
                     {mentores.map((mentor) => (
-                      <option key={mentor.MentorRFC} value={mentor.MentorRFC}>{mentor.Nombre}</option>
+                      <option key={mentor.MentorRFC} value={mentor.MentorRFC}>
+                        {`${mentor.MentorRFC} - ${mentor.Nombre} ${mentor.ApellidoMaterno} ${mentor.ApellidoPaterno}`}
+                      </option>
                     ))}
                   </select>
                 </div>

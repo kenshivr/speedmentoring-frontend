@@ -66,7 +66,7 @@ export default function EventsPage() {
                             </div>
                             <div className="row">
                               <h6 style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '11px' }}>
-                                Fecha de publicación: {new Date(event.Fecha).toLocaleDateString()} a las {new Date(event.Fecha).toLocaleTimeString()}
+                                Fecha de publicación: {new Date(event.Fecha).toLocaleDateString()}
                               </h6>
                             </div>
                             <div className="row">

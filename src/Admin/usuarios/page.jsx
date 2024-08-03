@@ -74,6 +74,7 @@ export default function Page() {
                 <th scope="col">Teléfono</th>
                 <th scope="col">Especialidad</th>
                 <th scope="col">E-mail</th>
+                <th scope="col">E-mail institucional</th>
                 <th scope="col">Periodo</th>
                 <th scope="col">Fecha de registro</th>
                 <th scope="col">Sesiones</th>
@@ -100,6 +101,7 @@ export default function Page() {
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
+                  <td>{'N/A'}</td>
                   <td>
                     {/* <button className="btn btn-sm" onClick={() => handleActionClick(record.id, 'options')}>
                       <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z"/></svg>
@@ -118,7 +120,8 @@ export default function Page() {
                   <td>{'Alumno'}</td>
                   <td>{'N/A'}</td>
                   <td>{student.EspecialidadID}</td>
-                  <td>{'N/A'}</td>
+                  <td>{student.CorreoElectronico}</td>
+                  <td>{student.AlumnoID ? `${student.AlumnoID}@pcpuma.acatlan.unam.mx` : 'N/A'}</td>
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
                   <td>{'N/A'}</td>
