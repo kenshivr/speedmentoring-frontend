@@ -145,8 +145,8 @@ function App() {
         {/* Listo */}<Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
         {/* Listo */}<Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
 
-        +{/* Rutas protegidas para las páginas de mentor */}
-        <Route path="/Mentor/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPage} />} />
+        {/* Rutas protegidas para las páginas de mentor */}
+        {/* LISTO */} <Route path="/Mentor/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPage} />} />
         <Route path="/Mentor/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1} />} />
         <Route path="/Mentor/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPerfil} userId={userId} />} />
         <Route path="/Mentor/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones} userId={userId} />} />
@@ -186,9 +186,9 @@ function App() {
         <Route path="/Admin/usuarios/importarUsuarios" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminImportarUsuarios} />} />
         <Route path="/Admin/especialidades/nuevaEspecialidad/editarEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEspecialidad} />}/>
         
-        <Route path='/Mentor/eventos' element={<MentorEvento />}/>
+        {/* LISTO */} <Route path='/Mentor/eventos' element={<MentorEvento />}/>
         <Route path='/Mentor/sesiones/nuevaSesion' element={<MentorNuevaSesion />}/>
-        <Route path='/Mentor/sesiones/editarSesion' element={<MentorEditarSesion />}/>
+        {/* LISTO */} <Route path='/Mentor/sesiones/editarSesion' element={<MentorEditarSesion />}/>
       </Routes>
 
       <Footer />

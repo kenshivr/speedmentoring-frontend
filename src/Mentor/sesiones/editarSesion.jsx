@@ -1,40 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function EditSessionPage() {
-  const { id } = useParams(); // Obtiene el ID de la sesión desde la URL
+  const sesionId = localStorage.getItem('sesionId');
+  const [datos, setDatos] = useState({});
   const [showDateEditor, setShowDateEditor] = useState(false);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
-  const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState('');
-  const [mentorRFC, setMentorRFC] = useState(''); // Aquí debes obtener el RFC del mentor
 
-  useEffect(() => {
-    // Obtener el RFC del mentor del usuario (puedes adaptarlo a tu lógica de autenticación)
-    fetch('/api/mentor/me')  // Asumiendo que tienes un endpoint para obtener el RFC del mentor actual
-      .then(response => response.json())
-      .then(data => setMentorRFC(data.RFC))
-      .catch(error => console.error('Error fetching mentor info:', error));
-    
-    // Cargar alumnos asignados al mentor actual
-    fetch(`/api/mentors/${mentorRFC}/students`)
-      .then(response => response.json())
-      .then(data => setStudents(data))
-      .catch(error => console.error('Error fetching students:', error));
-    
+  useEffect(() => {    
     // Cargar datos de la sesión a editar
-    fetch(`/api/sessions/${id}`)
+    fetch(`http://localhost:3001/api/getSesionMentor/${sesionId}`)
       .then(response => response.json())
       .then(data => {
-        setTitle(data.title);
-        setDate(data.date);
-        setDescription(data.description);
-        setSelectedStudent(data.studentId);
+        console.log(data);
+        setDatos(data);
+        setTitle(data.title || ''); // Asignar valor predeterminado
+        setDescription(data.description || ''); // Asignar valor predeterminado
+        const studentName = `${data.Nombre || ''} ${data.ApellidoPaterno || ''} ${data.ApellidoMaterno || ''}`.trim();
+        setSelectedStudent(studentName);
+        setDate(data.Fecha.split('T')[0]);
       })
       .catch(error => console.error('Error fetching session:', error));
-  }, [id, mentorRFC]);
+  }, [sesionId]);
 
   const toggleDateEditor = () => {
     setShowDateEditor(!showDateEditor);
@@ -42,16 +32,12 @@ export default function EditSessionPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const sessionData = {
-      title,
-      date,
-      description,
-      studentId: selectedStudent
+      date
     };
 
     // Enviar datos al servidor para actualizar la sesión
-    fetch(`/api/sessions/${id}`, {
+    fetch(`http://localhost:3001/api/putSesionMentor/${sesionId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -60,7 +46,7 @@ export default function EditSessionPage() {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Session updated:', data);
+        alert('Sesion actualizada con exito!');
         // Redirigir a la página principal o mostrar mensaje de éxito
       })
       .catch(error => console.error('Error updating session:', error));
@@ -90,18 +76,14 @@ export default function EditSessionPage() {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="studentSelect" className="form-label">Selecciona el Alumno</label>
-                  <select
-                    id="studentSelect"
-                    className="form-select"
+                  <label htmlFor="studentName" className="form-label">Alumno</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="studentName"
                     value={selectedStudent}
-                    onChange={(e) => setSelectedStudent(e.target.value)}
-                  >
-                    <option value="">Selecciona un alumno</option>
-                    {students.map(student => (
-                      <option key={student.id} value={student.id}>{student.name}</option>
-                    ))}
-                  </select>
+                    readOnly
+                  />
                 </div>
                 <div className="mb-3">
                   <button
@@ -131,7 +113,7 @@ export default function EditSessionPage() {
                   <div className="mb-3">
                     <label htmlFor="sessionDate" className="form-label">Fecha y Hora</label>
                     <input
-                      type="datetime-local"
+                      type="text"
                       className="form-control"
                       id="sessionDate"
                       value={date}

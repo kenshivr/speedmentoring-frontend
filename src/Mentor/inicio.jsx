@@ -13,21 +13,28 @@ const MentorPage = () => {
     fetch(`http://localhost:3001/api/showSesionesMentor/${userId}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data.data[0]);
         setSessions(data.data);
         setFilteredSessions(data.data);
       })
       .catch(error => console.error('Error fetching sessions:', error));
-  }, []);
+  }, [userId]);
 
-  // useEffect(() => {
-  //   // Filtrar sesiones basadas en la búsqueda
-  //   setFilteredSessions(
-  //     sessions.filter(session =>
-  //       session.studentName.toLowerCase().includes(search.toLowerCase())
-  //     )
-  //   );
-  // }, [search, sessions]);
+  useEffect(() => {
+    // Filtrar sesiones basadas en la búsqueda
+    setFilteredSessions(
+      sessions.filter(session => {
+        const fullName = `${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`.toLowerCase();
+        const formattedDate = session.Fecha.split('T')[0];
+        const lowerCaseSearch = search.toLowerCase();
+
+        return (
+          fullName.includes(lowerCaseSearch) ||
+          formattedDate.includes(lowerCaseSearch) ||
+          session.Periodo.toLowerCase().includes(lowerCaseSearch)
+        );
+      })
+    );
+  }, [search, sessions]);
 
   function handleLink(session) {
     return () => {
@@ -96,7 +103,7 @@ const MentorPage = () => {
                 </tr>
               </thead>
               <tbody className="table-light">
-                {filteredSessions.length > 0 ? (
+                {filteredSessions && filteredSessions.length > 0 ? (
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
                       <td>{`${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`}</td>
