@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 export default function Page() {
   
   const [texto, setTexto] = useState('');
-  const [fecha, setFecha] = useState('');
-  const [nombre, setNombre] = useState('');
+  const [Fecha, setFecha] = useState('');
+  const [Titulo, setTitulo] = useState('');
   const [originalTexto, setOriginalTexto] = useState(''); 
   const [editableTexto, setEditableTexto] = useState(false);
 
@@ -18,8 +18,8 @@ export default function Page() {
           if (response.data.success) {
             setTexto(response.data.data.texto || '');
             setOriginalTexto(response.data.data.texto || '');
-            setFecha(response.data.data.fecha || '');
-            setNombre(response.data.data.nombre || '');
+            setFecha(response.data.data.Fecha || '');
+            setTitulo(response.data.data.Titulo || '');
           } else {
             console.error('Error al obtener detalles del reporte:', response.data.message);
           }
@@ -33,6 +33,11 @@ export default function Page() {
 
     fetchReporte();
   }, []);
+
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    return `${parseInt(day)}/${parseInt(month)}/${year}`;
+  };
 
   const handleEditTextoToggle = (e) => {
     e.preventDefault();
@@ -78,8 +83,8 @@ export default function Page() {
         <div className="col-12 col-md-4 order-last order-md-first m-1 d-flex flex-column" style={{ backgroundColor: 'rgba(213,213,213,0.8)', borderColor: '#908486', borderRadius: '20px', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
           
           <div className='container p-3'>
-            <h2>{new Date(fecha).toLocaleDateString()}</h2>
-            <h6>Mentor - {nombre}</h6>
+            <h2>{formatDate(Fecha)}</h2>
+            <h6>Título - {Titulo}</h6>
           </div>
 
         </div>

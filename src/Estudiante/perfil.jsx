@@ -7,22 +7,24 @@ export default function Page() {
 
   const [nombre, setNombre] = useState('');
   const [periodo, setPeriodo] = useState('');
-
-  // Eliminar estado y función para especialidades
-  // const [especialidad, setEspecialidad] = useState('');
-  // const [especialidades, setEspecialidades] = useState([]);
+  const [especialidad, setEspecialidad] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [mentorRFC, setMentorRFC] = useState('');
 
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
-      const { Nombre, ApellidoPaterno, ApellidoMaterno, Periodo } = response.data;
+      const { Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, EspecialidadID, NumeroTelefono, CorreoElectronicoPersonal, MentorRFC } = response.data;
 
-      // Concatenar los nombres y apellidos
       const fullName = `${Nombre || ''} ${ApellidoPaterno || ''} ${ApellidoMaterno || ''}`.trim();
-      
-      // Actualizar el estado con el nombre completo y el período
+
       setNombre(fullName);
       setPeriodo(Periodo);
+      setEspecialidad(EspecialidadID);
+      setTelefono(NumeroTelefono);
+      setCorreo(CorreoElectronicoPersonal);
+      setMentorRFC(MentorRFC);
 
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + (error.response?.data?.message || error.message));
@@ -31,21 +33,20 @@ export default function Page() {
 
   useEffect(() => {
     if (user) {
-      fetchUserData(); // Llama a fetchUserData cuando el componente se monta
+      fetchUserData();
     }
   }, [fetchUserData, user]);
 
-  // Guardar cambios sin la especialidad
   const handleSave = async () => {
     try {
       const response = await axios.post(`http://localhost:3001/api/updateStudent/${user}`, {
-        // Eliminar especialidad del objeto enviado
-        // especialidad
+        telefono,
+        correo
       });
       if (response.data) {
-        alert('Se ha enviado un correo con la nueva contraseña.');
+        alert('Se ha actualizado la información correctamente.');
       }
-      fetchUserData(); // Asegúrate de que fetchUserData es una función válida y se está ejecutando correctamente
+      fetchUserData();
     } catch (error) {
       console.error('Error al guardar los cambios:', error);
       alert('Error al guardar los cambios: ' + (error.response ? error.response.data.message : error.message));
@@ -59,116 +60,136 @@ export default function Page() {
         <div className="m-5">
 
           <div className="mb-3 row justify-content-Evenly">
-            <label htmlFor="staticEmail" className="col-sm-4 col-form-label">Nombre</label>
-            <div className="col-sm-6 ps-4" style={{ backgroundColor:'white', borderRadius:'25px'}}>
+            <label htmlFor="staticNombre" className="col-sm-4 col-form-label">Nombre</label>
+            <div className="col-sm-6 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
               <input 
                 type="text" 
                 readOnly
                 className="form-control-plaintext" 
-                id="staticEmail" 
+                id="staticNombre" 
                 value={nombre || ''} 
               />
             </div>
           </div>
 
-          <div className="mb-3 row justify-content-between">
-
-            <div className="mb-3 row justify-content-Evenly">
-              <label htmlFor="staticEmail" className="col-sm-4 col-form-label">Periodo</label>
-              <div className="col-sm-6 ms-2 ps-4" style={{ backgroundColor:'white', borderRadius:'25px'}}>
-                <input 
-                  type="text" 
-                  readOnly 
-                  className="form-control-plaintext" 
-                  id="periodo" 
-                  value={periodo || ''} 
-                />
-              </div>
+          <div className="mb-3 row justify-content-Evenly">
+            <label htmlFor="staticPeriodo" className="col-sm-4 col-form-label">Periodo</label>
+            <div className="col-sm-6 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
+              <input 
+                type="text" 
+                readOnly 
+                className="form-control-plaintext" 
+                id="staticPeriodo" 
+                value={periodo || ''} 
+              />
             </div>
+          </div>
 
-            <div className="row justify-content-Evenly">
-              <label htmlFor="staticPassword" className="mt-3 col-sm-4 col-form-label">Contraseña</label>
-              <div className="col-sm-6">
-                <Link
-                  to="/Estudiante/perfil/changePassword"
-                  className="btn btn-sm w-50 my-4"
-                  style={{ 
-                    backgroundColor: '#EFCA45', 
-                    color: '#4F3F05', 
-                    border: '1px solid #000',
-                    borderRadius: '20px',
-                    transition: 'background-color 0.3s, color 0.3s' 
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#000';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#EFCA45';
-                    e.currentTarget.style.color = '#4F3F05';
-                  }}
-                >
-                  Modificar
-                </Link>
-              </div>
+          <div className="mb-3 row justify-content-Evenly">
+            <label htmlFor="staticEspecialidad" className="col-sm-4 col-form-label">Especialidad</label>
+            <div className="col-sm-6 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
+              <input 
+                type="text" 
+                readOnly 
+                className="form-control-plaintext" 
+                id="staticEspecialidad" 
+                value={especialidad || ''} 
+              />
             </div>
+          </div>
 
-            <div className="row">
-              <div className="col-md-6 d-flex align-items-center justify-content-center my-2">
-              </div>
-              <div className="col-md-6 d-flex align-items-center justify-content-center my-2">
-                <button
-                  type="button"
-                  className="btn btn-sm w-50 my-4 mx-3"
-                  style={{ 
-                    backgroundColor: '#EFCA45', 
-                    color: 'black', 
-                    border: '1px solid #000',
-                    borderRadius:'20px',
-                    transition: 'background-color 0.3s, color 0.3s' 
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#000';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#EFCA45';
-                    e.currentTarget.style.color = 'black';
-                  }}
-                  onClick={handleSave}
-                >
-                  Guardar
-                </button>
-                <Link
-                  type="button"
-                  className="btn btn-sm w-50 mx-3"
-                  to="/Estudiante/inicio"
-                  style={{ 
-                    backgroundColor: '#A0BAEB', 
-                    color: '#4F3F05', 
-                    border: '1px solid #000',
-                    borderRadius: '20px',
-                    transition: 'background-color 0.3s, color 0.3s' 
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#000';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#EBE4CA';
-                    e.currentTarget.style.color = '#4F3F05';
-                  }}>
-                  Cancelar
-                </Link>
-              </div>
+          <div className="mb-3 row justify-content-Evenly">
+            <label htmlFor="inputTelefono" className="col-sm-4 col-form-label">Número de Teléfono</label>
+            <div className="col-sm-6 ps-2" style={{ backgroundColor:'white', borderRadius:'25px'}}>
+              <input 
+                type="text"
+                className="form-control" 
+                id="inputTelefono" 
+                value={telefono || ''} 
+                onChange={(e) => setTelefono(e.target.value)}
+                style={{ borderColor: 'white', borderRadius: '25px', boxShadow: 'none' }}
+              />
             </div>
+          </div>
 
+          <div className="mb-3 row justify-content-Evenly">
+            <label htmlFor="inputCorreo" className="col-sm-4 col-form-label">Correo Electrónico</label>
+            <div className="col-sm-6 ps-2" style={{ backgroundColor:'white', borderRadius:'25px'}}>
+              <input 
+                type="email"
+                className="form-control" 
+                id="inputCorreo" 
+                value={correo || ''} 
+                onChange={(e) => setCorreo(e.target.value)}
+                style={{ borderColor: 'white', borderRadius: '25px', boxShadow: 'none' }}
+              />
+            </div>
+          </div>
+
+          <div className="mb-3 row justify-content-Evenly">
+            <label htmlFor="staticMentorRFC" className="col-sm-4 col-form-label">Mentor</label>
+            <div className="col-sm-6 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
+              <input 
+                type="text" 
+                readOnly 
+                className="form-control-plaintext" 
+                id="staticMentorRFC" 
+                value={mentorRFC || ''} 
+              />
+            </div>
+          </div>
+
+          <div className="row justify-content-center">
+            <div className="col-md-6 d-flex align-items-center justify-content-center my-2">
+              <button
+                type="button"
+                className="btn btn-sm w-50 my-4 mx-3"
+                style={{ 
+                  backgroundColor: '#EFCA45', 
+                  color: 'black', 
+                  border: '1px solid #000',
+                  borderRadius:'20px',
+                  transition: 'background-color 0.3s, color 0.3s' 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EFCA45';
+                  e.currentTarget.style.color = 'black';
+                }}
+                onClick={handleSave}
+              >
+                Guardar
+              </button>
+              <Link
+                type="button"
+                className="btn btn-sm w-50 mx-3"
+                to="/Estudiante/inicio"
+                style={{ 
+                  backgroundColor: '#A0BAEB', 
+                  color: '#4F3F05', 
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s' 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EBE4CA';
+                  e.currentTarget.style.color = '#4F3F05';
+                }}
+              >
+                Cancelar
+              </Link>
+            </div>
           </div>
 
         </div>
-
       </div>
-      
     </div>
   );
 }

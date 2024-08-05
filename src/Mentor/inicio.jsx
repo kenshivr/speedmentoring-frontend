@@ -42,6 +42,11 @@ const MentorPage = () => {
     };
   }
 
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    return `${parseInt(day)}/${parseInt(month)}/${year}`;
+  };
+
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
@@ -107,7 +112,7 @@ const MentorPage = () => {
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
                       <td>{`${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`}</td>
-                      <td>{session.Fecha.split('T')[0]}</td>
+                      <td>{formatDate(session.Fecha)}</td>
                       <td>{session.Periodo}</td>
                       <td>
                         <button className="btn btn-sm">

@@ -33,7 +33,7 @@ const StudentPage = () => {
       sessions.filter(session => 
         session.SesionID.toString().includes(search) ||
         session.Fecha.includes(search) ||
-        session.Periodo.toLowerCase().includes(search.toLowerCase())
+        session.Titulo.toLowerCase().includes(search.toLowerCase())
       )
     );
   }, [search, sessions]);
@@ -99,7 +99,7 @@ const StudentPage = () => {
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">Fecha</th>
-                  <th scope="col">Periodo</th>
+                  <th scope="col">Titulo</th>
                 </tr>
               </thead>
               <tbody className="table-light">
@@ -108,7 +108,7 @@ const StudentPage = () => {
                     <tr key={index}>
                       <td>{session.SesionID}</td>
                       <td>{session.Fecha.split('T')[0]}</td>
-                      <td>{session.Periodo}</td>
+                      <td>{session.Titulo}</td>
                     </tr>
                   ))
                 ) : (

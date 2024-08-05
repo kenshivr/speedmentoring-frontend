@@ -107,7 +107,7 @@ export default function Page({ userId }) {
               <tr>
                 <th scope="col">Fecha</th>
                 <th scope="col">Reporte</th>
-                <th scope="col">Nombre</th>
+                <th scope="col">Mentor</th>
               </tr>
             </thead>
             <tbody className="table-light">

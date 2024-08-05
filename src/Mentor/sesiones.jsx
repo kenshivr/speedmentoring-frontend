@@ -47,11 +47,18 @@ export default function Page({ userId }) {
     setFilteredSessions(filtered);
   };
 
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    return `${parseInt(day)}/${parseInt(month)}/${year}`;
+  };
+
   function handleLink(session) {
     return () => {
+      console.log('Storing session ID:', session.sesionid); // Agrega esto para depuración
       localStorage.setItem('sesionId', session.sesionid);
     };
   }
+  
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
@@ -102,7 +109,7 @@ export default function Page({ userId }) {
             <thead>
               <tr>
                 <th scope="col">Fecha</th>
-                <th scope="col">Nombre</th>
+                <th scope="col">Título</th>
                 <th scope="col">Reporte</th>
                 <th scope="col"></th>
               </tr>
@@ -110,8 +117,8 @@ export default function Page({ userId }) {
             <tbody className="table-light">
               {filteredSessions.map((session, index) => (
                 <tr key={index}>
-                  <td>{new Date(session.fecha).toLocaleDateString()}</td>
-                  <td>{session.nombre}</td>
+                  <td>{formatDate(session.Fecha)}</td>
+                  <td>{session.Titulo}</td>
                   <td>
                     {session.reporteid ? (
                       <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#00CC00">
