@@ -73,11 +73,11 @@ export default function Retroalim() {
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
-        <div className="col-md-8">
+        <div className="col-md-8 p-5" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'25px' }}>
           <h2>Formulario de Retroalimentación</h2>
           <form onSubmit={handleSubmit}>
             {/* Pregunta 1 */}
-            <div className="mb-3">
+            <div className="my-4">
               <label htmlFor="p1" className="form-label">Califica el desempeño general de tu mentor en esta sesión.</label>
               <select
                 className="form-select"
@@ -96,7 +96,7 @@ export default function Retroalim() {
             </div>
 
             {/* Pregunta 2 */}
-            <div className="mb-3">
+            <div className="my-4">
               <label htmlFor="p2" className="form-label">¿Cómo calificarías la claridad con la que tu mentor explicó los temas discutidos?</label>
               <select
                 className="form-select"
@@ -115,7 +115,7 @@ export default function Retroalim() {
             </div>
 
             {/* Pregunta 3 */}
-            <div className="mb-3">
+            <div className="my-4">
               <label htmlFor="p3" className="form-label">¿El mentor respondió a tus preguntas de manera comprensible?</label>
               <select
                 className="form-select"
@@ -134,7 +134,7 @@ export default function Retroalim() {
             </div>
 
             {/* Pregunta 4 */}
-            <div className="mb-3">
+            <div className="my-4">
               <label htmlFor="p4" className="form-label">¿El mentor te proporcionó recursos útiles para tu desarrollo?</label>
               <select
                 className="form-select"
@@ -153,7 +153,7 @@ export default function Retroalim() {
             </div>
 
             {/* Pregunta 5 */}
-            <div className="mb-3">
+            <div className="my-4">
               <label htmlFor="p5" className="form-label">¿Te sentiste cómodo(a) comunicándote con tu mentor?</label>
               <select
                 className="form-select"
@@ -172,7 +172,7 @@ export default function Retroalim() {
             </div>
 
             {/* Pregunta 6 */}
-            <div className="mb-3">
+            <div className="my-4">
               <label htmlFor="p6" className="form-label">¿El mentor fue puntual en la sesión?</label>
               <select
                 className="form-select"
@@ -191,7 +191,7 @@ export default function Retroalim() {
             </div>
 
             {/* Pregunta 7 */}
-            <div className="mb-3">
+            <div className="my-4">
               <label htmlFor="p7" className="form-label">¿La sesión estuvo bien organizada y estructurada?</label>
               <select
                 className="form-select"
@@ -210,7 +210,7 @@ export default function Retroalim() {
             </div>
 
             {/* Pregunta 8 */}
-            <div className="mb-3">
+            <div className="my-4">
               <label className="form-label">¿Qué hizo bien tu mentor en la sesión?</label><br />
               <input
                 type="checkbox"
@@ -254,7 +254,7 @@ export default function Retroalim() {
             </div>
 
             {/* Pregunta 9 */}
-            <div className="mb-3">
+            <div className="my-4">
               <label htmlFor="comentariosAdicionales" className="form-label">Comentarios adicionales</label>
               <textarea
                 className="form-control"

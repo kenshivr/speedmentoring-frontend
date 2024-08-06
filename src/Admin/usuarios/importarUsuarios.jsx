@@ -145,7 +145,7 @@ export default function Page() {
               <Link
                 type="button"
                 className="btn btn-sm w-50 mx-3"
-                to="/admin/usuarios/page"
+                to="/admin/usuarios"
                 style={{
                   backgroundColor: '#A0BAEB',
                   color: '#4F3F05',

@@ -50,7 +50,7 @@ export default function Page() {
               />
 
               <Link
-                to="/Admin/usuarios/newUser/page"
+                to="/Admin/usuarios/crearUsuario"
                 className="btn btn-danger btn-outline-light btn-sm"
                 role="button"
               >

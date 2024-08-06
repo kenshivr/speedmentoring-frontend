@@ -16,6 +16,7 @@ export default function Header() {
                   src="https://www.acatlan.unam.mx/identidad-acatlan/img/Logotipos/Logotipo/logo-blancoBis.png" 
                   alt="Logo Fes Acatlan" 
                   className={`d-inline-block align-text-start img-fluid ${styles.logoImg}`}
+                  style={{ minHeight:'50px', minWidth:'150px'}}
                 />
               </a>
             </div>
@@ -29,6 +30,7 @@ export default function Header() {
                   src="https://francia.unam.mx/wp-content/uploads/2021/10/Logo-UNAM-Blanco-Landscape.png" 
                   alt="Logo UNAM" 
                   className={`d-inline-block align-text-top img-fluid ${styles.logoImg}`}
+                  style={{ minHeight:'25px', minWidth:'100px'}}
                 />
               </a>
             </div>

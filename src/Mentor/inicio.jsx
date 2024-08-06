@@ -101,9 +101,9 @@ const MentorPage = () => {
             <table className="table table-hover">
               <thead>
                 <tr>
+                <th scope="col">Título</th>
                   <th scope="col">Alumno</th>
                   <th scope="col">Fecha</th>
-                  <th scope="col">Periodo</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -111,9 +111,9 @@ const MentorPage = () => {
                 {filteredSessions && filteredSessions.length > 0 ? (
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
+                      <td>{session.Titulo}</td>
                       <td>{`${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`}</td>
                       <td>{formatDate(session.Fecha)}</td>
-                      <td>{session.Periodo}</td>
                       <td>
                         <button className="btn btn-sm">
                           <Link to={`/Mentor/sesiones/editarSesion`} onClick={handleLink(session)}>

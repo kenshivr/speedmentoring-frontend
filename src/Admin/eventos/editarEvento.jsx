@@ -1,54 +1,80 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Importa useNavigate
 
 export default function Page() {
+  const [eventId, setEventId] = useState();
   const [eventName, setEventName] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [specialties, setSpecialties] = useState([]);
   const [description, setDescription] = useState('');
+  const [date, setDate] = useState('');
   const [hasLink, setHasLink] = useState(false);
   const [link, setLink] = useState('');
 
+  const navigate = useNavigate(); // Inicializa useNavigate
+
   useEffect(() => {
+    const eventId = localStorage.getItem('eventId');
+    if (eventId) {
+      setEventId(eventId);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Obtener especialidades
     axios.get('http://localhost:3001/api/especialidades')
       .then(response => {
         setSpecialties(response.data);
       })
       .catch(error => {
-        console.error('There was an error fetching the specialties!', error);
+        console.error('Error al obtener especialidades:', error);
       });
-  }, []);
+
+    // Obtener detalles del evento para editar
+    if (eventId) {
+      axios.get(`http://localhost:3001/api/getEvent/${eventId}`)
+        .then(response => {
+          const event = response.data;
+          setEventId(event.EventoID);
+          setEventName(event.Nombre);
+          setSpecialty(event.Especialidad);
+          setDescription(event.Descripción);
+          setDate(event.Fecha.split('T')[0]);
+          setHasLink(!!event.Link);
+          setLink(event.Link || '');
+        })
+        .catch(error => {
+          console.error('Error al obtener los detalles del evento:', error);
+        });
+    }
+  }, [eventId]);
 
   const handleSave = (event) => {
     event.preventDefault();
-    
+
     const eventData = {
       eventName,
       specialty,
       description,
-      date: new Date().toISOString().split('T')[0], // Asignar la fecha actual
+      date,
       link: hasLink ? link : ''
     };
 
-    axios.post('http://localhost:3001/api/newEventAdmin', eventData)
+    axios.post(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
       .then(response => {
-        alert('Evento creado correctamente!');
-        setEventName('');
-        setSpecialty('');
-        setDescription('');
-        setHasLink(false);
-        setLink('');
+        alert('¡Evento actualizado exitosamente!');
+        navigate('/Admin/page'); // Redirige a /Admin/page después del guardado
       })
       .catch(error => {
-        alert('Verificar si los datos están en el formato correcto, no fue posible agregar el nuevo evento.');
-        console.error('Hubo un error al guardar el evento!', error);
+        alert('Error al actualizar el evento. Por favor, verifique los datos ingresados.');
+        console.error('Error al actualizar el evento:', error);
       });
   };
 
   return (
     <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'20px' }}>
-      <h1 className='ms-4'>Nuevo evento</h1>
+      <h1 className='ms-4'>Editar evento</h1>
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-6 d-flex flex-column">
           <form>
@@ -56,7 +82,7 @@ export default function Page() {
             <input 
               type="text" 
               className="form-control" 
-              id="eventoID_1" 
+              id="nombreEvento"
               placeholder="Ejemplo de nombre del evento"
               value={eventName}
               onChange={(e) => setEventName(e.target.value)}
@@ -67,7 +93,7 @@ export default function Page() {
           <form>
             <select 
               className="form-select" 
-              aria-label="Default select example"
+              aria-label="Especialidad"
               value={specialty}
               onChange={(e) => setSpecialty(e.target.value)}
             >
@@ -91,6 +117,15 @@ export default function Page() {
           />
         </div>
       </div>
+      <label htmlFor="fechaEvento" className="form-label">Fecha</label>
+      <input 
+        type="text" 
+        className="form-control" 
+        id="fechaEvento" 
+        placeholder="Fecha del evento. Ejemplo: 2024-01-01"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+      />
       <div className="row justify-content-evenly mt-4">
         <div className="col-12 col-md-3 d-flex flex-column">
           <legend>¿Botón para más información?</legend>
@@ -102,12 +137,12 @@ export default function Page() {
                 className="form-check-input" 
                 type="radio" 
                 name="flexRadioDefault" 
-                id="flexRadioDefault1" 
+                id="linkYes" 
                 checked={hasLink}
                 onChange={() => setHasLink(true)}
               />
-              <label className="form-check-label" htmlFor="flexRadioDefault1">
-                Si
+              <label className="form-check-label" htmlFor="linkYes">
+                Sí
               </label>
             </div>
             <div className="form-check">
@@ -115,11 +150,11 @@ export default function Page() {
                 className="form-check-input" 
                 type="radio" 
                 name="flexRadioDefault" 
-                id="flexRadioDefault2"
+                id="linkNo"
                 checked={!hasLink}
                 onChange={() => setHasLink(false)}
               />
-              <label className="form-check-label" htmlFor="flexRadioDefault2">
+              <label className="form-check-label" htmlFor="linkNo">
                 No
               </label>
             </div>
@@ -130,7 +165,7 @@ export default function Page() {
             <input 
               type="text" 
               className="form-control" 
-              id="eventoLink_1" 
+              id="eventoLink" 
               placeholder="Ejemplo de link"
               value={link}
               onChange={(e) => setLink(e.target.value)}
@@ -168,7 +203,7 @@ export default function Page() {
           <Link
             type="button"
             className="btn w-100"
-            to="/Admin/page"
+            to="/Admin/inicio"
             style={{ 
               backgroundColor: '#EBE4CA', 
               color: '#4F3F05', 

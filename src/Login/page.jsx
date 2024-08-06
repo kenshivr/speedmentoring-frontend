@@ -38,7 +38,7 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
             navigate('/Mentor/inicio');
             break;
           case 'admin':
-            navigate('/Admin/page');
+            navigate('/Admin/inicio');
             break;
           default:
             navigate('/');

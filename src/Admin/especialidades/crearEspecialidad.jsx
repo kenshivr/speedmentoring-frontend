@@ -75,7 +75,7 @@ export default function CreateSpecialty() {
                   <Link
                     type="button"
                     className="btn btn-sm w-50 mx-3"
-                    to="/Admin/especialidades/page"
+                    to="/Admin/especialidades"
                     style={{ 
                       backgroundColor: '#EBE4CA', 
                       color: '#4F3F05', 

@@ -82,7 +82,7 @@ export default function ManageSpecialties() {
 
               <Link
                 className="btn btn-danger btn-outline-light btn-sm"
-                to="/Admin/especialidades/nuevaEspecialidad/page"
+                to="/Admin/especialidades/crearEspecialidad"
                 role="button"
               >
                 Nueva especialidad
@@ -107,7 +107,7 @@ export default function ManageSpecialties() {
                   <td>
                     <Link
                       className="btn btn-sm"
-                      to={`/Admin/especialidades/nuevaEspecialidad/editarEspecialidad`}
+                      to={`/Admin/especialidades/editarEspecialidad`}
                       style={{
                         backgroundColor: '#EFCA45',
                         color: '#4F3F05',

@@ -33,7 +33,7 @@ const StudentPage = () => {
       sessions.filter(session => 
         session.SesionID.toString().includes(search) ||
         session.Fecha.includes(search) ||
-        session.Titulo.toLowerCase().includes(search.toLowerCase())
+        session.Titulo.includes(search)
       )
     );
   }, [search, sessions]);

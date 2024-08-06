@@ -98,7 +98,7 @@ export default function Page() {
 
               <Link
                 className="btn btn-danger btn-outline-light btn-sm"
-                to="/Admin/nuevoEvento/page"
+                to="/Admin/eventos/crearEvento"
                 role="button"
               >
                 Nuevo evento
@@ -155,7 +155,7 @@ export default function Page() {
                         <button className="dropdown-item" onClick={() => handleDelete(evento.EventoID)}>Eliminar</button>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to={`/Admin/editarEvento/page`} onClick={() => handleEventEdit(evento.EventoID)} >Editar</Link>
+                        <Link className="dropdown-item" to={`/Admin/eventos/editarEvento`} onClick={() => handleEventEdit(evento.EventoID)} >Editar</Link>
                       </li>
                     </ul>
                   </div>
