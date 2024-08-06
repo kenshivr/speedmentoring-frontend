@@ -49,6 +49,7 @@ import AdminEstadisticasEspecialidades from './Admin/estadisticas/especialidades
 import AdminEstadisticasEventos from './Admin/estadisticas/eventos';
 import AdminEstadisticasFeedbackMentores from './Admin/estadisticas/feedbackMentores';
 import AdminEstadisticasFeedbackEstudiantes from './Admin/estadisticas/feedbackEstudiantes';
+import AdminCrearReporte from './Admin/estadisticas/crearReporte';
 
 // Componente para la página no encontrada
 const NotFound = () => (
@@ -199,6 +200,7 @@ function App() {
         <Route path="/admin/estadisticas/feedbackMentores" element={<AdminEstadisticasFeedbackMentores />} />
         <Route path="/admin/estadisticas/reportes" element={<AdminEstadisticasReportes />} />
         <Route path="/admin/estadisticas/sesiones" element={<AdminEstadisticasSesiones />} />
+        <Route path="/admin/estadisticas/crearReporte" element={<AdminCrearReporte />} />
         
         {/*███████████████████████████████████████████████████████████████*/}
 

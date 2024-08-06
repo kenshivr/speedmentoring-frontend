@@ -120,6 +120,19 @@ export default function ManageSpecialties() {
               </div>
             </div>
           </div>
+          <div className="col-md-4">
+            <div className="card" style={{ backgroundColor: '#EFCA45', color: '#4F3F05' }}>
+              <div className="card-body">
+                <h5 className="card-title">Crear Reporte</h5>
+                <Link
+                  className="btn btn-dark"
+                  to="/Admin/estadisticas/crearReporte"
+                >
+                  Ver
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
