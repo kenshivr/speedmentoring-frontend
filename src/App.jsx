@@ -32,7 +32,6 @@ import EstudianteSesiones1r from './Estudiante/sesiones/verSesion/retroalimentac
 import AdminPage from './Admin/inicio';
 import AdminUsuarios from './Admin/usuarios';
 import AdminEditEvent from './Admin/eventos/editarEvento';
-import AdminEstadisticas from './Admin/estadisticas';
 import AdminAgregarEvento from './Admin/eventos/crearEvento';
 import AdminEspecialidades from './Admin/especialidades';
 import AdminAgregarUsuario from './Admin/usuarios/crearUsuario';
@@ -40,6 +39,16 @@ import AdminEditarUsuario from './Admin/usuarios/editarUsuario';
 import AdminImportarUsuarios from './Admin/usuarios/importarUsuarios';
 import AdminNuevaEspecialidad from './Admin/especialidades/crearEspecialidad';
 import AdminEditarEspecialidad from './Admin/especialidades/editarEspecialidad';
+
+import AdminEstadisticas from './Admin/estadisticas';
+import AdminEstadisticasEstudiantes from './Admin/estadisticas/estudiantes';
+import AdminEstadisticasMentores from './Admin/estadisticas/mentores';
+import AdminEstadisticasSesiones from './Admin/estadisticas/sesiones';
+import AdminEstadisticasReportes from './Admin/estadisticas/reportes';
+import AdminEstadisticasEspecialidades from './Admin/estadisticas/especialidades';
+import AdminEstadisticasEventos from './Admin/estadisticas/eventos';
+import AdminEstadisticasFeedbackMentores from './Admin/estadisticas/feedbackMentores';
+import AdminEstadisticasFeedbackEstudiantes from './Admin/estadisticas/feedbackEstudiantes';
 
 // Componente para la página no encontrada
 const NotFound = () => (
@@ -179,6 +188,19 @@ function App() {
         <Route path="/Admin/usuarios/crearUsuario" element={<AdminAgregarUsuario />} />
         <Route path="/Admin/usuarios/editarUsuario" element={<AdminEditarUsuario />} /> 
         */}
+
+        {/*███████████████████████████Nuevas rutas████████████████████████████████████*/}
+        <Route path="/admin/estadisticas" element={<AdminEstadisticas />} />
+        <Route path="/admin/estadisticas/especialidades" element={<AdminEstadisticasEspecialidades />} />
+        <Route path="/admin/estadisticas/estudiantes" element={<AdminEstadisticasEstudiantes />} />
+        <Route path="/admin/estadisticas/mentores" element={<AdminEstadisticasMentores />} />
+        <Route path="/admin/estadisticas/eventos" element={<AdminEstadisticasEventos />} />
+        <Route path="/admin/estadisticas/feedbackEstudiantes" element={<AdminEstadisticasFeedbackEstudiantes />} />
+        <Route path="/admin/estadisticas/feedbackMentores" element={<AdminEstadisticasFeedbackMentores />} />
+        <Route path="/admin/estadisticas/reportes" element={<AdminEstadisticasReportes />} />
+        <Route path="/admin/estadisticas/sesiones" element={<AdminEstadisticasSesiones />} />
+        
+        {/*███████████████████████████████████████████████████████████████*/}
 
         {/* Nuevas páginas */}
         <Route path="/admin/especialidades" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEspecialidades} />} />
