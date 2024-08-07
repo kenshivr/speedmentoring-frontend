@@ -108,8 +108,9 @@ export default function Page({ userId }) {
           <table className="table table-hover">
             <thead>
               <tr>
-                <th scope="col">Fecha</th>
                 <th scope="col">Título</th>
+                <th scope='col'>Alumno</th>
+                <th scope="col">Fecha</th>
                 <th scope="col">Reporte</th>
                 <th scope="col"></th>
               </tr>
@@ -117,8 +118,9 @@ export default function Page({ userId }) {
             <tbody className="table-light">
               {filteredSessions.map((session, index) => (
                 <tr key={index}>
-                  <td>{formatDate(session.Fecha)}</td>
                   <td>{session.Titulo}</td>
+                  <td>{`${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`}</td>
+                  <td>{formatDate(session.Fecha)}</td>
                   <td>
                     {session.reporteid ? (
                       <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#00CC00">

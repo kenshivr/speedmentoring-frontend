@@ -56,12 +56,12 @@ export default function Page() {
   return (
     <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', color:'white', borderRadius: '25px' }}>
       <div className="container">
-        <h2 className="mx-4 pt-4">Cuenta</h2>
+      <h2 className="pt-4 ps-5">Cuenta</h2>
         <div className="m-5">
 
-          <div className="mb-3 row justify-content-Evenly">
-            <label htmlFor="staticNombre" className="col-sm-4 col-form-label">Nombre</label>
-            <div className="col-sm-6 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
+          <div className="mb-3 row">
+            <label htmlFor="staticNombre" className="col-sm-2 col-form-label">Nombre</label>
+            <div className="col-sm-10 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
               <input 
                 type="text" 
                 readOnly
@@ -73,8 +73,8 @@ export default function Page() {
           </div>
 
           <div className="mb-3 row justify-content-Evenly">
-            <label htmlFor="staticPeriodo" className="col-sm-4 col-form-label">Periodo</label>
-            <div className="col-sm-6 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
+            <label htmlFor="staticPeriodo" className="col-sm-2 col-form-label">Periodo</label>
+            <div className="col-sm-10 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
               <input 
                 type="text" 
                 readOnly 
@@ -86,8 +86,8 @@ export default function Page() {
           </div>
 
           <div className="mb-3 row justify-content-Evenly">
-            <label htmlFor="staticEspecialidad" className="col-sm-4 col-form-label">Especialidad</label>
-            <div className="col-sm-6 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
+            <label htmlFor="staticEspecialidad" className="col-sm-2 col-form-label">Especialidad</label>
+            <div className="col-sm-10 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
               <input 
                 type="text" 
                 readOnly 
@@ -99,8 +99,8 @@ export default function Page() {
           </div>
 
           <div className="mb-3 row justify-content-Evenly">
-            <label htmlFor="inputTelefono" className="col-sm-4 col-form-label">Número de Teléfono</label>
-            <div className="col-sm-6 ps-2" style={{ backgroundColor:'white', borderRadius:'25px'}}>
+            <label htmlFor="inputTelefono" className="col-sm-2 col-form-label">Número de Teléfono</label>
+            <div className="col-sm-10 ps-2" style={{ backgroundColor:'white', borderRadius:'25px'}}>
               <input 
                 type="text"
                 className="form-control" 
@@ -113,8 +113,8 @@ export default function Page() {
           </div>
 
           <div className="mb-3 row justify-content-Evenly">
-            <label htmlFor="inputCorreo" className="col-sm-4 col-form-label">Correo Electrónico</label>
-            <div className="col-sm-6 ps-2" style={{ backgroundColor:'white', borderRadius:'25px'}}>
+            <label htmlFor="inputCorreo" className="col-sm-2 col-form-label">Correo Electrónico</label>
+            <div className="col-sm-10 ps-2" style={{ backgroundColor:'white', borderRadius:'25px'}}>
               <input 
                 type="email"
                 className="form-control" 
@@ -127,8 +127,39 @@ export default function Page() {
           </div>
 
           <div className="mb-3 row justify-content-Evenly">
-            <label htmlFor="staticMentorRFC" className="col-sm-4 col-form-label">Mentor</label>
-            <div className="col-sm-6 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
+            <label htmlFor="staticPassword" className="col-sm-2 col-form-label">Contraseña</label>
+            <div className="col-sm-10">
+
+              <Link
+                to="/Estudiante/perfil/changePassword" // Usa el path relativo a tu enrutador
+                style={{ 
+                  display: 'inline-block', 
+                  backgroundColor: '#EFCA45', 
+                  color: '#4F3F05', 
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s', 
+                  textAlign: 'center', 
+                  textDecoration: 'none', 
+                  padding: '0.5rem 1rem'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EFCA45';
+                  e.currentTarget.style.color = '#4F3F05';
+                }}
+              >
+                Modificar
+              </Link>
+            </div>
+          </div>
+
+          <div className="mb-3 row justify-content-Evenly">
+            <label htmlFor="staticMentorRFC" className="col-sm-2 col-form-label">Mentor</label>
+            <div className="col-sm-10 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
               <input 
                 type="text" 
                 readOnly 
@@ -139,11 +170,13 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="row justify-content-center">
-            <div className="col-md-6 d-flex align-items-center justify-content-center my-2">
+          <div className="mb-3 row">
+            <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
+            </div>
+            <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
               <button
                 type="button"
-                className="btn btn-sm w-50 my-4 mx-3"
+                className="btn w-100 mx-2"
                 style={{ 
                   backgroundColor: '#EFCA45', 
                   color: 'black', 
@@ -165,7 +198,7 @@ export default function Page() {
               </button>
               <Link
                 type="button"
-                className="btn btn-sm w-50 mx-3"
+                className="btn w-100"
                 to="/Estudiante/inicio"
                 style={{ 
                   backgroundColor: '#A0BAEB', 
@@ -181,8 +214,7 @@ export default function Page() {
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = '#EBE4CA';
                   e.currentTarget.style.color = '#4F3F05';
-                }}
-              >
+                }}>
                 Cancelar
               </Link>
             </div>

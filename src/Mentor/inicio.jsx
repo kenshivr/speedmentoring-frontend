@@ -22,17 +22,11 @@ const MentorPage = () => {
   useEffect(() => {
     // Filtrar sesiones basadas en la búsqueda
     setFilteredSessions(
-      sessions.filter(session => {
-        const fullName = `${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`.toLowerCase();
-        const formattedDate = session.Fecha.split('T')[0];
-        const lowerCaseSearch = search.toLowerCase();
-
-        return (
-          fullName.includes(lowerCaseSearch) ||
-          formattedDate.includes(lowerCaseSearch) ||
-          session.Periodo.toLowerCase().includes(lowerCaseSearch)
-        );
-      })
+      sessions.filter(session => 
+        session.SesionID.toString().includes(search) ||
+        session.Fecha.includes(search) ||
+        session.Titulo.includes(search)
+      )
     );
   }, [search, sessions]);
 

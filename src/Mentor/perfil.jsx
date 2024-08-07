@@ -72,10 +72,11 @@ export default function Page({ userId }) {
       <div className="container">
         <h2 className="pt-4 ps-5">Cuenta</h2>
         <div className="m-5">
+          
           <div className="mb-3 row">
             <label htmlFor="staticFullName" className="col-sm-2 col-form-label">Nombre Completo</label>
             <div className="col-sm-10">
-              <input type="text" readOnly className="form-control-plaintext px-2" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'7px' }} id="staticFullName" value={`${nombre} ${paterno} ${materno}`} />
+              <input type="text" readOnly className="form-control-plaintext ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px' }} id="staticFullName" value={`${nombre} ${paterno} ${materno}`} />
             </div>
           </div>
 
@@ -85,8 +86,8 @@ export default function Page({ userId }) {
               <input 
                 type="text" 
                 readOnly 
-                className="form-control-plaintext px-2"
-                style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'7px' }} 
+                className="form-control-plaintext ps-4"
+                style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px' }} 
                 id="staticEmail" 
                 value={userId}
               />
@@ -97,10 +98,11 @@ export default function Page({ userId }) {
             <label htmlFor="phoneNumber" className="col-sm-2 col-form-label">Número de teléfono</label>
             <div className="col-sm-10">
               <input
-                className="form-control"
+                className="form-control ps-4"
                 type="text"
                 id="phoneNumber"
                 value={telefono}
+                style={{ borderRadius:'25px' }}
                 onChange={(e) => setTelefono(e.target.value)}
                 aria-label="Número de teléfono"
               />
@@ -111,10 +113,11 @@ export default function Page({ userId }) {
             <label htmlFor="email" className="col-sm-2 col-form-label">Correo electrónico</label>
             <div className="col-sm-10">
               <input
-                className="form-control"
+                className="form-control ps-4"
                 type="text"
                 id="email"
                 value={correo}
+                style={{ borderRadius:'25px' }}
                 onChange={(e) => setCorreo(e.target.value)}
                 aria-label="Correo electrónico"
               />
@@ -151,14 +154,15 @@ export default function Page({ userId }) {
 
             </div>
           </div>
-          <div className="my-5 mb-3 row">
+          <div className="my-4 mb-3 row">
             <label htmlFor="company" className="col-sm-2 col-form-label">Empresa</label>
             <div className="col-sm-10">
               <input
-                className="form-control"
+                className="form-control ps-4"
                 type="text"
                 id="company"
                 value={empresa}
+                style={{ borderRadius:'25px' }}
                 onChange={(e) => setEmpresa(e.target.value)}
                 aria-label="Empresa"
               />
@@ -169,10 +173,11 @@ export default function Page({ userId }) {
             <label htmlFor="position" className="col-sm-2 col-form-label">Puesto</label>
             <div className="col-sm-10">
               <input
-                className="form-control"
+                className="form-control ps-4"
                 type="text"
                 id="position"
                 value={puesto}
+                style={{ borderRadius:'25px' }}
                 onChange={(e) => setPuesto(e.target.value)}
                 aria-label="Puesto"
               />
@@ -183,9 +188,10 @@ export default function Page({ userId }) {
             <label htmlFor="academicDegree" className="col-sm-2 col-form-label">Grado Académico</label>
             <div className="col-sm-10">
               <select
-                className="form-control"
+                className="form-control ps-4"
                 id="academicDegree"
                 value={grado}
+                style={{ borderRadius:'25px' }}
                 onChange={(e) => setGrado(e.target.value)}
                 aria-label="Grado Académico"
               >
