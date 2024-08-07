@@ -10,20 +10,18 @@ export default function Page() {
     const getMentors = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/api/mentors`);
-        const data = response.data;
-        setMentors(data);
+        setMentors(response.data);
       } catch (error) {
-        console.error("Error en la obtencion de los mentores:", error);
+        console.error("Error en la obtención de los mentores:", error);
       }
     };
 
     const getStudents = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/api/students`);
-        const data = response.data;
-        setStudents(data);
+        setStudents(response.data);
       } catch (error) {
-        console.error("Error en la obtencion de los estudiantes: ", error);
+        console.error("Error en la obtención de los estudiantes:", error);
       }
     };
 
@@ -31,9 +29,23 @@ export default function Page() {
     getStudents();
   }, []);
 
+  const updateStatus = async (type, id, status) => {
+    try {
+      await axios.put(`http://localhost:3001/api/${type}/${id}`, { Estatus: status });
+      if (type === 'mentors') {
+        setMentors(prev => prev.map(mentor => mentor.RFC === id ? { ...mentor, Estatus: status } : mentor));
+      } else {
+        setStudents(prev => prev.map(student => student.EstudianteID === id ? { ...student, Estatus: status } : student));
+      }
+    } catch (error) {
+      console.error(`Error al actualizar el estado del ${type}:`, error);
+    }
+  };
+
   return (
     <div className="container-sm my-2 p-3">
       <div className="container-sm p-3">
+        {/* Sección de Mentores */}
         <div className="container p-4" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='col-sm-4 mt-1'>
@@ -80,9 +92,23 @@ export default function Page() {
                     <td>{mentor.EspecialidadID}</td>
                     <td>{mentor.CorreoElectronico}</td>
                     <td>
-                      {/* <button className="btn btn-sm" onClick={() => handleActionClick(record.id, 'options')}>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z"/></svg>
-                      </button> */}
+                      <div className="dropdown">
+                        <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${mentor.RFC}`} data-bs-toggle="dropdown" aria-expanded="false">
+                          <path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z"/>
+                        </button>
+
+                        <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${mentor.RFC}`}>
+                          <li>
+                            <Link className="dropdown-item" to={`/Admin/usuarios/editarUsuario`} >Editar</Link>
+                          </li>
+                          <li>
+                            <button className="dropdown-item" onClick={() => updateStatus('mentors', mentor.RFC, 1)}>Habilitar</button>
+                          </li>
+                          <li>
+                            <button className="dropdown-item" onClick={() => updateStatus('mentors', mentor.RFC, 0)}>Deshabilitar</button>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -91,6 +117,7 @@ export default function Page() {
           </div>
         </div>
 
+        {/* Sección de Estudiantes */}
         <div className="container p-4 mt-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='col-sm-4 mt-1'>
@@ -141,9 +168,23 @@ export default function Page() {
                     <td>{student.EstudianteID ? `${student.EstudianteID}@pcpuma.acatlan.unam.mx` : 'N/A'}</td>
                     <td>{student.Periodo}</td>
                     <td>
-                      {/* <button className="btn btn-sm" onClick={() => handleActionClick(record.id, 'options')}>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z"/></svg>
-                      </button> */}
+                      <div className="dropdown">
+                        <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${student.EstudianteID}`} data-bs-toggle="dropdown" aria-expanded="false">
+                          <path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z"/>
+                        </button>
+
+                        <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${student.EstudianteID}`}>
+                          <li>
+                            <Link className="dropdown-item" to={`/Admin/usuarios/editarUsuario`} >Editar</Link>
+                          </li>
+                          <li>
+                            <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 1)}>Habilitar</button>
+                          </li>
+                          <li>
+                            <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 0)}>Deshabilitar</button>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))}
