@@ -44,8 +44,6 @@ export default function Retroalim() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log(formData);
     
     // Configuración de la solicitud POST
     fetch('http://localhost:3001/api/retro', {

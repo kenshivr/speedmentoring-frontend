@@ -17,7 +17,6 @@ export default function Page() {
         if (sesionId) {
           const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
           if (response.data.success) {
-            console.log(response.data);
             setTexto(response.data.data.texto || '');
             setOriginalTexto(response.data.data.texto || '');
             setFecha(response.data.data.fecha || '');
@@ -53,12 +52,14 @@ export default function Page() {
   const handleUpdateTexto = async () => {
     try {
       const sesionId = localStorage.getItem('sesionId');
+      const userId = localStorage.getItem('userId');
       const fechanueva = new Date(fecha).toISOString().split('T')[0];
 
       if (sesionId) {
         const response = await axios.post(`http://localhost:3001/api/setReportStudent/${sesionId}`, {
-          texto: texto,
+          userId: userId,
           fecha: fechanueva,
+          texto: texto,
         });
 
         if (response.data.success) {

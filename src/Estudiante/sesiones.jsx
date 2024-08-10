@@ -12,7 +12,6 @@ export default function Page({ userId }) {
       axios.get(`http://localhost:3001/api/showSesionesStudent/${userId}`)
         .then((response) => {
           if (response.data.success) {
-            console.log(response.data.data);
             setSessions(response.data.data);
             setFilteredSessions(response.data.data);
           } else {
@@ -49,10 +48,8 @@ export default function Page({ userId }) {
     setFilteredSessions(filtered);
   };
 
-  function handleCLickLinkSesion(session) {
-    return () => {
-      localStorage.setItem('sesionId', session.sesionid);
-    };
+  const handleCLickLinkSesion = (sessionId) => () => {
+    localStorage.setItem('sesionId', sessionId);
   }
 
   return (
@@ -118,9 +115,9 @@ export default function Page({ userId }) {
                     {session.ReporteID ? (
                       <Link 
                         to='/Estudiante/sesiones/verSesion'
-                        onClick={() => handleCLickLinkSesion(session.SesionID)}
+                        onClick={handleCLickLinkSesion(session.SesionID)}
                       >
-                        {session.TextoExplicativo ? (
+                        {session.ReporteID ? (
                           <span>✔</span> // Palomita si existe TextoExplicativo
                         ) : (
                           'n/a' // Mostrar 'n/a' si no existe TextoExplicativo
@@ -129,7 +126,7 @@ export default function Page({ userId }) {
                     ) : (
                       <Link 
                         to='/Estudiante/sesiones/verSesion'
-                        onClick={() => handleCLickLinkSesion(session.SesionID)}
+                        onClick={handleCLickLinkSesion(session.SesionID)}
                       >
                         n/a
                       </Link>
