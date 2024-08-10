@@ -31,9 +31,9 @@ const StudentPage = () => {
     // Filtrar sesiones basadas en la búsqueda
     setFilteredSessions(
       sessions.filter(session => 
-        session.SesionID.toString().includes(search) ||
-        session.Fecha.includes(search) ||
-        session.Titulo.includes(search)
+        (session.ReporteID ? session.ReporteID.toString() : '').includes(search) ||
+        (session.Fecha ? session.Fecha : '').includes(search) ||
+        (session.MentorNombre ? session.MentorNombre : '').includes(search)
       )
     );
   }, [search, sessions]);
@@ -97,18 +97,18 @@ const StudentPage = () => {
             <table className="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
                   <th scope="col">Fecha</th>
-                  <th scope="col">Titulo</th>
+                  <th scope="col">Reporte ID</th>
+                  <th scope="col">Nombre del Mentor</th>
                 </tr>
               </thead>
               <tbody className="table-light">
                 {filteredSessions.length > 0 ? (
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
-                      <td>{session.SesionID}</td>
-                      <td>{session.Fecha.split('T')[0]}</td>
-                      <td>{session.Titulo}</td>
+                      <td>{session.Fecha ? session.Fecha.split('T')[0] : ''}</td>
+                      <td>{session.ReporteID || ''}</td>
+                      <td>{session.MentorNombre || ''}</td>
                     </tr>
                   ))
                 ) : (
