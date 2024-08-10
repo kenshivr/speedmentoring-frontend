@@ -19,14 +19,12 @@ import MentorSesiones from './Mentor/sesiones';
 import MentorSesiones1 from './Mentor/sesiones/verSesion';
 import MentorNuevaSesion from './Mentor/sesiones/nuevaSesion';
 import MentorEditarSesion from './Mentor/sesiones/editarSesion';
-import MentorChangePassword from './Mentor/perfil/changePassword';
 
 import EstudianteInicio from './Estudiante/inicio';
 import EstudiantePerfil from './Estudiante/perfil';
 import EstudianteEvento from './Estudiante/eventos';
 import EstudianteSesiones from './Estudiante/sesiones';
 import EstudianteSesiones1 from './Estudiante/sesiones/verSesion';
-import EstudianteChangePassword from './Estudiante/perfil/changePassword';
 import EstudianteSesiones1r from './Estudiante/sesiones/verSesion/retroalimentacion';
 
 import AdminPage from './Admin/inicio';
@@ -160,12 +158,10 @@ function App() {
         <Route path="/Mentor/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1} />} />
         <Route path="/Mentor/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPerfil} userId={userId} />} />
         <Route path="/Mentor/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones} userId={userId} />} />
-        <Route path="/Mentor/perfil/changePassword" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorChangePassword} userId={userId} />} />
 
         {/* Rutas protegidas para las páginas de estudiante */}
         {/* LISTO */} <Route path="/Estudiante/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePerfil} />} />
         {/* LISTO */} <Route path="/Estudiante/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteEvento} />} />
-        {/* LISTO */} <Route path="/Estudiante/perfil/changePassword" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteChangePassword} />} />
         {/* LISTO */} <Route path="/Estudiante/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteInicio} specialty={specialty} userId={userId} />} />
         {/* LISTO */} <Route path="/Estudiante/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones} userId={userId} setSesionId={setSesionId} />} />
         {/* LISTO */} <Route path="/Estudiante/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1} sesionId={sesionId} setSesionId={setSesionId} />} />
@@ -187,7 +183,6 @@ function App() {
         <Route path="/admin/estadisticas" element={<AdminEstadisticas />} />
         <Route path="/admin/especialidades" element={<AdminEspecialidades />} />
         <Route path="/Admin/usuarios/crearUsuario" element={<AdminAgregarUsuario />} />
-        <Route path="/Admin/usuarios/editarUsuario" element={<AdminEditarUsuario />} /> 
         */}
 
         {/*███████████████████████████Nuevas rutas████████████████████████████████████*/}
@@ -209,6 +204,8 @@ function App() {
         <Route path="/Admin/especialidades/crearEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminNuevaEspecialidad} />}/>
         <Route path="/Admin/usuarios/importarUsuarios" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminImportarUsuarios} />} />
         <Route path="/Admin/especialidades/editarEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEspecialidad} />}/>
+
+        <Route path="/Admin/usuarios/editarUsuario" element={<AdminEditarUsuario />} /> 
         
         {/* LISTO */} <Route path='/Mentor/eventos' element={<MentorEvento />}/>
         <Route path='/Mentor/sesiones/nuevaSesion' element={<MentorNuevaSesion />}/>
