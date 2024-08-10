@@ -15,16 +15,16 @@ export default function Page() {
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
-      const { Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, EspecialidadID, NumeroTelefono, CorreoElectronicoPersonal, MentorRFC } = response.data;
+      const { Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, Especialidad, NumeroTelefono, CorreoElectronicoPersonal, NombreMentor } = response.data;
 
       const fullName = `${Nombre || ''} ${ApellidoPaterno || ''} ${ApellidoMaterno || ''}`.trim();
 
       setNombre(fullName);
       setPeriodo(Periodo);
-      setEspecialidad(EspecialidadID);
+      setEspecialidad(Especialidad);
       setTelefono(NumeroTelefono);
       setCorreo(CorreoElectronicoPersonal);
-      setMentorRFC(MentorRFC);
+      setMentorRFC(NombreMentor);
 
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + (error.response?.data?.message || error.message));
@@ -40,8 +40,8 @@ export default function Page() {
   const handleSave = async () => {
     try {
       const response = await axios.post(`http://localhost:3001/api/updateStudent/${user}`, {
-        telefono,
-        correo
+        numeroTelefono: telefono, 
+        correoElectronicoPersonal: correo
       });
       if (response.data) {
         alert('Se ha actualizado la información correctamente.');
