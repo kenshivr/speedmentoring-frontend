@@ -3,12 +3,10 @@ import styles from '../../Styles/Header.css'
 
 export default function Header() {
   return (
-
     <div>
       <nav className="navbar navbar-light" style={{ backgroundColor: '#002B7A' }}>
         <div className="container">
-
-          <div className="row w-100 no-gutters">
+          <div className="row w-100 no-gutters py-2 ms-2">
 
             <div className="col-4 d-flex align-items-center justify-content-start">
               <a className="navbar-brand" href="https://www.acatlan.unam.mx/">
@@ -20,26 +18,23 @@ export default function Header() {
                 />
               </a>
             </div>
-            
+
             <div className="col-4 d-flex align-items-center justify-content-center">
             </div>
 
             <div className="col-4 d-flex align-items-center justify-content-end">
               <a className="navbar-brand" href="https://mac.acatlan.unam.mx/">
                 <img 
-                  src="https://francia.unam.mx/wp-content/uploads/2021/10/Logo-UNAM-Blanco-Landscape.png" 
-                  alt="Logo UNAM" 
-                  className={`d-inline-block align-text-top img-fluid ${styles.logoImg}`}
-                  style={{ minHeight:'25px', minWidth:'100px'}}
+                  src="https://dl.dropboxusercontent.com/s/z2maoh5yf7apv9ogvbt3m/logomac1-blanco.png?rlkey=rb71mpzb7uz1olo87d2vt2qmq&st=0828oyl6" 
+                  alt="Logo MAC" 
+                  className={`d-inline-block align-text-top img-fluid logo-mac`}
                 />
               </a>
             </div>
 
           </div>
-
         </div>
       </nav>
     </div>
-    
   );
 }
