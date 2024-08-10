@@ -5,7 +5,6 @@ export default function Page() {
   const [userType, setUserType] = useState('');
   const [especialidades, setEspecialidades] = useState([]);
   const [mentores, setMentores] = useState([]);
-  const [gradosAcademicos, setGradosAcademicos] = useState([]);
 
   const [formDataMentor, setFormDataMentor] = useState({
     MentorRFC: 0,
@@ -15,8 +14,6 @@ export default function Page() {
     Especialidad: '',
     Empresa: '',
     Puesto: '',
-    GradoAcademico: '',
-    Maestria: 0,
     CorreoElectronico: '',
     NumeroTelefono: '',
     HASH: '',
@@ -59,19 +56,8 @@ export default function Page() {
       }
     };
 
-    // Fetch grados académicos
-    const getGradosAcademicos = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/grados-academicos');
-        setGradosAcademicos(response.data);
-      } catch (error) {
-        console.error("Error en la obtención de grados académicos:", error);
-      }
-    };
-
     getEspecialidades();
     getMentores();
-    getGradosAcademicos();
   }, []);
 
   const handleUserTypeChange = (e) => {
@@ -110,21 +96,21 @@ export default function Page() {
 
   return (
     <div>
-      <div className='container mt-5 p-1' style={{ maxWidth: '950px' }}>
-        <select
-          className="form-select"
-          aria-label="Default select example"
-          style={{ backgroundColor: '#EFCA45', color: '#4F3F05', maxWidth: '500px' }}
-          onChange={handleUserTypeChange}
-          value={userType}
-        >
-          <option value="none">Tipo de usuario</option>
-          <option value="estudiante">Estudiante</option>
-          <option value="mentor">Mentor</option>
-        </select>
-      </div>
       <form onSubmit={handleSubmit}>
-        <div className="container-sm my-1" style={{ backgroundColor: 'white', borderRadius: '50px', color: 'white', maxWidth: '1000px', minHeight:'410px', margin: 'auto' }}>
+        <div className="container-sm mt-4 p-4" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '50px', color: 'white', maxWidth: '1000px', minHeight:'650px', margin: 'auto' }}>
+          <div className='container my-3' style={{ maxWidth: '950px' }}>
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              style={{ backgroundColor: '#EFCA45', borderColor:'black', color: '#4F3F05', maxWidth: '500px' }}
+              onChange={handleUserTypeChange}
+              value={userType}
+            >
+              <option value="none">Tipo de usuario</option>
+              <option value="estudiante">Estudiante</option>
+              <option value="mentor">Mentor</option>
+            </select>
+          </div>
           {userType === 'estudiante' && (
             <div className="row justify-content-evenly pt-3" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '50px', color: 'white', maxWidth: '1000px', margin: 'auto' }}>
               <div className="col-12 col-md-5 order-first order-md-first m-1 d-flex flex-column p-3">
@@ -212,7 +198,7 @@ export default function Page() {
                   <label htmlFor="ApellidoMaterno" className="form-label">Apellido Materno</label>
                   <input type="text" className="form-control" id="ApellidoMaterno" name="ApellidoMaterno" placeholder="Ejemplo de apellido" onChange={handleChange} />
                 </div>
-                <div className='mb-3'>
+                <div className='mb-3 pt-4 mt-2'>
                   <select className="form-select" aria-label="Default select example" name="EspecialidadID" onChange={handleChange}>
                     <option value="">Especialidad</option>
                     {especialidades.map((especialidad) => (
@@ -220,24 +206,15 @@ export default function Page() {
                     ))}
                   </select>
                 </div>
+              </div>
+              <div className="col-12 col-md-5 order-last order-md-last m-1 d-flex flex-column p-3">
                 <div className="mb-3">
                   <label htmlFor="Empresa" className="form-label">Empresa</label>
                   <input type="text" className="form-control" id="Empresa" name="Empresa" placeholder="Ejemplo de empresa" onChange={handleChange} />
                 </div>
-              </div>
-              <div className="col-12 col-md-5 order-last order-md-last m-1 d-flex flex-column p-3 pt-5">
                 <div className="mb-3">
                   <label htmlFor="puesto" className="form-label">Puesto</label>
                   <input type="text" className="form-control" id="puesto" name="Puesto" placeholder="Ejemplo de puesto" onChange={handleChange} />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="GradoAcademico" className="form-label">Grado Académico</label>
-                  <select className="form-select" aria-label="Default select example" name="GradoAcademico" onChange={handleChange}>
-                    <option value="">Grado Académico</option>
-                    {gradosAcademicos.map((grado) => (
-                      <option key={grado.id} value={grado.id}>{grado.GradoAcademico}</option>
-                    ))}
-                  </select>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="CorreoElectronico" className="form-label">Correo Electrónico</label>

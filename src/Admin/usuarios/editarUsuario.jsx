@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 export default function EditProfilePage({ userType }) {
   const [especialidades, setEspecialidades] = useState([]);
-  const [gradosAcademicos, setGradosAcademicos] = useState([]);
   const [formData, setFormData] = useState({
     cuenta: '',
     mentor: '',
@@ -12,11 +11,9 @@ export default function EditProfilePage({ userType }) {
     apellidoMaterno: '',
     empresa: '',
     rfc: '',
-    maestria: false,
     email: '',
     telefono: '',
     puesto: '',
-    grado: '',
     password: ''
   });
 
@@ -25,11 +22,6 @@ export default function EditProfilePage({ userType }) {
     fetch('/api/especialidades')
       .then(response => response.json())
       .then(data => setEspecialidades(data));
-
-    // Fetch grados académicos
-    fetch('/api/grados-academicos')
-      .then(response => response.json())
-      .then(data => setGradosAcademicos(data));
 
     // Fetch user data
     fetch(`/api/user/${userType}`)
@@ -204,37 +196,6 @@ export default function EditProfilePage({ userType }) {
                   onChange={handleChange}
                 />
               </div>
-              <div className="mb-3">
-                <label htmlFor="maestria" className="form-label">Maestría</label>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="maestria"
-                    id="maestriaSi"
-                    value="true"
-                    checked={formData.maestria === true}
-                    onChange={handleChange}
-                  />
-                  <label className="form-check-label" htmlFor="maestriaSi">
-                    Sí
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="maestria"
-                    id="maestriaNo"
-                    value="false"
-                    checked={formData.maestria === false}
-                    onChange={handleChange}
-                  />
-                  <label className="form-check-label" htmlFor="maestriaNo">
-                    No
-                  </label>
-                </div>
-              </div>
             </div>
             <div className="col-12 col-md-5 order-last order-md-last m-1 d-flex flex-column p-3">
               <div className="mb-3">
@@ -288,24 +249,7 @@ export default function EditProfilePage({ userType }) {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="grado" className="form-label">Grado académico</label>
-                <select
-                  className="form-select"
-                  id="grado"
-                  name="grado"
-                  value={formData.grado}
-                  onChange={handleChange}
-                >
-                  <option value="">Grado académico</option>
-                  {gradosAcademicos.map((grado) => (
-                    <option key={grado.id} value={grado.id}>
-                      {grado.nombre}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">Contraseña (HASH)</label>
+                <label htmlFor="password" className="form-label">Contraseña</label>
                 <input
                   type="password"
                   className="form-control"

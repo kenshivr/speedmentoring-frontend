@@ -10,18 +10,6 @@ export default function Page({ userId }) {
   const [correo, setCorreo] = useState('');
   const [empresa, setEmpresa] = useState('');
   const [puesto, setPuesto] = useState('');
-  const [grado, setGrado] = useState('');
-  const [grados, setGrados] = useState([]);
-
-  // Función para obtener los grados académicos
-  const fetchGrados = useCallback(async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/api/getAcademicDegrees');
-      setGrados(response.data);
-    } catch (error) {
-      //alert('Error al obtener los grados académicos: ' + error.response.data.message);
-    }
-  }, []);
 
   // Función para obtener datos de usuario
   const fetchUserData = useCallback(async () => {
@@ -34,7 +22,6 @@ export default function Page({ userId }) {
       setCorreo(response.data.CorreoElectronico);
       setEmpresa(response.data.Empresa);
       setPuesto(response.data.Puesto);
-      setGrado(response.data.GradoAcademico);
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + error.response.data.message);
     }
@@ -43,9 +30,8 @@ export default function Page({ userId }) {
   useEffect(() => {
     if (userId) {
       fetchUserData();
-      fetchGrados();
     }
-  }, [userId, fetchUserData, fetchGrados]);
+  }, [userId, fetchUserData]);
 
   // Función para manejar la actualización del perfil
   const handleSave = async () => {
@@ -54,8 +40,7 @@ export default function Page({ userId }) {
         telefono,
         correo,
         empresa,
-        puesto,
-        grado
+        puesto
       });
       alert(response.data.message);
     } catch (error) {
@@ -123,37 +108,6 @@ export default function Page({ userId }) {
               />
             </div>
           </div>
-          <div className="row justify-content-Evenly">
-            <label htmlFor="staticPassword" className="col-sm-2 col-form-label">Contraseña</label>
-            <div className="col-sm-6">
-
-              <Link
-                to="/Mentor/perfil/changePassword" // Usa el path relativo a tu enrutador
-                style={{ 
-                  display: 'inline-block', 
-                  backgroundColor: '#EFCA45', 
-                  color: '#4F3F05', 
-                  border: '1px solid #000',
-                  borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s', 
-                  textAlign: 'center', 
-                  textDecoration: 'none', 
-                  padding: '0.5rem 1rem'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#EFCA45';
-                  e.currentTarget.style.color = '#4F3F05';
-                }}
-              >
-                Modificar
-              </Link>
-
-            </div>
-          </div>
           <div className="my-4 mb-3 row">
             <label htmlFor="company" className="col-sm-2 col-form-label">Empresa</label>
             <div className="col-sm-10">
@@ -181,26 +135,6 @@ export default function Page({ userId }) {
                 onChange={(e) => setPuesto(e.target.value)}
                 aria-label="Puesto"
               />
-            </div>
-          </div>
-
-          <div className="mb-3 row">
-            <label htmlFor="academicDegree" className="col-sm-2 col-form-label">Grado Académico</label>
-            <div className="col-sm-10">
-              <select
-                className="form-control ps-4"
-                id="academicDegree"
-                value={grado}
-                style={{ borderRadius:'25px' }}
-                onChange={(e) => setGrado(e.target.value)}
-                aria-label="Grado Académico"
-              >
-                {grados.map((grado) => (
-                  <option key={grado.id} value={grado.nombre}>
-                    {grado.nombre}
-                  </option>
-                ))}
-              </select>
             </div>
           </div>
 

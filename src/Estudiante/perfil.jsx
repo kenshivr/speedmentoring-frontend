@@ -127,37 +127,6 @@ export default function Page() {
           </div>
 
           <div className="mb-3 row justify-content-Evenly">
-            <label htmlFor="staticPassword" className="col-sm-2 col-form-label">Contraseña</label>
-            <div className="col-sm-10">
-
-              <Link
-                to="/Estudiante/perfil/changePassword" // Usa el path relativo a tu enrutador
-                style={{ 
-                  display: 'inline-block', 
-                  backgroundColor: '#EFCA45', 
-                  color: '#4F3F05', 
-                  border: '1px solid #000',
-                  borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s', 
-                  textAlign: 'center', 
-                  textDecoration: 'none', 
-                  padding: '0.5rem 1rem'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#EFCA45';
-                  e.currentTarget.style.color = '#4F3F05';
-                }}
-              >
-                Modificar
-              </Link>
-            </div>
-          </div>
-
-          <div className="mb-3 row justify-content-Evenly">
             <label htmlFor="staticMentorRFC" className="col-sm-2 col-form-label">Mentor</label>
             <div className="col-sm-10 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
               <input 
