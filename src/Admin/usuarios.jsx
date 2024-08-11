@@ -76,6 +76,8 @@ export default function Page() {
                   <th scope="col">Apellido materno</th>
                   <th scope="col">Teléfono</th>
                   <th scope="col">Especialidad</th>
+                  <th scope="col">Empresa</th>
+                  <th scope="col">Puesto</th>
                   <th scope="col">E-mail</th>
                   <th scope="col"></th>
                 </tr>
@@ -90,6 +92,8 @@ export default function Page() {
                     <td>{mentor.ApellidoMaterno}</td>
                     <td>{mentor.NumeroTelefono}</td>
                     <td>{mentor.EspecialidadID}</td>
+                    <td>{mentor.Empresa}</td>
+                    <td>{mentor.Puesto}</td>
                     <td>{mentor.CorreoElectronico}</td>
                     <td>
                       <div className="dropdown">
