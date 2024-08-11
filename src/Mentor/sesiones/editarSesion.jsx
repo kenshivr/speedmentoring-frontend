@@ -15,9 +15,10 @@ export default function EditSessionPage() {
     fetch(`http://localhost:3001/api/getSesionMentor/${sesionId}`)
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         setDatos(data);
-        setTitle(data.title || ''); // Asignar valor predeterminado
-        setDescription(data.description || ''); // Asignar valor predeterminado
+        setTitle(data.Titulo || ''); // Asignar valor predeterminado
+        setDescription(data.Descripción || ''); // Asignar valor predeterminado
         const studentName = `${data.Nombre || ''} ${data.ApellidoPaterno || ''} ${data.ApellidoMaterno || ''}`.trim();
         setSelectedStudent(studentName);
         setDate(data.Fecha.split('T')[0]);
@@ -32,7 +33,9 @@ export default function EditSessionPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const sessionData = {
-      date
+      date,
+      title,
+      description
     };
 
     // Enviar datos al servidor para actualizar la sesión

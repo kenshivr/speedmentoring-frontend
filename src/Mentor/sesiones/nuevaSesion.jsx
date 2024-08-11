@@ -9,15 +9,25 @@ export default function Page() {
   const [description, setDescription] = useState('');
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState('');
-  const mentorRFC = 'RFC_DEL_MENTOR_ACTUAL'; // Reemplaza esto con el RFC del mentor actual
+
+  const mentorRFC = localStorage.getItem('userId');
 
   useEffect(() => {
     // Cargar alumnos desde el servidor filtrados por el mentor actual
-    fetch(`/api/students?mentorRFC=${mentorRFC}`)
-      .then(response => response.json())
-      .then(data => setStudents(data))
+    fetch(`http://localhost:3001/api/getStudentsOfMentor/${mentorRFC}`)
+      .then(response => {
+        // Verifica si la respuesta es exitosa (código de estado 200-299)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        setStudents(data); // Usa setStudents para actualizar el estado
+        console.log(data); // Imprime los datos en la consola
+      })
       .catch(error => console.error('Error fetching students:', error));
-  }, [mentorRFC]);
+  }, [mentorRFC]);  
 
   const toggleDateEditor = () => {
     setShowDateEditor(!showDateEditor);
@@ -30,11 +40,14 @@ export default function Page() {
       title,
       date,
       description,
-      studentId: selectedStudent
+      studentId: selectedStudent,
+      userId: mentorRFC
     };
 
+    console.log(sessionData);
+
     // Enviar datos al servidor
-    fetch('/api/sessions', {
+    fetch('http://localhost:3001/api/getStudentsOfMentor', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -82,7 +95,7 @@ export default function Page() {
                   >
                     <option value="">Selecciona un alumno</option>
                     {students.map(student => (
-                      <option key={student.id} value={student.id}>{student.name}</option>
+                      <option key={student.Nombre} value={student.Nombre}>{student.Nombre}</option>
                     ))}
                   </select>
                 </div>

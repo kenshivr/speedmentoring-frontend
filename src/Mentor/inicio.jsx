@@ -13,6 +13,7 @@ const MentorPage = () => {
     fetch(`http://localhost:3001/api/showSesionesMentor/${userId}`)
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         setSessions(data.data);
         setFilteredSessions(data.data);
       })
@@ -23,9 +24,9 @@ const MentorPage = () => {
     // Filtrar sesiones basadas en la búsqueda
     setFilteredSessions(
       sessions.filter(session => 
-        session.SesionID.toString().includes(search) ||
-        session.Fecha.includes(search) ||
-        session.Titulo.includes(search)
+        session.SesionID?.toString().includes(search) ||
+        session.Fecha?.includes(search) ||
+        session.Titulo?.includes(search)
       )
     );
   }, [search, sessions]);
@@ -105,7 +106,7 @@ const MentorPage = () => {
                 {filteredSessions && filteredSessions.length > 0 ? (
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
-                      <td>{session.Titulo}</td>
+                      <td>{session.Titulo ? session.Titulo : ''}</td>
                       <td>{`${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`}</td>
                       <td>{formatDate(session.Fecha)}</td>
                       <td>

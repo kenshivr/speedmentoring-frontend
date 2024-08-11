@@ -8,43 +8,57 @@ export default function Retroalim() {
     p4: '0',
     p5: '0',
     p6: '0',
-    p7: [],
-    p8: '',
+    p7: '0',
+    p8: [],
     p9: '',
     p10: '',
-    p11: '',
-    comentariosAdicionales: '',
-    preguntasRespondidas: '0'
+    userId: ''
   });
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
     if (userId) {
-        setFormData((prevState) => ({
-            ...prevState,
-            userId: userId
-        }));
+      setFormData((prevState) => ({
+        ...prevState,
+        userId: userId
+      }));
     }
   }, []);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    
     if (type === 'checkbox') {
-      setFormData((prevState) => ({
-        ...prevState,
-        [name]: checked ? [...prevState[name], value] : prevState[name].filter((v) => v !== value),
-      }));
+      setFormData((prevState) => {
+        // Si el valor de 'name' es 'p8' (es decir, el array que quieres manejar)
+        if (name === 'p8') {
+          return {
+            ...prevState,
+            [name]: checked
+              ? [...(prevState[name] || []), value] // Agregar el valor si está marcado
+              : (prevState[name] || []).filter((v) => v !== value) // Eliminar el valor si no está marcado
+          };
+        }
+        // Para otros campos
+        return {
+          ...prevState,
+          [name]: checked ? [...(prevState[name] || []), value] : (prevState[name] || []).filter((v) => v !== value),
+        };
+      });
     } else {
+      // Para campos que no son checkboxes
       setFormData({
         ...formData,
         [name]: value
       });
     }
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+    console.log(formData);
+
     // Configuración de la solicitud POST
     fetch('http://localhost:3001/api/retro', {
       method: 'POST',
@@ -53,25 +67,25 @@ export default function Retroalim() {
       },
       body: JSON.stringify(formData)
     })
-    .then(response => response.json())
-    .then(data => {
+      .then(response => response.json())
+      .then(data => {
         if (data.success) {
-            alert('Retroalimentacion guardada con exito!');
+          alert('Retroalimentacion guardada con exito!');
         } else {
-            alert('Ocurrió un problema con la retroalimentación, por favor intente nuevamente.');
+          alert('Ocurrió un problema con la retroalimentación, por favor intente nuevamente.');
         }
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-      alert('Ocurrio un error en el envio, intentar mas tarde.');
-    });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('Ocurrio un error en el envio, intentar mas tarde.');
+      });
   };
-  
+
 
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
-        <div className="col-md-8 p-5" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'25px' }}>
+        <div className="col-md-8 p-5" style={{ backgroundColor: '#002B7A', color: 'white', borderRadius: '25px' }}>
           <h2>Formulario de Retroalimentación</h2>
           <form onSubmit={handleSubmit}>
             {/* Pregunta 1 */}
@@ -242,23 +256,24 @@ export default function Retroalim() {
                 onChange={handleInputChange}
               />
               <label htmlFor="p8-4">Organización y estructura de la sesión</label><br />
-              <label htmlFor="p11">Otro:</label><br />
+              <label htmlFor="p9">Otro:</label><br />
               <textarea
-                id="p11"
-                name="p11"
-                value={formData.p11}
+                id="p9"
+                name="p9"
+                value={formData.p9}
                 onChange={handleInputChange}
               ></textarea>
             </div>
 
+
             {/* Pregunta 9 */}
             <div className="my-4">
-              <label htmlFor="comentariosAdicionales" className="form-label">Comentarios adicionales</label>
+              <label htmlFor="p10" className="form-label">Comentarios adicionales</label>
               <textarea
                 className="form-control"
-                id="comentariosAdicionales"
-                name="comentariosAdicionales"
-                value={formData.comentariosAdicionales}
+                id="p10"
+                name="p10"
+                value={formData.p10}
                 onChange={handleInputChange}
               ></textarea>
             </div>
