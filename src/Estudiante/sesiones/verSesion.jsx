@@ -7,6 +7,8 @@ export default function Page() {
   const [texto, setTexto] = useState('');
   const [originalTexto, setOriginalTexto] = useState(''); 
   const [fecha, setFecha] = useState('');
+  const [titulo, setTitulo] = useState('');
+  const [descripcion, setDescripcion] = useState('');
   const [nombre, setNombre] = useState('');
 
   const sesionId = localStorage.getItem('sesionId');
@@ -21,6 +23,8 @@ export default function Page() {
             setOriginalTexto(response.data.data.texto || '');
             setFecha(response.data.data.fecha || '');
             setNombre(response.data.data.nombre || '');
+            setTitulo(response.data.data.titulo || '');
+            setDescripcion(response.data.data.descripcion || '');
           } else {
             console.error('Error al obtener detalles del reporte:', response.data.message);
           }
@@ -60,6 +64,8 @@ export default function Page() {
           userId: userId,
           fecha: fechanueva,
           texto: texto,
+          titulo: titulo,
+          descripcion: descripcion
         });
 
         if (response.data.success) {
@@ -80,8 +86,9 @@ export default function Page() {
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-4 order-last order-md-first m-1 d-flex flex-column" style={{ backgroundColor: 'rgba(213,213,213,0.8)', borderColor: '#908486', borderRadius: '20px', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
           <div className='container p-3'>
-            <h2>{new Date(fecha).toLocaleDateString()}</h2>
+            <h2>{titulo} - {new Date(fecha).toLocaleDateString()}</h2>
             <h6>Mentor - {nombre}</h6>
+            {descripcion}
           </div>
 
           <div className="container d-flex flex-column align-items-center mt-auto p-4">

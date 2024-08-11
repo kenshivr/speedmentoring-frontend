@@ -4,34 +4,47 @@ const StudentPage = () => {
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true); // Estado para gestionar la carga
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    // Obtener sesiones desde el servidor para el estudiante logueado
-    fetch(`http://localhost:3001/api/showSesionesStudent/${userId}`) // Asegúrate de que la ruta API sea correcta para obtener las sesiones del estudiante
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          // Formatear la fecha
-          const formattedData = data.data.map(session => ({
-            ...session,
-            Fecha: formatDate(session.Fecha)
-          }));
-          setSessions(formattedData);
-          setFilteredSessions(formattedData);
-        } else {
-          setSessions([]);
-          setFilteredSessions([]);
+    const fetchSessions = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        console.log('userId:', userId); // Verifica si userId está disponible
+
+        if (userId) {
+          const response = await fetch(`http://localhost:3001/api/showSesionesStudent/${userId}`);
+          const data = await response.json();
+
+          console.log('Data received from API:', data); // Verifica los datos recibidos
+
+          if (data.success) {
+            const formattedData = data.data.map(session => ({
+              ...session,
+              Fecha: formatDate(session.Fecha)
+            }));
+            setSessions(formattedData);
+            setFilteredSessions(formattedData);
+          } else {
+            setSessions([]);
+            setFilteredSessions([]);
+          }
         }
-      })
-      .catch(error => console.error('Error fetching sessions:', error));
+      } catch (error) {
+        console.error('Error fetching sessions:', error);
+      } finally {
+        setLoading(false); // Termina la carga
+      }
+    };
+
+    fetchSessions();
   }, []);
 
   useEffect(() => {
     // Filtrar sesiones basadas en la búsqueda
     setFilteredSessions(
       sessions.filter(session => 
-        (session.ReporteID ? session.ReporteID.toString() : '').includes(search) ||
+        (session.Titulo ? session.Titulo.toLowerCase() : '').includes(search.toLowerCase()) ||
         (session.Fecha ? session.Fecha : '').includes(search) ||
         (session.MentorNombre ? session.MentorNombre : '').includes(search)
       )
@@ -46,6 +59,10 @@ const StudentPage = () => {
     const [year, month, day] = dateString.split('-');
     return `${parseInt(day)}/${parseInt(month)}/${year}`;
   };
+
+  if (loading) {
+    return <div>Cargando sesiones...</div>; // Mostrar un mensaje de carga mientras se obtienen los datos
+  }
 
   return (
     <div className='container p-5'>
@@ -98,7 +115,7 @@ const StudentPage = () => {
               <thead>
                 <tr>
                   <th scope="col">Fecha</th>
-                  <th scope="col">Reporte ID</th>
+                  <th scope="col">Título</th> 
                   <th scope="col">Nombre del Mentor</th>
                 </tr>
               </thead>
@@ -107,7 +124,7 @@ const StudentPage = () => {
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
                       <td>{session.Fecha ? session.Fecha.split('T')[0] : ''}</td>
-                      <td>{session.ReporteID || ''}</td>
+                      <td>{session.Titulo || ''}</td> 
                       <td>{session.MentorNombre || ''}</td>
                     </tr>
                   ))

@@ -3,24 +3,28 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Page() {
-  
-  const [texto, setTexto] = useState('');
-  const [Fecha, setFecha] = useState('');
-  const [Titulo, setTitulo] = useState('');
-  const [originalTexto, setOriginalTexto] = useState(''); 
   const [editableTexto, setEditableTexto] = useState(false);
+  const [texto, setTexto] = useState('');
+  const [originalTexto, setOriginalTexto] = useState(''); 
+  const [fecha, setFecha] = useState('');
+  const [titulo, setTitulo] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [nombre, setNombre] = useState('');
+
+  const sesionId = localStorage.getItem('sesionId');
 
   useEffect(() => {
     const fetchReporte = async () => {
       try {
-        const sesionId = localStorage.getItem('sesionId');
         if (sesionId) {
-          const response = await axios.get(`http://localhost:3001/api/reporte/${sesionId}`);
+          const response = await axios.get(`http://localhost:3001/api/getReportMentor/${sesionId}`);
           if (response.data.success) {
             setTexto(response.data.data.texto || '');
             setOriginalTexto(response.data.data.texto || '');
-            setFecha(response.data.data.Fecha || '');
-            setTitulo(response.data.data.Titulo || '');
+            setFecha(response.data.data.fecha || '');
+            setNombre(response.data.data.nombre || '');
+            setTitulo(response.data.data.titulo || '');
+            setDescripcion(response.data.data.descripcion || '');
           } else {
             console.error('Error al obtener detalles del reporte:', response.data.message);
           }
@@ -34,11 +38,6 @@ export default function Page() {
 
     fetchReporte();
   }, []);
-
-  const formatDate = (dateString) => {
-    const [year, month, day] = dateString.split('T')[0].split('-');
-    return `${parseInt(day)}/${parseInt(month)}/${year}`;
-  };
 
   const handleEditTextoToggle = (e) => {
     e.preventDefault();
@@ -57,14 +56,19 @@ export default function Page() {
   const handleUpdateTexto = async () => {
     try {
       const sesionId = localStorage.getItem('sesionId');
+      const userId = localStorage.getItem('userId');
+      const fechanueva = new Date(fecha).toISOString().split('T')[0];
 
       if (sesionId) {
-        const response = await axios.post(`http://localhost:3001/api/reporte/${sesionId}`, {
-          texto: texto
+        const response = await axios.post(`http://localhost:3001/api/setReportStudent/${sesionId}`, {
+          userId: userId,
+          fecha: fechanueva,
+          texto: texto,
+          titulo: titulo,
+          descripcion: descripcion
         });
 
         if (response.data.success) {
-          console.log('Texto actualizado con éxito');
           setEditableTexto(false);
         } else {
           console.error('Error al actualizar el texto:', response.data.message);
@@ -80,17 +84,16 @@ export default function Page() {
   return (
     <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1800px', minHeight: '600px', margin: 'auto' }}>
       <div className="row justify-content-evenly">
-
         <div className="col-12 col-md-4 order-last order-md-first m-1 d-flex flex-column" style={{ backgroundColor: 'rgba(213,213,213,0.8)', borderColor: '#908486', borderRadius: '20px', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
-          
           <div className='container p-3'>
-            <h2>{formatDate(Fecha)}</h2>
-            <h6>Título - {Titulo}</h6>
+            <h2>{titulo} - {new Date(fecha).toLocaleDateString()}</h2>
+            <h6>Estudiante - {nombre}</h6>
+            {descripcion}
           </div>
 
           <div className="container d-flex flex-column align-items-center mt-auto p-4">
             <Link
-              to="/Mentor/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
+              to="/Estudiante/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
               style={{ 
                 display: 'inline-block', 
                 backgroundColor: '#EFCA45', 
@@ -112,9 +115,10 @@ export default function Page() {
                 e.currentTarget.style.color = '#3A2E01';
               }}
             >
-              Retroalimentación del alumno
+              Retroalimentación del mentor
             </Link>
           </div>
+
         </div>
 
         <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor: '#908486', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
@@ -127,20 +131,17 @@ export default function Page() {
             placeholder="Escribe aquí tu reporte de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, ..."
             rows={10}
           />
-
           <div className="d-flex justify-content-center p-4">
             {editableTexto && (
-              <button className="btn btn-warning btn-outline-dark" onClick={handleUpdateTexto}>
+              <button className="btn btn-warning btn-outline-dark" style={{ borderRadius:'20px', minWidth:'200px' }} onClick={handleUpdateTexto}>
                 Guardar Cambios
               </button>
             )}
-            <button className="btn btn-warning btn-outline-dark ms-2" onClick={handleEditTextoToggle}>
+            <button className="btn btn-warning btn-outline-dark ms-2" style={{ borderRadius:'20px', minWidth:'200px' }} onClick={handleEditTextoToggle}>
               {editableTexto ? 'Cancelar' : 'Editar'}
             </button>
           </div>
-
         </div>
-
       </div>
     </div>
   );

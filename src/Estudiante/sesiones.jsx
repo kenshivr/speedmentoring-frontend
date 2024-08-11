@@ -103,14 +103,17 @@ export default function Page({ userId }) {
             <thead>
               <tr>
                 <th scope="col">Fecha</th>
+                <th scope="col">Número de sesión</th>
+                <th scope="col">Título</th>
                 <th scope="col">Reporte</th>
-                <th scope="col">Mentor</th>
               </tr>
             </thead>
             <tbody className="table-light">
               {filteredSessions.map((session, index) => (
                 <tr key={index}>
                   <td>{new Date(session.Fecha).toLocaleDateString()}</td>
+                  <td>{session.NumeroDeSesion}</td>
+                  <td>{session.Titulo}</td>
                   <td>
                     {session.ReporteID ? (
                       <Link 
@@ -132,7 +135,6 @@ export default function Page({ userId }) {
                       </Link>
                     )}
                   </td>
-                  <td>{session.MentorNombre}</td>
                 </tr>
               ))}
             </tbody>
