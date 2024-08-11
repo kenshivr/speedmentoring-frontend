@@ -19,6 +19,7 @@ import MentorSesiones from './Mentor/sesiones';
 import MentorSesiones1 from './Mentor/sesiones/verSesion';
 import MentorNuevaSesion from './Mentor/sesiones/nuevaSesion';
 import MentorEditarSesion from './Mentor/sesiones/editarSesion';
+import MentorSesiones1r from './Mentor/sesiones/verSesion/retroalimentacion';
 
 import EstudianteInicio from './Estudiante/inicio';
 import EstudiantePerfil from './Estudiante/perfil';
@@ -185,7 +186,7 @@ function App() {
         <Route path="/Admin/usuarios/crearUsuario" element={<AdminAgregarUsuario />} />
         */}
 
-        {/*███████████████████████████Nuevas rutas████████████████████████████████████*/}
+        {/*███████████████████████████ Nuevas rutas de admin ████████████████████████████████████*/}
         <Route path="/admin/estadisticas" element={<AdminEstadisticas />} />
         <Route path="/admin/estadisticas/especialidades" element={<AdminEstadisticasEspecialidades />} />
         <Route path="/admin/estadisticas/estudiantes" element={<AdminEstadisticasEstudiantes />} />
@@ -207,6 +208,12 @@ function App() {
 
         <Route path="/Admin/usuarios/editarUsuario" element={<AdminEditarUsuario />} /> 
         
+        {/*███████████████████████████ Nuevas rutas de mentor ████████████████████████████████████*/}
+        <Route path="/Mentor/sesiones/verSesion/retroalimentacion" element={<MentorSesiones1r />}/>
+
+        {/*███████████████████████████████████████████████████████████████*/}
+
+
         {/* LISTO */} <Route path='/Mentor/eventos' element={<MentorEvento />}/>
         <Route path='/Mentor/sesiones/nuevaSesion' element={<MentorNuevaSesion />}/>
         {/* LISTO */} <Route path='/Mentor/sesiones/editarSesion' element={<MentorEditarSesion />}/>

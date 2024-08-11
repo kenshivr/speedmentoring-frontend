@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Page() {
   
@@ -87,6 +88,33 @@ export default function Page() {
             <h6>Título - {Titulo}</h6>
           </div>
 
+          <div className="container d-flex flex-column align-items-center mt-auto p-4">
+            <Link
+              to="/Mentor/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
+              style={{ 
+                display: 'inline-block', 
+                backgroundColor: '#EFCA45', 
+                color: '#3A2E01', 
+                border: '1px solid #000',
+                borderRadius: '20px',
+                transition: 'background-color 0.3s, color 0.3s', 
+                textAlign: 'center', 
+                textDecoration: 'none', 
+                padding: '0.5rem 1rem', 
+                maxWidth: '250px' // Manteniendo la propiedad original
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#000';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#EFCA45';
+                e.currentTarget.style.color = '#3A2E01';
+              }}
+            >
+              Retroalimentación del alumno
+            </Link>
+          </div>
         </div>
 
         <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor: '#908486', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>

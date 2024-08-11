@@ -62,12 +62,12 @@ function LoginPage({ setUser, setUserId, setSpecialty }) {
         <div className="row w-100 no-gutters">
           <div className="col-md-6 d-flex align-items-center justify-content-center">
             <div className="container-sm d-flex justify-content-center align-items-center my-4" style={{ backgroundColor: 'rgba(239, 202, 69, 1)', borderRadius: '10px' }}>
-              <a className="navbar-brand" href="https://www.acatlan.unam.mx/">
+              <a className="navbar-brand">
                 <img
-                  src="https://www.acatlan.unam.mx/identidad-acatlan/img/Logotipos/Escudo/escudo-a.png"
+                  src="https://dl.dropboxusercontent.com/s/0vq7m1yb79th4m6db15w1/Picture1.png?rlkey=hftdijmja6u93u99020vpv5w5&st=3b51u5c2"
                   alt="Logo Fes Acatlan"
                   className="img-fluid my-4"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
+                  style={{ maxWidth: '100%', maxHeight: '400px' }}
                 />
               </a>
             </div>

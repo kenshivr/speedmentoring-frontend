@@ -14,3 +14,24 @@
       max-width: 150%;
     }
   }
+
+
+  .logo-mac {
+    max-height: 100px; /* Tamaño máximo en pantallas grandes */
+    max-width: 100%; /* Mantiene la proporción de la imagen */
+  }
+  
+  @media (max-width: 1000px) {
+    .logo-mac {
+      max-height: 65px;
+      max-width: 75% /* Tamaño máximo en pantallas medianas */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .logo-mac {
+      max-height: 50px; /* Tamaño máximo en pantallas pequeñas */
+      min-width: 50px;
+    }
+  }
+  

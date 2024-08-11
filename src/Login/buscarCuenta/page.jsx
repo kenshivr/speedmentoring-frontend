@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function BuscarCuentaPage() {
   const [id, setId] = useState('');
@@ -29,11 +30,11 @@ export default function BuscarCuentaPage() {
           <div className="row w-100 no-gutters">
             <div className="col-md-6 d-flex align-items-center justify-content-center">
               <div className="container-sm d-flex justify-content-center align-items-center my-4" style={{ backgroundColor: 'rgba(239, 202, 69, 1)', borderRadius: '10px' }}>
-                <a className="navbar-brand" href="https://www.acatlan.unam.mx/">
-                  <img 
-                    src="https://www.acatlan.unam.mx/identidad-acatlan/img/Logotipos/Escudo/escudo-a.png" 
-                    alt="Logo Fes Acatlan" 
-                    className="img-fluid my-4" 
+                <a className="navbar-brand">
+                  <img
+                    src="https://dl.dropboxusercontent.com/s/0vq7m1yb79th4m6db15w1/Picture1.png?rlkey=hftdijmja6u93u99020vpv5w5&st=3b51u5c2"
+                    alt="Logo Fes Acatlan"
+                    className="img-fluid my-4"
                     style={{ maxWidth: '100%', maxHeight: '200px' }}
                   />
                 </a>
@@ -72,6 +73,27 @@ export default function BuscarCuentaPage() {
                   }}>
                   Buscar
                 </button>
+                <Link
+                  type="button"
+                  className="btn w-100 mt-2"
+                  to="/login"
+                  style={{ 
+                    backgroundColor: '#EBE4CA', 
+                    color: '#4F3F05', 
+                    border: '1px solid #000',
+                    borderRadius: '20px',
+                    transition: 'background-color 0.3s, color 0.3s' 
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#EBE4CA';
+                    e.currentTarget.style.color = '#4F3F05';
+                  }}>
+                  Cancelar
+                </Link>
               </form>
             </div>
           </div>

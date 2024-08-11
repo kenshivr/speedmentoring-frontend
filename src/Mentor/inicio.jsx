@@ -13,12 +13,16 @@ const MentorPage = () => {
     fetch(`http://localhost:3001/api/showSesionesMentor/${userId}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-        setSessions(data.data);
-        setFilteredSessions(data.data);
+        if (Array.isArray(data.data)) {
+          setSessions(data.data);
+          setFilteredSessions(data.data);
+        } else {
+          console.error('Data is not an array:', data.data);
+        }
       })
       .catch(error => console.error('Error fetching sessions:', error));
   }, [userId]);
+  
 
   useEffect(() => {
     // Filtrar sesiones basadas en la búsqueda
@@ -30,6 +34,12 @@ const MentorPage = () => {
       )
     );
   }, [search, sessions]);
+
+  useEffect(() => {
+    console.log('Sessions:', sessions);
+    console.log('Filtered Sessions:', filteredSessions);
+  }, [sessions, filteredSessions]);
+  
 
   function handleLink(session) {
     return () => {
