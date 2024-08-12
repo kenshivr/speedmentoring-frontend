@@ -43,7 +43,8 @@ export default function Page() {
   const handleEventEdit = (id) => {
     localStorage.setItem('eventId', id);
   }
-  
+
+  // Filtrar eventos basado en el término de búsqueda
   const filteredEventos = eventos.filter(evento => {
     const formattedDate = new Date(evento.Fecha).toLocaleDateString();
     const searchTermLower = searchTerm.toLowerCase();
@@ -51,7 +52,7 @@ export default function Page() {
     return (
       evento.Nombre.toLowerCase().includes(searchTermLower) ||
       evento.Descripción.toLowerCase().includes(searchTermLower) ||
-      evento.Especialidad.toLowerCase().includes(searchTermLower) ||
+      evento.Especialidad?.toLowerCase().includes(searchTermLower) || // Usar el operador de encadenamiento opcional
       evento.EventoID.toString().includes(searchTerm) ||
       formattedDate.includes(searchTerm)
     );
@@ -103,7 +104,6 @@ export default function Page() {
               >
                 Nuevo evento
               </Link>
-              
             </form>
           </div>
         </div>
@@ -113,7 +113,6 @@ export default function Page() {
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Especialidad</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Link</th>
@@ -125,7 +124,6 @@ export default function Page() {
                 <tr key={evento.EventoID}>
                   <td>{evento.EventoID}</td>
                   <td>{evento.Nombre}</td>
-                  <td>{evento.Especialidad}</td>
                   <td>{new Date(evento.Fecha).toLocaleDateString()}</td>
                   <td>{evento.Descripción}</td>
                   <td>
@@ -142,7 +140,6 @@ export default function Page() {
                       <span>Sin link</span>
                     )}
                   </td>
-
                   <td>
                     <div className="dropdown">
                       <button className="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">

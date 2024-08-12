@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default function Page() {
   const [editableTexto, setEditableTexto] = useState(false);
   const [texto, setTexto] = useState('');
-  const [originalTexto, setOriginalTexto] = useState(''); 
+  const [originalTexto, setOriginalTexto] = useState('');
   const [fecha, setFecha] = useState('');
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
@@ -17,14 +17,16 @@ export default function Page() {
     const fetchReporte = async () => {
       try {
         if (sesionId) {
-          const response = await axios.get(`http://localhost:3001/api/getReportMentor/${sesionId}`);
+          const response = await axios.get(`http://localhost:3001/api/getReportsMentor/${sesionId}`);
+          console.log(response.data); // Verifica los datos recibidos
           if (response.data.success) {
-            setTexto(response.data.data.texto || '');
-            setOriginalTexto(response.data.data.texto || '');
-            setFecha(response.data.data.fecha || '');
-            setNombre(response.data.data.nombre || '');
-            setTitulo(response.data.data.titulo || '');
-            setDescripcion(response.data.data.descripcion || '');
+            const data = response.data.data;
+            setTexto(data.texto || '');
+            setOriginalTexto(data.texto || '');
+            setFecha(data.fecha || '');
+            setNombre(data.nombre || '');
+            setTitulo(data.titulo || '');
+            setDescripcion(data.descripcion || '');
           } else {
             console.error('Error al obtener detalles del reporte:', response.data.message);
           }
@@ -37,7 +39,7 @@ export default function Page() {
     };
 
     fetchReporte();
-  }, []);
+  }, [sesionId]);
 
   const handleEditTextoToggle = (e) => {
     e.preventDefault();
@@ -55,7 +57,6 @@ export default function Page() {
 
   const handleUpdateTexto = async () => {
     try {
-      const sesionId = localStorage.getItem('sesionId');
       const userId = localStorage.getItem('userId');
       const fechanueva = new Date(fecha).toISOString().split('T')[0];
 
@@ -93,7 +94,7 @@ export default function Page() {
 
           <div className="container d-flex flex-column align-items-center mt-auto p-4">
             <Link
-              to="/Estudiante/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
+              to="/Mentor/sesiones/verSesion/retroalimentacion"
               style={{ 
                 display: 'inline-block', 
                 backgroundColor: '#EFCA45', 
@@ -104,7 +105,7 @@ export default function Page() {
                 textAlign: 'center', 
                 textDecoration: 'none', 
                 padding: '0.5rem 1rem', 
-                maxWidth: '250px' // Manteniendo la propiedad original
+                maxWidth: '250px' 
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#000';
@@ -115,10 +116,9 @@ export default function Page() {
                 e.currentTarget.style.color = '#3A2E01';
               }}
             >
-              Retroalimentación del mentor
+              Retroalimentación del alumno
             </Link>
           </div>
-
         </div>
 
         <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor: '#908486', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
