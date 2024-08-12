@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 export default function Page() {
   const [students, setStudents] = useState([]);
   const [mentors, setMentors] = useState([]);
+  const [studentSearchTerm, setStudentSearchTerm] = useState('');
+  const [mentorSearchTerm, setMentorSearchTerm] = useState('');
 
   useEffect(() => {
     const getMentors = async () => {
@@ -29,6 +31,14 @@ export default function Page() {
     getStudents();
   }, []);
 
+  const handleSearchStudentChange = (event) => {
+    setStudentSearchTerm(event.target.value);
+  };
+
+  const handleSearchMentorChange = (event) => {
+    setMentorSearchTerm(event.target.value);
+  };
+
   const updateStatus = async (type, id, status) => {
     try {
       await axios.put(`http://localhost:3001/api/${type}/${id}`, { Estatus: status });
@@ -41,6 +51,36 @@ export default function Page() {
       console.error(`Error al actualizar el estado del ${type}:`, error);
     }
   };
+
+  const filteredMentors = mentors.filter(mentor => {
+    const searchTermLower = mentorSearchTerm.toLowerCase();
+    return (
+      (mentor.RFC ? mentor.RFC.toLowerCase().includes(searchTermLower) : false) ||
+      (mentor.Nombre ? mentor.Nombre.toLowerCase().includes(searchTermLower) : false) ||
+      (mentor.ApellidoPaterno ? mentor.ApellidoPaterno.toLowerCase().includes(searchTermLower) : false) ||
+      (mentor.ApellidoMaterno ? mentor.ApellidoMaterno.toLowerCase().includes(searchTermLower) : false) ||
+      (mentor.NumeroTelefono ? mentor.NumeroTelefono.toLowerCase().includes(searchTermLower) : false) ||
+      (mentor.EspecialidadID ? mentor.EspecialidadID.toString().toLowerCase().includes(searchTermLower) : false) ||
+      (mentor.Empresa ? mentor.Empresa.toLowerCase().includes(searchTermLower) : false) ||
+      (mentor.Puesto ? mentor.Puesto.toLowerCase().includes(searchTermLower) : false) ||
+      (mentor.CorreoElectronico ? mentor.CorreoElectronico.toLowerCase().includes(searchTermLower) : false)
+    );
+  });  
+
+  const filteredStudents = students.filter(student => {
+    const searchTermLower = studentSearchTerm.toLowerCase();
+    return (
+      (student.EstudianteID ? student.EstudianteID.toString().toLowerCase().includes(searchTermLower) : false) ||
+      (student.Nombre ? student.Nombre.toLowerCase().includes(searchTermLower) : false) ||
+      (student.ApellidoPaterno ? student.ApellidoPaterno.toLowerCase().includes(searchTermLower) : false) ||
+      (student.ApellidoMaterno ? student.ApellidoMaterno.toLowerCase().includes(searchTermLower) : false) ||
+      (student.NumeroTelefono ? student.NumeroTelefono.toLowerCase().includes(searchTermLower) : false) ||
+      (student.EspecialidadID ? student.EspecialidadID.toString().toLowerCase().includes(searchTermLower) : false) ||
+      (student.CorreoElectronicoPersonal ? student.CorreoElectronicoPersonal.toLowerCase().includes(searchTermLower) : false) ||
+      (student.Periodo ? student.Periodo.toLowerCase().includes(searchTermLower) : false)
+    );
+  });
+  
 
   return (
     <div className="container-sm my-2 p-3">
@@ -59,8 +99,8 @@ export default function Page() {
                   placeholder="Buscar"
                   aria-label="Search"
                   style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px"}}
-                  // value={}
-                  // onChange={}
+                  value={mentorSearchTerm}
+                  onChange={handleSearchMentorChange}
                 />
               </form>
             </div>
@@ -83,7 +123,7 @@ export default function Page() {
                 </tr>
               </thead>
               <tbody className="table-light">
-                {mentors.map(mentor => (
+                {filteredMentors.map(mentor => (
                   <tr key={mentor.RFC}>
                     <td>{mentor.RFC}</td>
                     <td>{mentor.Estatus}</td>
@@ -120,9 +160,8 @@ export default function Page() {
             </table>
           </div>
         </div>
-
         {/* Sección de Estudiantes */}
-        <div className="container p-4 mt-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+        <div className="container p-4" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='col-sm-4 mt-1'>
               <legend>Estudiantes</legend>
@@ -135,8 +174,8 @@ export default function Page() {
                   placeholder="Buscar"
                   aria-label="Search"
                   style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px"}}
-                  // value={}
-                  // onChange={}
+                  value={studentSearchTerm}
+                  onChange={handleSearchStudentChange}
                 />
               </form>
             </div>
@@ -159,7 +198,7 @@ export default function Page() {
                 </tr>
               </thead>
               <tbody className="table-light">
-                {students.map(student => (
+                {filteredStudents.map(student => (
                   <tr key={student.EstudianteID}>
                     <td>{student.EstudianteID}</td>
                     <td>{student.Estatus}</td>
