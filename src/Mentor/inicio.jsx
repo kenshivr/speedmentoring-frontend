@@ -25,14 +25,17 @@ const MentorPage = () => {
   
 
   useEffect(() => {
-    // Filtrar sesiones basadas en la búsqueda
-    setFilteredSessions(
-      sessions.filter(session => 
-        session.SesionID?.toString().includes(search) ||
+    const today = new Date();
+    const filtered = sessions.filter(session => {
+      const sessionDate = new Date(session.Fecha); // Convierte la fecha de la sesión a un objeto Date
+      return (
+        (session.SesionID?.toString().includes(search) ||
         session.Fecha?.includes(search) ||
-        session.Titulo?.includes(search)
-      )
-    );
+        session.Titulo?.includes(search)) &&
+        sessionDate >= today // Filtra las sesiones cuya fecha es igual o posterior a hoy
+      );
+    });
+    setFilteredSessions(filtered);
   }, [search, sessions]);
 
   useEffect(() => {

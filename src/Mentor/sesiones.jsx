@@ -1,20 +1,26 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate en lugar de useHistory
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 export default function Page({ userId }) {
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate(); // Usa useNavigate para manejar la navegación
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userId) {
       axios.get(`http://localhost:3001/api/showSesionesMentor/${userId}`)
         .then((response) => {
           if (response.data.success) {
-            setSessions(response.data.data);
-            setFilteredSessions(response.data.data); // Inicialmente mostrar todas las sesiones
+            const pastSessions = response.data.data.filter(session => {
+              const sessionDate = new Date(session.Fecha); // Asumiendo que session.Fecha es un string de fecha
+              const today = new Date();
+              return sessionDate < today; // Solo sesiones con fecha anterior a hoy
+            });
+
+            setSessions(pastSessions);
+            setFilteredSessions(pastSessions); // Mostrar solo sesiones pasadas
           } else {
             console.error('No se encontraron sesiones');
           }
@@ -37,10 +43,10 @@ export default function Page({ userId }) {
     }
 
     const filtered = sessions.filter((session) => {
-      const formattedDate = new Date(session.fecha).toLocaleDateString();
+      const formattedDate = new Date(session.Fecha).toLocaleDateString();
       return (
         formattedDate.includes(term) ||
-        session.nombre.toLowerCase().includes(term.toLowerCase()) ||
+        session.Nombre.toLowerCase().includes(term.toLowerCase()) ||
         (!session.reporteid && term.toLowerCase() === 'n/a')
       );
     });
@@ -56,7 +62,7 @@ export default function Page({ userId }) {
   const handleLink = (session) => {
     // Guardar session ID en localStorage y luego redirigir
     localStorage.setItem('sesionId', session.sesionid);
-    navigate(`/Mentor/sesiones/verSesion`); // Usar navigate para redirigir
+    navigate(`/Mentor/sesiones/verSesion`);
   };
 
   return (
