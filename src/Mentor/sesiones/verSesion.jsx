@@ -18,7 +18,6 @@ export default function Page() {
       try {
         if (sesionId) {
           const response = await axios.get(`http://localhost:3001/api/getReportsMentor/${sesionId}`);
-          console.log(response.data); // Verifica los datos recibidos
           if (response.data.success) {
             const data = response.data.data;
             setTexto(data.texto || '');

@@ -44,8 +44,6 @@ export default function Page() {
       userId: mentorRFC
     };
 
-    console.log(sessionData);
-
     // Enviar datos al servidor
     fetch('http://localhost:3001/api/getStudentsOfMentor', {
       method: 'POST',

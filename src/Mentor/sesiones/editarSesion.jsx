@@ -15,7 +15,6 @@ export default function EditSessionPage() {
     fetch(`http://localhost:3001/api/getSesionMentor/${sesionId}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         setDatos(data);
         setTitle(data.Titulo || ''); // Asignar valor predeterminado
         setDescription(data.Descripción || ''); // Asignar valor predeterminado
