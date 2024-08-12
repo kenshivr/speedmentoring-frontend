@@ -4,25 +4,37 @@ const StudentPage = () => {
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(true); // Estado para gestionar la carga
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSessions = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        console.log('userId:', userId); // Verifica si userId está disponible
 
         if (userId) {
           const response = await fetch(`http://localhost:3001/api/showSesionesStudent/${userId}`);
           const data = await response.json();
 
-          console.log('Data received from API:', data); // Verifica los datos recibidos
-
           if (data.success) {
-            const formattedData = data.data.map(session => ({
+            // Filtrar sesiones con fecha mayor o igual a la actual
+            const currentDate = new Date().setHours(0, 0, 0, 0);
+            let futureSessions = data.data.filter(session => {
+              const sessionDate = new Date(session.Fecha.split('T')[0]).setHours(0, 0, 0, 0);
+              return sessionDate >= currentDate;
+            });
+
+            // Eliminar duplicados usando sesionid
+            const uniqueSessions = futureSessions.filter((session, index, self) =>
+              index === self.findIndex((s) => (
+                s.sesionid === session.sesionid
+              ))
+            );
+
+            const formattedData = uniqueSessions.map(session => ({
               ...session,
               Fecha: formatDate(session.Fecha)
             }));
+
             setSessions(formattedData);
             setFilteredSessions(formattedData);
           } else {
@@ -33,7 +45,7 @@ const StudentPage = () => {
       } catch (error) {
         console.error('Error fetching sessions:', error);
       } finally {
-        setLoading(false); // Termina la carga
+        setLoading(false);
       }
     };
 
@@ -41,12 +53,12 @@ const StudentPage = () => {
   }, []);
 
   useEffect(() => {
-    // Filtrar sesiones basadas en la búsqueda
+    // Filtra sesiones basadas en la búsqueda
     setFilteredSessions(
       sessions.filter(session => 
         (session.Titulo ? session.Titulo.toLowerCase() : '').includes(search.toLowerCase()) ||
         (session.Fecha ? session.Fecha : '').includes(search) ||
-        (session.MentorNombre ? session.MentorNombre : '').includes(search)
+        (session.MentorNombre ? session.MentorNombre.toLowerCase() : '').includes(search.toLowerCase())
       )
     );
   }, [search, sessions]);
@@ -61,7 +73,7 @@ const StudentPage = () => {
   };
 
   if (loading) {
-    return <div>Cargando sesiones...</div>; // Mostrar un mensaje de carga mientras se obtienen los datos
+    return <div>Cargando sesiones...</div>;
   }
 
   return (
@@ -83,30 +95,6 @@ const StudentPage = () => {
                   value={search}
                   onChange={handleSearchChange}
                 />
-                <button
-                  className="btn btn-outline-success"
-                  type="button"
-                  style={{ 
-                    backgroundColor: '#EFCA45', 
-                    color: '#4F3F05', 
-                    border: '1px solid #000',
-                    borderColor: "#EFCA45",
-                    borderRadius: '20px',
-                    transition: 'background-color 0.3s, color 0.3s' 
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#F9E6A5';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#EFCA45';
-                    e.currentTarget.style.color = '#4F3F05';
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
-                    <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-                  </svg>
-                </button>
               </form>
             </div>
           </div>

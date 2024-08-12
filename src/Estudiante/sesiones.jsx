@@ -12,8 +12,20 @@ export default function Page({ userId }) {
       axios.get(`http://localhost:3001/api/showSesionesStudent/${userId}`)
         .then((response) => {
           if (response.data.success) {
-            setSessions(response.data.data);
-            setFilteredSessions(response.data.data);
+            const currentDate = new Date().setHours(0, 0, 0, 0);
+            let pastSessions = response.data.data.filter(session => {
+              const sessionDate = new Date(session.Fecha.split('T')[0]).setHours(0, 0, 0, 0);
+              return sessionDate < currentDate;
+            });
+
+            const uniqueSessions = pastSessions.filter((session, index, self) =>
+              index === self.findIndex((s) => (
+                s.SesionID === session.SesionID
+              ))
+            );
+
+            setSessions(uniqueSessions);
+            setFilteredSessions(uniqueSessions);
           } else {
             console.error('No se encontraron sesiones');
           }
@@ -31,16 +43,19 @@ export default function Page({ userId }) {
 
   const filterSessions = (term) => {
     if (!term.trim()) {
-      setFilteredSessions(sessions); // Mostrar todas las sesiones si no hay término de búsqueda
+      setFilteredSessions(sessions);
       return;
     }
 
     const filtered = sessions.filter((session) => {
       const formattedDate = new Date(session.Fecha).toLocaleDateString();
-      const mentorName = session.MentorNombre.toLowerCase();
+      const mentorName = session.MentorNombre ? session.MentorNombre.toLowerCase() : '';
+      const title = session.Titulo ? session.Titulo.toLowerCase() : '';
+      
       return (
         formattedDate.includes(term) ||
-        mentorName.toLowerCase().includes(term.toLowerCase()) ||
+        mentorName.includes(term.toLowerCase()) ||
+        title.includes(term.toLowerCase()) || // Búsqueda por título
         (!session.ReporteID && term.toLowerCase() === 'n/a')
       );
     });
@@ -71,29 +86,6 @@ export default function Page({ userId }) {
                   value={searchTerm}
                   onChange={handleSearchChange}
                 />
-                <button
-                  className="btn btn-outline-success"
-                  type="button"
-                  style={{ 
-                    backgroundColor: '#EFCA45', 
-                    color: '#4F3F05', 
-                    border: '1px solid #000',
-                    borderColor: "#EFCA45",
-                    borderRadius: '20px',
-                    transition: 'background-color 0.3s, color 0.3s' 
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#F9E6A5';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#EFCA45';
-                    e.currentTarget.style.color = '#4F3F05';
-                  }}
-                  onClick={() => filterSessions(searchTerm)}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
-                </button>
               </form>
             </div>
           </div>
@@ -109,34 +101,36 @@ export default function Page({ userId }) {
               </tr>
             </thead>
             <tbody className="table-light">
-              {filteredSessions.map((session, index) => (
-                <tr key={index}>
-                  <td>{new Date(session.Fecha).toLocaleDateString()}</td>
-                  <td>{session.NumeroDeSesion}</td>
-                  <td>{session.Titulo}</td>
-                  <td>
-                    {session.ReporteID ? (
-                      <Link 
-                        to='/Estudiante/sesiones/verSesion'
-                        onClick={handleCLickLinkSesion(session.SesionID)}
-                      >
-                        {session.ReporteID ? (
-                          <span>✔</span> // Palomita si existe TextoExplicativo
-                        ) : (
-                          'n/a' // Mostrar 'n/a' si no existe TextoExplicativo
-                        )}
-                      </Link>
-                    ) : (
-                      <Link 
-                        to='/Estudiante/sesiones/verSesion'
-                        onClick={handleCLickLinkSesion(session.SesionID)}
-                      >
-                        n/a
-                      </Link>
-                    )}
-                  </td>
+              {filteredSessions.length > 0 ? (
+                filteredSessions.map((session, index) => (
+                  <tr key={index}>
+                    <td>{new Date(session.Fecha).toLocaleDateString()}</td>
+                    <td>{session.NumeroDeSesion}</td>
+                    <td>{session.Titulo}</td>
+                    <td>
+                      {session.ReporteID ? (
+                        <Link 
+                          to='/Estudiante/sesiones/verSesion'
+                          onClick={handleCLickLinkSesion(session.SesionID)}
+                        >
+                          <span>✔</span>
+                        </Link>
+                      ) : (
+                        <Link 
+                          to='/Estudiante/sesiones/verSesion'
+                          onClick={handleCLickLinkSesion(session.SesionID)}
+                        >
+                          n/a
+                        </Link>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4">No se encontraron sesiones que coincidan con la búsqueda. Por favor, ajuste su búsqueda e intente nuevamente.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
