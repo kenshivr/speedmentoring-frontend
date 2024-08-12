@@ -61,40 +61,45 @@ export default function Page() {
                 <li><strong>Número de cuenta</strong></li>
                 <li><strong>Nombre y apellidos</strong></li>
                 <li><strong>Periodo</strong></li>
-                <li><strong>Especialidad a la que desean enfocarse</strong></li>
-                <li><strong>Mentor asignado</strong></li>
-                <li><strong>Número de teléfono</strong></li>
+                <li><strong>ID de la especialidad a la que desea enfocarse</strong></li>
+                <li><strong>Número de télefono</strong></li>
+                <li><strong>Correo eléctronico personal</strong></li>
+                <li><strong>RFC del mentor asignado</strong></li>
+                <li><strong>Contraseña (fecha de nacimiento AAAAMMDD)</strong></li>
             </ul>
-            <pre style={{ backgroundColor:'lightgrey', color:'black' }}><code className='p-1'>
-                Número de cuenta,Nombre,apellido paterno,apellido materno,Periodo,Especialidad,Mentor asignado,Número de teléfono
+            Nombres de las columnas:
+            <pre style={{ backgroundColor:'lightgrey', color:'black' }}><code className='p-2'>
+                EstudianteID, Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, EspecialidadID, NumeroTelefono, CorreoElectronicoPersonal, MentorRFC, Contrasena
             </code></pre>
 
             Ejemplo:
-            <pre style={{ backgroundColor:'lightgrey', color:'black' }}><code className='p-1'>
-                123456789,Juan,Pérez,López,2024-1,Desarrollo Web,María Gómez,5520309010
+            <pre style={{ backgroundColor:'lightgrey', color:'black' }}><code className='p-2'>
+                123456789, Juan, Pérez, López, 2024-1, 3, 5598765432, juan@gmail.com, RFCmentor123, 19991224
             </code></pre>
 
             <h3>3. Datos necesarios para Mentores:</h3>
             <ul>
                 <li><strong>RFC:</strong></li>
                 <li><strong>Nombre y apellidos:</strong></li>
-                <li><strong>Especialidad a la que se han enfocado:</strong></li>
+                <li><strong>ID de la especialidad a la que se han enfocado:</strong></li>
                 <li><strong>Empresa:</strong></li>
                 <li><strong>Puesto:</strong></li>
-                <li><strong>Grado académico:</strong></li>
-                <li><strong>Maestría:</strong>(1 o 0, 1 para si y 0 para no)</li>
                 <li><strong>Correo electrónico:</strong></li>
                 <li><strong>Número de teléfono:</strong></li>
+                <li><strong>Contraseña (HOMOCLAVE)</strong></li>
             </ul>
+
+            Nombres de las columnas:
             <pre style={{ backgroundColor:'lightgrey', color:'black' }}><code className='p-1'>
-                RFC,Nombre,apellido paterno,apellido materno,Especialidad,Empresa,Puesto,Grado académico,Maestría,Correo electrónico,Número de teléfono
+                RFC, Nombre, ApellidoPaterno, ApellidoMaterno, EspecialidadID, Empresa, Puesto, CorreoElectronico, NumeroTelefono, Contrasena
             </code></pre>
+            Ejemplo:
             <pre style={{ backgroundColor:'lightgrey', color:'black' }}><code className='p-1'>
-                ABC123456789,Laura,Martínez,García,Ciencia de datos,TechCorp,Analista,1,laura.martinez@techcorp.com,5510203040
+                RFCmentor123, Laura, Martínez, García, 7, TechCorp, Analista, laura.martinez@techcorp.com, 5598765432, AB1
             </code></pre>
 
             <div className="alert alert-warning mt-4" role="alert">
-                <strong>Nota:</strong> Asegúrate de que cada columna esté correctamente alineada y de que no haya filas vacías o datos incorrectos. Los errores en el formato del archivo pueden provocar problemas durante la importación.
+                <strong>Nota:</strong> Asegúrate de que cada columna esté correctamente nombrada y de que no haya registros vacíos o datos incorrectos. Los errores en el formato del archivo pueden provocar problemas durante la importación.
             </div>
 
             <p>Si necesitas más información o asistencia, no dudes en contactarnos: speedmentoringMAC@gmail.com</p>

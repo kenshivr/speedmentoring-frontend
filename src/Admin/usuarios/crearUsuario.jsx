@@ -7,7 +7,7 @@ export default function Page() {
   const [mentores, setMentores] = useState([]);
 
   const [formDataMentor, setFormDataMentor] = useState({
-    MentorRFC: 0,
+    RFC: 0,
     Nombre: '',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
@@ -29,7 +29,7 @@ export default function Page() {
     Periodo: '',
     Password: '',
     EspecialidadID: 0,
-    MentorRFC: '',
+    RFC: '',
     CorreoElectronico: '',
     NumeroTelefono: '',
     Estado: 0
@@ -132,11 +132,11 @@ export default function Page() {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="mentor" className="form-label">Mentor</label>
-                  <select className="form-select" aria-label="Default select example" name="MentorRFC" onChange={handleChange}>
+                  <select className="form-select" aria-label="Default select example" name="RFC" onChange={handleChange}>
                     <option value="">Mentor</option>
                     {mentores.map((mentor) => (
-                      <option key={mentor.MentorRFC} value={mentor.MentorRFC}>
-                        {`${mentor.MentorRFC} - ${mentor.Nombre} ${mentor.ApellidoMaterno} ${mentor.ApellidoPaterno}`}
+                      <option key={mentor.RFC} value={mentor.RFC}>
+                        {`${mentor.RFC} - ${mentor.Nombre} ${mentor.ApellidoMaterno} ${mentor.ApellidoPaterno}`}
                       </option>
                     ))}
                   </select>
@@ -151,7 +151,7 @@ export default function Page() {
                   <label htmlFor="NumeroTelefono" className="form-label">Teléfono</label>
                   <input className="form-control" id="NumeroTelefono" name="NumeroTelefono" placeholder="Ejemplo de teléfono" onChange={handleChange} />
                 </div>
-                <div className='mb-3 pt-4 mt-3' style={{ maxWidth: '500px' }}>
+                <div className='mb-3 pt-4 mt-2' style={{ maxWidth: '500px' }}>
                   <select className="form-select" aria-label="Default select example" name="EspecialidadID" onChange={handleChange}>
                     <option value="">Especialidad</option>
                     {especialidades.map((especialidad) => (
