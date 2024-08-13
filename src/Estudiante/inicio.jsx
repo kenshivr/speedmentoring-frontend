@@ -73,7 +73,46 @@ const StudentPage = () => {
   };
 
   if (loading) {
-    return <div>Cargando sesiones...</div>;
+    return <div className='container p-5'>
+    <div className="container-sm p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+      <div className="container p-3">
+        <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
+          <div className='col-sm-4 px-2'>
+            <legend>Agenda</legend>
+          </div>
+          <div className="col-sm-8 px-2 mt-1">
+            <form className="d-flex" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Buscar"
+                aria-label="Search"
+                style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px" }}
+                value={search}
+                onChange={handleSearchChange}
+              />
+            </form>
+          </div>
+        </div>
+        <div className="table-responsive p-2 justify-content-center align-items-center text-center">
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Título</th> 
+                <th scope="col">Nombre del Mentor</th>
+              </tr>
+            </thead>
+            <tbody className="table-light">
+              <tr>
+                <td colSpan="3">Cargando sesiones...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
   }
 
   return (
