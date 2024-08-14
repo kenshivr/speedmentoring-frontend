@@ -84,6 +84,30 @@ export default function Page() {
   return (
     <div className="container-sm my-2 p-3">
       <div className="container-sm p-3">
+        <div className='row justify-content-center'>
+          <div className='col-12 col-md-6 col-lg-2 mb-4'>
+            <Link
+              className="btn btn-sm w-100"
+              to={`/Admin/usuarios/importarUsuarios`}
+              style={{
+                backgroundColor: '#EFCA45',
+                color: '#4F3F05',
+                borderRadius: '5px',
+                transition: 'background-color 0.3s, color 0.3s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F9E6A5';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#EFCA45';
+                e.currentTarget.style.color = '#4F3F05';
+              }}
+            >
+              Importar
+            </Link>
+          </div>
+        </div>
         <div className="row g-4">
           {/* Sección de Mentores */}
           <div className="col-md-6">
@@ -103,6 +127,34 @@ export default function Page() {
                       value={mentorSearchTerm}
                       onChange={handleSearchMentorChange}
                     />
+                    <Link
+                      className="btn btn-sm w-20 pt-2 pb-2"
+                      to={`/Admin/usuarios/crearMentor`}
+                      style={{
+                        backgroundColor: '#db3345',
+                        color: '#4F3F05',
+                        borderRadius: '10px',
+                        transition: 'background-color 0.3s, color 0.3s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'black';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#db3345';
+                        e.currentTarget.style.color = '#4F3F05';
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        fill="#e8eaed"
+                      >
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                      </svg>
+                    </Link>
                   </form>
                 </div>
               </div>
@@ -143,7 +195,7 @@ export default function Page() {
                             </button>
                             <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${mentor.RFC}`}>
                               <li>
-                                <Link className="dropdown-item" to={`/Admin/usuarios/editarUsuario`} >Editar</Link>
+                                <Link className="dropdown-item" to={`/Admin/usuarios/editarMentor`} >Editar</Link>
                               </li>
                               <li>
                                 <button className="dropdown-item" onClick={() => updateStatus('mentors', mentor.RFC, 1)}>Habilitar</button>
@@ -180,6 +232,34 @@ export default function Page() {
                       value={studentSearchTerm}
                       onChange={handleSearchStudentChange}
                     />
+                    <Link
+                      className="btn btn-sm w-20 pt-2 pb-2"
+                      to={`/Admin/usuarios/crearEstudiante`}
+                      style={{
+                        backgroundColor: '#db3345',
+                        color: '#4F3F05',
+                        borderRadius: '10px',
+                        transition: 'background-color 0.3s, color 0.3s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'black';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#db3345';
+                        e.currentTarget.style.color = '#4F3F05';
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        fill="#e8eaed"
+                      >
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                      </svg>
+                    </Link>
                   </form>
                 </div>
               </div>
@@ -220,7 +300,7 @@ export default function Page() {
                             </button>
                             <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${student.EstudianteID}`}>
                               <li>
-                                <Link className="dropdown-item" to={`/Admin/usuarios/editarUsuario`} >Editar</Link>
+                                <Link className="dropdown-item" to={`/Admin/usuarios/editarEstudiante/${student.EstudianteID}`} >Editar</Link>
                               </li>
                               <li>
                                 <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 1)}>Habilitar</button>
@@ -237,40 +317,6 @@ export default function Page() {
                 </table>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className='row justify-content-center mt-4'>
-          <div className='col-12 col-md-6 col-lg-2 mb-3'>
-            <Link
-              className="btn btn-sm w-100"
-              to={`/Admin/usuarios/importarUsuarios`}
-              style={{
-                backgroundColor: '#EFCA45',
-                color: '#4F3F05',
-                borderRadius: '5px',
-                transition: 'background-color 0.3s, color 0.3s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#F9E6A5';
-                e.currentTarget.style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#EFCA45';
-                e.currentTarget.style.color = '#4F3F05';
-              }}
-            >
-              Importar
-            </Link>
-          </div>
-          <div className='col-12 col-md-6 col-lg-2'>
-            <Link
-              to="/Admin/usuarios/crearUsuario"
-              className="btn btn-danger btn-outline-light btn-sm w-100"
-              role="button"
-            >
-              Nuevo
-            </Link>
           </div>
         </div>
       </div>

@@ -41,29 +41,32 @@ export default function ManageSpecialties() {
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
-      <h1 className='ms-4' style={{ color: 'white' }}>Especialidades</h1>
       <div className="container p-3">
         <div className="row g-0 text-center mb-3">
-          <div className="col-sm-6 col-md-12">
-            <form className="d-flex" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Buscar especialidad"
-                aria-label="Search"
-                style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px" }}
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
-
-              <Link
-                className="btn btn-danger btn-outline-light btn-sm"
-                to="/Admin/especialidades/crearEspecialidad"
-                role="button"
-              >
-                Nueva especialidad
-              </Link>
-            </form>
+          <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
+            <div className='col-sm-4 mt-1'>
+              <legend className='mt-1'>Especialidades</legend>
+            </div>
+            <div className="col-sm-8 px-2 mt-1">
+              <form className="d-flex" role="search">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Buscar especialidad"
+                  aria-label="Search"
+                  style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px" }}
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+                <Link
+                  className="btn btn-danger btn-outline-light btn-sm"
+                  to="/Admin/especialidades/crearEspecialidad"
+                  role="button"
+                >
+                  Nueva especialidad
+                </Link>
+              </form>
+            </div>
           </div>
         </div>
         <div className="table-responsive p-2 justify-content-center align-items-center text-center">

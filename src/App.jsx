@@ -33,8 +33,10 @@ import AdminUsuarios from './Admin/usuarios';
 import AdminEditEvent from './Admin/eventos/editarEvento';
 import AdminAgregarEvento from './Admin/eventos/crearEvento';
 import AdminEspecialidades from './Admin/especialidades';
-import AdminAgregarUsuario from './Admin/usuarios/crearUsuario';
-import AdminEditarUsuario from './Admin/usuarios/editarUsuario';
+import AdminAgregarMentor from './Admin/usuarios/crearMentor';
+import AdminAgregarEstudiante from './Admin/usuarios/crearEstudiante';
+import AdminEditarEstudiante from './Admin/usuarios/editarEstudiante';
+import AdminEditarMentor from './Admin/usuarios/editarMentor';
 import AdminImportarUsuarios from './Admin/usuarios/importarUsuarios';
 import AdminNuevaEspecialidad from './Admin/especialidades/crearEspecialidad';
 import AdminEditarEspecialidad from './Admin/especialidades/editarEspecialidad';
@@ -175,15 +177,12 @@ function App() {
         <Route path="/Admin/eventos/editarEvento" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditEvent} />} />
         <Route path="/Admin/eventos/crearEvento" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
 
-        <Route path="/Admin/usuarios/crearUsuario" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarUsuario} />} />
         {/* <Route path="/admin/estadisticas" element={<AdminEstadisticas />} />
-        <Route path="/Admin/reporte/page" element={<AdminReporte />} />
-        <Route path="/Admin/usuarios/editarUsuario" element={<AdminEditarUsuario />} /> */}
+        <Route path="/Admin/reporte/page" element={<AdminReporte />} /> */}
 
         {/* 
         <Route path="/admin/estadisticas" element={<AdminEstadisticas />} />
         <Route path="/admin/especialidades" element={<AdminEspecialidades />} />
-        <Route path="/Admin/usuarios/crearUsuario" element={<AdminAgregarUsuario />} />
         */}
 
         {/*███████████████████████████ Nuevas rutas de admin ████████████████████████████████████*/}
@@ -205,8 +204,6 @@ function App() {
         <Route path="/Admin/especialidades/crearEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminNuevaEspecialidad} />}/>
         <Route path="/Admin/usuarios/importarUsuarios" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminImportarUsuarios} />} />
         <Route path="/Admin/especialidades/editarEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEspecialidad} />}/>
-
-        <Route path="/Admin/usuarios/editarUsuario" element={<AdminEditarUsuario />} /> 
         
         {/*███████████████████████████ Nuevas rutas de mentor ████████████████████████████████████*/}
         <Route path="/Mentor/sesiones/verSesion/retroalimentacion" element={<MentorSesiones1r />}/>
@@ -217,6 +214,15 @@ function App() {
         {/* LISTO */} <Route path='/Mentor/eventos' element={<MentorEvento />}/>
         <Route path='/Mentor/sesiones/nuevaSesion' element={<MentorNuevaSesion />}/>
         {/* LISTO */} <Route path='/Mentor/sesiones/editarSesion' element={<MentorEditarSesion />}/>
+
+
+
+        <Route path="/Admin/usuarios/crearMentor" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarMentor} />} />
+        <Route path="/Admin/usuarios/crearEstudiante" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEstudiante} />} />
+        <Route path="/Admin/usuarios/editarMentor" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarMentor} />} />
+        <Route path="/Admin/usuarios/editarEstudiante/:id" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEstudiante} />} />
+
+
       </Routes>
 
       <Footer />
