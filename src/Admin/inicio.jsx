@@ -66,7 +66,7 @@ export default function Page() {
             <div className='col-sm-4 mt-1'>
               <legend className='mt-1'>Eventos</legend>
             </div>
-            <div className="col-sm-8 px-2 mt-1">
+            <div className="col-sm-8 px-2 mt-2">
               <form className="d-flex" role="search">
                 <input
                   className="form-control me-2"
@@ -78,12 +78,33 @@ export default function Page() {
                   onChange={handleSearchChange}
                 />
                 <Link
-                  className="btn btn-danger btn-outline-light btn-sm"
-                  to="/Admin/eventos/crearEvento"
-                  role="button"
-                >
-                  Nuevo evento
-                </Link>
+                      className="btn btn-sm w-20 pt-2 pb-2 pt-2"
+                      to={`/Admin/eventos/crearEvento`}
+                      style={{
+                        backgroundColor: '#db3345',
+                        color: '#4F3F05',
+                        borderRadius: '10px',
+                        transition: 'background-color 0.3s, color 0.3s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'black';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#db3345';
+                        e.currentTarget.style.color = '#4F3F05';
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        fill="#e8eaed"
+                      >
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                      </svg>
+                    </Link>
               </form>
             </div>
           </div>

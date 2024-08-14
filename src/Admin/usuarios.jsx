@@ -85,7 +85,7 @@ export default function Page() {
     <div className="container-sm my-2 p-3">
       <div className="container-sm p-3">
         <div className='row justify-content-center'>
-          <div className='col-12 col-md-6 col-lg-2 mb-4'>
+          <div className='col-12 col-md-6 col-lg-3 mb-4'>
             <Link
               className="btn btn-sm w-100"
               to={`/Admin/usuarios/importarUsuarios`}
@@ -96,7 +96,7 @@ export default function Page() {
                 transition: 'background-color 0.3s, color 0.3s'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#F9E6A5';
+                e.currentTarget.style.backgroundColor = 'black';
                 e.currentTarget.style.color = 'white';
               }}
               onMouseLeave={(e) => {
