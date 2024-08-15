@@ -39,6 +39,14 @@ export default function Page() {
     setMentorSearchTerm(event.target.value);
   };
 
+  const handleEditClickMentor = (id) => {
+    localStorage.setItem('MentorRFC', id);
+  };
+
+  const handleEditClickStudent = (id) => {
+    localStorage.setItem('EstudianteID', id);
+  };
+
   const updateStatus = async (type, id, status) => {
     try {
       await axios.put(`http://localhost:3001/api/${type}/${id}`, { Estatus: status });
@@ -195,7 +203,7 @@ export default function Page() {
                             </button>
                             <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${mentor.RFC}`}>
                               <li>
-                                <Link className="dropdown-item" to={`/Admin/usuarios/editarMentor`} >Editar</Link>
+                                <Link className="dropdown-item" to={`/Admin/usuarios/editarMentor`} onClick={() => handleEditClickMentor(mentor.RFC)}>Editar</Link>
                               </li>
                               <li>
                                 <button className="dropdown-item" onClick={() => updateStatus('mentors', mentor.RFC, 1)}>Habilitar</button>
@@ -300,7 +308,7 @@ export default function Page() {
                             </button>
                             <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${student.EstudianteID}`}>
                               <li>
-                                <Link className="dropdown-item" to={`/Admin/usuarios/editarEstudiante/${student.EstudianteID}`} >Editar</Link>
+                                <Link className="dropdown-item" to={`/Admin/usuarios/editarEstudiante`} onClick={() => handleEditClickStudent(student.EstudianteID)}>Editar</Link>
                               </li>
                               <li>
                                 <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 1)}>Habilitar</button>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Page() {
   const [especialidades, setEspecialidades] = useState([]);
@@ -66,9 +67,9 @@ export default function Page() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div className="container-sm mt-4 p-4" style={{ backgroundColor: 'rgba(0, 43, 122, 0.8)', borderRadius: '50px', color: 'white', maxWidth: '1000px', margin: 'auto' }}>
-            <div className="row justify-content-evenly pt-3">
-              <div className="col-12 col-md-5 order-first order-md-first m-1 d-flex flex-column p-3">
+        <div className="container-sm mt-5 p-5" style={{ backgroundColor: 'rgba(0, 43, 122, 1)', borderRadius: '50px', color: 'white', maxWidth: '1000px', margin: 'auto' }}>
+          <div className="row justify-content-evenly" style={{ borderRadius: '50px', color: 'white', margin: 'auto' }}>
+            <div className="col-12 col-md-5 order-first order-md-first m-1 d-flex flex-column p-3">
                 <div className="mb-3">
                   <label htmlFor="AlumnoID" className="form-label">Número de cuenta</label>
                   <input className="form-control" id="AlumnoID" name="AlumnoID" placeholder="Ejemplo de número de cuenta" onChange={handleChange} />
@@ -122,18 +123,49 @@ export default function Page() {
                   <label htmlFor="Password" className="form-label">Contraseña</label>
                   <input type="password" className="form-control" id="Password" name="Password" placeholder="Contraseña" onChange={handleChange} />
                 </div>
-                <div className="d-flex justify-content-center align-items-center mb-3">
+                <div className="d-flex justify-content-center align-items-center mt-5">
                   <button
                     type="submit"
                     className="btn w-75"
-                    style={{
-                      backgroundColor: '#EFCA45',
-                      color: '#4F3F05',
-                      borderColor: '#EFCA45',
-                      borderRadius: '20px'
+                    style={{ 
+                      backgroundColor: '#EFCA45', 
+                      color: '#4F3F05', 
+                      border: '1px solid #000',
+                      borderRadius: '20px',
+                      transition: 'background-color 0.3s, color 0.3s' 
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#000';
+                      e.currentTarget.style.color = 'white';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#EFCA45';
+                      e.currentTarget.style.color = '#4F3F05';
                     }}>
                     Registrar
                   </button>
+                  <Link
+                    type="button"
+                    className="btn w-75 mx-3"
+                    to="/Admin/usuarios"
+                    style={{ 
+                      backgroundColor: '#EBE4CA', 
+                      color: '#4F3F05', 
+                      border: '1px solid #000',
+                      borderRadius: '20px',
+                      transition: 'background-color 0.3s, color 0.3s' 
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#000';
+                      e.currentTarget.style.color = 'white';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#EBE4CA';
+                      e.currentTarget.style.color = '#4F3F05';
+                    }}
+                  >
+                    Cancelar
+                  </Link>
                 </div>
               </div>
             </div>

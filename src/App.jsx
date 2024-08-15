@@ -220,7 +220,7 @@ function App() {
         <Route path="/Admin/usuarios/crearMentor" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarMentor} />} />
         <Route path="/Admin/usuarios/crearEstudiante" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEstudiante} />} />
         <Route path="/Admin/usuarios/editarMentor" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarMentor} />} />
-        <Route path="/Admin/usuarios/editarEstudiante/:id" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEstudiante} />} />
+        <Route path="/Admin/usuarios/editarEstudiante" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEstudiante} />} />
 
 
       </Routes>
