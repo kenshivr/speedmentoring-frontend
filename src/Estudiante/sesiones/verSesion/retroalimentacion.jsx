@@ -85,7 +85,7 @@ export default function Retroalim() {
     <div className="container my-5">
       <div className="row justify-content-center">
         <div className="col-md-8 p-5" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'25px' }}>
-          <h2>Formulario de Retroalimentación del estudiante</h2>
+          <h2>Retroalimentación</h2>
           <form onSubmit={handleSubmit}>
             {/* Pregunta 1 */}
             <div className="my-4">
@@ -230,7 +230,7 @@ export default function Retroalim() {
                 value="Explicación clara de conceptos"
                 onChange={handleInputChange}
               />
-              <label htmlFor="p8-1">Explicación clara de conceptos</label><br />
+              <label htmlFor="p8-1" className='px-2'>Explicación clara de conceptos</label><br />
               <input
                 type="checkbox"
                 id="p8-2"
@@ -238,7 +238,7 @@ export default function Retroalim() {
                 value="Proporcionó recursos útiles"
                 onChange={handleInputChange}
               />
-              <label htmlFor="p8-2">Proporcionó recursos útiles</label><br />
+              <label htmlFor="p8-2" className='px-2'>Proporcionó recursos útiles</label><br />
               <input
                 type="checkbox"
                 id="p8-3"
@@ -246,7 +246,7 @@ export default function Retroalim() {
                 value="Empatía y apoyo emocional"
                 onChange={handleInputChange}
               />
-              <label htmlFor="p8-3">Empatía y apoyo emocional</label><br />
+              <label htmlFor="p8-3" className='px-2'>Empatía y apoyo emocional</label><br />
               <input
                 type="checkbox"
                 id="p8-4"
@@ -254,9 +254,10 @@ export default function Retroalim() {
                 value="Organización y estructura de la sesión"
                 onChange={handleInputChange}
               />
-              <label htmlFor="p8-4">Organización y estructura de la sesión</label><br />
+              <label htmlFor="p8-4" className='px-2'>Organización y/o estructura de la sesión</label><br />
               <label htmlFor="p9">Otro:</label><br />
               <textarea
+                className="form-control"
                 id="p9"
                 name="p9"
                 value={formData.p9}
@@ -278,7 +279,26 @@ export default function Retroalim() {
             </div>
 
             <div className="d-grid">
-              <button type="submit" className="btn btn-primary">Enviar</button>
+            <button 
+                type="submit" 
+                className="btn btn-primary"
+                style={{
+                  backgroundColor: '#EFCA45',
+                  color: '#4F3F05',
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EFCA45';
+                  e.currentTarget.style.color = '#4F3F05';
+                }}>
+                Enviar
+              </button>
             </div>
           </form>
         </div>

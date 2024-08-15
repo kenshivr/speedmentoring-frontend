@@ -72,7 +72,7 @@ export default function Retroalim() {
     <div className="container my-5">
       <div className="row justify-content-center">
         <div className="col-md-8 p-5" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'25px' }}>
-          <h2>Formulario de Retroalimentación del mentor</h2>
+          <h2>Retroalimentación</h2>
           <form onSubmit={handleSubmit}>
             {/* Pregunta 1 */}
             <div className="my-4">
@@ -219,7 +219,7 @@ export default function Retroalim() {
                 value="Explicación clara de conceptos"
                 onChange={handleInputChange}
               />
-              <label htmlFor="p8-1">Comprensión de conceptos</label><br />
+              <label htmlFor="p8-1" className='px-2'>Comprensión de conceptos</label><br />
               <input
                 type="checkbox"
                 id="p8-2"
@@ -227,7 +227,7 @@ export default function Retroalim() {
                 value="Proporcionó recursos útiles"
                 onChange={handleInputChange}
               />
-              <label htmlFor="p8-2">Participación activa</label><br />
+              <label htmlFor="p8-2" className='px-2'>Participación activa</label><br />
               <input
                 type="checkbox"
                 id="p8-3"
@@ -235,7 +235,7 @@ export default function Retroalim() {
                 value="Empatía y apoyo emocional"
                 onChange={handleInputChange}
               />
-              <label htmlFor="p8-3">Habilidades de comunicación</label><br />
+              <label htmlFor="p8-3" className='px-2'>Habilidades de comunicación</label><br />
               <input
                 type="checkbox"
                 id="p8-4"
@@ -243,12 +243,13 @@ export default function Retroalim() {
                 value="Organización y estructura de la sesión"
                 onChange={handleInputChange}
               />
-              <label htmlFor="p8-4">Aplicación práctica de conocimientos</label><br />
+              <label htmlFor="p8-4" className='px-2'>Aplicación práctica de conocimientos</label><br />
               <label htmlFor="p11">Otro:</label><br />
               <textarea
-                id="p11"
-                name="p11"
-                value={formData.p11}
+                className="form-control"
+                id="p9"
+                name="p9"
+                value={formData.p9}
                 onChange={handleInputChange}
               ></textarea>
             </div>
@@ -266,7 +267,26 @@ export default function Retroalim() {
             </div>
 
             <div className="d-grid">
-              <button type="submit" className="btn btn-primary">Enviar</button>
+              <button 
+                type="submit" 
+                className="btn btn-primary"
+                style={{
+                  backgroundColor: '#EFCA45',
+                  color: '#4F3F05',
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EFCA45';
+                  e.currentTarget.style.color = '#4F3F05';
+                }}>
+                Enviar
+              </button>
             </div>
           </form>
         </div>
