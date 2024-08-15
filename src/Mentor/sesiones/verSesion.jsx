@@ -17,6 +17,7 @@ export default function Page() {
     const fetchReporte = async () => {
       try {
         if (sesionId) {
+          console.log("ID:", sesionId);
           const response = await axios.get(`http://localhost:3001/api/getReportsMentor/${sesionId}`);
           if (response.data.success) {
             const data = response.data.data;

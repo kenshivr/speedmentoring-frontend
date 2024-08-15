@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Page({ userId }) {
   const [sessions, setSessions] = useState([]);
@@ -65,6 +66,10 @@ export default function Page({ userId }) {
     navigate(`/Mentor/sesiones/verSesion`);
   };
 
+  const handleCLickLinkSesion = (sessionId) => () => {
+    localStorage.setItem('sesionId', sessionId);
+  }
+
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
       <div className="container p-3">
@@ -95,7 +100,6 @@ export default function Page({ userId }) {
                 <th scope="col">Título</th>
                 <th scope='col'>Alumno</th>
                 <th scope="col">Reporte</th>
-                <th scope="col"></th>
               </tr>
             </thead>
             <tbody className="table-light">
@@ -106,19 +110,21 @@ export default function Page({ userId }) {
                   <td>{session.Titulo}</td>
                   <td>{`${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`}</td>
                   <td>
-                    {session.reporteid ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#00CC00">
-                        <path d="M0 0h24v24H0V0z" fill="none"/>
-                        <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                      </svg>
+                    {session.ReporteID ? (
+                      <Link 
+                        to='/Mentor/sesiones/verSesion'
+                        onClick={handleCLickLinkSesion(session.SesionID)}
+                      >
+                        <span>✔</span>
+                      </Link>
                     ) : (
-                      'N/A'
+                      <Link 
+                        to='/Mentor/sesiones/verSesion'
+                        onClick={handleCLickLinkSesion(session.SesionID)}
+                      >
+                        n/a
+                      </Link>
                     )}
-                  </td>
-                  <td>
-                    <button className="btn btn-sm" onClick={() => handleLink(session)}>
-                      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z" /></svg>
-                    </button>
                   </td>
                 </tr>
               ))}

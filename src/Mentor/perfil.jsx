@@ -169,7 +169,7 @@ export default function Page({ userId }) {
                 className="btn w-100"
                 to="/Mentor/inicio"
                 style={{ 
-                  backgroundColor: '#A0BAEB', 
+                  backgroundColor: '#EBE4CA', 
                   color: '#4F3F05', 
                   border: '1px solid #000',
                   borderRadius: '20px',

@@ -17,7 +17,7 @@ export default function Page() {
     const fetchReporte = async () => {
       try {
         if (sesionId) {
-          const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
+          const response = await axios.get(`http://localhost:3001/api/getReportsStudent/${sesionId}`);
           if (response.data.success) {
             setTexto(response.data.data.texto || '');
             setOriginalTexto(response.data.data.texto || '');
