@@ -60,12 +60,6 @@ export default function Page({ userId }) {
     return `${parseInt(day)}/${parseInt(month)}/${year}`;
   };
 
-  const handleLink = (session) => {
-    // Guardar session ID en localStorage y luego redirigir
-    localStorage.setItem('sesionId', session.sesionid);
-    navigate(`/Mentor/sesiones/verSesion`);
-  };
-
   const handleCLickLinkSesion = (sessionId) => () => {
     localStorage.setItem('sesionId', sessionId);
   }
