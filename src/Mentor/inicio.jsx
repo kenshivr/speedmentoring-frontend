@@ -38,12 +38,6 @@ const MentorPage = () => {
     setFilteredSessions(filtered);
   }, [search, sessions]);
 
-  useEffect(() => {
-    console.log('Sessions:', sessions);
-    console.log('Filtered Sessions:', filteredSessions);
-  }, [sessions, filteredSessions]);
-  
-
   function handleLink(session) {
     return () => {
       localStorage.setItem('sesionId', session.SesionID);
@@ -85,9 +79,10 @@ const MentorPage = () => {
             <table className="table table-hover">
               <thead>
                 <tr>
-                <th scope="col">Título</th>
-                  <th scope="col">Alumno</th>
                   <th scope="col">Fecha</th>
+                  <th scope="col">Número de sesión</th>
+                  <th scope="col">Título</th>
+                  <th scope="col">Alumno</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -95,21 +90,20 @@ const MentorPage = () => {
                 {filteredSessions && filteredSessions.length > 0 ? (
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
+                      <td>{formatDate(session.Fecha)}</td>
+                      <td>{session.NumeroDeSesion ? session.NumeroDeSesion : ''}</td>
                       <td>{session.Titulo ? session.Titulo : ''}</td>
                       <td>{`${session.Nombre} ${session.ApellidoPaterno} ${session.ApellidoMaterno}`}</td>
-                      <td>{formatDate(session.Fecha)}</td>
                       <td>
-                        <button className="btn btn-sm">
-                          <Link to={`/Mentor/sesiones/editarSesion`} onClick={handleLink(session)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z" /></svg>
-                          </Link>
-                        </button>
+                        <Link to={`/Mentor/sesiones/editarSesion`} onClick={handleLink(session)}>
+                          <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#002B7A"><path d="M216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-30.11 21-51.56Q186-817 216-816h346l-72 72H216v528h528v-274l72-72v346q0 29.7-21.15 50.85Q773.7-144 744-144H216Zm264-336Zm-96 96v-153l354-354q11-11 24-16t26.5-5q14.4 0 27.45 5 13.05 5 23.99 15.78L891-840q11 11 16 24.18t5 26.82q0 13.66-5.02 26.87-5.02 13.2-15.98 24.13L537-384H384Zm456-405-51-51 51 51ZM456-456h51l231-231-25-26-26-25-231 231v51Zm257-257-26-25 26 25 25 26-25-26Z"/></svg>
+                        </Link>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4">Se debe de agendar una nueva sesión ...</td>
+                    <td colSpan="5">Se debe de agendar una nueva sesión ...</td>
                   </tr>
                 )}
               </tbody>
@@ -123,16 +117,16 @@ const MentorPage = () => {
             <Link
               className="btn btn-sm px-3"
               to={`/Mentor/sesiones/nuevaSesion`}
-              style={{
-                backgroundColor: '#EFCA45',
-                color: '#4F3F05',
+              style={{ 
+                backgroundColor: '#EFCA45', 
+                color: '#4F3F05', 
                 border: '1px solid #000',
                 borderRadius: '20px',
-                transition: 'background-color 0.3s, color 0.3s'
+                transition: 'background-color 0.3s, color 0.3s' 
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#F9E6A5';
-                e.currentTarget.style.color = 'black';
+                e.currentTarget.style.backgroundColor = '#000';
+                e.currentTarget.style.color = 'white';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = '#EFCA45';

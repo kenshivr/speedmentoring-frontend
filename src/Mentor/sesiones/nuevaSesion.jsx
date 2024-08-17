@@ -24,7 +24,6 @@ export default function Page() {
       })
       .then(data => {
         setStudents(data); // Usa setStudents para actualizar el estado
-        console.log(data); // Imprime los datos en la consola
       })
       .catch(error => console.error('Error fetching students:', error));
   }, [mentorRFC]);  
@@ -73,7 +72,7 @@ export default function Page() {
             <div className="card-body">
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="sessionTitle" className="form-label">Título de la Sesión</label>
+                  <label htmlFor="sessionTitle" className="form-label">Título de la Sesión: {date}</label>
                   <input
                     type="text"
                     className="form-control"
