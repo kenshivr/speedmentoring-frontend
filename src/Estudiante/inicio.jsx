@@ -56,11 +56,12 @@ const StudentPage = () => {
     // Filtra sesiones basadas en la búsqueda
     setFilteredSessions(
       sessions.filter(session => 
-        (session.Titulo ? session.Titulo.toLowerCase() : '').includes(search.toLowerCase()) ||
-        (session.Fecha ? session.Fecha : '').includes(search) ||
-        (session.MentorNombre ? session.MentorNombre.toLowerCase() : '').includes(search.toLowerCase())
+        (session.Titulo ? session.Titulo.toString().toLowerCase() : '').includes(search.toLowerCase()) ||
+        (session.NumeroDeSesion ? session.NumeroDeSesion.toString() : '').includes(search) ||
+        (session.Fecha ? session.Fecha.toString() : '').includes(search) ||
+        (session.Descripcion ? session.Descripcion.toString().toLowerCase() : '').includes(search.toLowerCase())
       )
-    );
+    );    
   }, [search, sessions]);
 
   const handleSearchChange = (e) => {
@@ -99,8 +100,9 @@ const StudentPage = () => {
             <thead>
               <tr>
                 <th scope="col">Fecha</th>
+                <th scope="col">Número de sesión</th> 
                 <th scope="col">Título</th> 
-                <th scope="col">Nombre del Mentor</th>
+                <th scope="col">Descripción</th>
               </tr>
             </thead>
             <tbody className="table-light">
@@ -142,8 +144,9 @@ const StudentPage = () => {
               <thead>
                 <tr>
                   <th scope="col">Fecha</th>
+                  <th scope="col">Número de sesión</th> 
                   <th scope="col">Título</th> 
-                  <th scope="col">Nombre del Mentor</th>
+                  <th scope="col">Descripción</th>
                 </tr>
               </thead>
               <tbody className="table-light">
@@ -151,13 +154,14 @@ const StudentPage = () => {
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
                       <td>{session.Fecha ? session.Fecha.split('T')[0] : ''}</td>
+                      <td>{session.NumeroDeSesion || ''}</td> 
                       <td>{session.Titulo || ''}</td> 
-                      <td>{session.MentorNombre || ''}</td>
+                      <td>{session.Descripcion || ''}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3">No se encontraron sesiones. Por favor, comuníquese con su mentor para agendar las próximas sesiones.</td>
+                    <td colSpan="4">No se encontraron sesiones. Por favor, comuníquese con su mentor para agendar las próximas sesiones.</td>
                   </tr>
                 )}
               </tbody>

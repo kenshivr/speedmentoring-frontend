@@ -9,7 +9,7 @@ export default function Page() {
   const [fecha, setFecha] = useState('');
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [nombre, setNombre] = useState('');
+  const [numeroDeSesion, setNumeroDeSesion] = useState('');
 
   const sesionId = localStorage.getItem('sesionId');
 
@@ -17,12 +17,12 @@ export default function Page() {
     const fetchReporte = async () => {
       try {
         if (sesionId) {
-          const response = await axios.get(`http://localhost:3001/api/getReportsStudent/${sesionId}`);
+          const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
           if (response.data.success) {
             setTexto(response.data.data.texto || '');
             setOriginalTexto(response.data.data.texto || '');
             setFecha(response.data.data.fecha || '');
-            setNombre(response.data.data.nombre || '');
+            setNumeroDeSesion(response.data.data.numeroDeSesion || '');
             setTitulo(response.data.data.titulo || '');
             setDescripcion(response.data.data.descripcion || '');
           } else {
@@ -37,7 +37,7 @@ export default function Page() {
     };
 
     fetchReporte();
-  }, []);
+  }, [sesionId]);
 
   const handleEditTextoToggle = (e) => {
     e.preventDefault();
@@ -82,65 +82,117 @@ export default function Page() {
   };
 
   return (
-    <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1800px', minHeight: '600px', margin: 'auto' }}>
-      <div className="row justify-content-evenly">
-        <div className="col-12 col-md-4 order-last order-md-first m-1 d-flex flex-column" style={{ backgroundColor: 'rgba(213,213,213,0.8)', borderColor: '#908486', borderRadius: '20px', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
-          <div className='container p-3'>
-            <h2>{titulo} - {new Date(fecha).toLocaleDateString()}</h2>
-            <h6>Mentor - {nombre}</h6>
-            {descripcion}
+    <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', margin: 'auto' }}>
+      <div className="row g-0 text-center mb-3">
+          <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
+            <div className='row'>
+              <div className='col-sm-6'>
+                <legend>{titulo}</legend>
+              </div>
+              <div className='col-sm-4'>
+                <legend>{new Date(fecha).toLocaleDateString()}</legend>
+              </div>
+              <div className='col-sm-2'>
+                <legend>Sesión #{numeroDeSesion}</legend>
+              </div>
+            </div>
+            <div className='row'>
+              <div className='col-sm-6'>
+                <p>{descripcion}</p>
+              </div>
+            </div>
           </div>
-
-          <div className="container d-flex flex-column align-items-center mt-auto p-4">
-            <Link
-              to="/Estudiante/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
-              style={{ 
-                display: 'inline-block', 
-                backgroundColor: '#EFCA45', 
-                color: '#3A2E01', 
-                border: '1px solid #000',
-                borderRadius: '20px',
-                transition: 'background-color 0.3s, color 0.3s', 
-                textAlign: 'center', 
-                textDecoration: 'none', 
-                padding: '0.5rem 1rem', 
-                maxWidth: '250px' // Manteniendo la propiedad original
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#000';
-                e.currentTarget.style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#EFCA45';
-                e.currentTarget.style.color = '#3A2E01';
-              }}
-            >
-              Retroalimentación del mentor
-            </Link>
-          </div>
-
         </div>
 
-        <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor: '#908486', borderWidth: '4px', borderStyle: 'solid', minHeight: '600px' }}>
+      <div className="row justify-content-evenly px-3">
+        <div className="row p-2" style={{ backgroundColor: 'white', borderColor: '#908486', borderRadius:'10px', borderWidth: '10px', borderStyle: 'solid', minHeight:'auto' }}>
           <textarea
             className="flex-grow-1 p-2"
             style={{ border: 'none', resize: 'none', outline: 'none', width: '100%' }}
             value={texto || ''}
             onChange={handleTextoChange}
             disabled={!editableTexto}
-            placeholder="Escribe aquí tu reporte de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, ..."
+            placeholder="Escribe aquí tu reporte de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, etc."
             rows={10}
           />
-          <div className="d-flex justify-content-center p-4">
-            {editableTexto && (
-              <button className="btn btn-warning btn-outline-dark" style={{ borderRadius:'20px', minWidth:'200px' }} onClick={handleUpdateTexto}>
-                Guardar Cambios
+          <div className="d-flex justify-content-center">
+            <div className='container d-flex justify-content-center'>
+              {editableTexto && (
+                <button className="btn btn-warning btn-outline-dark" style={{ 
+                  display: 'inline-block', 
+                  backgroundColor: '#EFCA45', 
+                  color: '#3A2E01', 
+                  border: '1px solid #000',
+                  borderRadius: '20px',
+                  transition: 'background-color 0.3s, color 0.3s', 
+                  textAlign: 'center', 
+                  textDecoration: 'none', 
+                  padding: '0.5rem 1rem', 
+                  maxWidth: '250px' // Manteniendo la propiedad original
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EFCA45';
+                  e.currentTarget.style.color = '#3A2E01';
+                }} onClick={handleUpdateTexto}>
+                  Guardar Cambios
+                </button>
+              )}
+              <button className="btn btn-warning btn-outline-dark ms-2" style={{ 
+              display: 'inline-block', 
+              backgroundColor: '#EFCA45', 
+              color: '#3A2E01', 
+              border: '1px solid #000',
+              borderRadius: '20px',
+              transition: 'background-color 0.3s, color 0.3s', 
+              textAlign: 'center', 
+              textDecoration: 'none', 
+              padding: '0.5rem 1rem', 
+              maxWidth: '250px' // Manteniendo la propiedad original
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#000';
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#EFCA45';
+              e.currentTarget.style.color = '#3A2E01';
+            }} onClick={handleEditTextoToggle}>
+                {editableTexto ? 'Cancelar' : 'Editar'}
               </button>
-            )}
-            <button className="btn btn-warning btn-outline-dark ms-2" style={{ borderRadius:'20px', minWidth:'200px' }} onClick={handleEditTextoToggle}>
-              {editableTexto ? 'Cancelar' : 'Editar'}
-            </button>
+            </div>
           </div>
+        </div>
+
+        <div className="container d-flex flex-column align-items-center mt-auto pt-5">
+          <Link
+            to="/Estudiante/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
+            style={{ 
+              display: 'inline-block', 
+              backgroundColor: '#EFCA45', 
+              color: '#3A2E01', 
+              border: '1px solid #000',
+              borderRadius: '20px',
+              transition: 'background-color 0.3s, color 0.3s', 
+              textAlign: 'center', 
+              textDecoration: 'none', 
+              padding: '0.5rem 1rem', 
+              maxWidth: '250px' // Manteniendo la propiedad original
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#000';
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#EFCA45';
+              e.currentTarget.style.color = '#3A2E01';
+            }}
+          >
+            FeedBack para el mentor
+          </Link>
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ export default function Page() {
   const user = localStorage.getItem('userId');
 
   const [nombre, setNombre] = useState('');
+  const [estudianteID, setEstudianteID] = useState('');
   const [periodo, setPeriodo] = useState('');
   const [especialidad, setEspecialidad] = useState('');
   const [telefono, setTelefono] = useState('');
@@ -15,11 +16,12 @@ export default function Page() {
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
-      const { Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, Especialidad, NumeroTelefono, CorreoElectronicoPersonal, NombreMentor } = response.data;
+      const { EstudianteID, Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, Especialidad, NumeroTelefono, CorreoElectronicoPersonal, NombreMentor } = response.data;
 
       const fullName = `${Nombre || ''} ${ApellidoPaterno || ''} ${ApellidoMaterno || ''}`.trim();
 
       setNombre(fullName);
+      setEstudianteID(EstudianteID);
       setPeriodo(Periodo);
       setEspecialidad(Especialidad);
       setTelefono(NumeroTelefono);
@@ -58,6 +60,19 @@ export default function Page() {
       <div className="container">
       <h2 className="pt-4 ps-5">Cuenta</h2>
         <div className="m-5">
+
+        <div className="mb-3 row">
+            <label htmlFor="staticNombre" className="col-sm-2 col-form-label">Número de cuenta</label>
+            <div className="col-sm-10 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
+              <input 
+                type="text" 
+                readOnly
+                className="form-control-plaintext" 
+                id="staticNombre" 
+                value={estudianteID || ''} 
+              />
+            </div>
+          </div>
 
           <div className="mb-3 row">
             <label htmlFor="staticNombre" className="col-sm-2 col-form-label">Nombre</label>
