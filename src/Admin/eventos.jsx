@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import LinkAdd_Red from './../components/Link/LinkAdd_Red.jsx'; 
 
 export default function Page() {
   const [eventos, setEventos] = useState([]);
@@ -59,7 +58,7 @@ export default function Page() {
   });
 
   return (
-    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
         <div className="row g-0 text-center mb-3">
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
@@ -77,34 +76,9 @@ export default function Page() {
                   value={searchTerm}
                   onChange={handleSearchChange}
                 />
-                <Link
-                      className="btn btn-sm w-20 pt-2 pb-2 pt-2"
-                      to={`/Admin/eventos/crearEvento`}
-                      style={{
-                        backgroundColor: '#db3345',
-                        color: '#4F3F05',
-                        borderRadius: '10px',
-                        transition: 'background-color 0.3s, color 0.3s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'black';
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#db3345';
-                        e.currentTarget.style.color = '#4F3F05';
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="24px"
-                        fill="#e8eaed"
-                      >
-                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                      </svg>
-                    </Link>
+                <LinkAdd_Red
+                  link = '/Admin/eventos/crearEvento'
+                />
               </form>
             </div>
           </div>
@@ -150,10 +124,10 @@ export default function Page() {
 
                       <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li>
-                          <button className="dropdown-item" onClick={() => handleDelete(evento.EventoID)}>Eliminar</button>
+                          <Link className="dropdown-item" to={`/Admin/eventos/editarEvento`} onClick={() => handleEventEdit(evento.EventoID)} >Editar</Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to={`/Admin/eventos/editarEvento`} onClick={() => handleEventEdit(evento.EventoID)} >Editar</Link>
+                          <button className="dropdown-item" onClick={() => handleDelete(evento.EventoID)}>Eliminar</button>
                         </li>
                       </ul>
                     </div>

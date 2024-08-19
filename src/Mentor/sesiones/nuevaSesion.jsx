@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Page() {
   const [showDateEditor, setShowDateEditor] = useState(false);
-  const [title, setTitle] = useState('');
+  const [titulo, setTitulo] = useState('');
   const [date, setDate] = useState('');
-  const [description, setDescription] = useState('');
+  const [descripcion, setDescripcion] = useState('');
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState('');
 
@@ -36,9 +36,9 @@ export default function Page() {
     e.preventDefault();
 
     const sessionData = {
-      title,
+      titulo,
       date,
-      description,
+      descripcion,
       studentId: selectedStudent,
       userId: mentorRFC
     };
@@ -72,14 +72,14 @@ export default function Page() {
             <div className="card-body">
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="sessionTitle" className="form-label">Título de la Sesión: {date}</label>
+                  <label htmlFor="sessionTitulo" className="form-label">Título de la Sesión: {date}</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="sessionTitle"
+                    id="sessionTitulo"
                     placeholder="Introduce el título"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    value={titulo}
+                    onChange={(e) => setTitulo(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
@@ -133,14 +133,14 @@ export default function Page() {
                   </div>
                 )}
                 <div className="mb-3">
-                  <label htmlFor="sessionDescription" className="form-label">Descripción</label>
+                  <label htmlFor="sessionDescripcion" className="form-label">Descripción</label>
                   <textarea
                     className="form-control"
-                    id="sessionDescription"
+                    id="sessionDescripcion"
                     rows="3"
                     placeholder="Introduce una breve descripción"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={descripcion}
+                    onChange={(e) => setDescripcion(e.target.value)}
                   ></textarea>
                 </div>
                 <div className="row justify-content-end mt-4 mb-3">

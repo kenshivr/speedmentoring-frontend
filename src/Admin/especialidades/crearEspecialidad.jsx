@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import ButtonPrincipalC from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx'; 
+import LinkSecundaryC from '../../components/Link/LinkSecundary_Centered.jsx'; 
 
 export default function CreateSpecialty() {
   const [specialtyName, setSpecialtyName] = useState('');
@@ -29,8 +30,8 @@ export default function CreateSpecialty() {
 
   return (
     <div className='container mt-5 p-3' style={{ maxWidth: '950px' }}>
-      <div className='container-sm my-3 p-4' style={{ backgroundColor: '#002B7A', borderRadius: '50px', color: 'white' }}>
-        <h1 className='text-center mb-5'>Crear Especialidad</h1>
+      <div className='container-sm my-3 p-4' style={{ backgroundColor: '#002B7A', borderRadius: '50px', color: 'white', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+        <h1 className='text-center mb-5'>Registrar especialidad</h1>
         <form onSubmit={handleSubmit}>
           <div className="row justify-content-center">
             <div className="col-12 col-md-8">
@@ -47,53 +48,17 @@ export default function CreateSpecialty() {
                   required
                 />
               </div>
-              <div className="row">
-                <div className="col-md-6 d-flex align-items-center justify-content-center my-2">
-                  <button
-                    type="submit"
-                    className="btn btn-sm w-50 my-4 mx-3"
-                    style={{ 
-                      backgroundColor: '#EFCA45', 
-                      color: '#4F3F05', 
-                      border: '1px solid #000',
-                      borderRadius:'20px',
-                      transition: 'background-color 0.3s, color 0.3s' 
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#000';
-                      e.currentTarget.style.color = 'white';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#EFCA45';
-                      e.currentTarget.style.color = '#4F3F05';
-                    }}
-                  >
-                    Guardar
-                  </button>
+              <div className="row justify-content-end mt-4 mb-3">
+                <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                  <ButtonPrincipalC
+                    text='Crear'
+                  />
                 </div>
-                <div className="col-md-6 d-flex align-items-center justify-content-center my-2">
-                  <Link
-                    type="button"
-                    className="btn btn-sm w-50 mx-3"
-                    to="/Admin/especialidades"
-                    style={{ 
-                      backgroundColor: '#EBE4CA', 
-                      color: '#4F3F05', 
-                      border: '1px solid #000',
-                      borderRadius: '20px',
-                      transition: 'background-color 0.3s, color 0.3s' 
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#000';
-                      e.currentTarget.style.color = 'white';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#EBE4CA';
-                      e.currentTarget.style.color = '#4F3F05';
-                    }}
-                  >
-                    Cancelar
-                  </Link>
+                <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                  <LinkSecundaryC
+                    text='Cancelar'
+                    link='/Admin/especialidades'
+                  />
                 </div>
               </div>
               {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>}

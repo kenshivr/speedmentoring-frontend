@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -7,7 +6,6 @@ export default function Page({ userId }) {
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (userId) {

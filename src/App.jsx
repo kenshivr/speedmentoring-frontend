@@ -28,7 +28,7 @@ import EstudianteSesiones from './Estudiante/sesiones';
 import EstudianteSesiones1 from './Estudiante/sesiones/verSesion';
 import EstudianteSesiones1r from './Estudiante/sesiones/verSesion/retroalimentacion';
 
-import AdminPage from './Admin/inicio';
+import AdminPage from './Admin/eventos';
 import AdminUsuarios from './Admin/usuarios';
 import AdminEditEvent from './Admin/eventos/editarEvento';
 import AdminAgregarEvento from './Admin/eventos/crearEvento';
@@ -95,7 +95,6 @@ function App() {
 
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState('');
-  const [eventId, setEventId] = useState(0);
   const [sesionId, setSesionId] = useState(0);
   const [specialty, setSpecialty] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -173,7 +172,7 @@ function App() {
         {/* LISTO */} <Route path="/Estudiante/sesiones/verSesion/retroalimentacion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1r} />} />
         
         <Route path="/Admin/usuarios" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminUsuarios} />} />
-        <Route path="/admin/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} userId={userId} />} />
+        <Route path="/admin/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} userId={userId} />} />
         <Route path="/Admin/eventos/editarEvento" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditEvent} />} />
         <Route path="/Admin/eventos/crearEvento" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
 

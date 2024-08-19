@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import LinkAdd_Red from './../components/Link/LinkAdd_Red.jsx'; 
 
 export default function ManageSpecialties() {
   const [specialties, setSpecialties] = useState([]);
@@ -40,7 +38,7 @@ export default function ManageSpecialties() {
   };
 
   return (
-    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
         <div className="row g-0 text-center mb-3">
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
@@ -58,34 +56,9 @@ export default function ManageSpecialties() {
                   value={searchTerm}
                   onChange={handleSearchChange}
                 />
-                <Link
-                  className="btn btn-sm w-20 pt-2 pb-2"
-                  to={`/Admin/especialidades/crearEspecialidad`}
-                  style={{
-                    backgroundColor: '#db3345',
-                    color: '#4F3F05',
-                    borderRadius: '10px',
-                    transition: 'background-color 0.3s, color 0.3s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'black';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#db3345';
-                    e.currentTarget.style.color = '#4F3F05';
-                  }}
-                >
-                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="24px"
-                    viewBox="0 -960 960 960"
-                    width="24px"
-                    fill="#e8eaed"
-                  >
-                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                  </svg>
-                </Link>
+                <LinkAdd_Red
+                  link='/Admin/especialidades/crearEspecialidad'
+                />
               </form>
             </div>
           </div>
@@ -96,7 +69,7 @@ export default function ManageSpecialties() {
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Editar</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody className="table-light">
@@ -105,28 +78,17 @@ export default function ManageSpecialties() {
                   <td>{specialty.EspecialidadID}</td>
                   <td>{specialty.Especialidad}</td>
                   <td>
-                    <Link
-                      className="btn btn-sm"
-                      to={`/Admin/especialidades/editarEspecialidad`}
-                      style={{
-                        backgroundColor: '#EFCA45',
-                        color: '#4F3F05',
-                        border: '1px solid #000',
-                        borderRadius: '20px',
-                        transition: 'background-color 0.3s, color 0.3s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#F9E6A5';
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#EFCA45';
-                        e.currentTarget.style.color = '#4F3F05';
-                      }}
-                      onClick={() => handleEditClick(specialty.EspecialidadID)}
-                    >
-                      Editar
-                    </Link>
+                    <div className="dropdown">
+                      <button className="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z"/>
+                      </button>
+
+                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li>
+                          <Link className="dropdown-item" to={`/Admin/especialidades/editarEspecialidad`} onClick={() => handleEditClick(specialty.EspecialidadID)} >Editar</Link>
+                        </li>
+                      </ul>
+                    </div>
                   </td>
                 </tr>
               ))}

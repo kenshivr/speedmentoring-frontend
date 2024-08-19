@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; // Importa useNavigate
+import ButtonPrrincipal from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx';
+import LinkSecundary from '../../components/Link/LinkSecundary_Centered.jsx';
 
 export default function Page() {
   const [eventId, setEventId] = useState();
@@ -64,7 +66,7 @@ export default function Page() {
     axios.post(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
       .then(response => {
         alert('¡Evento actualizado exitosamente!');
-        navigate('/Admin/page'); // Redirige a /Admin/page después del guardado
+        navigate('/Admin/eventos'); // Redirige a /Admin/page después del guardado
       })
       .catch(error => {
         alert('Error al actualizar el evento. Por favor, verifique los datos ingresados.');
@@ -73,41 +75,66 @@ export default function Page() {
   };
 
   return (
-    <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'20px' }}>
-      <h1 className='ms-4'>Editar evento</h1>
-      <div className="row justify-content-evenly">
-        <div className="col-12 col-md-6 d-flex flex-column">
-          <form>
-            <label htmlFor="nombreEvento" className="form-label">Nombre del evento</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              id="nombreEvento"
-              placeholder="Ejemplo de nombre del evento"
-              value={eventName}
-              onChange={(e) => setEventName(e.target.value)}
-            />
-          </form>
-        </div>
-        <div className="col-12 col-md-5 d-flex flex-column pt-4 mt-2">
-          <form>
-            <select 
-              className="form-select" 
-              aria-label="Especialidad"
-              value={specialty}
-              onChange={(e) => setSpecialty(e.target.value)}
-            >
-              <option value="" disabled>Especialidad</option>
-              {specialties.map((spec, index) => (
-                <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
-              ))}
-            </select>
-          </form>
-        </div>
+    <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'20px', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <h1 className='text-center mb-5'>Editar evento</h1>
+
+
+      <div className="row">
+        <form>
+          <label htmlFor="nombreEvento" className="form-label">Nombre del evento</label>
+          <input 
+            type="text" 
+            className="form-control" 
+            id="nombreEvento"
+            placeholder="Ejemplo de nombre del evento"
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
+          />
+        </form>
       </div>
-      <legend className="row mt-4 ms-4">Descripción</legend>
-      <div className="row justify-content-evenly">
-        <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor:'#908486', borderWidth: '4px', borderStyle: 'solid', minHeight:'250px' }}>
+
+
+
+      <div className="row">
+        <label htmlFor="especialidadEvento" className="form-label">Especialidad</label>
+        <form>
+          <select 
+            className="form-select" 
+            aria-label="Especialidad"
+            value={specialty}
+            onChange={(e) => setSpecialty(e.target.value)}
+          >
+            <option value="" disabled>Especialidad</option>
+            {specialties.map((spec, index) => (
+              <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
+            ))}
+          </select>
+        </form>
+      </div>
+
+
+
+
+      <div className="row">
+        <label htmlFor="fechaEvento" className="form-label">Fecha</label>
+        <input 
+          type="text" 
+          className="form-control" 
+          id="fechaEvento" 
+          placeholder="Fecha del evento. Ejemplo: 2024-01-01"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+      </div>
+
+
+
+
+
+
+      <div className="row">
+        <label htmlFor="descripcionEvento" className="form-label">Descipción</label>
+        <div className="col order-first order-md-last d-flex" style={{ backgroundColor: 'white', borderColor:'#908486', borderWidth: '4px', borderStyle: 'solid', minHeight:'200px' }}>
           <textarea 
             className="flex-grow-1 p-2" 
             style={{ border: 'none', resize: 'none', outline: 'none', width: '100%' }} 
@@ -117,17 +144,13 @@ export default function Page() {
           />
         </div>
       </div>
-      <label htmlFor="fechaEvento" className="form-label">Fecha</label>
-      <input 
-        type="text" 
-        className="form-control" 
-        id="fechaEvento" 
-        placeholder="Fecha del evento. Ejemplo: 2024-01-01"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-      />
-      <div className="row justify-content-evenly mt-4">
-        <div className="col-12 col-md-3 d-flex flex-column">
+
+
+
+
+
+
+        <div className="row">
           <legend>¿Botón para más información?</legend>
         </div>
         <div className="col-12 col-md-2 d-flex flex-column pt-3">
@@ -160,7 +183,10 @@ export default function Page() {
             </div>
           </form>
         </div>
-        <div className="col-12 col-md-6 d-flex flex-column pt-4">
+
+        
+
+        <div className="col d-flex flex-column">
           <form>
             <input 
               type="text" 
@@ -173,54 +199,24 @@ export default function Page() {
             />
           </form>
         </div>
-      </div>
-      <div className="row justify-content-end mt-4 mb-3">
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+
+
+
+
+
+      <div className="row justify-content-end mt-4 mb-3 mx-2">
+        <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
           <form onSubmit={handleSave}>
-            <button
-              type="submit"
-              className="btn w-100"
-              style={{ 
-                backgroundColor: '#EFCA45', 
-                color: '#4F3F05', 
-                border: '1px solid #000',
-                borderRadius: '20px',
-                transition: 'background-color 0.3s, color 0.3s' 
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#000';
-                e.currentTarget.style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#EFCA45';
-                e.currentTarget.style.color = '#4F3F05';
-              }}>
-              Guardar
-            </button>
+            <ButtonPrrincipal
+              text='Guardar'
+            />
           </form>
         </div>
         <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-          <Link
-            type="button"
-            className="btn w-100"
-            to="/Admin/inicio"
-            style={{ 
-              backgroundColor: '#EBE4CA', 
-              color: '#4F3F05', 
-              border: '1px solid #000',
-              borderRadius: '20px',
-              transition: 'background-color 0.3s, color 0.3s' 
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#000';
-              e.currentTarget.style.color = 'white';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#EBE4CA';
-              e.currentTarget.style.color = '#4F3F05';
-            }}>
-            Cancelar
-          </Link>
+          <LinkSecundary
+            text='Cancelar'
+            link='/Admin/eventos'
+          />
         </div>
       </div>
     </div>

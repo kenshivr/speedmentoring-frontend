@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import ButtonPrrincipal from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx';
+import LinkSecundary from '../../components/Link/LinkSecundary_Centered.jsx';
 
 export default function Page() {
   const [eventName, setEventName] = useState('');
@@ -48,7 +49,7 @@ export default function Page() {
 
   return (
     <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'20px' }}>
-      <h1 className='ms-4'>Nuevo evento</h1>
+      <h1 className='text-center mb-5'>Nuevor evento</h1>
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-6 d-flex flex-column">
           <form>
@@ -81,7 +82,7 @@ export default function Page() {
       </div>
       <legend className="row mt-4 ms-4">Descripción</legend>
       <div className="row justify-content-evenly">
-        <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor:'#908486', borderWidth: '4px', borderStyle: 'solid', minHeight:'250px' }}>
+        <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor:'#908486', borderWidth: '4px', borderStyle: 'solid', minHeight:'250px', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
           <textarea 
             className="flex-grow-1 p-2" 
             style={{ border: 'none', resize: 'none', outline: 'none', width: '100%' }} 
@@ -139,53 +140,19 @@ export default function Page() {
           </form>
         </div>
       </div>
-      <div className="row justify-content-end mt-4 mb-3">
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+      <div className="row justify-content-end mt-4 mb-3 mx-2">
+        <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
           <form onSubmit={handleSave}>
-            <button
-              type="submit"
-              className="btn w-100"
-              style={{ 
-                backgroundColor: '#EFCA45', 
-                color: '#4F3F05', 
-                border: '1px solid #000',
-                borderRadius: '20px',
-                transition: 'background-color 0.3s, color 0.3s' 
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#000';
-                e.currentTarget.style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#EFCA45';
-                e.currentTarget.style.color = '#4F3F05';
-              }}>
-              Guardar
-            </button>
+            <ButtonPrrincipal
+              text='Crear'
+            />
           </form>
         </div>
         <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-          <Link
-            type="button"
-            className="btn w-100"
-            to="/Admin/inicio"
-            style={{ 
-              backgroundColor: '#EBE4CA', 
-              color: '#4F3F05', 
-              border: '1px solid #000',
-              borderRadius: '20px',
-              transition: 'background-color 0.3s, color 0.3s' 
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#000';
-              e.currentTarget.style.color = 'white';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#EBE4CA';
-              e.currentTarget.style.color = '#4F3F05';
-            }}>
-            Cancelar
-          </Link>
+          <LinkSecundary
+            text='Cancelar'
+            link='/Admin/eventos'
+          />
         </div>
       </div>
     </div>

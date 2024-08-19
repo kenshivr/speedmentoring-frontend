@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
+import LinkAdd_Red from './../components/Link/LinkAdd_Red.jsx'; 
+import LinkPrimaryC from './../components/Link/LinkPrincipal_Centered.jsx'
+
 export default function Page() {
   const [students, setStudents] = useState([]);
   const [mentors, setMentors] = useState([]);
@@ -90,36 +96,20 @@ export default function Page() {
   });
 
   return (
-    <div className="container-sm my-2 p-3">
-      <div className="container-sm p-3">
+    <div className="container-sm my-2 py-3">
+      <div className="container-sm py-3">
         <div className='row justify-content-center'>
-          <div className='col-12 col-md-6 col-lg-3 mb-4'>
-            <Link
-              className="btn btn-sm w-100"
-              to={`/Admin/usuarios/importarUsuarios`}
-              style={{
-                backgroundColor: '#EFCA45',
-                color: '#4F3F05',
-                borderRadius: '5px',
-                transition: 'background-color 0.3s, color 0.3s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'black';
-                e.currentTarget.style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#EFCA45';
-                e.currentTarget.style.color = '#4F3F05';
-              }}
-            >
-              Importar
-            </Link>
+          <div className='col-12 col-md-6 col-lg-3 mb-5'>
+            <LinkPrimaryC
+              link='/Admin/usuarios/importarUsuarios'
+              text='Importar'
+            />
           </div>
         </div>
         <div className="row g-4">
           {/* Sección de Mentores */}
           <div className="col-md-6">
-            <div className="container p-4" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+            <div className="container p-4" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
               <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
                 <div className='col-sm-4 mt-1'>
                   <legend>Mentores</legend>
@@ -135,34 +125,9 @@ export default function Page() {
                       value={mentorSearchTerm}
                       onChange={handleSearchMentorChange}
                     />
-                    <Link
-                      className="btn btn-sm w-20 pt-2 pb-2"
-                      to={`/Admin/usuarios/crearMentor`}
-                      style={{
-                        backgroundColor: '#db3345',
-                        color: '#4F3F05',
-                        borderRadius: '10px',
-                        transition: 'background-color 0.3s, color 0.3s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'black';
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#db3345';
-                        e.currentTarget.style.color = '#4F3F05';
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="24px"
-                        fill="#e8eaed"
-                      >
-                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                      </svg>
-                    </Link>
+                    <LinkAdd_Red
+                      link='/Admin/usuarios/crearMentor'
+                    />
                   </form>
                 </div>
               </div>
@@ -198,9 +163,7 @@ export default function Page() {
                         <td>{mentor.CorreoElectronico}</td>
                         <td>
                           <div className="dropdown">
-                            <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${mentor.RFC}`} data-bs-toggle="dropdown" aria-expanded="false">
-                              <path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z"/>
-                            </button>
+                            <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${mentor.RFC}`} data-bs-toggle="dropdown" aria-expanded="false"/>
                             <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${mentor.RFC}`}>
                               <li>
                                 <Link className="dropdown-item" to={`/Admin/usuarios/editarMentor`} onClick={() => handleEditClickMentor(mentor.RFC)}>Editar</Link>
@@ -224,7 +187,7 @@ export default function Page() {
 
           {/* Sección de Estudiantes */}
           <div className="col-md-6">
-            <div className="container p-4" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+            <div className="container p-4" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
               <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
                 <div className='col-sm-4 mt-1'>
                   <legend>Estudiantes</legend>
@@ -240,34 +203,9 @@ export default function Page() {
                       value={studentSearchTerm}
                       onChange={handleSearchStudentChange}
                     />
-                    <Link
-                      className="btn btn-sm w-20 pt-2 pb-2"
-                      to={`/Admin/usuarios/crearEstudiante`}
-                      style={{
-                        backgroundColor: '#db3345',
-                        color: '#4F3F05',
-                        borderRadius: '10px',
-                        transition: 'background-color 0.3s, color 0.3s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'black';
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#db3345';
-                        e.currentTarget.style.color = '#4F3F05';
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="24px"
-                        fill="#e8eaed"
-                      >
-                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                      </svg>
-                    </Link>
+                    <LinkAdd_Red
+                      link='/Admin/usuarios/crearEstudiante'
+                    />
                   </form>
                 </div>
               </div>
@@ -303,9 +241,7 @@ export default function Page() {
                         <td>{student.Periodo}</td>
                         <td>
                           <div className="dropdown">
-                            <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${student.EstudianteID}`} data-bs-toggle="dropdown" aria-expanded="false">
-                              <path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z"/>
-                            </button>
+                            <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${student.EstudianteID}`} data-bs-toggle="dropdown" aria-expanded="false"/>
                             <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${student.EstudianteID}`}>
                               <li>
                                 <Link className="dropdown-item" to={`/Admin/usuarios/editarEstudiante`} onClick={() => handleEditClickStudent(student.EstudianteID)}>Editar</Link>
