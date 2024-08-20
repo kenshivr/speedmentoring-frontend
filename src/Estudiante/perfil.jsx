@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import React, { useState, useCallback, useEffect } from 'react';
+import LinkSecundaryCentered from './../components/Link/LinkSecundaryCentered.jsx'; 
 
 export default function Page() {
   const user = localStorage.getItem('userId');
@@ -155,55 +155,36 @@ export default function Page() {
           </div>
 
           <div className="mb-3 row">
-            <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
-            </div>
-            <div className="col-md-6 d-flex align-items-center justify-content-center my-4">
-              <button
-                type="button"
-                className="btn w-100 mx-2"
-                style={{ 
-                  backgroundColor: '#EFCA45', 
-                  color: 'black', 
-                  border: '1px solid #000',
-                  borderRadius:'20px',
-                  transition: 'background-color 0.3s, color 0.3s' 
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#EFCA45';
-                  e.currentTarget.style.color = 'black';
-                }}
-                onClick={handleSave}
-              >
-                Guardar
-              </button>
-              <Link
-                type="button"
-                className="btn w-100"
-                to="/Estudiante/inicio"
-                style={{ 
-                  backgroundColor: '#EBE4CA', 
-                  color: '#4F3F05', 
-                  border: '1px solid #000',
-                  borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s' 
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#EBE4CA';
-                  e.currentTarget.style.color = '#4F3F05';
-                }}>
-                Cancelar
-              </Link>
+            <div className="row justify-content-end mt-4 mb-1 pb-1">
+              <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <button
+                  type="button"
+                  className="btn w-100 mb-3"
+                  style={{
+                    backgroundColor: '#EFCA45',
+                    color: '#4F3F05',
+                    borderRadius: '20px',
+                    transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+                  }}
+                  onClick={handleSave}
+                >
+                  Guardar
+                </button>
+              </div>
+              <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <LinkSecundaryCentered
+                  text='Cancelar'
+                  link="/Estudiante/inicio"
+                />
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

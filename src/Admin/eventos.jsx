@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import LinkAdd_Red from '../components/Link/LinkAddRed.jsx'; 
+import LinkAddRed from '../components/Link/LinkAddRed.jsx'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
@@ -111,7 +111,7 @@ export default function Page() {
                   value={searchTerm}
                   onChange={handleSearchChange}
                 />
-                <LinkAdd_Red
+                <LinkAddRed
                   link = '/Admin/eventos/crearEvento'
                 />
               </form>

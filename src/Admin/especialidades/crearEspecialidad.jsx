@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx'; 
-import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx'; 
+import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx'; 
 
 export default function CreateSpecialty() {
   const [specialtyName, setSpecialtyName] = useState('');
@@ -55,7 +55,7 @@ export default function CreateSpecialty() {
                   />
                 </div>
                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                  <LinkSecundaryC
+                  <LinkSecundaryCentered
                     text='Cancelar'
                     link='/Admin/especialidades'
                   />
