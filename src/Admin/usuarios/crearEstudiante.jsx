@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import LinkSecundaryC from '../../components/Link/LinkSecundary_Centered.jsx'; 
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx'; 
 
@@ -8,18 +9,20 @@ export default function Page() {
   const [mentores, setMentores] = useState([]);
 
   const [formDataAlumno, setFormDataAlumno] = useState({
-    AlumnoID: 0,
+    EstudianteID: '',
     Nombre: '',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
     Periodo: '',
-    Password: '',
+    PasswordHash: '',
     EspecialidadID: 0,
-    RFC: '',
+    MentorRFC: '',
     CorreoElectronico: '',
     NumeroTelefono: '',
     Estado: 0
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch especialidades
@@ -59,7 +62,7 @@ export default function Page() {
     e.preventDefault();
     try {
       await axios.post('http://localhost:3001/api/setNewAlumno', formDataAlumno);
-      console.log('Alumno registrado exitosamente');
+      navigate('/Admin/estudiantes');
     } catch (error) {
       console.error('Error al registrar:', error);
     }
@@ -73,8 +76,8 @@ export default function Page() {
           <div className="row justify-content-center">
             <div className="col-12 col-md-8">
               <div className="mb-3">
-                <label htmlFor="AlumnoID" className="form-label">Número de cuenta</label>
-                <input className="form-control" id="AlumnoID" name="AlumnoID" placeholder="Ejemplo de número de cuenta" onChange={handleChange} />
+                <label htmlFor="EstudianteID" className="form-label">Número de cuenta</label>
+                <input className="form-control" id="EstudianteID" name="EstudianteID" placeholder="Ejemplo de número de cuenta" onChange={handleChange} />
               </div>
               <div className="mb-3">
                 <label htmlFor="Periodo" className="form-label">Periodo</label>
@@ -98,7 +101,7 @@ export default function Page() {
                   <option value="">Mentor</option>
                   {mentores.map((mentor) => (
                     <option key={mentor.RFC} value={mentor.RFC}>
-                      {`${mentor.RFC} - ${mentor.Nombre} ${mentor.ApellidoMaterno} ${mentor.ApellidoPaterno}`}
+                      {`${mentor.RFC} - ${mentor.Nombre} ${mentor.ApellidoPaterno} ${mentor.ApellidoMaterno}`}
                     </option>
                   ))}
                 </select>
@@ -116,13 +119,13 @@ export default function Page() {
                 <select className="form-select" aria-label="Default select example" name="EspecialidadID" onChange={handleChange}>
                   <option value="">Especialidad</option>
                   {especialidades.map((especialidad) => (
-                    <option key={especialidad.id} value={especialidad.id}>{especialidad.Especialidad}</option>
+                    <option key={especialidad.EspecialidadID} value={especialidad.EspecialidadID}>{especialidad.Especialidad} - {especialidad.EspecialidadID}</option>
                   ))}
                 </select>
               </div>
               <div className="mb-3">
-                <label htmlFor="Password" className="form-label">Contraseña</label>
-                <input type="password" className="form-control" id="Password" name="Password" placeholder="Contraseña" onChange={handleChange} />
+                <label htmlFor="PasswordHash" className="form-label">Fecha de nacimiento</label>
+                <input className="form-control" id="PasswordHash" name="PasswordHash" placeholder="AAAAMMDD" onChange={handleChange} />
               </div>
               <div className="row">
                 <div className="row justify-content-end mt-4 mb-3">
@@ -133,7 +136,7 @@ export default function Page() {
                   </div>
                   <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
                     <LinkSecundaryC
-                      link="/Admin/usuarios"
+                      link="/Admin/estudiantes"
                       text='Cancelar'
                     />
                   </div>

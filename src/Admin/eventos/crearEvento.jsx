@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import ButtonPrrincipal from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx';
 import LinkSecundary from '../../components/Link/LinkSecundary_Centered.jsx';
 
@@ -11,6 +12,8 @@ export default function Page() {
   const [hasLink, setHasLink] = useState(false);
   const [link, setLink] = useState('');
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios.get('http://localhost:3001/api/especialidades')
       .then(response => {
@@ -21,14 +24,12 @@ export default function Page() {
       });
   }, []);
 
-  const handleSave = (event) => {
-    event.preventDefault();
-    
+  const handleSave = () => {
     const eventData = {
       eventName,
       specialty,
       description,
-      date: new Date().toISOString().split('T')[0], // Asignar la fecha actual
+      date: new Date().toISOString().split('T')[0],
       link: hasLink ? link : ''
     };
 
@@ -40,6 +41,7 @@ export default function Page() {
         setDescription('');
         setHasLink(false);
         setLink('');
+        navigate('/Admin/eventos');
       })
       .catch(error => {
         alert('Verificar si los datos están en el formato correcto, no fue posible agregar el nuevo evento.');

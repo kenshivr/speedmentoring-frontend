@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import LinkAdd_Red from './../components/Link/LinkAdd_Red.jsx'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 
 export default function ManageSpecialties() {
   const [specialties, setSpecialties] = useState([]);

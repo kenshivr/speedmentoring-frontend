@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import ButtonPrincipalC from './../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx'; 
+import LinkSecundaryC from './../components/Link/LinkSecundary_Centered.jsx'; 
 
 export default function Page() {
   const [file, setFile] = useState(null);
@@ -41,11 +42,11 @@ export default function Page() {
 
   return (
     <div className='container mt-5 p-3' style={{ maxWidth: '950px' }}>
-      <div className='container-sm my-3 p-4' style={{ backgroundColor: '#002B7A', borderRadius: '50px', color: 'white' }}>
+      <div className='container-sm my-3 p-4' style={{ backgroundColor: '#002B7A', borderRadius: '50px', color: 'white', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
         <div className='row mb-5 m-2'>
-            <div className="container mt-3" style={{ backgroundColor:''}}>
+            <div className="container mt-3">
             <h1 className="mb-4">Instrucciones para la Importación de Usuarios</h1>
-            <div className="alert alert-info" role="alert">
+            <div className="alert alert-info" role="alert" style={{ boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
                 Para importar usuarios a través de un archivo CSV, asegúrate de seguir las siguientes especificaciones para que el proceso sea exitoso:
             </div>
 
@@ -98,7 +99,7 @@ export default function Page() {
                 RFCmentor123, Laura, Martínez, García, 7, TechCorp, Analista, laura.martinez@techcorp.com, 5598765432, AB1
             </code></pre>
 
-            <div className="alert alert-warning mt-4" role="alert">
+            <div className="alert alert-warning mt-4" role="alert" style={{ boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
                 <strong>Nota:</strong> Asegúrate de que cada columna esté correctamente nombrada y de que no haya registros vacíos o datos incorrectos. Los errores en el formato del archivo pueden provocar problemas durante la importación.
             </div>
 
@@ -109,6 +110,8 @@ export default function Page() {
           <div className="row justify-content-center">
             <div className="col-12 col-md-8">
               <div className="mb-3">
+                {successMessage && <div className="alert alert-success mb-3">{successMessage}</div>}
+                {errorMessage && <div className="alert alert-danger mb-3">{errorMessage}</div>}
                 <div className="input-group mb-3">
                   <input
                     type="file"
@@ -121,59 +124,14 @@ export default function Page() {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-6 d-flex align-items-center justify-content-center my-2">
-              {/* Espacio para otras acciones si es necesario */}
-            </div>
-            <div className="col-md-6 d-flex align-items-center justify-content-center my-2">
-              <button
-                type="submit"
-                className="btn btn-sm w-50 my-4 mx-3"
-                style={{
-                  backgroundColor: '#EFCA45',
-                  color: '#4F3F05',
-                  border: '1px solid #000',
-                  borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#EFCA45';
-                  e.currentTarget.style.color = '#4F3F05';
-                }}
-              >
-                Guardar
-              </button>
-              <Link
-                type="button"
-                className="btn btn-sm w-50 mx-3"
-                to="/admin/usuarios"
-                style={{
-                  backgroundColor: '#A0BAEB',
-                  color: '#4F3F05',
-                  border: '1px solid #000',
-                  borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#A0BAEB';
-                  e.currentTarget.style.color = '#4F3F05';
-                }}
-              >
-                Cancelar
-              </Link>
+          <div className="row justify-content-center mt-4 mb-3">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+              <ButtonPrincipalC
+                text='Importar'
+              />
             </div>
           </div>
         </form>
-        {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>}
-        {errorMessage && <div className="alert alert-danger mt-3">{errorMessage}</div>}
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import LinkAdd_Red from './../components/Link/LinkAdd_Red.jsx'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 export default function Page() {
   const [eventos, setEventos] = useState([]);
@@ -12,7 +14,6 @@ export default function Page() {
       try {
         const response = await axios.get('http://localhost:3001/api/getEventsFull');
         if (response.data) {
-          // Ordenar eventos por EventoID en orden descendente
           const sortedEventos = response.data.sort((a, b) => b.EventoID - a.EventoID);
           setEventos(sortedEventos);
         } else {
@@ -26,17 +27,37 @@ export default function Page() {
     fetchEventos();
   }, []);
 
+  const getEventsFull = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/getEventsFull');
+      if (response.data) {
+        const sortedEventos = response.data.sort((a, b) => b.EventoID - a.EventoID);
+        setEventos(sortedEventos);
+      } else {
+        console.error('Error al obtener eventos:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error en la solicitud para obtener eventos:', error);
+    }
+  }
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
   const handleDelete = async (eventoID) => {
     try {
-      await axios.delete(`http://localhost:3001/api/deleteEvent/${eventoID}`);
-      setEventos(eventos.filter(evento => evento.EventoID !== eventoID));
+      const response = await axios.delete(`http://localhost:3001/api/deleteEvent/${eventoID}`);
+      if (response.data.message) {
+        alert(response.data.message);
+      } else {
+        alert('Ocurrio un error en la eliminacion del evento');
+      }
     } catch (error) {
       console.error('Error al eliminar el evento:', error);
     }
+
+    getEventsFull();
   };
 
   const handleEventEdit = (id) => {
@@ -104,9 +125,9 @@ export default function Page() {
                   <td>{evento.Descripción}</td>
                   <td>
                     {evento.Link && evento.Link.trim() ? (
-                      <a 
-                        href={evento.Link.startsWith('http') ? evento.Link : `http://${evento.Link}`} 
-                        target="_blank" 
+                      <a
+                        href={evento.Link.startsWith('http') ? evento.Link : `http://${evento.Link}`}
+                        target="_blank"
                         rel="noopener noreferrer"
                         style={{ textDecoration: 'none', color: 'inherit' }}
                       >
@@ -124,10 +145,10 @@ export default function Page() {
 
                       <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li>
-                          <Link className="dropdown-item" to={`/Admin/eventos/editarEvento`} onClick={() => handleEventEdit(evento.EventoID)} >Editar</Link>
+                          <button className="dropdown-item" onClick={() => handleDelete(evento.EventoID)}>Eliminar</button>
                         </li>
                         <li>
-                          <button className="dropdown-item" onClick={() => handleDelete(evento.EventoID)}>Eliminar</button>
+                          <Link className="dropdown-item" to={`/Admin/eventos/editarEvento`} onClick={() => handleEventEdit(evento.EventoID)} >Editar</Link>
                         </li>
                       </ul>
                     </div>

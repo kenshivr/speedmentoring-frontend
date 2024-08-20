@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 import ButtonPrrincipal from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx';
 import LinkSecundary from '../../components/Link/LinkSecundary_Centered.jsx';
 
@@ -63,10 +67,10 @@ export default function Page() {
       link: hasLink ? link : ''
     };
 
-    axios.post(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
+    axios.put(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
       .then(response => {
         alert('¡Evento actualizado exitosamente!');
-        navigate('/Admin/eventos'); // Redirige a /Admin/page después del guardado
+        navigate('/Admin/eventos');
       })
       .catch(error => {
         alert('Error al actualizar el evento. Por favor, verifique los datos ingresados.');
@@ -111,22 +115,6 @@ export default function Page() {
           </select>
         </form>
       </div>
-
-
-
-
-      <div className="row">
-        <label htmlFor="fechaEvento" className="form-label">Fecha</label>
-        <input 
-          type="text" 
-          className="form-control" 
-          id="fechaEvento" 
-          placeholder="Fecha del evento. Ejemplo: 2024-01-01"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
-
 
 
 

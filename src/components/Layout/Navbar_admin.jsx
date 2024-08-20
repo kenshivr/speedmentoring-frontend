@@ -23,8 +23,18 @@ function NavbarAdmin() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/usuarios">
-                Usuarios
+              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/estudiantes">
+                Estudiantes
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/mentores">
+                Mentores
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/importarUsuarios">
+                Importar usuarios
               </Link>
             </li>
           </ul>

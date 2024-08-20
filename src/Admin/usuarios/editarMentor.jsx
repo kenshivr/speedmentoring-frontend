@@ -64,7 +64,7 @@ export default function AdminEditarMentor() {
     e.preventDefault();
     try {
       const response = await axios.put(`http://localhost:3001/api/updateMentor/${RFC}`, mentor);
-      if (response.data.success) {
+      if (response.data.message) {
         setSuccessMessage('Mentor actualizado con éxito.');
       } else {
         setErrorMessage('Error al actualizar el mentor.');
@@ -213,7 +213,7 @@ export default function AdminEditarMentor() {
                   </div>
                   <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
                     <LinkSecundaryC
-                      link="/Admin/usuarios"
+                      link="/Admin/mentores"
                       text='Cancelar'
                     />
                   </div>

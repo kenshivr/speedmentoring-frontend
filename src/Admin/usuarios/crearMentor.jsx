@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import LinkSecundaryC from '../../components/Link/LinkSecundary_Centered.jsx'; 
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx'; 
 
 export default function Page() {
   const [especialidades, setEspecialidades] = useState([]);
-
   const [formDataMentor, setFormDataMentor] = useState({
     RFC: '',
-    Homoclave: '',  // Añadido el campo Homoclave al estado
+    Homoclave: '',
     Nombre: '',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
@@ -19,11 +19,12 @@ export default function Page() {
     NumeroTelefono: '',
     HASH: '',
     SALT: '',
-    Estado: 0
+    Estado: 1
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // Fetch especialidades
     const getEspecialidades = async () => {
       try {
         const response = await axios.get('http://localhost:3001/api/especialidades');
@@ -48,7 +49,7 @@ export default function Page() {
     e.preventDefault();
     try {
       await axios.post('http://localhost:3001/api/setNewMentor', formDataMentor);
-      console.log('Mentor registrado exitosamente');
+      navigate('/Admin/mentores');
     } catch (error) {
       console.error('Error al registrar:', error);
     }
@@ -64,6 +65,10 @@ export default function Page() {
               <div className="mb-3">
                 <label htmlFor="RFC" className="form-label">RFC</label>
                 <input type="text" className="form-control" id="RFC" name="RFC" placeholder="RFC" onChange={handleChange} />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="Homoclave" className="form-label">Homoclave</label>
+                <input type="text" className="form-control" id="Homoclave" name="Homoclave" placeholder="Homoclave" onChange={handleChange} />
               </div>
               <div className="mb-3">
                 <label htmlFor="Nombre" className="form-label">Nombre(s)</label>
@@ -111,7 +116,7 @@ export default function Page() {
                   </div>
                   <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
                     <LinkSecundaryC
-                      link="/Admin/usuarios"
+                      link="/Admin/mentores"
                       text='Cancelar'
                     />
                   </div>

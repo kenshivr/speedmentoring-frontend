@@ -12,7 +12,7 @@ export default function EditStudentPage() {
     ApellidoMaterno: '',
     Periodo: '',
     EspecialidadID: '',
-    RFC: '',
+    MentorRFC: '',
     CorreoElectronicoPersonal: '',
     NumeroTelefono: '',
     Estado: 0
@@ -166,12 +166,12 @@ export default function EditStudentPage() {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="RFC" className="form-label">Mentor</label>
+                <label htmlFor="MentorRFC" className="form-label">Mentor</label>
                 <select
                   className="form-select"
-                  id="RFC"
-                  name="RFC"
-                  value={formDataAlumno.RFC}
+                  id="MentorRFC"
+                  name="MentorRFC"
+                  value={formDataAlumno.MentorRFC}
                   onChange={handleChange}
                   required
                 >
@@ -233,7 +233,7 @@ export default function EditStudentPage() {
                     <ButtonPrincipalC text="Registrar" />
                   </div>
                   <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                    <LinkSecundaryC link="/Admin/usuarios" text="Cancelar" />
+                    <LinkSecundaryC link="/Admin/estudiantes" text="Cancelar" />
                   </div>
                 </div>
               </div>
