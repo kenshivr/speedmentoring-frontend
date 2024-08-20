@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import ButtonPrrincipal from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx';
-import LinkSecundary from '../../components/Link/LinkSecundary_Centered.jsx';
+import ButtonPrrincipal from '../../components/Button/ButtonPrincipalC.jsx';
+import LinkSecundary from '../../components/Link/LinkSecundaryCentered.jsx';
 
 export default function Page() {
   const [eventName, setEventName] = useState('');

@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-import LinkAdd_Red from './../components/Link/LinkAdd_Red.jsx'; 
+import LinkAddRed from '../components/Link/LinkAddRed.jsx'; 
 
 export default function Page() {
   const [mentors, setMentors] = useState([]);
   const [mentorSearchTerm, setMentorSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const getMentors = async () => {
@@ -26,6 +28,7 @@ export default function Page() {
 
   const handleSearchMentorChange = (event) => {
     setMentorSearchTerm(event.target.value);
+    setCurrentPage(0); 
   };
 
   const handleEditClickMentor = (id) => {
@@ -41,6 +44,15 @@ export default function Page() {
     }
   };
 
+  const handlePrevious = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(filteredMentors.length / itemsPerPage)));
+  };
+
+  // Filtrar y paginar los mentores
   const filteredMentors = mentors.filter(mentor => {
     const searchTermLower = mentorSearchTerm.toLowerCase();
     return (
@@ -56,31 +68,36 @@ export default function Page() {
     );
   });
 
+  const startIndex = currentPage * itemsPerPage;
+  const selectedMentors = filteredMentors.slice(startIndex, startIndex + itemsPerPage);
+
   return (
-    <div className="container-sm my-2 py-3">
-        <div className="container p-4" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <div className="container p-3">
+        <div className="row g-0 text-center mb-3">
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='col-sm-4 mt-1'>
-              <legend>Mentores</legend>
+              <legend className='mt-1'>Mentores</legend>
             </div>
-            <div className="col-sm-8 px-2 mt-1">
+            <div className="col-sm-8 px-2 mt-2">
               <form className="d-flex" role="search">
                 <input
                   className="form-control me-2"
                   type="search"
-                  placeholder="Buscar"
+                  placeholder="Buscar estudiante"
                   aria-label="Search"
                   style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px" }}
                   value={mentorSearchTerm}
                   onChange={handleSearchMentorChange}
                 />
-                <LinkAdd_Red
+                <LinkAddRed
                   link='/Admin/usuarios/crearMentor'
                 />
               </form>
             </div>
           </div>
-          <div className="table-responsive p-2 justify-content-center align-items-center text-center">
+        </div>
+        <div className="table-responsive p-2 justify-content-center align-items-center text-center">
             <table className="table table-hover">
               <thead>
                 <tr>
@@ -98,7 +115,7 @@ export default function Page() {
                 </tr>
               </thead>
               <tbody className="table-light">
-                {filteredMentors.map(mentor => (
+                {selectedMentors.map(mentor => (
                   <tr key={mentor.RFC}>
                     <td>{mentor.RFC}</td>
                     <td>{mentor.Estatus}</td>
@@ -131,8 +148,51 @@ export default function Page() {
               </tbody>
             </table>
           </div>
+          <div className="col d-flex align-items-center justify-content-center mt-4 pt-2">
+          <div className='row px-4'>
+            <button
+              className="btn"
+              style={{
+                backgroundColor: '#EFCA45',
+                color: '#4F3F05',
+                borderRadius: '20px',
+                transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+              }}
+              onClick={handlePrevious}
+              disabled={currentPage === 0}
+            >
+              Anterior
+            </button>
+          </div>
+          <div className='row px-4'>
+            <button
+              className="btn"
+              style={{
+                backgroundColor: '#EFCA45',
+                color: '#4F3F05',
+                borderRadius: '20px',
+                transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+              }}
+              onClick={handleNext}
+              disabled={startIndex + itemsPerPage >= filteredMentors.length}
+            >
+              Siguiente
+            </button>
+          </div>
         </div>
-            
+        </div>
     </div>
   );
 }

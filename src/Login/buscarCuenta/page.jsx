@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import ButtonPrrincipal from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx';
-import LinkSecundary from '../../components/Link/LinkSecundary_Centered.jsx';
+import ButtonPrrincipal from '../../components/Button/ButtonPrincipalC.jsx';
+import LinkSecundary from '../../components/Link/LinkSecundaryCentered.jsx';
 
 export default function BuscarCuentaPage() {
   const [id, setId] = useState('');

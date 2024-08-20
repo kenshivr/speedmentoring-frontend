@@ -8,11 +8,6 @@ function NavbarAdmin() {
         <div className="container-fluid">
           <ul className="nav nav-underline">
             <li className="nav-item">
-              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/estadisticas">
-                Estadísticas
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/eventos">
                 Eventos
               </Link>
@@ -35,6 +30,11 @@ function NavbarAdmin() {
             <li className="nav-item">
               <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/importarUsuarios">
                 Importar usuarios
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" style={{ color: '#3A2E01', fontWeight: 'bold' }} to="/Admin/estadisticas">
+                Estadísticas
               </Link>
             </li>
           </ul>

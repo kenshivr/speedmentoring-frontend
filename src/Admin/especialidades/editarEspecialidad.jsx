@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ButtonPrincipalC from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx'; 
-import LinkSecundaryC from '../../components/Link/LinkSecundary_Centered.jsx'; 
+import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx'; 
+import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx'; 
 
 export default function AdminEditarEspecialidad() {
   const id = localStorage.getItem('EspecialidadID');

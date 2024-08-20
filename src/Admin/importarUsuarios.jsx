@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import ButtonPrincipalC from './../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx'; 
-import LinkSecundaryC from './../components/Link/LinkSecundary_Centered.jsx'; 
+import ButtonPrincipalC from '../components/Button/ButtonPrincipalC.jsx';
 
 export default function Page() {
   const [file, setFile] = useState(null);
@@ -41,8 +40,8 @@ export default function Page() {
   };
 
   return (
-    <div className='container mt-5 p-3' style={{ maxWidth: '950px' }}>
-      <div className='container-sm my-3 p-4' style={{ backgroundColor: '#002B7A', borderRadius: '50px', color: 'white', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <div className='container' style={{ color: 'white' }}>
         <div className='row mb-5 m-2'>
             <div className="container mt-3">
             <h1 className="mb-4">Instrucciones para la Importación de Usuarios</h1>

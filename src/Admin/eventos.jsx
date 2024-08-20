@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import LinkAdd_Red from './../components/Link/LinkAdd_Red.jsx'; 
+import LinkAdd_Red from '../components/Link/LinkAddRed.jsx'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 export default function Page() {
   const [eventos, setEventos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5; // Mostrar registros por página
 
   useEffect(() => {
     const fetchEventos = async () => {
@@ -72,11 +74,23 @@ export default function Page() {
     return (
       evento.Nombre.toLowerCase().includes(searchTermLower) ||
       evento.Descripción.toLowerCase().includes(searchTermLower) ||
-      evento.Especialidad?.toLowerCase().includes(searchTermLower) || // Usar el operador de encadenamiento opcional
+      evento.Especialidad?.toLowerCase().includes(searchTermLower) || 
       evento.EventoID.toString().includes(searchTerm) ||
       formattedDate.includes(searchTerm)
     );
   });
+
+  // Obtener los eventos correspondientes a la página actual
+  const startIndex = currentPage * itemsPerPage;
+  const selectedEventos = filteredEventos.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePrevious = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(filteredEventos.length / itemsPerPage)));
+  };
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
@@ -117,7 +131,7 @@ export default function Page() {
               </tr>
             </thead>
             <tbody className="table-light">
-              {filteredEventos.map((evento) => (
+              {selectedEventos.map((evento) => (
                 <tr key={evento.EventoID}>
                   <td>{evento.EventoID}</td>
                   <td>{evento.Nombre}</td>
@@ -145,10 +159,10 @@ export default function Page() {
 
                       <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li>
-                          <button className="dropdown-item" onClick={() => handleDelete(evento.EventoID)}>Eliminar</button>
+                          <Link className="dropdown-item" to={`/Admin/eventos/editarEvento`} onClick={() => handleEventEdit(evento.EventoID)} >Editar</Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to={`/Admin/eventos/editarEvento`} onClick={() => handleEventEdit(evento.EventoID)} >Editar</Link>
+                          <button className="dropdown-item" onClick={() => handleDelete(evento.EventoID)}>Eliminar</button>
                         </li>
                       </ul>
                     </div>
@@ -157,6 +171,50 @@ export default function Page() {
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="col d-flex align-items-center justify-content-center mt-2">
+          <div className='row px-4'>
+            <button
+              className="btn"
+              style={{
+                backgroundColor: '#EFCA45',
+                color: '#4F3F05',
+                borderRadius: '20px',
+                transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+              }}
+              onClick={handlePrevious}
+              disabled={currentPage === 0}
+            >
+              Anterior
+            </button>
+          </div>
+          <div className='row px-4'>
+            <button
+              className="btn"
+              style={{
+                backgroundColor: '#EFCA45',
+                color: '#4F3F05',
+                borderRadius: '20px',
+                transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+              }}
+              onClick={handleNext}
+              disabled={startIndex + itemsPerPage >= filteredEventos.length}
+            >
+              Siguiente
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-import LinkAdd_Red from './../components/Link/LinkAdd_Red.jsx'; 
+import LinkAddRed from '../components/Link/LinkAddRed.jsx'; 
 
 export default function Page() {
   const [students, setStudents] = useState([]);
   const [studentSearchTerm, setStudentSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const getStudents = async () => {
@@ -26,6 +28,7 @@ export default function Page() {
 
   const handleSearchStudentChange = (event) => {
     setStudentSearchTerm(event.target.value);
+    setCurrentPage(0); // Reinicia a la primera página al buscar
   };
 
   const handleEditClickStudent = (id) => {
@@ -41,6 +44,15 @@ export default function Page() {
     }
   };
 
+  const handlePrevious = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(filteredStudents.length / itemsPerPage)));
+  };
+
+  // Filtrar y paginar los estudiantes
   const filteredStudents = students.filter(student => {
     const searchTermLower = studentSearchTerm.toLowerCase();
     return (
@@ -56,84 +68,133 @@ export default function Page() {
     );
   });
 
+  const startIndex = currentPage * itemsPerPage;
+  const selectedStudents = filteredStudents.slice(startIndex, startIndex + itemsPerPage);
+
   return (
-    <div className="container-sm my-2 py-3">
-        <div className="container p-4" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <div className="container p-3">
+        <div className="row g-0 text-center mb-3">
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='col-sm-4 mt-1'>
-              <legend>Estudiantes</legend>
+              <legend className='mt-1'>Estudiantes</legend>
             </div>
-            <div className="col-sm-8 px-2 mt-1">
+            <div className="col-sm-8 px-2 mt-2">
               <form className="d-flex" role="search">
                 <input
                   className="form-control me-2"
                   type="search"
-                  placeholder="Buscar"
+                  placeholder="Buscar estudiante"
                   aria-label="Search"
                   style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px" }}
                   value={studentSearchTerm}
                   onChange={handleSearchStudentChange}
                 />
-                <LinkAdd_Red
+                <LinkAddRed
                   link='/Admin/usuarios/crearEstudiante'
                 />
               </form>
             </div>
           </div>
-          <div className="table-responsive p-2 justify-content-center align-items-center text-center">
-            <table className="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">Número de cuenta</th>
-                  <th scope="col">Estatus</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Apellido paterno</th>
-                  <th scope="col">Apellido materno</th>
-                  <th scope="col">Teléfono</th>
-                  <th scope="col">Especialidad</th>
-                  <th scope="col">E-mail</th>
-                  <th scope="col">E-mail institucional</th>
-                  <th scope="col">Periodo</th>
-                  <th scope="col">RFC mentor</th>
-                  <th scope="col"></th>
+        </div>
+        <div className="table-responsive p-2 justify-content-center align-items-center text-center">
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Número de cuenta</th>
+                <th scope="col">Estatus</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido paterno</th>
+                <th scope="col">Apellido materno</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Especialidad</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">E-mail institucional</th>
+                <th scope="col">Periodo</th>
+                <th scope="col">RFC mentor</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody className="table-light">
+              {selectedStudents.map(student => (
+                <tr key={student.EstudianteID}>
+                  <td>{student.EstudianteID}</td>
+                  <td>{student.Estatus}</td>
+                  <td>{student.Nombre}</td>
+                  <td>{student.ApellidoPaterno}</td>
+                  <td>{student.ApellidoMaterno}</td>
+                  <td>{student.NumeroTelefono}</td>
+                  <td>{student.EspecialidadID}</td>
+                  <td>{student.CorreoElectronicoPersonal}</td>
+                  <td>{student.EstudianteID ? `${student.EstudianteID}@pcpuma.acatlan.unam.mx` : 'N/A'}</td>
+                  <td>{student.Periodo}</td>
+                  <td>{student.MentorRFC}</td>
+                  <td>
+                    <div className="dropdown">
+                      <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${student.EstudianteID}`} data-bs-toggle="dropdown" aria-expanded="false"/>
+                      <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${student.EstudianteID}`}>
+                        <li>
+                          <Link className="dropdown-item" to={`/Admin/usuarios/editarEstudiante`} onClick={() => handleEditClickStudent(student.EstudianteID)}>Editar</Link>
+                        </li>
+                        <li>
+                          <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 1)}>Habilitar</button>
+                        </li>
+                        <li>
+                          <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 0)}>Deshabilitar</button>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="table-light">
-                {filteredStudents.map(student => (
-                  <tr key={student.EstudianteID}>
-                    <td>{student.EstudianteID}</td>
-                    <td>{student.Estatus}</td>
-                    <td>{student.Nombre}</td>
-                    <td>{student.ApellidoPaterno}</td>
-                    <td>{student.ApellidoMaterno}</td>
-                    <td>{student.NumeroTelefono}</td>
-                    <td>{student.EspecialidadID}</td>
-                    <td>{student.CorreoElectronicoPersonal}</td>
-                    <td>{student.EstudianteID ? `${student.EstudianteID}@pcpuma.acatlan.unam.mx` : 'N/A'}</td>
-                    <td>{student.Periodo}</td>
-                    <td>{student.MentorRFC}</td>
-                    <td>
-                      <div className="dropdown">
-                        <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${student.EstudianteID}`} data-bs-toggle="dropdown" aria-expanded="false"/>
-                        <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${student.EstudianteID}`}>
-                          <li>
-                            <Link className="dropdown-item" to={`/Admin/usuarios/editarEstudiante`} onClick={() => handleEditClickStudent(student.EstudianteID)}>Editar</Link>
-                          </li>
-                          <li>
-                            <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 1)}>Habilitar</button>
-                          </li>
-                          <li>
-                            <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 0)}>Deshabilitar</button>
-                          </li>
-                        </ul>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="col d-flex align-items-center justify-content-center mt-4 pt-2">
+          <div className='row px-4'>
+            <button
+              className="btn"
+              style={{
+                backgroundColor: '#EFCA45',
+                color: '#4F3F05',
+                borderRadius: '20px',
+                transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+              }}
+              onClick={handlePrevious}
+              disabled={currentPage === 0}
+            >
+              Anterior
+            </button>
+          </div>
+          <div className='row px-4'>
+            <button
+              className="btn"
+              style={{
+                backgroundColor: '#EFCA45',
+                color: '#4F3F05',
+                borderRadius: '20px',
+                transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+              }}
+              onClick={handleNext}
+              disabled={startIndex + itemsPerPage >= filteredStudents.length}
+            >
+              Siguiente
+            </button>
           </div>
         </div>
+      </div>
     </div>
   );
 }

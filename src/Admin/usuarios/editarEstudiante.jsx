@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LinkSecundaryC from '../../components/Link/LinkSecundary_Centered.jsx'; 
-import ButtonPrincipalC from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx'; 
+import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx'; 
+import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx'; 
 
 export default function EditStudentPage() {
   const id = localStorage.getItem('EstudianteID');

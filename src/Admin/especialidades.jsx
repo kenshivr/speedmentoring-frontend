@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import LinkAdd_Red from './../components/Link/LinkAdd_Red.jsx'; 
+import LinkAdd_Red from '../components/Link/LinkAddRed.jsx'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-
 
 export default function ManageSpecialties() {
   const [specialties, setSpecialties] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchSpecialties = async () => {
@@ -29,16 +30,29 @@ export default function ManageSpecialties() {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(0); // Reinicia a la primera página al buscar
   };
 
+  const handleEditClick = (id) => {
+    localStorage.setItem('EspecialidadID', id);
+  };
+
+  const handlePrevious = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(filteredSpecialties.length / itemsPerPage)));
+  };
+
+  // Filtrar y paginar las especialidades
   const filteredSpecialties = specialties.filter(specialty => 
     specialty.EspecialidadID.toString().includes(searchTerm) ||
     specialty.Especialidad.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleEditClick = (id) => {
-    localStorage.setItem('EspecialidadID', id);
-  };
+  const startIndex = currentPage * itemsPerPage;
+  const selectedSpecialties = filteredSpecialties.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
@@ -76,7 +90,7 @@ export default function ManageSpecialties() {
               </tr>
             </thead>
             <tbody className="table-light">
-              {filteredSpecialties.map((specialty) => (
+              {selectedSpecialties.map((specialty) => (
                 <tr key={specialty.EspecialidadID}>
                   <td>{specialty.EspecialidadID}</td>
                   <td>{specialty.Especialidad}</td>
@@ -97,6 +111,50 @@ export default function ManageSpecialties() {
               ))}
             </tbody>
           </table>
+          <div className="col d-flex align-items-center justify-content-center mt-4 pt-2">
+            <div className='row px-4'>
+              <button
+                className="btn"
+                style={{
+                  backgroundColor: '#EFCA45',
+                  color: '#4F3F05',
+                  borderRadius: '20px',
+                  transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+                }}
+                onClick={handlePrevious}
+                disabled={currentPage === 0}
+              >
+                Anterior
+              </button>
+            </div>
+            <div className='row px-4'>
+              <button
+                className="btn"
+                style={{
+                  backgroundColor: '#EFCA45',
+                  color: '#4F3F05',
+                  borderRadius: '20px',
+                  transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+                }}
+                onClick={handleNext}
+                disabled={startIndex + itemsPerPage >= filteredSpecialties.length}
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

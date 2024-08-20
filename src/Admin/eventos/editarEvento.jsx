@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-import ButtonPrrincipal from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx';
-import LinkSecundary from '../../components/Link/LinkSecundary_Centered.jsx';
+import ButtonPrrincipal from '../../components/Button/ButtonPrincipalC.jsx';
+import LinkSecundary from '../../components/Link/LinkSecundaryCentered.jsx';
 
 export default function Page() {
   const [eventId, setEventId] = useState();

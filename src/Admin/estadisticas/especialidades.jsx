@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ButtonPrrincipal from '../../components/Button/ButtonPrincipal_Centered_typeSubmit.jsx'; 
+import ButtonPrrincipal from '../../components/Button/ButtonPrincipalC.jsx'; 
 
 
 export default function ManageSpecialties() {
