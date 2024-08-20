@@ -85,7 +85,7 @@ export default function Retroalim() {
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
-        <div className="col-md-8 p-5" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'25px' }}>
+        <div className="col-md-8 p-5" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'25px', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
           <h2>Retroalimentación</h2>
           <form onSubmit={handleSubmit}>
             {/* Pregunta 1 */}

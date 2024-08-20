@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import ButtonPrrincipal from '../../../components/Button/ButtonPrincipalC.jsx'; 
+
 
 export default function Retroalim() {
   const [formData, setFormData] = useState({
@@ -71,7 +73,7 @@ export default function Retroalim() {
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
-        <div className="col-md-8 p-5" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'25px' }}>
+        <div className="col-md-8 p-5" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'25px', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
           <h2>Retroalimentación</h2>
           <form onSubmit={handleSubmit}>
             {/* Pregunta 1 */}
@@ -267,26 +269,9 @@ export default function Retroalim() {
             </div>
 
             <div className="d-grid">
-              <button 
-                type="submit" 
-                className="btn btn-primary"
-                style={{
-                  backgroundColor: '#EFCA45',
-                  color: '#4F3F05',
-                  border: '1px solid #000',
-                  borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#EFCA45';
-                  e.currentTarget.style.color = '#4F3F05';
-                }}>
-                Enviar
-              </button>
+              <ButtonPrrincipal 
+                text='Enviar'
+              />
             </div>
           </form>
         </div>

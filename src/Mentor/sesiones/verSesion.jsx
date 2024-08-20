@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import LinkPrincipalCentered from '../../components/Link/LinkPrincipalCentered.jsx'; 
 
 export default function Page() {
   const [editableTexto, setEditableTexto] = useState(false);
@@ -83,7 +83,7 @@ export default function Page() {
   };
 
   return (
-    <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', margin: 'auto' }}>
+    <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="row g-0 text-center mb-3">
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='row'>
@@ -106,7 +106,7 @@ export default function Page() {
         </div>
 
       <div className="row justify-content-evenly px-3">
-        <div className="row p-2" style={{ backgroundColor: 'white', borderColor: '#908486', borderRadius:'10px', borderWidth: '10px', borderStyle: 'solid', minHeight:'auto' }}>
+        <div className="row p-2" style={{ backgroundColor: 'white', borderRadius:'10px', minHeight:'auto' }}>
           <textarea
             className="flex-grow-1 p-2"
             style={{ border: 'none', resize: 'none', outline: 'none', width: '100%' }}
@@ -117,51 +117,43 @@ export default function Page() {
             rows={10}
           />
           <div className="d-flex justify-content-center">
-            <div className='container d-flex justify-content-center'>
+          <div className='container d-flex justify-content-center'>
               {editableTexto && (
-                <button className="btn btn-warning btn-outline-dark" style={{ 
-                  display: 'inline-block', 
-                  backgroundColor: '#EFCA45', 
-                  color: '#3A2E01', 
-                  border: '1px solid #000',
+                <button 
+                className="btn w-100 mx-1 mt-2"
+                style={{
+                  backgroundColor: '#EFCA45',
+                  color: '#4F3F05',
                   borderRadius: '20px',
-                  transition: 'background-color 0.3s, color 0.3s', 
-                  textAlign: 'center', 
-                  textDecoration: 'none', 
-                  padding: '0.5rem 1rem', 
-                  maxWidth: '250px' // Manteniendo la propiedad original
+                  maxWidth: '200px',
+                  transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000';
-                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#EFCA45';
-                  e.currentTarget.style.color = '#3A2E01';
-                }} onClick={handleUpdateTexto}>
+                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+                }} 
+                onClick={handleUpdateTexto}>
                   Guardar Cambios
                 </button>
               )}
-              <button className="btn btn-warning btn-outline-dark ms-2" style={{ 
-              display: 'inline-block', 
-              backgroundColor: '#EFCA45', 
-              color: '#3A2E01', 
-              border: '1px solid #000',
-              borderRadius: '20px',
-              transition: 'background-color 0.3s, color 0.3s', 
-              textAlign: 'center', 
-              textDecoration: 'none', 
-              padding: '0.5rem 1rem', 
-              maxWidth: '250px' // Manteniendo la propiedad original
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#000';
-              e.currentTarget.style.color = 'white';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#EFCA45';
-              e.currentTarget.style.color = '#3A2E01';
-            }} onClick={handleEditTextoToggle}>
+              <button 
+                className="btn w-100 mx-1 mt-2"
+                style={{
+                  backgroundColor: '#EFCA45',
+                  color: '#4F3F05',
+                  borderRadius: '20px',
+                  maxWidth: '200px',
+                  transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+                }} 
+                onClick={handleEditTextoToggle}>
                 {editableTexto ? 'Cancelar' : 'Editar'}
               </button>
             </div>
@@ -169,31 +161,10 @@ export default function Page() {
         </div>
 
         <div className="container d-flex flex-column align-items-center mt-auto pt-5">
-          <Link
-            to="/Mentor/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
-            style={{ 
-              display: 'inline-block', 
-              backgroundColor: '#EFCA45', 
-              color: '#3A2E01', 
-              border: '1px solid #000',
-              borderRadius: '20px',
-              transition: 'background-color 0.3s, color 0.3s', 
-              textAlign: 'center', 
-              textDecoration: 'none', 
-              padding: '0.5rem 1rem', 
-              maxWidth: '250px' // Manteniendo la propiedad original
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#000';
-              e.currentTarget.style.color = 'white';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#EFCA45';
-              e.currentTarget.style.color = '#3A2E01';
-            }}
-          >
-            FeedBack para el alumno
-          </Link>
+          <LinkPrincipalCentered
+            text='Feedback para el mentor'
+            link="/Mentor/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
+          />
         </div>
       </div>
     </div>

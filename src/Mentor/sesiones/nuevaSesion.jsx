@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx';
+import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
 
 export default function Page() {
   const [showDateEditor, setShowDateEditor] = useState(false);
@@ -60,8 +61,7 @@ export default function Page() {
   };
 
   return (
-    <div className='container p-5 my-5'>
-      <div className="container-sm p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+      <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
         <div className="container p-3">
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='col-12 mt-2'>
@@ -96,26 +96,24 @@ export default function Page() {
                     ))}
                   </select>
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 justify-content-start">
                   <button
                     type="button"
-                    className="btn btn-secondary"
-                    onClick={toggleDateEditor}
+                    className="btn w-100"
                     style={{
                       backgroundColor: '#EFCA45',
                       color: '#4F3F05',
                       borderRadius: '20px',
-                      border: '1px solid #000',
-                      transition: 'background-color 0.3s, color 0.3s'
+                      maxWidth:'200px',
+                      transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#000';
-                      e.currentTarget.style.color = 'white';
+                      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#EFCA45';
-                      e.currentTarget.style.color = '#4F3F05';
+                      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
                     }}
+                    onClick={toggleDateEditor}
                   >
                     {showDateEditor ? 'Ocultar opciones de fecha' : 'Editar Fecha'}
                   </button>
@@ -143,58 +141,23 @@ export default function Page() {
                     onChange={(e) => setDescripcion(e.target.value)}
                   ></textarea>
                 </div>
-                <div className="row justify-content-end mt-4 mb-3">
-                    <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <button
-                          type="submit"
-                          className="btn w-100"
-                          style={{ 
-                            backgroundColor: '#EFCA45', 
-                            color: '#4F3F05', 
-                            border: '1px solid #000',
-                            borderRadius: '20px',
-                            transition: 'background-color 0.3s, color 0.3s' 
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#000';
-                            e.currentTarget.style.color = 'white';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = '#EFCA45';
-                            e.currentTarget.style.color = '#4F3F05';
-                          }}>
-                          Guardar
-                        </button>
-                    </div>
-                    <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <Link
-                          type="button"
-                          className="btn w-100"
-                          to="/Mentor/inicio"
-                          style={{ 
-                            backgroundColor: '#EBE4CA', 
-                            color: '#4F3F05', 
-                            border: '1px solid #000',
-                            borderRadius: '20px',
-                            transition: 'background-color 0.3s, color 0.3s' 
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#000';
-                            e.currentTarget.style.color = 'white';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = '#EBE4CA';
-                            e.currentTarget.style.color = '#4F3F05';
-                          }}>
-                          Cancelar
-                        </Link>
-                    </div>
+                <div className="row justify-content-end pt-3">
+                  <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2">
+                      <ButtonPrincipalC
+                        text = 'Guardar'
+                      />
+                  </div>
+                  <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-2">
+                      <LinkSecundaryCentered
+                        text = 'Cancelar'
+                        link="/Mentor/inicio"
+                      />
+                  </div>
                 </div>
               </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }

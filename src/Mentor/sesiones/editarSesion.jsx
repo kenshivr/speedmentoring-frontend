@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx';
+import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
 
 export default function EditSessionPage() {
   const sesionId = localStorage.getItem('sesionId');
@@ -67,8 +68,7 @@ export default function EditSessionPage() {
   };
 
   return (
-    <div className='container p-5 my-5'>
-      <div className="container-sm p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+      <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
         <div className="container p-3">
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='col-12 mt-2'>
@@ -102,25 +102,21 @@ export default function EditSessionPage() {
                 <div className="mb-3">
                   <button
                     type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowDateEditor(!showDateEditor)}
+                    className="btn w-100"
                     style={{
                       backgroundColor: '#EFCA45',
                       color: '#4F3F05',
                       borderRadius: '20px',
-                      border: '1px solid #000',
-                      padding: '0.5rem 1rem',
-                      fontSize: '0.875rem',
-                      transition: 'background-color 0.3s, color 0.3s'
+                      maxWidth:'200px',
+                      transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#000';
-                      e.currentTarget.style.color = 'white';
+                      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#EFCA45';
-                      e.currentTarget.style.color = '#4F3F05';
+                      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
                     }}
+                    onClick={() => setShowDateEditor(!showDateEditor)}
                   >
                     {showDateEditor ? 'Ocultar opciones de fecha' : 'Editar Fecha'}
                   </button>
@@ -149,54 +145,16 @@ export default function EditSessionPage() {
                   ></textarea>
                 </div>
                 <div className="row justify-content-end mt-4 mb-3">
-                  <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                    <button
-                      type="submit"
-                      className="btn w-100"
-                      style={{ 
-                        backgroundColor: '#EFCA45', 
-                        color: '#4F3F05', 
-                        border: '1px solid #000',
-                        borderRadius: '20px',
-                        padding: '0.5rem 1rem',
-                        fontSize: '0.875rem',
-                        transition: 'background-color 0.3s, color 0.3s' 
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#000';
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#EFCA45';
-                        e.currentTarget.style.color = '#4F3F05';
-                      }}>
-                      Modificar
-                    </button>
+                  <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2">
+                      <ButtonPrincipalC
+                        text = 'Guardar'
+                      />
                   </div>
-                  <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                    <Link
-                      type="button"
-                      className="btn w-100"
-                      to="/Mentor/inicio"
-                      style={{ 
-                        backgroundColor: '#EBE4CA', 
-                        color: '#4F3F05', 
-                        border: '1px solid #000',
-                        borderRadius: '20px',
-                        padding: '0.5rem 1rem',
-                        fontSize: '0.875rem',
-                        transition: 'background-color 0.3s, color 0.3s' 
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#000';
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#EBE4CA';
-                        e.currentTarget.style.color = '#4F3F05';
-                      }}>
-                      Cancelar
-                    </Link>
+                  <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-2">
+                      <LinkSecundaryCentered
+                        text = 'Cancelar'
+                        link="/Mentor/inicio"
+                      />
                   </div>
                 </div>
                 {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>}
@@ -206,6 +164,5 @@ export default function EditSessionPage() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
