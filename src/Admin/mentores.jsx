@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-import LinkAddRed from '../components/Link/LinkAddRed.jsx'; 
+import SearchBar from '../components/Search/SearchBar.jsx'; 
+import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
 
 export default function Page() {
   const [mentors, setMentors] = useState([]);
@@ -74,29 +75,13 @@ export default function Page() {
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
-        <div className="row g-0 text-center mb-3">
-          <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
-            <div className='col-sm-4 mt-1'>
-              <legend className='mt-1'>Mentores</legend>
-            </div>
-            <div className="col-sm-8 px-2 mt-2">
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Buscar estudiante"
-                  aria-label="Search"
-                  style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px" }}
-                  value={mentorSearchTerm}
-                  onChange={handleSearchMentorChange}
-                />
-                <LinkAddRed
-                  link='/Admin/usuarios/crearMentor'
-                />
-              </form>
-            </div>
-          </div>
-        </div>
+        <SearchBar
+          legendText= 'Mentores'
+          searchPlaceholder= 'Buscar mentor'
+          searchValue={mentorSearchTerm}
+          onSearchChange={handleSearchMentorChange}
+          buttonLink= '/Admin/usuarios/crearMentor'
+        />
         <div className="table-responsive p-2 justify-content-center align-items-center text-center">
             <table className="table table-hover">
               <thead>
@@ -148,50 +133,12 @@ export default function Page() {
               </tbody>
             </table>
           </div>
-          <div className="col d-flex align-items-center justify-content-center mt-4 pt-2">
-          <div className='row px-4'>
-            <button
-              className="btn"
-              style={{
-                backgroundColor: '#EFCA45',
-                color: '#4F3F05',
-                borderRadius: '20px',
-                transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
-              }}
-              onClick={handlePrevious}
-              disabled={currentPage === 0}
-            >
-              Anterior
-            </button>
-          </div>
-          <div className='row px-4'>
-            <button
-              className="btn"
-              style={{
-                backgroundColor: '#EFCA45',
-                color: '#4F3F05',
-                borderRadius: '20px',
-                transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
-              }}
-              onClick={handleNext}
-              disabled={startIndex + itemsPerPage >= filteredMentors.length}
-            >
-              Siguiente
-            </button>
-          </div>
-        </div>
+          <PaginationButtons
+            onPrevious = {handlePrevious}
+            onNext = {handleNext}
+            isPreviousDisabled = {currentPage === 0}
+            isNextDisabled = {startIndex + itemsPerPage >= filteredMentors.length}
+          />
         </div>
     </div>
   );

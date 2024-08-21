@@ -2,6 +2,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
+import SearchBarNoButton from '../components/Search/SearchBarNoButton.jsx'; 
+
 export default function Page({ userId }) {
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
@@ -70,26 +72,12 @@ export default function Page({ userId }) {
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
-        <div className="row g-0 text-center mb-3">
-          <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
-            <div className='col-sm-4 px-2'>
-              <legend>Historial de sesiones</legend>
-            </div>
-            <div className="col-sm-8 px-2 mt-1">
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Buscar"
-                  aria-label="Search"
-                  style={{ backgroundColor: "#EFCA45", borderColor: "#EFCA45", color: "black", borderRadius: "15px" }}
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-              </form>
-            </div>
-          </div>
-        </div>
+        <SearchBarNoButton
+            legendText= 'Historial de sesiones'
+            searchPlaceholder= 'Buscar sesión'
+            searchValue={searchTerm}
+            onSearchChange={handleSearchChange}
+          />
         <div className="table-responsive p-2 justify-content-center align-items-center text-center">
           <table className="table table-hover">
             <thead>

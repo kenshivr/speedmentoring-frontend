@@ -38,19 +38,19 @@ function LinkPrimaryC({ text, link }) {
             className="btn w-100"
             to={link}
             style={{
-                backgroundColor: '#EFCA45',
-                color: '#4F3F05',
-                borderRadius: '20px',
-                border: 'none', // Eliminar el borde
-          transition: 'box-shadow 0.2s, transform 0.2s', // Transiciones para la sombra y el tamaño
-          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', // Sombreado inicial
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro al pasar el ratón
-        }}
-        onMouseLeave={handleMouseLeave} // Manejar el cursor fuera del botón
-        onMouseDown={handleMouseDown} // Manejar el botón presionado
-        onMouseUp={handleMouseUp} // Manejar el botón soltado
+              backgroundColor: '#EFCA45',
+              color: '#4F3F05',
+              borderRadius: '20px',
+              border: 'none', // Eliminar el borde
+              transition: 'box-shadow 0.2s, transform 0.2s', // Transiciones para la sombra y el tamaño
+              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', // Sombreado inicial
+            }}
+              onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro al pasar el ratón
+            }}
+            onMouseLeave={handleMouseLeave} // Manejar el cursor fuera del botón
+            onMouseDown={handleMouseDown} // Manejar el botón presionado
+            onMouseUp={handleMouseUp} // Manejar el botón soltado
               >
             {text}
         </Link>

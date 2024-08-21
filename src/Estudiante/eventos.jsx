@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
+
+
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -82,52 +85,12 @@ export default function EventsPage() {
                     ))}
                   </ul>
                   <div className="row my-5">
-                    <div className="row">
-                      <div className="col">
-                      </div>
-                      <div className="col" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <button
-                          className="btn btn-sm w-100 my-2"
-                          style={{
-                            backgroundColor: '#EFCA45',
-                            color: '#4F3F05',
-                            borderRadius: '20px',
-                            transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
-                          }}
-                          onClick={handlePrevious}
-                          disabled={currentPage === 0}
-                        >
-                          Anterior
-                        </button>
-                        <button
-                          className="btn btn-sm w-100 my-2"
-                          style={{
-                            backgroundColor: '#EFCA45',
-                            color: '#4F3F05',
-                            borderRadius: '20px',
-                            transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
-                          }}
-                          onClick={handleNext}
-                          disabled={startIndex + itemsPerPage >= events.length}
-                        >
-                          Siguiente
-                        </button>
-                      </div>
-                      <div className="col">
-                      </div>
-                    </div>
+                    <PaginationButtons
+                      onPrevious = {handlePrevious}
+                      onNext = {handleNext}
+                      isPreviousDisabled = {currentPage === 0}
+                      isNextDisabled = {startIndex + itemsPerPage >= events.length}
+                    />
                   </div>
                 </div>
               </div>
