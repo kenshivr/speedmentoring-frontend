@@ -35,7 +35,7 @@ export default function EventsPage() {
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-5 m-1 d-flex flex-column p-3">
           <div className='mb-3'>
-            <div className="container-sm mt-3" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto' }}>
+            <div className="container-sm mt-3" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
               <div className="container">
                 <div className="container text-center">
                   <div className="row align-items-start p-4">
@@ -87,28 +87,40 @@ export default function EventsPage() {
                       </div>
                       <div className="col" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         <button
-                          className="btn w-75"
-                          onClick={handlePrevious}
-                          disabled={currentPage === 0}
+                          className="btn btn-sm w-100 my-2"
                           style={{
                             backgroundColor: '#EFCA45',
-                            color: '#3A2E01',
+                            color: '#4F3F05',
                             borderRadius: '20px',
-                            fontSize: '10px'
+                            transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
                           }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+                          }}
+                          onClick={handlePrevious}
+                          disabled={currentPage === 0}
                         >
                           Anterior
                         </button>
                         <button
-                          className="btn w-75 mt-2"
-                          onClick={handleNext}
-                          disabled={startIndex + itemsPerPage >= events.length}
+                          className="btn btn-sm w-100 my-2"
                           style={{
                             backgroundColor: '#EFCA45',
-                            color: '#3A2E01',
+                            color: '#4F3F05',
                             borderRadius: '20px',
-                            fontSize: '10px'
+                            transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
                           }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
+                          }}
+                          onClick={handleNext}
+                          disabled={startIndex + itemsPerPage >= events.length}
                         >
                           Siguiente
                         </button>
