@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
+import DropButton2 from '../components/Button/DropButton2.jsx'; 
 import SearchBar from '../components/Search/SearchBar.jsx'; 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -139,20 +139,13 @@ export default function Page() {
                     )}
                   </td>
                   <td>
-                    <div className="dropdown">
-                      <button className="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <path d="M263.79-408Q234-408 213-429.21t-21-51Q192-510 213.21-531t51-21Q294-552 315-530.79t21 51Q336-450 314.79-429t-51 21Zm216 0Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm216 0Q666-408 645-429.21t-21-51Q624-510 645.21-531t51-21Q726-552 747-530.79t21 51Q768-450 746.79-429t-51 21Z"/>
-                      </button>
-
-                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li>
-                          <Link className="dropdown-item" to={`/Admin/eventos/editarEvento`} onClick={() => handleEventEdit(evento.EventoID)} >Editar</Link>
-                        </li>
-                        <li>
-                          <button className="dropdown-item" onClick={() => handleDelete(evento.EventoID)}>Eliminar</button>
-                        </li>
-                      </ul>
-                    </div>
+                    <DropButton2
+                      text1 ='Editar'
+                      link1='/Admin/eventos/editarEvento'
+                      dropOnClick1= {() => handleEventEdit(evento.EventoID)}
+                      text2 ='Eliminar'
+                      dropOnClick2={() => handleDelete(evento.EventoID)}
+                    />
                   </td>
                 </tr>
               ))}

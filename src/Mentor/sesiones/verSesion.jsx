@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+
 import LinkPrincipalCentered from '../../components/Link/LinkPrincipalCentered.jsx'; 
+import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx'; 
 
 export default function Page() {
   const [editableTexto, setEditableTexto] = useState(false);
@@ -165,6 +167,12 @@ export default function Page() {
             text='Feedback para el mentor'
             link="/Mentor/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
           />
+          <div className='pt-3' style={{ minWidth:'199px' }}>
+            <LinkSecundaryCentered
+              text='Cancelar'
+              link="/Mentor/sesiones" // Usa el path relativo a tu enrutador
+            />
+          </div>
         </div>
       </div>
     </div>

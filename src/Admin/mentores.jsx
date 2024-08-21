@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import SearchBar from '../components/Search/SearchBar.jsx'; 
 import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
+import DropButton3 from '../components/Button/DropButton3.jsx'; 
 
 export default function Page() {
   const [mentors, setMentors] = useState([]);
@@ -113,20 +113,15 @@ export default function Page() {
                     <td>{mentor.Puesto}</td>
                     <td>{mentor.CorreoElectronico}</td>
                     <td>
-                      <div className="dropdown">
-                        <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${mentor.RFC}`} data-bs-toggle="dropdown" aria-expanded="false"/>
-                        <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${mentor.RFC}`}>
-                          <li>
-                            <Link className="dropdown-item" to={`/Admin/usuarios/editarMentor`} onClick={() => handleEditClickMentor(mentor.RFC)}>Editar</Link>
-                          </li>
-                          <li>
-                            <button className="dropdown-item" onClick={() => updateStatus('mentors', mentor.RFC, 1)}>Habilitar</button>
-                          </li>
-                          <li>
-                            <button className="dropdown-item" onClick={() => updateStatus('mentors', mentor.RFC, 0)}>Deshabilitar</button>
-                          </li>
-                        </ul>
-                      </div>
+                      <DropButton3
+                        text1='Editar'
+                        link1='/Admin/usuarios/editarMentor'
+                        dropOnClick1= {() => handleEditClickMentor(mentor.RFC)}
+                        text2='Habilitar'
+                        dropOnClick2={() => updateStatus('mentors', mentor.RFC, 1)}
+                        text3='Deshabilitar'
+                        dropOnClick3={() => updateStatus('mentors', mentor.RFC, 0)}
+                      />
                     </td>
                   </tr>
                 ))}

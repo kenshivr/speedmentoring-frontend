@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import SearchBar from '../components/Search/SearchBar.jsx'; 
 import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
+import DropButton3 from '../components/Button/DropButton3.jsx'; 
 
 export default function Page() {
   const [students, setStudents] = useState([]);
@@ -115,20 +115,15 @@ export default function Page() {
                   <td>{student.Periodo}</td>
                   <td>{student.MentorRFC}</td>
                   <td>
-                    <div className="dropdown">
-                      <button className="btn btn-sm dropdown-toggle" type="button" id={`dropdownMenuButton-${student.EstudianteID}`} data-bs-toggle="dropdown" aria-expanded="false"/>
-                      <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${student.EstudianteID}`}>
-                        <li>
-                          <Link className="dropdown-item" to={`/Admin/usuarios/editarEstudiante`} onClick={() => handleEditClickStudent(student.EstudianteID)}>Editar</Link>
-                        </li>
-                        <li>
-                          <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 1)}>Habilitar</button>
-                        </li>
-                        <li>
-                          <button className="dropdown-item" onClick={() => updateStatus('students', student.EstudianteID, 0)}>Deshabilitar</button>
-                        </li>
-                      </ul>
-                    </div>
+                    <DropButton3
+                      text1='Editar'
+                      link1='/Admin/usuarios/editarEstudiante'
+                      dropOnClick1= {() => handleEditClickStudent(student.EstudianteID)}
+                      text2='Habilitar'
+                      dropOnClick2={() => updateStatus('students', student.EstudianteID, 1)}
+                      text3='Deshabilitar'
+                      dropOnClick3={() => updateStatus('students', student.EstudianteID, 0)}
+                    />
                   </td>
                 </tr>
               ))}
