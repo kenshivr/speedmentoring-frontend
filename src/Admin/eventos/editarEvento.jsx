@@ -6,16 +6,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import ButtonPrrincipal from '../../components/Button/ButtonPrincipalC.jsx';
+import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
 import LinkSecundary from '../../components/Link/LinkSecundaryCentered.jsx';
 
 export default function Page() {
+  const [showEditor, setShowEditor] = useState(false);
   const [eventId, setEventId] = useState();
   const [eventName, setEventName] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [specialties, setSpecialties] = useState([]);
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
-  const [hasLink, setHasLink] = useState(false);
   const [link, setLink] = useState('');
 
   const navigate = useNavigate(); // Inicializa useNavigate
@@ -47,7 +48,6 @@ export default function Page() {
           setSpecialty(event.Especialidad);
           setDescription(event.Descripción);
           setDate(event.Fecha.split('T')[0]);
-          setHasLink(!!event.Link);
           setLink(event.Link || '');
         })
         .catch(error => {
@@ -63,8 +63,7 @@ export default function Page() {
       eventName,
       specialty,
       description,
-      date,
-      link: hasLink ? link : ''
+      date
     };
 
     axios.put(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
@@ -78,14 +77,17 @@ export default function Page() {
       });
   };
 
+  const toggleEditor = () => {
+    setShowEditor(!showEditor);
+  };
+
   return (
-    <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'20px', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
-      <h1 className='text-center mb-5'>Editar evento</h1>
+    <div className="container my-5 p-4" style={{ backgroundColor: '#002B7A', color: 'white', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
+      <h1 className="text-center mb-4">Editar Evento</h1>
 
-
-      <div className="row">
-        <form>
-          <label htmlFor="nombreEvento" className="form-label">Nombre del evento</label>
+      <form onSubmit={handleSave}>
+        <div className="mb-3">
+          <label htmlFor="nombreEvento" className="form-label">Nombre del Evento</label>
           <input 
             type="text" 
             className="form-control" 
@@ -94,119 +96,74 @@ export default function Page() {
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
           />
-        </form>
-      </div>
+        </div>
 
-
-
-      <div className="row">
-        <label htmlFor="especialidadEvento" className="form-label">Especialidad</label>
-        <form>
+        <div className="mb-3">
+          <label htmlFor="especialidadEvento" className="form-label">Especialidad</label>
           <select 
             className="form-select" 
             aria-label="Especialidad"
             value={specialty}
             onChange={(e) => setSpecialty(e.target.value)}
           >
-            <option value="" disabled>Especialidad</option>
+            <option value="" disabled>Selecciona una especialidad</option>
             {specialties.map((spec, index) => (
               <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
             ))}
           </select>
-        </form>
-      </div>
+        </div>
 
-
-
-
-
-      <div className="row">
-        <label htmlFor="descripcionEvento" className="form-label">Descipción</label>
-        <div className="col order-first order-md-last d-flex" style={{ backgroundColor: 'white', borderColor:'#908486', borderWidth: '4px', borderStyle: 'solid', minHeight:'200px' }}>
+        <div className="mb-3">
+          <label htmlFor="descripcionEvento" className="form-label">Descripción</label>
           <textarea 
-            className="flex-grow-1 p-2" 
-            style={{ border: 'none', resize: 'none', outline: 'none', width: '100%' }} 
+            className="form-control" 
+            id="descripcionEvento"
+            rows="4"
             placeholder="Escribe una descripción del evento que se mostrará a los alumnos ..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-      </div>
 
-
-
-
-
-
-        <div className="row">
-          <legend>¿Botón para más información?</legend>
-        </div>
-        <div className="col-12 col-md-2 d-flex flex-column pt-3">
-          <form>
-            <div className="form-check">
-              <input 
-                className="form-check-input" 
-                type="radio" 
-                name="flexRadioDefault" 
-                id="linkYes" 
-                checked={hasLink}
-                onChange={() => setHasLink(true)}
-              />
-              <label className="form-check-label" htmlFor="linkYes">
-                Sí
-              </label>
-            </div>
-            <div className="form-check">
-              <input 
-                className="form-check-input" 
-                type="radio" 
-                name="flexRadioDefault" 
-                id="linkNo"
-                checked={!hasLink}
-                onChange={() => setHasLink(false)}
-              />
-              <label className="form-check-label" htmlFor="linkNo">
-                No
-              </label>
-            </div>
-          </form>
-        </div>
-
-        
-
-        <div className="col d-flex flex-column">
-          <form>
-            <input 
-              type="text" 
-              className="form-control" 
-              id="eventoLink" 
-              placeholder="Ejemplo de link"
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
-              disabled={!hasLink}
+        <div className="row mb-3 justify-content-center">
+          <div className="col-12 col-md-3 mb-2 mb-md-0" style={{ maxWidth:'200px'}}>
+            <ButtonPrincipalDroppingContent
+              onClick1={toggleEditor}
+              show1={showEditor}
+              text1="Editar link"
+              text2="Ocultar opción"
             />
-          </form>
+          </div>
+          {showEditor && (
+            <div className="mt-2">
+              <input 
+                type="text" 
+                className="form-control" 
+                id="eventoLink" 
+                placeholder="Ejemplo de link"
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
+              />
+            </div>
+          )}
         </div>
 
-
-
-
-
-      <div className="row justify-content-end mt-4 mb-3 mx-2">
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-          <form onSubmit={handleSave}>
-            <ButtonPrrincipal
-              text='Guardar'
+        <div className="row justify-content-end mt-4 mb-3 mx-2">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+            <form onSubmit={handleSave}>
+              <ButtonPrrincipal
+                text='Guardar'
+              />
+            </form>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <LinkSecundary
+              text='Cancelar'
+              link='/Admin/eventos'
             />
-          </form>
+          </div>
         </div>
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-          <LinkSecundary
-            text='Cancelar'
-            link='/Admin/eventos'
-          />
-        </div>
-      </div>
+      </form>
     </div>
   );
 }

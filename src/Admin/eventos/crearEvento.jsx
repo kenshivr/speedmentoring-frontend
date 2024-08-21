@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 import ButtonPrrincipal from '../../components/Button/ButtonPrincipalC.jsx';
+import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
 import LinkSecundary from '../../components/Link/LinkSecundaryCentered.jsx';
 
 export default function Page() {
+  const [showEditor, setShowEditor] = useState(false);
   const [eventName, setEventName] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [specialties, setSpecialties] = useState([]);
@@ -49,26 +52,30 @@ export default function Page() {
       });
   };
 
+  const toggleEditor = () => {
+    setShowEditor(!showEditor);
+  };
+  
   return (
-    <div className="container-sm my-1 mt-5 p-4" style={{ backgroundColor:'#002B7A', color:'white', borderRadius:'20px' }}>
-      <h1 className='text-center mb-5'>Nuevor evento</h1>
-      <div className="row justify-content-evenly">
-        <div className="col-12 col-md-6 d-flex flex-column">
-          <form>
-            <label htmlFor="nombreEvento" className="form-label">Nombre del evento</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              id="eventoID_1" 
-              placeholder="Ejemplo de nombre del evento"
-              value={eventName}
-              onChange={(e) => setEventName(e.target.value)}
-            />
-          </form>
+    <div className="container my-5 p-4" style={{ backgroundColor: '#002B7A', color: 'white', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
+      <h1 className="text-center mb-4">Crear evento</h1>
+
+      <form onSubmit={handleSave}>
+        <div className="mb-3">
+          <label htmlFor="nombreEvento" className="form-label">Nombre del Evento</label>
+          <input 
+            type="text" 
+            className="form-control" 
+            id="eventoID_1" 
+            placeholder="Ejemplo de nombre del evento"
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
+          />
         </div>
-        <div className="col-12 col-md-5 d-flex flex-column pt-4 mt-2">
-          <form>
-            <select 
+
+        <div className="mb-3">
+          <label htmlFor="especialidadEvento" className="form-label">Especialidad</label>
+          <select 
               className="form-select" 
               aria-label="Default select example"
               value={specialty}
@@ -79,12 +86,10 @@ export default function Page() {
                 <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
               ))}
             </select>
-          </form>
         </div>
-      </div>
-      <legend className="row mt-4 ms-4">Descripción</legend>
-      <div className="row justify-content-evenly">
-        <div className="col-12 col-md-7 order-first order-md-last m-1 d-flex flex-column" style={{ backgroundColor: 'white', borderColor:'#908486', borderWidth: '4px', borderStyle: 'solid', minHeight:'250px', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+
+        <div className="mb-3">
+          <label htmlFor="descripcionEvento" className="form-label">Descripción</label>
           <textarea 
             className="flex-grow-1 p-2" 
             style={{ border: 'none', resize: 'none', outline: 'none', width: '100%' }} 
@@ -93,70 +98,46 @@ export default function Page() {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-      </div>
-      <div className="row justify-content-evenly mt-4">
-        <div className="col-12 col-md-3 d-flex flex-column">
-          <legend>¿Botón para más información?</legend>
-        </div>
-        <div className="col-12 col-md-2 d-flex flex-column pt-3">
-          <form>
-            <div className="form-check">
-              <input 
-                className="form-check-input" 
-                type="radio" 
-                name="flexRadioDefault" 
-                id="flexRadioDefault1" 
-                checked={hasLink}
-                onChange={() => setHasLink(true)}
-              />
-              <label className="form-check-label" htmlFor="flexRadioDefault1">
-                Si
-              </label>
-            </div>
-            <div className="form-check">
-              <input 
-                className="form-check-input" 
-                type="radio" 
-                name="flexRadioDefault" 
-                id="flexRadioDefault2"
-                checked={!hasLink}
-                onChange={() => setHasLink(false)}
-              />
-              <label className="form-check-label" htmlFor="flexRadioDefault2">
-                No
-              </label>
-            </div>
-          </form>
-        </div>
-        <div className="col-12 col-md-6 d-flex flex-column pt-4">
-          <form>
-            <input 
-              type="text" 
-              className="form-control" 
-              id="eventoLink_1" 
-              placeholder="Ejemplo de link"
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
-              disabled={!hasLink}
+
+        <div className="row mb-3 justify-content-center">
+          <div className="col-12 col-md-3 mb-2 mb-md-0" style={{ maxWidth:'200px'}}>
+            <ButtonPrincipalDroppingContent
+              onClick1={toggleEditor}
+              show1={showEditor}
+              text1="Agregar link"
+              text2="Ocultar opción"
             />
-          </form>
+          </div>
+          {showEditor && (
+            <div className="mt-2">
+              <input 
+                type="text" 
+                className="form-control" 
+                id="eventoLink_1" 
+                placeholder="Ejemplo de link"
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
+              />
+            </div>
+          )}
         </div>
-      </div>
-      <div className="row justify-content-end mt-4 mb-3 mx-2">
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-          <form onSubmit={handleSave}>
-            <ButtonPrrincipal
-              text='Crear'
+
+        <div className="row justify-content-end mt-4 mb-3 mx-2">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+            <form onSubmit={handleSave}>
+              <ButtonPrrincipal
+                text='Crear'
+              />
+            </form>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <LinkSecundary
+              text='Cancelar'
+              link='/Admin/eventos'
             />
-          </form>
+          </div>
         </div>
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-          <LinkSecundary
-            text='Cancelar'
-            link='/Admin/eventos'
-          />
-        </div>
-      </div>
+      </form>
     </div>
   );
 }

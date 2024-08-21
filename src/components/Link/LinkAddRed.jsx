@@ -9,8 +9,7 @@ Este botón/Link es centrado, su color es rojo. Para direccionar a otras paginas
 ██████████████████████████████████████████████████████████████████████████████
 */
 
-
-function LinkAddRed({ text, link }) {
+function LinkAddRed({ link }) {
   const [pressed, setPressed] = useState(false);
 
   const handleMouseDown = (e) => {
@@ -26,43 +25,41 @@ function LinkAddRed({ text, link }) {
   };
 
   const handleMouseLeave = (e) => {
-    if (pressed) {
-      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Restaurar sombra al mover el cursor fuera mientras está presionado
-      e.currentTarget.style.transform = 'scale(1)'; // Restaurar tamaño al mover el cursor fuera mientras está presionado
-    }
-  };  
+    e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Restaurar sombra al mover el cursor fuera
+    e.currentTarget.style.transform = 'scale(1)'; // Restaurar tamaño al mover el cursor fuera
+    setPressed(false); // Asegurarse de que el estado de `pressed` sea falso
+  };
 
-  
   return (
     <div>
-        <Link
-            className="btn btn-sm w-20 pt-2 pb-2 pt-2"
-            to={link}
-            style={{
-              backgroundColor: '#db3345',
-              color: '#4F3F05',
-              borderRadius: '20px',
-              border: 'none', // Eliminar el borde
-              transition: 'box-shadow 0.2s, transform 0.2s', // Transiciones para la sombra y el tamaño
-              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', // Sombreado inicial
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro al pasar el ratón
-            }}
-            onMouseLeave={handleMouseLeave} // Manejar el cursor fuera del botón
-            onMouseDown={handleMouseDown} // Manejar el botón presionado
-            onMouseUp={handleMouseUp} // Manejar el botón soltado
-            >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="#e8eaed"
-            >
-              <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-            </svg>
-        </Link>
+      <Link
+        className={`btn btn-sm w-20 pt-2 pb-2 ${pressed ? 'pressed' : ''}`} // Aplicar clase condicional
+        to={link}
+        style={{
+          backgroundColor: '#db3345',
+          color: '#4F3F05',
+          borderRadius: '20px',
+          border: 'none', // Eliminar el borde
+          transition: 'box-shadow 0.2s, transform 0.2s', // Transiciones para la sombra y el tamaño
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', // Sombreado inicial
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro al pasar el ratón
+        }}
+        onMouseLeave={handleMouseLeave} // Manejar el cursor fuera del botón
+        onMouseDown={handleMouseDown} // Manejar el botón presionado
+        onMouseUp={handleMouseUp} // Manejar el botón soltado
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#e8eaed"
+        >
+          <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+        </svg>
+      </Link>
     </div>
   );
 }

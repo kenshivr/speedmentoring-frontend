@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx';
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
+import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
 
 export default function Page() {
   const [showDateEditor, setShowDateEditor] = useState(false);
@@ -96,27 +98,13 @@ export default function Page() {
                     ))}
                   </select>
                 </div>
-                <div className="mb-3 justify-content-start">
-                  <button
-                    type="button"
-                    className="btn w-100"
-                    style={{
-                      backgroundColor: '#EFCA45',
-                      color: '#4F3F05',
-                      borderRadius: '20px',
-                      maxWidth:'200px',
-                      transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
-                    }}
-                    onClick={toggleDateEditor}
-                  >
-                    {showDateEditor ? 'Ocultar opciones de fecha' : 'Editar Fecha'}
-                  </button>
+                <div style={{ maxWidth:'200px' }}>
+                  <ButtonPrincipalDroppingContent
+                    onClick1 = {toggleDateEditor}
+                    show1 = {showDateEditor}
+                    text1 = 'Editar Fecha'
+                    text2 = 'Ocultar opciones de fecha'
+                  />
                 </div>
                 {showDateEditor && (
                   <div className="mb-3">
