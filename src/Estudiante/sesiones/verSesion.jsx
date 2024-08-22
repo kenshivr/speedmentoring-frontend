@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 import LinkPrincipalCentered from '../../components/Link/LinkPrincipalCentered.jsx'; 
+import ButtonPrincipalDroppingContent2 from '../../components/Button/ButtonPrincipalDroppingContent2.jsx';
 import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx'; 
 
 export default function Page() {
@@ -117,47 +118,15 @@ export default function Page() {
             placeholder="Escribe aquí tu reporte de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, etc."
             rows={10}
           />
-          <div className="d-flex justify-content-center">
-            <div className='container d-flex justify-content-center'>
-              {editableTexto && (
-                <button 
-                className="btn w-100 mx-1 mt-2"
-                style={{
-                  backgroundColor: '#EFCA45',
-                  color: '#4F3F05',
-                  borderRadius: '20px',
-                  maxWidth: '200px',
-                  transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
-                }} 
-                onClick={handleUpdateTexto}>
-                  Guardar Cambios
-                </button>
-              )}
-              <button 
-                className="btn w-100 mx-1 mt-2"
-                style={{
-                  backgroundColor: '#EFCA45',
-                  color: '#4F3F05',
-                  borderRadius: '20px',
-                  maxWidth: '200px',
-                  transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
-                }} 
-                onClick={handleEditTextoToggle}>
-                {editableTexto ? 'Cancelar' : 'Editar'}
-              </button>
-            </div>
+          <div className='container d-flex justify-content-center mt-2'>
+            <ButtonPrincipalDroppingContent2
+              onClick1 = {handleUpdateTexto}
+              show1 = {editableTexto}
+              text1 = 'Guardar cambios'
+              onClick2 = {handleEditTextoToggle}
+              text2 = 'Cancelar'
+              text3 = 'Editar'
+            />
           </div>
         </div>
 

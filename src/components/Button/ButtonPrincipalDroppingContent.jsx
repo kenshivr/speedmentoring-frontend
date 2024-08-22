@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ButtonPrincipalDroppingContent({ onClick1, show1, text2, text1 }) {
+function ButtonPrincipalDroppingContent({ onClick1, show1, text1, text2 }) {
   const [pressed, setPressed] = useState(false);
 
   const handleMouseDown = (e) => {

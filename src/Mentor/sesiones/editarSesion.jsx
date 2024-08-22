@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx';
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
+import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
 
 export default function EditSessionPage() {
   const sesionId = localStorage.getItem('sesionId');
@@ -99,27 +100,13 @@ export default function EditSessionPage() {
                     readOnly
                   />
                 </div>
-                <div className="mb-3">
-                  <button
-                    type="button"
-                    className="btn w-100"
-                    style={{
-                      backgroundColor: '#EFCA45',
-                      color: '#4F3F05',
-                      borderRadius: '20px',
-                      maxWidth:'200px',
-                      transition: 'box-shadow 0.3s' // Se enfoca en el sombreado
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.5)'; // Sombreado más oscuro
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombreado más ligero
-                    }}
-                    onClick={() => setShowDateEditor(!showDateEditor)}
-                  >
-                    {showDateEditor ? 'Ocultar opciones de fecha' : 'Editar Fecha'}
-                  </button>
+                <div style={{ maxWidth:'200px' }}>
+                  <ButtonPrincipalDroppingContent
+                    onClick1 = {() => setShowDateEditor(!showDateEditor)}
+                    show1 = {showDateEditor}
+                    text1 = 'Editar Fecha'
+                    text2 = 'Ocultar opciones de fecha'
+                  />
                 </div>
                 {showDateEditor && (
                   <div className="mb-3">
@@ -132,7 +119,7 @@ export default function EditSessionPage() {
                       onChange={(e) => setDate(e.target.value)}
                     />
                   </div>
-                )}
+                )}                
                 <div className="mb-3">
                   <label htmlFor="sessionDescription" className="form-label">Descripción</label>
                   <textarea
