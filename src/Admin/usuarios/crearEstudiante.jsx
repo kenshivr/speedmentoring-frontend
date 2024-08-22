@@ -15,11 +15,11 @@ export default function Page() {
     ApellidoMaterno: '',
     Periodo: '',
     PasswordHash: '',
-    EspecialidadID: 0,
+    EspecialidadID: '',
     MentorRFC: '',
-    CorreoElectronico: '',
+    CorreoElectronicoPersonal: '',
     NumeroTelefono: '',
-    Estado: 0
+    Estado: 1
   });
 
   const navigate = useNavigate();
@@ -107,8 +107,8 @@ export default function Page() {
                 </select>
               </div>
               <div className="mb-3">
-                <label htmlFor="CorreoElectronico" className="form-label">Correo Electrónico</label>
-                <input type="email" className="form-control" id="CorreoElectronico" name="CorreoElectronico" placeholder="nombre@ejemplo.com" onChange={handleChange} />
+                <label htmlFor="CorreoElectronicoPersonal" className="form-label">Correo Electrónico</label>
+                <input type="email" className="form-control" id="CorreoElectronicoPersonal" name="CorreoElectronicoPersonal" placeholder="nombre@ejemplo.com" onChange={handleChange} />
               </div>
               <div className="mb-3">
                 <label htmlFor="NumeroTelefono" className="form-label">Teléfono</label>
@@ -119,7 +119,7 @@ export default function Page() {
                 <select className="form-select" aria-label="Default select example" name="EspecialidadID" onChange={handleChange}>
                   <option value="">Especialidad</option>
                   {especialidades.map((especialidad) => (
-                    <option key={especialidad.EspecialidadID} value={especialidad.EspecialidadID}>{especialidad.Especialidad} - {especialidad.EspecialidadID}</option>
+                    <option key={especialidad.EspecialidadID} value={especialidad.EspecialidadID}>{especialidad.Especialidad}</option>
                   ))}
                 </select>
               </div>
