@@ -20,25 +20,12 @@ const StudentPage = () => {
           if (data.success) {
             const currentDate = new Date();
             let futureSessions = data.data.filter(session => {
-              console.log(currentDate);
-              console.log(sessionDate);
+              let sessionDate = new Date(session.Fecha);
               return sessionDate >= currentDate;
             });
 
-            // Eliminar duplicados usando sesionid
-            const uniqueSessions = futureSessions.filter((session, index, self) =>
-              index === self.findIndex((s) => (
-                s.sesionid === session.sesionid
-              ))
-            );
-
-            const formattedData = uniqueSessions.map(session => ({
-              ...session,
-              Fecha: formatDate(session.Fecha)
-            }));
-
-            setSessions(formattedData);
-            setFilteredSessions(formattedData);
+            setSessions(futureSessions);
+            setFilteredSessions(futureSessions);
           } else {
             setSessions([]);
             setFilteredSessions([]);
