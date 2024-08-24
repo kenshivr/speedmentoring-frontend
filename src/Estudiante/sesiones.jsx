@@ -107,7 +107,7 @@ export default function Page({ userId }) {
                     <td>
                       {session.ReporteID ? (
                         <DropButton1
-                          text='Editar reporte'
+                          text='Ver reporte'
                           link='/Estudiante/sesiones/verSesion'
                           dropOnClick= {handleCLickLinkSesion(session.SesionID)}
                         />                   

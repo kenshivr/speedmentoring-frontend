@@ -18,10 +18,10 @@ const StudentPage = () => {
           const data = await response.json();
 
           if (data.success) {
-            // Filtrar sesiones con fecha mayor o igual a la actual
-            const currentDate = new Date().setHours(0, 0, 0, 0);
+            const currentDate = new Date();
             let futureSessions = data.data.filter(session => {
-              const sessionDate = new Date(session.Fecha.split('T')[0]).setHours(0, 0, 0, 0);
+              console.log(currentDate);
+              console.log(sessionDate);
               return sessionDate >= currentDate;
             });
 

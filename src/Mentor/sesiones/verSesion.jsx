@@ -19,7 +19,6 @@ export default function Page() {
   useEffect(() => {
     const fetchReporte = async () => {
       try {
-        console.log(sesionId)
         if (sesionId) {
           const response = await axios.get(`http://localhost:3001/api/getReportMentor/${sesionId}`);
           if (response.data.success) {
