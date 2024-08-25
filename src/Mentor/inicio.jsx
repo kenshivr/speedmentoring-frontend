@@ -16,7 +16,6 @@ const MentorPage = () => {
     fetch(`http://localhost:3001/api/showSesionesMentor/${userId}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         if (Array.isArray(data.data)) {
           setSessions(data.data);
           setFilteredSessions(data.data);

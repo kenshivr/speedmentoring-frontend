@@ -45,8 +45,6 @@ export default function Page() {
       userId: mentorRFC
     };
 
-    console.log(sessionData);
-
     fetch('http://localhost:3001/api/insertSession', {
       method: 'POST',
       headers: {
@@ -56,6 +54,9 @@ export default function Page() {
     })
       .then(response => response.json())
       .then(data => {
+        if (data.success) {
+          console.log('Sesion insertada con exito!');
+        }
       })
       .catch(error => console.error('Error saving session:', error));
   };

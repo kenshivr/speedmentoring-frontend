@@ -57,7 +57,6 @@ export default function EditSessionPage() {
     try {
       const sessionData = { date, title, description };
       const response = await axios.put(`http://localhost:3001/api/putSesionMentor/${sesionId}`, sessionData);
-      console.log(response.data);
       if (response.data.success) {
         setSuccessMessage('Sesión actualizada con éxito.');
       } else {
