@@ -16,7 +16,8 @@ export default function Retroalim() {
     p10: '',
     p11: '',
     comentariosAdicionales: '',
-    preguntasRespondidas: '0'
+    preguntasRespondidas: '0',
+    userId: ''
   });
 
   useEffect(() => {
@@ -27,6 +28,10 @@ export default function Retroalim() {
             userId: userId
         }));
     }
+    // Object.keys(formData).forEach(key => {
+    //   if (formData[key])
+    //   console.log(`Key: ${key}, Value: ${formData[key]}`);
+    // })
   }, []);
 
   const handleInputChange = (e) => {
@@ -57,6 +62,7 @@ export default function Retroalim() {
     })
     .then(response => response.json())
     .then(data => {
+      console.log(data);
         if (data.success) {
             alert('Retroalimentacion guardada con exito!');
         } else {
@@ -218,7 +224,7 @@ export default function Retroalim() {
                 type="checkbox"
                 id="p8-1"
                 name="p8"
-                value="Explicación clara de conceptos"
+                value="Comprensión de conceptos"
                 onChange={handleInputChange}
               />
               <label htmlFor="p8-1" className='px-2'>Comprensión de conceptos</label><br />
@@ -226,7 +232,7 @@ export default function Retroalim() {
                 type="checkbox"
                 id="p8-2"
                 name="p8"
-                value="Proporcionó recursos útiles"
+                value="Participación activa"
                 onChange={handleInputChange}
               />
               <label htmlFor="p8-2" className='px-2'>Participación activa</label><br />
@@ -234,7 +240,7 @@ export default function Retroalim() {
                 type="checkbox"
                 id="p8-3"
                 name="p8"
-                value="Empatía y apoyo emocional"
+                value="Habilidades de comunicación"
                 onChange={handleInputChange}
               />
               <label htmlFor="p8-3" className='px-2'>Habilidades de comunicación</label><br />
@@ -242,7 +248,7 @@ export default function Retroalim() {
                 type="checkbox"
                 id="p8-4"
                 name="p8"
-                value="Organización y estructura de la sesión"
+                value="Aplicación práctica de conocimientos"
                 onChange={handleInputChange}
               />
               <label htmlFor="p8-4" className='px-2'>Aplicación práctica de conocimientos</label><br />

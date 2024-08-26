@@ -41,12 +41,11 @@ export default function Page() {
   }, [fetchUserData, user]);
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Evita el comportamiento por defecto del formulario
-
+    event.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:3001/api/updateStudent/${user}`, {
-        numeroTelefono: telefono, 
-        correoElectronicoPersonal: correo
+      const response = await axios.put(`http://localhost:3001/api/updateStudent/${user}`, {
+        NumeroTelefono: telefono, 
+        CorreoElectronicoPersonal: correo
       });
       if (response.data) {
         alert('Se ha actualizado la información correctamente.');

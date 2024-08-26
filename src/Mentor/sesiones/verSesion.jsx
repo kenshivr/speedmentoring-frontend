@@ -14,6 +14,7 @@ export default function Page() {
   const [descripcion, setDescripcion] = useState('');
   const [numeroDeSesion, setNumeroDeSesion] = useState('');
   const [reportExist, setReportExist] = useState(false);
+  const [feedbackExist, setFeedbackExist] = useState(false);
 
   const sesionId = localStorage.getItem('sesionId');
 
@@ -24,6 +25,7 @@ export default function Page() {
           const response = await axios.get(`http://localhost:3001/api/getReportMentor/${sesionId}`);
           if (response.data.success) {
             if (response.data.data.texto) setReportExist(true);
+            if (response.data.data.CalificacionGeneral_P1) setFeedbackExist(true);
             setTexto(response.data.data.texto || '');
             setOriginalTexto(response.data.data.texto || '');
             setFecha(response.data.data.fecha || '');
@@ -135,10 +137,10 @@ export default function Page() {
         </div>
 
         <div className="container d-flex flex-column align-items-center mt-auto pt-5">
-          <LinkPrincipalCentered
-            text='Feedback para el mentor'
-            link="/Mentor/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
-          />
+          {feedbackExist ? <></> : <LinkPrincipalCentered
+                              text='Feedback para el mentor'
+                              link="/Mentor/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
+                            />}
           <div className='pt-3' style={{ minWidth: '199px' }}>
             <LinkSecundaryCentered
               text='Cancelar'
