@@ -5,7 +5,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 # Get the project
-Here is the translation:
+Here is the installation:
 
 1. Clone the repository:
    ```bash
