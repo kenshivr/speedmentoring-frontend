@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-import LinkPrincipalCentered from '../../components/Link/LinkPrincipalCentered.jsx'; 
 import ButtonPrincipalDroppingContent2 from '../../components/Button/ButtonPrincipalDroppingContent2.jsx';
 import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx'; 
 
@@ -13,6 +12,8 @@ export default function Page() {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [numeroDeSesion, setNumeroDeSesion] = useState('');
+  const [reportExist, setReportExist] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
 
   const sesionId = localStorage.getItem('sesionId');
 
@@ -22,6 +23,7 @@ export default function Page() {
         if (sesionId) {
           const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
           if (response.data.success) {
+            if (response.data.data.texto) setReportExist(true);
             setTexto(response.data.data.texto || '');
             setOriginalTexto(response.data.data.texto || '');
             setFecha(response.data.data.fecha || '');
@@ -73,6 +75,8 @@ export default function Page() {
 
         if (response.data.success) {
           setEditableTexto(false);
+          setReportExist(true);
+          setSuccessMessage('Reporte guardado exitosamente.'); // Mensaje de éxito
         } else {
           console.error('Error al actualizar el texto:', response.data.message);
         }
@@ -118,26 +122,24 @@ export default function Page() {
             placeholder="Escribe aquí tu reporte de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, etc."
             rows={10}
           />
-          <div className='container d-flex justify-content-center mt-2'>
-            <ButtonPrincipalDroppingContent2
-              onClick1 = {handleUpdateTexto}
-              show1 = {editableTexto}
-              text1 = 'Guardar cambios'
-              onClick2 = {handleEditTextoToggle}
-              text2 = 'Cancelar'
-              text3 = 'Editar'
-            />
-          </div>
+          {reportExist ? <></> : <div className='container d-flex justify-content-center mt-2'>
+                      <ButtonPrincipalDroppingContent2
+                        onClick1={handleUpdateTexto}
+                        show1={editableTexto}
+                        text1='Guardar cambios'
+                        onClick2={handleEditTextoToggle}
+                        text2='Cancelar'
+                        text3='Editar'
+                      />
+                    </div>}
+        
+                    {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>} {/* Mostrar mensaje de éxito */}
         </div>
 
         <div className="container d-flex flex-column align-items-center mt-auto pt-5">
-          <LinkPrincipalCentered
-            text='Feedback para el mentor'
-            link="/Estudiante/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
-          />
           <div className='pt-3' style={{ minWidth:'199px' }}>
             <LinkSecundaryCentered
-              text='Cancelar'
+              text='Regresar'
               link="/Estudiante/sesiones" // Usa el path relativo a tu enrutador
             />
           </div>

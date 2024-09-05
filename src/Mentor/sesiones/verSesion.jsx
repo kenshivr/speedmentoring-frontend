@@ -65,7 +65,7 @@ export default function Page() {
       const fechanueva = new Date(fecha).toISOString().split('T')[0];
 
       if (sesionId) {
-        const response = await axios.post(`http://localhost:3001/api/setReportStudent/${sesionId}`, {
+        const response = await axios.post(`http://localhost:3001/api/setReportMentor/${sesionId}`, {
           userId: userId,
           fecha: fechanueva,
           texto: texto,
@@ -139,7 +139,7 @@ export default function Page() {
         <div className="container d-flex flex-column align-items-center mt-auto pt-5">
           <div className='pt-3' style={{ minWidth: '199px' }}>
             <LinkSecundaryCentered
-              text='Cancelar'
+              text='Regresar'
               link="/Mentor/sesiones" // Usa el path relativo a tu enrutador
             />
           </div>

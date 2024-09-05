@@ -160,7 +160,7 @@ export default function Page() {
                     id="sessionDate"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    min={getCurrentDateTime()} // Establecer fecha mínima
+                    //min={getCurrentDateTime()} // Establecer fecha mínima
                   />
                 </div>
               )}
