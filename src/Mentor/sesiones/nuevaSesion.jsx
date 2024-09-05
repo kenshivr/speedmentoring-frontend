@@ -36,6 +36,7 @@ export default function Page() {
   // Función para obtener la fecha y hora actuales en formato ISO para el atributo min
   const getCurrentDateTime = () => {
     const now = new Date();
+    now.setDate(now.getDate() + 1);
     return now.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:MM
   };
 
@@ -160,7 +161,7 @@ export default function Page() {
                     id="sessionDate"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    //min={getCurrentDateTime()} // Establecer fecha mínima
+                    min={getCurrentDateTime()} // Establecer fecha mínima
                   />
                 </div>
               )}

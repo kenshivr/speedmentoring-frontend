@@ -56,6 +56,7 @@ export default function EditSessionPage() {
   // Función para obtener la fecha y hora actuales en formato ISO para el atributo min
   const getCurrentDateTime = () => {
     const now = new Date();
+    now.setDate(now.getDate() + 1);
     return now.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:MM
   };
 

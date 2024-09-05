@@ -57,11 +57,6 @@ const StudentPage = () => {
     setSearch(e.target.value);
   };
 
-  const formatDate = (dateString) => {
-    const [year, month, day] = dateString.split('-');
-    return `${parseInt(day)}/${parseInt(month)}/${year}`;
-  };
-
   if (loading) {
     return <div className='container p-5'>
     <div className="container-sm p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
@@ -84,7 +79,7 @@ const StudentPage = () => {
             </thead>
             <tbody className="table-light">
               <tr>
-                <td colSpan="3">Cargando sesiones...</td>
+                <td colSpan="4">Cargando sesiones...</td>
               </tr>
             </tbody>
           </table>
