@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-import LinkPrincipalCentered from '../../components/Link/LinkPrincipalCentered.jsx';
 import ButtonPrincipalDroppingContent2 from '../../components/Button/ButtonPrincipalDroppingContent2.jsx';
 import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx';
 
@@ -14,7 +13,7 @@ export default function Page() {
   const [descripcion, setDescripcion] = useState('');
   const [numeroDeSesion, setNumeroDeSesion] = useState('');
   const [reportExist, setReportExist] = useState(false);
-  const [feedbackExist, setFeedbackExist] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
 
   const sesionId = localStorage.getItem('sesionId');
 
@@ -25,7 +24,6 @@ export default function Page() {
           const response = await axios.get(`http://localhost:3001/api/getReportMentor/${sesionId}`);
           if (response.data.success) {
             if (response.data.data.texto) setReportExist(true);
-            if (response.data.data.CalificacionGeneral_P1) setFeedbackExist(true);
             setTexto(response.data.data.texto || '');
             setOriginalTexto(response.data.data.texto || '');
             setFecha(response.data.data.fecha || '');
@@ -78,6 +76,7 @@ export default function Page() {
         if (response.data.success) {
           setEditableTexto(false);
           setReportExist(true);
+          setSuccessMessage('Reporte guardado exitosamente.'); // Mensaje de éxito
         } else {
           console.error('Error al actualizar el texto:', response.data.message);
         }
@@ -134,13 +133,10 @@ export default function Page() {
                         text3='Editar'
                       />
                     </div>}
+        
+                    {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>} {/* Mostrar mensaje de éxito */}
         </div>
-
         <div className="container d-flex flex-column align-items-center mt-auto pt-5">
-          {feedbackExist ? <></> : <LinkPrincipalCentered
-                              text='Feedback para el mentor'
-                              link="/Mentor/sesiones/verSesion/retroalimentacion" // Usa el path relativo a tu enrutador
-                            />}
           <div className='pt-3' style={{ minWidth: '199px' }}>
             <LinkSecundaryCentered
               text='Cancelar'
