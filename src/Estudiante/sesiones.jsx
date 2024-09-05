@@ -123,7 +123,7 @@ export default function Page({ userId }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4">No se encontraron sesiones que coincidan con la búsqueda. Por favor, ajuste su búsqueda e intente nuevamente.</td>
+                  <td colSpan="5">No se encontraron sesiones que coincidan con la búsqueda. Por favor, ajuste su búsqueda e intente nuevamente.</td>
                 </tr>
               )}
             </tbody>

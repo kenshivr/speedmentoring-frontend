@@ -14,6 +14,7 @@ export default function EditSessionPage() {
   const [selectedStudent, setSelectedStudent] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [warningMessage, setWarningMessage] = useState('');
 
   useEffect(() => {
     if (!sesionId) {
@@ -52,18 +53,47 @@ export default function EditSessionPage() {
     fetchSession();
   }, [sesionId]);
 
+  // Función para obtener la fecha y hora actuales en formato ISO para el atributo min
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:MM
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validación de campos
+    if (!title || !date || !description || !selectedStudent) {
+      setWarningMessage('Todos los campos son obligatorios.'); // Mensaje de advertencia
+      return;
+    }
+
+    // Validar longitud de los campos
+    if (title.length > 50) {
+      setWarningMessage('El título no puede tener más de 50 caracteres.');
+      return;
+    }
+
+    if (description.length > 5000) {
+      setWarningMessage('La descripción no puede tener más de 5000 caracteres.');
+      return;
+    }
+
+    setWarningMessage(''); // Limpiar mensaje de advertencia
+
     try {
       const sessionData = { date, title, description };
       const response = await axios.put(`http://localhost:3001/api/putSesionMentor/${sesionId}`, sessionData);
       if (response.data.success) {
         setSuccessMessage('Sesión actualizada con éxito.');
+        setErrorMessage(''); // Limpiar mensaje de error si existe
       } else {
         setErrorMessage('Error al actualizar la sesión.');
+        setSuccessMessage(''); // Limpiar mensaje de éxito si existe
       }
     } catch (error) {
       setErrorMessage('Error en la solicitud.');
+      setSuccessMessage(''); // Limpiar mensaje de éxito si existe
       console.error('Error:', error);
     }
   };
@@ -78,6 +108,9 @@ export default function EditSessionPage() {
           </div>
           <div className="card p-4" style={{ borderRadius: '20px', backgroundColor: '#f8f9fa' }}>
             <div className="card-body">
+              {successMessage && <div className="alert alert-success">{successMessage}</div>}
+              {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+              {warningMessage && <div className="alert alert-warning">{warningMessage}</div>}
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="sessionTitle" className="form-label">Título de la Sesión</label>
@@ -88,6 +121,7 @@ export default function EditSessionPage() {
                     placeholder="Introduce el título"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    maxLength="50" // Limitar a 50 caracteres
                   />
                 </div>
                 <div className="mb-3">
@@ -102,10 +136,10 @@ export default function EditSessionPage() {
                 </div>
                 <div style={{ maxWidth:'200px' }}>
                   <ButtonPrincipalDroppingContent
-                    onClick1 = {() => setShowDateEditor(!showDateEditor)}
-                    show1 = {showDateEditor}
-                    text1 = 'Editar Fecha'
-                    text2 = 'Ocultar opciones de fecha'
+                    onClick1={() => setShowDateEditor(!showDateEditor)}
+                    show1={showDateEditor}
+                    text1='Editar Fecha'
+                    text2='Ocultar opciones de fecha'
                   />
                 </div>
                 {showDateEditor && (
@@ -117,9 +151,10 @@ export default function EditSessionPage() {
                       id="sessionDate"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
+                      min={getCurrentDateTime()} // Establecer fecha mínima
                     />
                   </div>
-                )}                
+                )}
                 <div className="mb-3">
                   <label htmlFor="sessionDescription" className="form-label">Descripción</label>
                   <textarea
@@ -129,23 +164,22 @@ export default function EditSessionPage() {
                     placeholder="Introduce una breve descripción"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    maxLength="5000" // Limitar a 5000 caracteres
                   ></textarea>
                 </div>
                 <div className="row justify-content-end mt-4 mb-3">
                   <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2">
                       <ButtonPrincipalC
-                        text = 'Guardar'
+                        text='Guardar'
                       />
                   </div>
                   <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-2">
                       <LinkSecundaryCentered
-                        text = 'Cancelar'
+                        text='Cancelar'
                         link="/Mentor/inicio"
                       />
                   </div>
                 </div>
-                {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>}
-                {errorMessage && <div className="alert alert-danger mt-3">{errorMessage}</div>}
               </form>
             </div>
           </div>

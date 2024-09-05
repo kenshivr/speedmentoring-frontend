@@ -12,6 +12,9 @@ export default function Page() {
   const [descripcion, setDescripcion] = useState('');
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState('');
+  const [messageS, setMessageS] = useState(''); // Estado para el mensaje de éxito
+  const [messageE, setMessageE] = useState(''); // Estado para el mensaje de ERROR
+  const [messageD, setMessageD] = useState(''); // Estado para el mensaje de advertencia
 
   const mentorRFC = localStorage.getItem('userId');
 
@@ -30,12 +33,26 @@ export default function Page() {
       .catch(error => console.error('Error fetching students:', error));
   }, [mentorRFC]);
 
+  // Función para obtener la fecha y hora actuales en formato ISO para el atributo min
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:MM
+  };
+
   const toggleDateEditor = () => {
     setShowDateEditor(!showDateEditor);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validación de campos
+    if (!titulo || !date || !descripcion || !selectedStudent) {
+      setMessageD('Todos los campos son obligatorios.'); // Mensaje de advertencia
+      return;
+    }
+
+    setMessageD(''); // Limpiar mensaje de advertencia
 
     const sessionData = {
       titulo,
@@ -55,10 +72,23 @@ export default function Page() {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          console.log('Sesion insertada con exito!');
+          setMessageS('Sesión agendada'); // Mostrar mensaje de éxito
+          setMessageE(''); // Limpiar mensaje de error si existe
+          // Limpiar los campos después de guardar
+          setTitulo('');
+          setDate('');
+          setDescripcion('');
+          setSelectedStudent('');
+        } else {
+          setMessageE('Error al agendar la sesión'); // Mensaje en caso de error
+          setMessageS(''); // Limpiar mensaje de éxito si existe
         }
       })
-      .catch(error => console.error('Error saving session:', error));
+      .catch(error => {
+        console.error('Error saving session:', error);
+        setMessageE('Error al agendar la sesión'); // Mensaje en caso de error
+        setMessageS(''); // Limpiar mensaje de éxito si existe
+      });
   };
 
   return (
@@ -71,6 +101,21 @@ export default function Page() {
         </div>
         <div className="card p-4" style={{ borderRadius: '20px', backgroundColor: '#f8f9fa' }}>
           <div className="card-body">
+            {messageS && (
+              <div className="alert alert-success" role="alert">
+                {messageS}
+              </div>
+            )}
+            {messageE && (
+              <div className="alert alert-danger" role="alert">
+                {messageE}
+              </div>
+            )}
+            {messageD && (
+              <div className="alert alert-warning" role="alert">
+                {messageD}
+              </div>
+            )}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="sessionTitulo" className="form-label">Título de la Sesión: {date}</label>
@@ -81,6 +126,7 @@ export default function Page() {
                   placeholder="Introduce el título"
                   value={titulo}
                   onChange={(e) => setTitulo(e.target.value)}
+                  maxLength="50" // Limitar a 50 caracteres
                 />
               </div>
               <div className="mb-3">
@@ -114,6 +160,7 @@ export default function Page() {
                     id="sessionDate"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
+                    min={getCurrentDateTime()} // Establecer fecha mínima
                   />
                 </div>
               )}
@@ -126,6 +173,7 @@ export default function Page() {
                   placeholder="Introduce una breve descripción"
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
+                  maxLength="5000" // Limitar a 5000 caracteres
                 ></textarea>
               </div>
               <div className="row justify-content-end pt-3">
