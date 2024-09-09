@@ -25,7 +25,9 @@ export default function EditStudentPage() {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/getStudent/${id}`);
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/api/getStudent/${id}`);
+        //const response = await axios.get(`http://localhost:3001/api/getStudent/${id}`);
         if (response.data) {
           setFormDataAlumno(response.data);
         } else {
@@ -39,7 +41,9 @@ export default function EditStudentPage() {
 
     const fetchEspecialidades = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/getSpecialties');
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/api/getSpecialties`);
+        //const response = await axios.get(`http://localhost:3001/api/getSpecialties`);
         if (response.data) {
           setEspecialidades(response.data);
         } else {
@@ -52,7 +56,9 @@ export default function EditStudentPage() {
 
     const fetchMentores = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/mentors');
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/api/mentors`);
+        //const response = await axios.get(`http://localhost:3001/api/mentors`);
         if (response.data) {
           setMentores(response.data);
         } else {
@@ -81,7 +87,9 @@ export default function EditStudentPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:3001/api/students/${id}`, formDataAlumno);
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.put(`${apiUrl}/api/students/${id}`, formDataAlumno);
+      //const response = await axios.put(`http://localhost:3001/api/students/${id}`, formDataAlumno);
       if (response.data.success) {
         setSuccessMessage('Estudiante actualizado con éxito.');
       } else {

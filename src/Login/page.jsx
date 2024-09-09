@@ -13,7 +13,9 @@ export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
     setError(null); // Resetea el estado de error antes de intentar loguear
 
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${apiUrl}/api/login`, {
+      //const response = await fetch('http://localhost:3001/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

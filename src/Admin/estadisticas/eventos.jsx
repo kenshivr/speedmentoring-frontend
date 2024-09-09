@@ -17,7 +17,9 @@ export default function EventStatisticsPage() {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/getEventsFull');
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/api/getEventsFull`);
+        //const response = await axios.get(`http://localhost:3001/api/getEventsFull`);
         if (response.data) {
           const sortedEventos = response.data.sort((a, b) => b.EventoID - a.EventoID);
           setEventos(sortedEventos);

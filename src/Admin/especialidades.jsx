@@ -17,7 +17,9 @@ export default function ManageSpecialties() {
   useEffect(() => {
     const fetchSpecialties = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/getSpecialties');
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/api/getSpecialties`);
+        //const response = await axios.get(`http://localhost:3001/api/getSpecialties`);
         if (response.data) {
           setSpecialties(response.data);
         } else {

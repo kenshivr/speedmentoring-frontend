@@ -12,8 +12,10 @@ const MentorPage = () => {
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     // Obtener sesiones desde el servidor
-    fetch(`http://localhost:3001/api/showSesionesMentor/${userId}`)
+    fetch(`${apiUrl}/api/showSesionesMentor/${userId}`)
+//  fetch(`http://localhost:3001/api/showSesionesMentor/${userId}`)
       .then(response => response.json())
       .then(data => {
         if (Array.isArray(data.data)) {

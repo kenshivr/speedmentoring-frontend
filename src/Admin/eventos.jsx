@@ -17,7 +17,9 @@ export default function Page() {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/getEventsFull');
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/api/getEventsFull`);
+        //const response = await axios.get(`http://localhost:3001/api/getEventsFull`);
         if (response.data) {
           const sortedEventos = response.data.sort((a, b) => b.EventoID - a.EventoID);
           setEventos(sortedEventos);
@@ -34,7 +36,9 @@ export default function Page() {
 
   const getEventsFull = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/getEventsFull');
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.get(`${apiUrl}/api/getEventsFull`);
+      //const response = await axios.get('http://localhost:3001/api/getEventsFull');
       if (response.data) {
         const sortedEventos = response.data.sort((a, b) => b.EventoID - a.EventoID);
         setEventos(sortedEventos);
@@ -52,7 +56,9 @@ export default function Page() {
 
   const handleDelete = async (eventoID) => {
     try {
-      const response = await axios.delete(`http://localhost:3001/api/deleteEvent/${eventoID}`);
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.delete(`${apiUrl}/api/deleteEvent/${eventoID}`);
+      //const response = await axios.delete(`http://localhost:3001/api/deleteEvent/${eventoID}`);
       if (response.data.message) {
         alert(response.data.message);
       } else {

@@ -11,7 +11,9 @@ export default function Page({ userId }) {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:3001/api/showSesionesMentor/${userId}`)
+      const apiUrl = process.env.REACT_APP_API_URL;
+      axios.get(`${apiUrl}/api/showSesionesMentor/${userId}`)
+      //axios.get(`http://localhost:3001/api/showSesionesMentor/${userId}`)
         .then((response) => {
           if (response.data.success) {
             const pastSessions = response.data.data.filter(session => {

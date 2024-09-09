@@ -12,7 +12,9 @@ export default function AdminEditarEspecialidad() {
   useEffect(() => {
     const fetchSpecialty = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/especialidad/${id}`);
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/api/especialidad/${id}`);
+        //const response = await axios.get(`http://localhost:3001/api/especialidad/${id}`);
         if (response.data) {
           setSpecialtyName(response.data.Especialidad);
         } else {
@@ -34,7 +36,9 @@ export default function AdminEditarEspecialidad() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:3001/api/updateSpecialty/${id}`, { Especialidad: specialtyName });
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.put(`${apiUrl}/api/updateSpecialty/${id}`, { Especialidad: specialtyName });
+      //const response = await axios.put(`http://localhost:3001/api/updateSpecialty/${id}`, { Especialidad: specialtyName });
       if (response.data.success) {
         setSuccessMessage('Especialidad actualizada con éxito.');
       } else {

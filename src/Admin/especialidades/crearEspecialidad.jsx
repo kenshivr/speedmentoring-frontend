@@ -15,7 +15,9 @@ export default function CreateSpecialty() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/api/createSpecialty', { Especialidad: specialtyName });
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.post(`${apiUrl}/api/createSpecialty`, { Especialidad: specialtyName });
+      //const response = await axios.post(`http://localhost:3001/api/createSpecialty`, { Especialidad: specialtyName });
       if (response.data.success) {
         setSuccessMessage('Especialidad creada con éxito.');
         setSpecialtyName('');

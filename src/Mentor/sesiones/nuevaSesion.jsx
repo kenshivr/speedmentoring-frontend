@@ -20,7 +20,9 @@ export default function Page() {
 
   useEffect(() => {
     // Cargar alumnos desde el servidor filtrados por el mentor actual
-    fetch(`http://localhost:3001/api/getStudentsOfMentor/${mentorRFC}`)
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //fetch(`http://localhost:3001/api/getStudentsOfMentor/${mentorRFC}`)
+    fetch(`${apiUrl}/api/getStudentsOfMentor/${mentorRFC}`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -62,8 +64,10 @@ export default function Page() {
       studentId: selectedStudent,
       userId: mentorRFC
     };
-
-    fetch('http://localhost:3001/api/insertSession', {
+  
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //fetch(`http://localhost:3001/api/insertSession`, {
+    fetch(`${apiUrl}/api/insertSession`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

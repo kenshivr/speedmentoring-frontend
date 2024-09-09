@@ -11,7 +11,9 @@ export default function Page({ userId }) {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:3001/api/showSesionesStudent/${userId}`)
+      const apiUrl = process.env.REACT_APP_API_URL;
+      //axios.get(`http://localhost:3001/api/showSesionesStudent/${userId}`)
+      axios.get(`${apiUrl}/api/showSesionesStudent/${userId}`)
         .then((response) => {
           if (response.data.success) {
             const currentDate = new Date().setHours(0, 0, 0, 0);

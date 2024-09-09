@@ -9,11 +9,9 @@ export default function BuscarCuentaPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/api/buscar', { id });
-      /*
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+      const apiUrl = process.env.REACT_APP_API_URL;
       const response = await axios.post(`${apiUrl}/api/buscar`, { id });
-      */
+      //const response = await axios.post('http://localhost:3001/api/buscar', { id });
 
       if (response.data.success) {
         alert('Se ha enviado un correo con la nueva contraseña.');
