@@ -4,6 +4,22 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Get the project
+Here is the installation:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/kenshivr/speedmentoring-frontend.git
+   cd speedmentoring-frontend
+   ```
+
+2. Install the dependencies:
+To set up the frontend of the application, make sure you have **Node.js** and **npm** installed, following the steps mentioned earlier. Then, navigate to the project's frontend folder and install the following dependencies using `npm`:
+
+```bash
+npm install bootstrap@5.3.3 axios@1.7.2 chart.js@4.4.3 react-chartjs-2@5.2.0 react-dom@18.3.1 react-router-dom@6.24.1 react-scripts@5.0.1 react@18.3.1 @testing-library/jest-dom@5.17.0 @testing-library/react@13.4.0 @testing-library/user-event@13.5.0 html2canvas@1.4.1 jspdf@2.5.1 web-vitals@2.1.4
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
