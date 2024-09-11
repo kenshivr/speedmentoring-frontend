@@ -189,7 +189,7 @@ export default function Page() {
                 </div>
                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-2">
                   <LinkSecundaryCentered
-                    text='Cancelar'
+                    text='Cerrar'
                     link="/Mentor/inicio"
                   />
                 </div>

@@ -12,7 +12,7 @@ export default function EventsPage() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getEventsFull`);
         //const response = await axios.get(`http://localhost:3001/api/getEventsFull`);
         setEvents(response.data);

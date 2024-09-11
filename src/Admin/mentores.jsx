@@ -17,7 +17,7 @@ export default function Page() {
   useEffect(() => {
     const getMentors = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/mentors`);
         //const response = await axios.get(`http://localhost:3001/api/mentors`);
         setMentors(response.data);
@@ -40,7 +40,7 @@ export default function Page() {
 
   const updateStatus = async (type, id, status) => {
     try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         await axios.put(`${apiUrl}/api/mentors/${id}`, { Estatus: status });
         //await axios.put(`http://localhost:3001/api/mentors/${id}`, { Estatus: status });
         setMentors(prev => prev.map(mentor => mentor.RFC === id ? { ...mentor, Estatus: status } : mentor));

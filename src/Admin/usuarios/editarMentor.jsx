@@ -23,7 +23,7 @@ export default function AdminEditarMentor() {
   useEffect(() => {
     const fetchMentor = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getProfileMentor/${RFC}`);
         //const response = await axios.get(`http://localhost:3001/api/getProfileMentor/${RFC}`);
         if (response.data) {
@@ -41,7 +41,7 @@ export default function AdminEditarMentor() {
 
     const fetchEspecialidades = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getSpecialties`);
         //const response = await axios.get(`http://localhost:3001/api/getSpecialties`);
         if (response.data) {
@@ -67,7 +67,7 @@ export default function AdminEditarMentor() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.put(`${apiUrl}/api/updateMentor/${RFC}`, mentor);
       //const response = await axios.put(`http://localhost:3001/api/updateMentor/${RFC}`, mentor);
       if (response.data.message) {

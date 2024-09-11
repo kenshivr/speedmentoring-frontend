@@ -30,7 +30,7 @@ export default function Page() {
 
   useEffect(() => {
     // Obtener especialidades
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     //axios.get(`http://localhost:3001/api/especialidades`)
     axios.get(`${apiUrl}/api/especialidades`)
       .then(response => {
@@ -42,7 +42,7 @@ export default function Page() {
 
     // Obtener detalles del evento para editar
     if (eventId) {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
      //axios.get(`http://localhost:3001/api/getEvent/${eventId}`)
       axios.get(`${apiUrl}/api/getEvent/${eventId}`)
         .then(response => {
@@ -70,7 +70,7 @@ export default function Page() {
       date
     };
 
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     //axios.put(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
     axios.put(`${apiUrl}/api/updateEvent/${eventId}`, eventData)
       .then(response => {

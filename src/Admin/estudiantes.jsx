@@ -17,7 +17,7 @@ export default function Page() {
   useEffect(() => {
     const getStudents = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/students`);
         //const response = await axios.get(`http://localhost:3001/api/students`);
         setStudents(response.data);
@@ -40,7 +40,7 @@ export default function Page() {
 
   const updateStatus = async (type, id, status) => {
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       await axios.put(`${apiUrl}/api/students/${id}`, { Estatus: status });
       //await axios.put(`http://localhost:3001/api/students/${id}`, { Estatus: status });
       setStudents(prev => prev.map(student => student.EstudianteID === id ? { ...student, Estatus: status } : student));

@@ -60,7 +60,7 @@ export default function Retroalim() {
     e.preventDefault();
 
     // Configuración de la solicitud POST
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     //fetch(`http://localhost:3001/api/retro`, {
     fetch(`${apiUrl}/api/retro`, {
       method: 'POST',

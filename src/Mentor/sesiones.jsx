@@ -11,7 +11,7 @@ export default function Page({ userId }) {
 
   useEffect(() => {
     if (userId) {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       axios.get(`${apiUrl}/api/showSesionesMentor/${userId}`)
       //axios.get(`http://localhost:3001/api/showSesionesMentor/${userId}`)
         .then((response) => {

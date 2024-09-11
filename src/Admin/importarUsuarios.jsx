@@ -22,7 +22,7 @@ export default function Page() {
     formData.append('file', file);
 
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       //const response = await axios.post(`http://localhost:3001/api/importUsers`, formData, {
       const response = await axios.post(`${apiUrl}/api/importUsers`, formData, {
         headers: {

@@ -17,7 +17,7 @@ export default function Page() {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getEventsFull`);
         //const response = await axios.get(`http://localhost:3001/api/getEventsFull`);
         if (response.data) {
@@ -36,7 +36,7 @@ export default function Page() {
 
   const getEventsFull = async () => {
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.get(`${apiUrl}/api/getEventsFull`);
       //const response = await axios.get('http://localhost:3001/api/getEventsFull');
       if (response.data) {
@@ -56,7 +56,7 @@ export default function Page() {
 
   const handleDelete = async (eventoID) => {
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.delete(`${apiUrl}/api/deleteEvent/${eventoID}`);
       //const response = await axios.delete(`http://localhost:3001/api/deleteEvent/${eventoID}`);
       if (response.data.message) {

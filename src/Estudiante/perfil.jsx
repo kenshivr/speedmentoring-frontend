@@ -16,7 +16,7 @@ export default function Page() {
 
   const fetchUserData = useCallback(async () => {
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.get(`${apiUrl}/api/getStudent/${user}`);
       //const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
       const { EstudianteID, Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, Especialidad, NumeroTelefono, CorreoElectronicoPersonal, NombreMentor } = response.data;
@@ -45,7 +45,7 @@ export default function Page() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       //const response = await axios.put(`http://localhost:3001/api/updateStudent/${user}`, {
       const response = await axios.put(`${apiUrl}/api/updateStudent/${user}`, {
         NumeroTelefono: telefono, 

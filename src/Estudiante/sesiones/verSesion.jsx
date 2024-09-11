@@ -21,7 +21,7 @@ export default function Page() {
     const fetchReporte = async () => {
       try {
         if (sesionId) {
-          const apiUrl = process.env.REACT_APP_API_URL;
+          const apiUrl = process.env.REACT_APP_BACKEND_URL;
           const response = await axios.get(`${apiUrl}/api/getReportStudent/${sesionId}`);
           //const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
           if (response.data.success) {
@@ -67,7 +67,7 @@ export default function Page() {
       const fechanueva = new Date(fecha).toISOString().split('T')[0];
 
       if (sesionId) {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         //const response = await axios.post(`http://localhost:3001/api/setReportStudent/${sesionId}`, {
         const response = await axios.post(`${apiUrl}/api/setReportStudent/${sesionId}`, {
           userId: userId,

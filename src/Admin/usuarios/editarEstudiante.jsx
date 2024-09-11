@@ -25,7 +25,7 @@ export default function EditStudentPage() {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getStudent/${id}`);
         //const response = await axios.get(`http://localhost:3001/api/getStudent/${id}`);
         if (response.data) {
@@ -41,7 +41,7 @@ export default function EditStudentPage() {
 
     const fetchEspecialidades = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getSpecialties`);
         //const response = await axios.get(`http://localhost:3001/api/getSpecialties`);
         if (response.data) {
@@ -56,7 +56,7 @@ export default function EditStudentPage() {
 
     const fetchMentores = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/mentors`);
         //const response = await axios.get(`http://localhost:3001/api/mentors`);
         if (response.data) {

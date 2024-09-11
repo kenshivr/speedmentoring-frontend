@@ -12,7 +12,7 @@ export default function AdminEditarEspecialidad() {
   useEffect(() => {
     const fetchSpecialty = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/especialidad/${id}`);
         //const response = await axios.get(`http://localhost:3001/api/especialidad/${id}`);
         if (response.data) {
@@ -36,7 +36,7 @@ export default function AdminEditarEspecialidad() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.put(`${apiUrl}/api/updateSpecialty/${id}`, { Especialidad: specialtyName });
       //const response = await axios.put(`http://localhost:3001/api/updateSpecialty/${id}`, { Especialidad: specialtyName });
       if (response.data.success) {

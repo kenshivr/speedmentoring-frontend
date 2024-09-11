@@ -18,7 +18,7 @@ export default function Page() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     axios.get(`${apiUrl}/api/especialidades`)
     //axios.get(`http://localhost:3001/api/especialidades`)
       .then(response => {
@@ -38,7 +38,7 @@ export default function Page() {
       link: hasLink ? link : ''
     };
 
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     //axios.post(`http://localhost:3001/api/newEventAdmin`, eventData)
     axios.post(`${apiUrl}/api/newEventAdmin`, eventData)
       .then(response => {

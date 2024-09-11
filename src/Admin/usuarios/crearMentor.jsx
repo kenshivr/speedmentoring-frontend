@@ -27,7 +27,7 @@ export default function Page() {
   useEffect(() => {
     const getEspecialidades = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL;
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/especialidades`);
         //const response = await axios.get(`http://localhost:3001/api/especialidades`);
         setEspecialidades(response.data);
@@ -50,7 +50,7 @@ export default function Page() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       await axios.post(`${apiUrl}/api/setNewMentor`, formDataMentor);
       //await axios.post(`http://localhost:3001/api/setNewMentor`, formDataMentor);
       navigate('/Admin/mentores');

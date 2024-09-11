@@ -9,7 +9,7 @@ export default function BuscarCuentaPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.post(`${apiUrl}/api/buscar`, { id });
       //const response = await axios.post('http://localhost:3001/api/buscar', { id });
 
