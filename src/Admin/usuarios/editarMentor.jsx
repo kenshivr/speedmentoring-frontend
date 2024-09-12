@@ -4,7 +4,7 @@ import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx';
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx'; 
 
 export default function AdminEditarMentor() {
-  const RFC = localStorage.getItem('MentorRFC');
+  const RFC = sessionStorage.getItem('MentorRFC');
   const [mentor, setMentor] = useState({
     RFC: '',
     Nombre: '',

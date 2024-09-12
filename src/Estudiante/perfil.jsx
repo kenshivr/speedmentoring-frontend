@@ -4,7 +4,7 @@ import LinkSecundaryCentered from './../components/Link/LinkSecundaryCentered.js
 import ButtonPrincipalC from './../components/Button/ButtonPrincipalC.jsx';
 
 export default function Page() {
-  const user = localStorage.getItem('userId');
+  const user = sessionStorage.getItem('userId');
 
   const [nombre, setNombre] = useState('');
   const [estudianteID, setEstudianteID] = useState('');

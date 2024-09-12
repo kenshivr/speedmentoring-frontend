@@ -35,7 +35,7 @@ export default function Page() {
   };
 
   const handleEditClickMentor = (id) => {
-    localStorage.setItem('MentorRFC', id);
+    sessionStorage.setItem('MentorRFC', id);
   };
 
   const updateStatus = async (type, id, status) => {

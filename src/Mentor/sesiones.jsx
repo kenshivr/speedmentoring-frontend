@@ -63,7 +63,7 @@ export default function Page({ userId }) {
   };
 
   const handleCLickLinkSesion = (sessionId) => () => {
-    localStorage.setItem('sesionId', sessionId);
+    sessionStorage.setItem('sesionId', sessionId);
   }
 
   return (

@@ -39,7 +39,7 @@ export default function ManageSpecialties() {
   };
 
   const handleEditClick = (id) => {
-    localStorage.setItem('EspecialidadID', id);
+    sessionStorage.setItem('EspecialidadID', id);
   };
 
   const handlePrevious = () => {

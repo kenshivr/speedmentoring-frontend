@@ -15,7 +15,7 @@ export default function Page() {
   const [reportExist, setReportExist] = useState(false);
   const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
 
-  const sesionId = localStorage.getItem('sesionId');
+  const sesionId = sessionStorage.getItem('sesionId');
 
   useEffect(() => {
     const fetchReporte = async () => {
@@ -36,7 +36,7 @@ export default function Page() {
             console.error('Error al obtener detalles del reporte:', response.data.message);
           }
         } else {
-          console.error('No se encontró sesionId en localStorage');
+          console.error('No se encontró sesionId en sessionStorage');
         }
       } catch (error) {
         console.error('Error en la solicitud para obtener detalles del reporte:', error);
@@ -62,8 +62,8 @@ export default function Page() {
 
   const handleUpdateTexto = async () => {
     try {
-      const sesionId = localStorage.getItem('sesionId');
-      const userId = localStorage.getItem('userId');
+      const sesionId = sessionStorage.getItem('sesionId');
+      const userId = sessionStorage.getItem('userId');
       const fechanueva = new Date(fecha).toISOString().split('T')[0];
 
       if (sesionId) {
@@ -85,7 +85,7 @@ export default function Page() {
           console.error('Error al actualizar el texto:', response.data.message);
         }
       } else {
-        console.error('No se encontró sesionId en localStorage');
+        console.error('No se encontró sesionId en sessionStorage');
       }
     } catch (error) {
       console.error('Error en la solicitud para actualizar el texto:', error);

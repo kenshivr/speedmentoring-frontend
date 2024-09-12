@@ -4,7 +4,7 @@ import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx';
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx'; 
 
 export default function EditStudentPage() {
-  const id = localStorage.getItem('EstudianteID');
+  const id = sessionStorage.getItem('EstudianteID');
   const [formDataAlumno, setFormDataAlumno] = useState({
     EstudianteID: '',
     Nombre: '',

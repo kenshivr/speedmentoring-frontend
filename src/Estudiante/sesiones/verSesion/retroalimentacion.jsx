@@ -17,7 +17,7 @@ export default function Retroalim() {
   });
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
     if (userId) {
       setFormData((prevState) => ({
         ...prevState,

@@ -72,7 +72,7 @@ export default function Page() {
   };
 
   const handleEventEdit = (id) => {
-    localStorage.setItem('eventId', id);
+    sessionStorage.setItem('eventId', id);
   }
 
   // Filtrar eventos basado en el término de búsqueda

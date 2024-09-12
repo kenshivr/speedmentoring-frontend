@@ -16,7 +16,7 @@ export default function Page() {
   const [messageE, setMessageE] = useState(''); // Estado para el mensaje de ERROR
   const [messageD, setMessageD] = useState(''); // Estado para el mensaje de advertencia
 
-  const mentorRFC = localStorage.getItem('userId');
+  const mentorRFC = sessionStorage.getItem('userId');
 
   useEffect(() => {
     // Cargar alumnos desde el servidor filtrados por el mentor actual

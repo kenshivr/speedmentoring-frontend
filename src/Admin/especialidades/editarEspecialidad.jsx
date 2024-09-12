@@ -4,7 +4,7 @@ import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
 import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx'; 
 
 export default function AdminEditarEspecialidad() {
-  const id = localStorage.getItem('EspecialidadID');
+  const id = sessionStorage.getItem('EspecialidadID');
   const [specialtyName, setSpecialtyName] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');

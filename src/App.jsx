@@ -12,6 +12,8 @@ import NavbarStudent from "./components/Layout/Navbar_student";
 import LoginPage from './Login/page';
 import BuscarCuentaPage from './Login/buscarCuenta/page';
 
+import NotFound from './Others/NotFound404';
+
 import MentorPerfil from './Mentor/perfil';
 import MentorPage from './Mentor/inicio';
 import MentorEvento from './Mentor/eventos';
@@ -53,40 +55,6 @@ import AdminEstadisticasFeedbackMentores from './Admin/estadisticas/feedbackMent
 import AdminEstadisticasFeedbackEstudiantes from './Admin/estadisticas/feedbackEstudiantes';
 import AdminCrearReporte from './Admin/estadisticas/crearReporte';
 
-// Componente para la página no encontrada
-const NotFound = () => (
-  <div className="text-center pt-5">
-    <h1 className='fw-bold mb-3 pt-5' style={{ color: '#EFCA45', fontSize: '15vw' }}>¡Oops!</h1>
-    <h2 style={{ color: '#4F3F05' }}>404 - Página no encontrada</h2>
-    <p style={{ color: '#4F3F05' }}>La página que estás buscando no existe.</p>
-    <div className='container pt-5'>
-      <a
-        type="button"
-        className="btn w-75"
-        href='/'
-        style={{ 
-          backgroundColor: '#002B7A', 
-          color: 'white', 
-          border: '1px solid #000',
-          borderRadius:'20px',
-          maxWidth:'250px',
-          transition: 'background-color 0.3s, color 0.3s' 
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#000';
-          e.currentTarget.style.color = 'white';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = '#002B7A';
-          e.currentTarget.style.color = '#white';
-        }}
-        >
-        Ir a la página principal
-      </a>
-    </div>
-  </div>
-);
-
 // Componente para proteger rutas
 const ProtectedRoute = ({ element: Element, isAuthenticated, ...rest }) => {
   return isAuthenticated ? <Element {...rest} /> : <Navigate to="/login" />;
@@ -109,10 +77,10 @@ function App() {
     return location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/login/buscarCuenta';
   };  
 
-  // Almacenar el userId en localStorage cuando se establece 
+  // Almacenar el userId en sessionStorage cuando se establece 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    const storedUserId = localStorage.getItem('userId');
+    const storedUser = sessionStorage.getItem('user');
+    const storedUserId = sessionStorage.getItem('userId');
     if (storedUserId) {
       setUserId(storedUserId);
       setIsAuthenticated(true);
@@ -122,17 +90,15 @@ function App() {
     }
   }, []);
 
-  // Escuchar cambios en userId y actualizar localstorage
+  // Escuchar cambios en userId y actualizar sessionStorage
   useEffect(() => {
-    localStorage.setItem('user', user);
-    localStorage.setItem('userId', userId);
+    sessionStorage.setItem('user', user);
+    sessionStorage.setItem('userId', userId);
   }, [userId, user]);
 
   return (
     <>
       <Header />
-
-      {/* Dependiendo de qué tipo de usuario se loguee, se muestra una barra de navegación diferente */}
       {showNavbar() && (
         user === 'admin' ? (
           <NavbarAdmin />
@@ -145,88 +111,57 @@ function App() {
         )
       )}
 
-      {/* Los route van dentro de routes porque react así lo necesita */}
       <Routes>
+        <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
 
-        {/* Ruta para manejar 404 */}
-        {/* Listo */}<Route path="*" element={<NotFound />} />
+        <Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
+        <Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
 
-        {/* Rutas para que react pueda renderizar las páginas de login */}
-        {/* Listo */}<Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
-        {/* Listo */}<Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
-        {/* Listo */}<Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
-
-        {/* Rutas protegidas para las páginas de mentor */}
-        {/* LISTO */} <Route path="/Mentor/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPage} />} />
-        <Route path="/Mentor/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1} />} />
+        <Route path="/Mentor/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPage} />} />
         <Route path="/Mentor/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPerfil} userId={userId} />} />
+        <Route path='/Mentor/eventos' element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorEvento} />}/>
         <Route path="/Mentor/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones} userId={userId} />} />
+        <Route path='/Mentor/sesiones/nuevaSesion' element={< ProtectedRoute isAuthenticated={isAuthenticated} element={MentorNuevaSesion} />}/>
+        <Route path='/Mentor/sesiones/editarSesion' element={< ProtectedRoute isAuthenticated={isAuthenticated} element={MentorEditarSesion} />}/>
+        <Route path="/Mentor/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1} />} />
+        <Route path="/Mentor/sesiones/verSesion/retroalimentacion" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1r} />}/>
 
-        {/* Rutas protegidas para las páginas de estudiante */}
-        {/* LISTO */} <Route path="/Estudiante/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePerfil} />} />
-        {/* LISTO */} <Route path="/Estudiante/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteEvento} />} />
-        {/* LISTO */} <Route path="/Estudiante/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteInicio} specialty={specialty} userId={userId} />} />
-        {/* LISTO */} <Route path="/Estudiante/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones} userId={userId} setSesionId={setSesionId} />} />
-        {/* LISTO */} <Route path="/Estudiante/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1} sesionId={sesionId} setSesionId={setSesionId} />} />
-
-        {/* Hechas por erick */}
-        {/* LISTO */} <Route path="/Estudiante/sesiones/verSesion/retroalimentacion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1r} />} />
-        
+        <Route path="/Estudiante/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteInicio} specialty={specialty} userId={userId} />} />
+        <Route path="/Estudiante/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePerfil} />} />
+        <Route path="/Estudiante/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteEvento} />} />
+        <Route path="/Estudiante/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones} userId={userId} setSesionId={setSesionId} />} />
+        <Route path="/Estudiante/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1} sesionId={sesionId} setSesionId={setSesionId} />} />
+        <Route path="/Estudiante/sesiones/verSesion/retroalimentacion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1r} />} />
         
         <Route path="/admin/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} userId={userId} />} />
         <Route path="/Admin/eventos/editarEvento" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditEvent} />} />
         <Route path="/Admin/eventos/crearEvento" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
 
-        {/* <Route path="/admin/estadisticas" element={<AdminEstadisticas />} />
-        <Route path="/Admin/reporte/page" element={<AdminReporte />} /> */}
+        <Route path="/admin/estadisticas" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticas} />} />
+        <Route path="/admin/estadisticas/especialidades" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasEspecialidades} />} />
+        <Route path="/admin/estadisticas/estudiantes" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasEstudiantes} />} />
+        <Route path="/admin/estadisticas/mentores" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasMentores} />} />
+        <Route path="/admin/estadisticas/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasEventos} />} />
+        <Route path="/admin/estadisticas/feedbackEstudiantes" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasFeedbackEstudiantes} />} />
+        <Route path="/admin/estadisticas/feedbackMentores" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasFeedbackMentores} />}  />
+        <Route path="/admin/estadisticas/reportes" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasReportes} />} />
+        <Route path="/admin/estadisticas/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasSesiones} />} />
+        <Route path="/admin/estadisticas/crearReporte" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminCrearReporte} />} />
 
-        {/* 
-        <Route path="/admin/estadisticas" element={<AdminEstadisticas />} />
-        <Route path="/admin/especialidades" element={<AdminEspecialidades />} />
-        */}
-
-        {/*███████████████████████████ Nuevas rutas de admin ████████████████████████████████████*/}
-        <Route path="/admin/estadisticas" element={<AdminEstadisticas />} />
-        <Route path="/admin/estadisticas/especialidades" element={<AdminEstadisticasEspecialidades />} />
-        <Route path="/admin/estadisticas/estudiantes" element={<AdminEstadisticasEstudiantes />} />
-        <Route path="/admin/estadisticas/mentores" element={<AdminEstadisticasMentores />} />
-        <Route path="/admin/estadisticas/eventos" element={<AdminEstadisticasEventos />} />
-        <Route path="/admin/estadisticas/feedbackEstudiantes" element={<AdminEstadisticasFeedbackEstudiantes />} />
-        <Route path="/admin/estadisticas/feedbackMentores" element={<AdminEstadisticasFeedbackMentores />} />
-        <Route path="/admin/estadisticas/reportes" element={<AdminEstadisticasReportes />} />
-        <Route path="/admin/estadisticas/sesiones" element={<AdminEstadisticasSesiones />} />
-        <Route path="/admin/estadisticas/crearReporte" element={<AdminCrearReporte />} />
-
-        
-        <Route path="/Admin/estudiantes" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstudiantes} />} />
-        <Route path="/Admin/mentores" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminMentores} />} />
-        
-        {/*███████████████████████████████████████████████████████████████*/}
-
-        {/* Nuevas páginas */}
-        <Route path="/admin/especialidades" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEspecialidades} />} />
-        <Route path="/Admin/especialidades/crearEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminNuevaEspecialidad} />}/>
         <Route path="/Admin/importarUsuarios" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminImportarUsuarios} />} />
-        <Route path="/Admin/especialidades/editarEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEspecialidad} />}/>
-        
-        {/*███████████████████████████ Nuevas rutas de mentor ████████████████████████████████████*/}
-        <Route path="/Mentor/sesiones/verSesion/retroalimentacion" element={<MentorSesiones1r />}/>
 
-        {/*███████████████████████████████████████████████████████████████*/}
-
-
-        {/* LISTO */} <Route path='/Mentor/eventos' element={<MentorEvento />}/>
-        <Route path='/Mentor/sesiones/nuevaSesion' element={<MentorNuevaSesion />}/>
-        {/* LISTO */} <Route path='/Mentor/sesiones/editarSesion' element={<MentorEditarSesion />}/>
-
-
-
-        <Route path="/Admin/usuarios/crearMentor" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarMentor} />} />
+        <Route path="/Admin/estudiantes" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstudiantes} />} />
         <Route path="/Admin/usuarios/crearEstudiante" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEstudiante} />} />
-        <Route path="/Admin/usuarios/editarMentor" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarMentor} />} />
         <Route path="/Admin/usuarios/editarEstudiante" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEstudiante} />} />
 
+        <Route path="/Admin/mentores" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminMentores} />} />
+        <Route path="/Admin/usuarios/crearMentor" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarMentor} />} />
+        <Route path="/Admin/usuarios/editarMentor" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarMentor} />} />
 
+        <Route path="/admin/especialidades" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEspecialidades} />} />
+        <Route path="/Admin/especialidades/crearEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminNuevaEspecialidad} />}/>
+        <Route path="/Admin/especialidades/editarEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEspecialidad} />}/>
       </Routes>
 
       <Footer />

@@ -35,7 +35,7 @@ export default function Page() {
   };
 
   const handleEditClickStudent = (id) => {
-    localStorage.setItem('EstudianteID', id);
+    sessionStorage.setItem('EstudianteID', id);
   };
 
   const updateStatus = async (type, id, status) => {

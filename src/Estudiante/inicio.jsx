@@ -11,7 +11,7 @@ const StudentPage = () => {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const userId = localStorage.getItem('userId');
+        const userId = sessionStorage.getItem('userId');
 
         if (userId) {
           const apiUrl = process.env.REACT_APP_BACKEND_URL;

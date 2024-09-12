@@ -5,7 +5,7 @@ import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
 import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
 
 export default function EditSessionPage() {
-  const sesionId = localStorage.getItem('sesionId');
+  const sesionId = sessionStorage.getItem('sesionId');
   const [datos, setDatos] = useState({});
   const [showDateEditor, setShowDateEditor] = useState(false);
   const [title, setTitle] = useState('');

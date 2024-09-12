@@ -9,7 +9,7 @@ const MentorPage = () => {
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [search, setSearch] = useState('');
 
-  const userId = localStorage.getItem('userId');
+  const userId = sessionStorage.getItem('userId');
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
@@ -45,7 +45,7 @@ const MentorPage = () => {
 
   function handleLink(session) {
     return () => {
-      localStorage.setItem('sesionId', session.SesionID);
+      sessionStorage.setItem('sesionId', session.SesionID);
     };
   }
 

@@ -22,7 +22,7 @@ export default function Page() {
   const navigate = useNavigate(); // Inicializa useNavigate
 
   useEffect(() => {
-    const eventId = localStorage.getItem('eventId');
+    const eventId = sessionStorage.getItem('eventId');
     if (eventId) {
       setEventId(eventId);
     }
