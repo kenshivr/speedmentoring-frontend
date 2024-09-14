@@ -26,6 +26,7 @@ export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
       });
 
       if (!response.ok || response.status === 401) {
+        console.log('Usuario o contraseña incorrectos!');
         setError('Usuario o contraseña incorrectos...'); // Maneja el error de autenticación
         return;
       }
