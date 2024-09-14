@@ -22,7 +22,7 @@ export default function Page() {
   const navigate = useNavigate(); // Inicializa useNavigate
 
   useEffect(() => {
-    const eventId = localStorage.getItem('eventId');
+    const eventId = sessionStorage.getItem('eventId');
     if (eventId) {
       setEventId(eventId);
     }
@@ -30,7 +30,9 @@ export default function Page() {
 
   useEffect(() => {
     // Obtener especialidades
-    axios.get('http://localhost:3001/api/especialidades')
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //axios.get(`http://localhost:3001/api/especialidades`)
+    axios.get(`${apiUrl}/api/especialidades`)
       .then(response => {
         setSpecialties(response.data);
       })
@@ -40,7 +42,9 @@ export default function Page() {
 
     // Obtener detalles del evento para editar
     if (eventId) {
-      axios.get(`http://localhost:3001/api/getEvent/${eventId}`)
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+     //axios.get(`http://localhost:3001/api/getEvent/${eventId}`)
+      axios.get(`${apiUrl}/api/getEvent/${eventId}`)
         .then(response => {
           const event = response.data;
           setEventId(event.EventoID);
@@ -66,7 +70,9 @@ export default function Page() {
       date
     };
 
-    axios.put(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //axios.put(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
+    axios.put(`${apiUrl}/api/updateEvent/${eventId}`, eventData)
       .then(response => {
         alert('¡Evento actualizado exitosamente!');
         navigate('/Admin/eventos');

@@ -21,7 +21,7 @@ export default function Retroalim() {
   });
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
     if (userId) {
         setFormData((prevState) => ({
             ...prevState,
@@ -51,9 +51,10 @@ export default function Retroalim() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     // Configuración de la solicitud POST
-    fetch('http://localhost:3001/api/retro', {
+    //fetch(`http://localhost:3001/api/retro`, {
+    fetch(`${apiUrl}/api/retro`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

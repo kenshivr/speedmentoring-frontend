@@ -4,7 +4,7 @@ import LinkSecundaryCentered from './../components/Link/LinkSecundaryCentered.js
 import ButtonPrincipalC from './../components/Button/ButtonPrincipalC.jsx';
 
 export default function Page() {
-  const user = localStorage.getItem('userId');
+  const user = sessionStorage.getItem('userId');
 
   const [nombre, setNombre] = useState('');
   const [estudianteID, setEstudianteID] = useState('');
@@ -16,7 +16,9 @@ export default function Page() {
 
   const fetchUserData = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      const response = await axios.get(`${apiUrl}/api/getStudent/${user}`);
+      //const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
       const { EstudianteID, Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, Especialidad, NumeroTelefono, CorreoElectronicoPersonal, NombreMentor } = response.data;
 
       const fullName = `${Nombre || ''} ${ApellidoPaterno || ''} ${ApellidoMaterno || ''}`.trim();
@@ -43,7 +45,9 @@ export default function Page() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:3001/api/updateStudent/${user}`, {
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      //const response = await axios.put(`http://localhost:3001/api/updateStudent/${user}`, {
+      const response = await axios.put(`${apiUrl}/api/updateStudent/${user}`, {
         NumeroTelefono: telefono, 
         CorreoElectronicoPersonal: correo
       });

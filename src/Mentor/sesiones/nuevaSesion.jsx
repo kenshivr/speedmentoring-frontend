@@ -16,11 +16,13 @@ export default function Page() {
   const [messageE, setMessageE] = useState(''); // Estado para el mensaje de ERROR
   const [messageD, setMessageD] = useState(''); // Estado para el mensaje de advertencia
 
-  const mentorRFC = localStorage.getItem('userId');
+  const mentorRFC = sessionStorage.getItem('userId');
 
   useEffect(() => {
     // Cargar alumnos desde el servidor filtrados por el mentor actual
-    fetch(`http://localhost:3001/api/getStudentsOfMentor/${mentorRFC}`)
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //fetch(`http://localhost:3001/api/getStudentsOfMentor/${mentorRFC}`)
+    fetch(`${apiUrl}/api/getStudentsOfMentor/${mentorRFC}`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -62,8 +64,10 @@ export default function Page() {
       studentId: selectedStudent,
       userId: mentorRFC
     };
-
-    fetch('http://localhost:3001/api/insertSession', {
+  
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //fetch(`http://localhost:3001/api/insertSession`, {
+    fetch(`${apiUrl}/api/insertSession`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -185,7 +189,7 @@ export default function Page() {
                 </div>
                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-2">
                   <LinkSecundaryCentered
-                    text='Cancelar'
+                    text='Cerrar'
                     link="/Mentor/inicio"
                   />
                 </div>

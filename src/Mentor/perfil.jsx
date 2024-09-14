@@ -15,7 +15,9 @@ export default function Page({ userId }) {
   // Función para obtener datos de usuario
   const fetchUserData = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/getProfileMentor/${userId}`);
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      const response = await axios.get(`${apiUrl}/api/getProfileMentor/${userId}`);
+      //const response = await axios.get(`http://localhost:3001/api/getProfileMentor/${userId}`);
       setNombre(response.data.Nombre);
       setPaterno(response.data.ApellidoPaterno);
       setMaterno(response.data.ApellidoMaterno);
@@ -39,7 +41,9 @@ export default function Page({ userId }) {
     event.preventDefault(); // Evita el comportamiento por defecto del formulario
 
     try {
-      const response = await axios.post(`http://localhost:3001/api/updateProfileMentor/${userId}`, {
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      const response = await axios.post(`${apiUrl}/api/updateProfileMentor/${userId}`, {
+      //const response = await axios.post(`http://localhost:3001/api/updateProfileMentor/${userId}`, {
         telefono,
         correo,
         empresa,

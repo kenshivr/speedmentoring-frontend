@@ -28,7 +28,9 @@ export default function Page() {
     // Fetch especialidades
     const getEspecialidades = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/especialidades');
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        const response = await axios.get(`${apiUrl}/api/especialidades`);
+        //const response = await axios.get(`http://localhost:3001/api/especialidades`);
         setEspecialidades(response.data);
       } catch (error) {
         console.error("Error en la obtención de especialidades:", error);
@@ -38,7 +40,9 @@ export default function Page() {
     // Fetch mentores
     const getMentores = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/mentors');
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        const response = await axios.get(`${apiUrl}/api/mentors`);
+        //const response = await axios.get(`http://localhost:3001/api/mentors`);
         setMentores(response.data);
       } catch (error) {
         console.error("Error en la obtención de mentores:", error);
@@ -61,7 +65,9 @@ export default function Page() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/api/setNewAlumno', formDataAlumno);
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      await axios.post(`${apiUrl}/api/setNewAlumno`, formDataAlumno);
+      //await axios.post(`http://localhost:3001/api/setNewAlumno`, formDataAlumno);
       navigate('/Admin/estudiantes');
     } catch (error) {
       console.error('Error al registrar:', error);

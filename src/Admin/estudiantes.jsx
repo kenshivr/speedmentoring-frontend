@@ -17,7 +17,9 @@ export default function Page() {
   useEffect(() => {
     const getStudents = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/students`);
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        const response = await axios.get(`${apiUrl}/api/students`);
+        //const response = await axios.get(`http://localhost:3001/api/students`);
         setStudents(response.data);
       } catch (error) {
         console.error("Error en la obtención de los estudiantes:", error);
@@ -33,12 +35,14 @@ export default function Page() {
   };
 
   const handleEditClickStudent = (id) => {
-    localStorage.setItem('EstudianteID', id);
+    sessionStorage.setItem('EstudianteID', id);
   };
 
   const updateStatus = async (type, id, status) => {
     try {
-      await axios.put(`http://localhost:3001/api/students/${id}`, { Estatus: status });
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      await axios.put(`${apiUrl}/api/students/${id}`, { Estatus: status });
+      //await axios.put(`http://localhost:3001/api/students/${id}`, { Estatus: status });
       setStudents(prev => prev.map(student => student.EstudianteID === id ? { ...student, Estatus: status } : student));
     } catch (error) {
       console.error(`Error al actualizar el estado del ${type}:`, error);

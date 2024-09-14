@@ -17,7 +17,9 @@ export default function Page() {
   useEffect(() => {
     const getMentors = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/mentors`);
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        const response = await axios.get(`${apiUrl}/api/mentors`);
+        //const response = await axios.get(`http://localhost:3001/api/mentors`);
         setMentors(response.data);
       } catch (error) {
         console.error("Error en la obtención de los mentores:", error);
@@ -33,12 +35,14 @@ export default function Page() {
   };
 
   const handleEditClickMentor = (id) => {
-    localStorage.setItem('MentorRFC', id);
+    sessionStorage.setItem('MentorRFC', id);
   };
 
   const updateStatus = async (type, id, status) => {
     try {
-        await axios.put(`http://localhost:3001/api/mentors/${id}`, { Estatus: status });
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        await axios.put(`${apiUrl}/api/mentors/${id}`, { Estatus: status });
+        //await axios.put(`http://localhost:3001/api/mentors/${id}`, { Estatus: status });
         setMentors(prev => prev.map(mentor => mentor.RFC === id ? { ...mentor, Estatus: status } : mentor));
     } catch (error) {
       console.error(`Error al actualizar el estado del ${type}:`, error);

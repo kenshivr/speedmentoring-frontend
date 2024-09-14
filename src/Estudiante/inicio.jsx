@@ -11,10 +11,12 @@ const StudentPage = () => {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const userId = localStorage.getItem('userId');
+        const userId = sessionStorage.getItem('userId');
 
         if (userId) {
-          const response = await fetch(`http://localhost:3001/api/showSesionesStudent/${userId}`);
+          const apiUrl = process.env.REACT_APP_BACKEND_URL;
+          const response = await fetch(`${apiUrl}/api/showSesionesStudent/${userId}`);
+          //const response = await fetch(`http://localhost:3001/api/showSesionesStudent/${userId}`);
           const data = await response.json();
 
           if (data.success) {

@@ -18,7 +18,9 @@ export default function Page() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/especialidades')
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    axios.get(`${apiUrl}/api/especialidades`)
+    //axios.get(`http://localhost:3001/api/especialidades`)
       .then(response => {
         setSpecialties(response.data);
       })
@@ -36,7 +38,9 @@ export default function Page() {
       link: hasLink ? link : ''
     };
 
-    axios.post('http://localhost:3001/api/newEventAdmin', eventData)
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //axios.post(`http://localhost:3001/api/newEventAdmin`, eventData)
+    axios.post(`${apiUrl}/api/newEventAdmin`, eventData)
       .then(response => {
         alert('Evento creado correctamente!');
         setEventName('');

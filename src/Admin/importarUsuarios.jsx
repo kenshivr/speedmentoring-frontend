@@ -22,7 +22,9 @@ export default function Page() {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:3001/api/importUsers', formData, {
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      //const response = await axios.post(`http://localhost:3001/api/importUsers`, formData, {
+      const response = await axios.post(`${apiUrl}/api/importUsers`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

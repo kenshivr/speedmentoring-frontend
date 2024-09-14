@@ -11,7 +11,9 @@ export default function Page({ userId }) {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:3001/api/showSesionesStudent/${userId}`)
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      //axios.get(`http://localhost:3001/api/showSesionesStudent/${userId}`)
+      axios.get(`${apiUrl}/api/showSesionesStudent/${userId}`)
         .then((response) => {
           if (response.data.success) {
             const currentDate = new Date().setHours(0, 0, 0, 0);
@@ -64,7 +66,7 @@ export default function Page({ userId }) {
   };
 
   const handleCLickLinkSesion = (sessionId) => () => {
-    localStorage.setItem('sesionId', sessionId);
+    sessionStorage.setItem('sesionId', sessionId);
   }
 
   return (

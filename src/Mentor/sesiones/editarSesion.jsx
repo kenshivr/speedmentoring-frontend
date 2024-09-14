@@ -5,7 +5,7 @@ import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
 import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
 
 export default function EditSessionPage() {
-  const sesionId = localStorage.getItem('sesionId');
+  const sesionId = sessionStorage.getItem('sesionId');
   const [datos, setDatos] = useState({});
   const [showDateEditor, setShowDateEditor] = useState(false);
   const [title, setTitle] = useState('');
@@ -23,8 +23,10 @@ export default function EditSessionPage() {
     }
 
     const fetchSession = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/api/getSesionMentor/${sesionId}`);
+      try {    
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        const response = await axios.get(`${apiUrl}/api/getSesionMentor/${sesionId}`);
+        //const response = await axios.get(`http://localhost:3001/api/getSesionMentor/${sesionId}`);
         if (response.data) {
           const data = response.data;
           setDatos(data);
@@ -84,7 +86,9 @@ export default function EditSessionPage() {
 
     try {
       const sessionData = { date, title, description };
-      const response = await axios.put(`http://localhost:3001/api/putSesionMentor/${sesionId}`, sessionData);
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      const response = await axios.put(`${apiUrl}/api/putSesionMentor/${sesionId}`, sessionData);
+      //const response = await axios.put(`http://localhost:3001/api/putSesionMentor/${sesionId}`, sessionData);
       if (response.data.success) {
         setSuccessMessage('Sesión actualizada con éxito.');
         setErrorMessage(''); // Limpiar mensaje de error si existe
@@ -176,7 +180,7 @@ export default function EditSessionPage() {
                   </div>
                   <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-2">
                       <LinkSecundaryCentered
-                        text='Cancelar'
+                        text='Cerrar'
                         link="/Mentor/inicio"
                       />
                   </div>

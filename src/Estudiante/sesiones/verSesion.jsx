@@ -15,13 +15,15 @@ export default function Page() {
   const [reportExist, setReportExist] = useState(false);
   const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
 
-  const sesionId = localStorage.getItem('sesionId');
+  const sesionId = sessionStorage.getItem('sesionId');
 
   useEffect(() => {
     const fetchReporte = async () => {
       try {
         if (sesionId) {
-          const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
+          const apiUrl = process.env.REACT_APP_BACKEND_URL;
+          const response = await axios.get(`${apiUrl}/api/getReportStudent/${sesionId}`);
+          //const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
           if (response.data.success) {
             if (response.data.data.texto) setReportExist(true);
             setTexto(response.data.data.texto || '');
@@ -34,7 +36,7 @@ export default function Page() {
             console.error('Error al obtener detalles del reporte:', response.data.message);
           }
         } else {
-          console.error('No se encontró sesionId en localStorage');
+          console.error('No se encontró sesionId en sessionStorage');
         }
       } catch (error) {
         console.error('Error en la solicitud para obtener detalles del reporte:', error);
@@ -60,12 +62,14 @@ export default function Page() {
 
   const handleUpdateTexto = async () => {
     try {
-      const sesionId = localStorage.getItem('sesionId');
-      const userId = localStorage.getItem('userId');
+      const sesionId = sessionStorage.getItem('sesionId');
+      const userId = sessionStorage.getItem('userId');
       const fechanueva = new Date(fecha).toISOString().split('T')[0];
 
       if (sesionId) {
-        const response = await axios.post(`http://localhost:3001/api/setReportStudent/${sesionId}`, {
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        //const response = await axios.post(`http://localhost:3001/api/setReportStudent/${sesionId}`, {
+        const response = await axios.post(`${apiUrl}/api/setReportStudent/${sesionId}`, {
           userId: userId,
           fecha: fechanueva,
           texto: texto,
@@ -81,7 +85,7 @@ export default function Page() {
           console.error('Error al actualizar el texto:', response.data.message);
         }
       } else {
-        console.error('No se encontró sesionId en localStorage');
+        console.error('No se encontró sesionId en sessionStorage');
       }
     } catch (error) {
       console.error('Error en la solicitud para actualizar el texto:', error);
