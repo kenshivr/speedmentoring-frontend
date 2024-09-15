@@ -61,8 +61,12 @@ export default function Page() {
       eventName,
       specialty,
       description,
-      date
+      date,
+      link
     };
+
+    console.log('eventData');
+    console.log(eventData);
 
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
     axios.put(`${apiUrl}/api/updateEvent/${eventId}`, eventData)
@@ -87,9 +91,9 @@ export default function Page() {
       <form onSubmit={handleSave}>
         <div className="mb-3">
           <label htmlFor="nombreEvento" className="form-label">Nombre del Evento</label>
-          <input 
-            type="text" 
-            className="form-control" 
+          <input
+            type="text"
+            className="form-control"
             id="nombreEvento"
             placeholder="Ejemplo de nombre del evento"
             value={eventName}
@@ -99,8 +103,8 @@ export default function Page() {
 
         <div className="mb-3">
           <label htmlFor="especialidadEvento" className="form-label">Especialidad</label>
-          <select 
-            className="form-select" 
+          <select
+            className="form-select"
             aria-label="Especialidad"
             value={specialty}
             onChange={(e) => setSpecialty(e.target.value)}
@@ -114,8 +118,8 @@ export default function Page() {
 
         <div className="mb-3">
           <label htmlFor="descripcionEvento" className="form-label">Descripción</label>
-          <textarea 
-            className="form-control" 
+          <textarea
+            className="form-control"
             id="descripcionEvento"
             rows="4"
             placeholder="Escribe una descripción del evento que se mostrará a los alumnos ..."
@@ -125,7 +129,7 @@ export default function Page() {
         </div>
 
         <div className="row mb-3 justify-content-center">
-          <div className="col-12 col-md-3 mb-2 mb-md-0" style={{ maxWidth:'200px'}}>
+          <div className="col-12 col-md-3 mb-2 mb-md-0" style={{ maxWidth: '200px' }}>
             <ButtonPrincipalDroppingContent
               onClick1={toggleEditor}
               show1={showEditor}
@@ -135,10 +139,10 @@ export default function Page() {
           </div>
           {showEditor && (
             <div className="mt-2">
-              <input 
-                type="text" 
-                className="form-control" 
-                id="eventoLink" 
+              <input
+                type="text"
+                className="form-control"
+                id="eventoLink"
                 placeholder="Ejemplo de link"
                 value={link}
                 onChange={(e) => setLink(e.target.value)}
@@ -149,11 +153,10 @@ export default function Page() {
 
         <div className="row justify-content-end mt-4 mb-3 mx-2">
           <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-            <form onSubmit={handleSave}>
-              <ButtonPrrincipal
-                text='Guardar'
-              />
-            </form>
+            <ButtonPrrincipal
+              text='Guardar'
+              type="submit" // Corregido: Aquí ya no es necesario otro <form>
+            />
           </div>
           <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
             <LinkSecundary

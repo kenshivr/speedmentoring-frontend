@@ -53,7 +53,10 @@ export default function EventsPage() {
                 </div>
                 <div className="container p-2" style={{ color: 'white' }}>
                   <ul className="list-group">
-                    {selectedEvents && selectedEvents.map(event => (
+                    {selectedEvents && selectedEvents.map(event => {
+                      
+                      console.log(event.Link);
+                      return (
                       <li key={event.EventoID} className="list-group-item" style={{ backgroundColor: '#002B7A', border: 'none', color: 'white' }}>
                         <div className="row my-5">
                           <div className="col">
@@ -82,7 +85,8 @@ export default function EventsPage() {
                           </div>
                         </div>
                       </li>
-                    ))}
+                      )
+                    })}
                   </ul>
                   <div className="row my-5">
                     <PaginationButtons
