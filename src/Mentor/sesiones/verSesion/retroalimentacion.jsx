@@ -28,10 +28,6 @@ export default function Retroalim() {
             userId: userId
         }));
     }
-    // Object.keys(formData).forEach(key => {
-    //   if (formData[key])
-    //   console.log(`Key: ${key}, Value: ${formData[key]}`);
-    // })
   }, []);
 
   const handleInputChange = (e) => {
@@ -52,8 +48,6 @@ export default function Retroalim() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
-    // Configuración de la solicitud POST
-    //fetch(`http://localhost:3001/api/retro`, {
     fetch(`${apiUrl}/api/retro`, {
       method: 'POST',
       headers: {
@@ -63,7 +57,6 @@ export default function Retroalim() {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
         if (data.success) {
             alert('Retroalimentacion guardada con exito!');
         } else {

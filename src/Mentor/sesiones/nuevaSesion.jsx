@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx';
+import React, { useState, useEffect } from 'react';
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
+import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx';
 import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
 
 export default function Page() {
-  const [showDateEditor, setShowDateEditor] = useState(false);
-  const [titulo, setTitulo] = useState('');
   const [date, setDate] = useState('');
-  const [descripcion, setDescripcion] = useState('');
+  const [titulo, setTitulo] = useState('');
   const [students, setStudents] = useState([]);
+  const [messageS, setMessageS] = useState(''); 
+  const [messageE, setMessageE] = useState(''); 
+  const [messageD, setMessageD] = useState(''); 
+  const [descripcion, setDescripcion] = useState('');
   const [selectedStudent, setSelectedStudent] = useState('');
-  const [messageS, setMessageS] = useState(''); // Estado para el mensaje de éxito
-  const [messageE, setMessageE] = useState(''); // Estado para el mensaje de ERROR
-  const [messageD, setMessageD] = useState(''); // Estado para el mensaje de advertencia
+  const [showDateEditor, setShowDateEditor] = useState(false);
 
   const mentorRFC = sessionStorage.getItem('userId');
 
   useEffect(() => {
-    // Cargar alumnos desde el servidor filtrados por el mentor actual
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
-    //fetch(`http://localhost:3001/api/getStudentsOfMentor/${mentorRFC}`)
     fetch(`${apiUrl}/api/getStudentsOfMentor/${mentorRFC}`)
       .then(response => {
         if (!response.ok) {
@@ -30,16 +27,14 @@ export default function Page() {
         return response.json();
       })
       .then(data => {
-        setStudents(data);
+        if (data) setStudents(data);
       })
       .catch(error => console.error('Error fetching students:', error));
   }, [mentorRFC]);
 
-  // Función para obtener la fecha y hora actuales en formato ISO para el atributo min
   const getCurrentDateTime = () => {
     const now = new Date();
-    now.setDate(now.getDate() + 1);
-    return now.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:MM
+    return now.toISOString().slice(0, 16); 
   };
 
   const toggleDateEditor = () => {
@@ -49,13 +44,12 @@ export default function Page() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validación de campos
     if (!titulo || !date || !descripcion || !selectedStudent) {
-      setMessageD('Todos los campos son obligatorios.'); // Mensaje de advertencia
+      setMessageD('Todos los campos son obligatorios.'); 
       return;
     }
 
-    setMessageD(''); // Limpiar mensaje de advertencia
+    setMessageD('');
 
     const sessionData = {
       titulo,
@@ -66,7 +60,7 @@ export default function Page() {
     };
   
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
-    //fetch(`http://localhost:3001/api/insertSession`, {
+
     fetch(`${apiUrl}/api/insertSession`, {
       method: 'POST',
       headers: {
@@ -77,22 +71,21 @@ export default function Page() {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          setMessageS('Sesión agendada'); // Mostrar mensaje de éxito
-          setMessageE(''); // Limpiar mensaje de error si existe
-          // Limpiar los campos después de guardar
+          setMessageS('Sesión agendada');
+          setMessageE('');
           setTitulo('');
           setDate('');
           setDescripcion('');
           setSelectedStudent('');
         } else {
-          setMessageE('Error al agendar la sesión'); // Mensaje en caso de error
-          setMessageS(''); // Limpiar mensaje de éxito si existe
+          setMessageE('Error al agendar la sesión');
+          setMessageS(''); 
         }
       })
       .catch(error => {
         console.error('Error saving session:', error);
-        setMessageE('Error al agendar la sesión'); // Mensaje en caso de error
-        setMessageS(''); // Limpiar mensaje de éxito si existe
+        setMessageE('Error al agendar la sesión'); 
+        setMessageS('');
       });
   };
 
@@ -131,7 +124,7 @@ export default function Page() {
                   placeholder="Introduce el título"
                   value={titulo}
                   onChange={(e) => setTitulo(e.target.value)}
-                  maxLength="50" // Limitar a 50 caracteres
+                  maxLength="50"
                 />
               </div>
               <div className="mb-3">
@@ -143,7 +136,7 @@ export default function Page() {
                   onChange={(e) => setSelectedStudent(e.target.value)}
                 >
                   <option value="">Selecciona un alumno</option>
-                  {students.map(student => (
+                  {students && students.map(student => (
                     <option key={student.Nombre} value={student.Nombre}>{student.Nombre}</option>
                   ))}
                 </select>
@@ -165,7 +158,7 @@ export default function Page() {
                     id="sessionDate"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    min={getCurrentDateTime()} // Establecer fecha mínima
+                    min={getCurrentDateTime()}
                   />
                 </div>
               )}
@@ -178,7 +171,7 @@ export default function Page() {
                   placeholder="Introduce una breve descripción"
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
-                  maxLength="5000" // Limitar a 5000 caracteres
+                  maxLength="5000"
                 ></textarea>
               </div>
               <div className="row justify-content-end pt-3">

@@ -26,12 +26,11 @@ export default function EditSessionPage() {
       try {    
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getSesionMentor/${sesionId}`);
-        //const response = await axios.get(`http://localhost:3001/api/getSesionMentor/${sesionId}`);
         if (response.data) {
           const data = response.data;
           setDatos(data);
           setTitle(data.Titulo || ''); 
-          setDescription(data.Descripcion || ''); // Asegúrate de que el nombre sea correcto
+          setDescription(data.Descripcion || '');
           const studentName = `${data.Nombre || ''} ${data.ApellidoPaterno || ''} ${data.ApellidoMaterno || ''}`.trim();
           setSelectedStudent(studentName);
   

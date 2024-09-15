@@ -1,50 +1,50 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
-import DropButton2 from '../components/Button/DropButton2.jsx'; 
-import SearchBar from '../components/Search/SearchBar.jsx'; 
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import React, { useState, useEffect } from 'react';
+import SearchBar from '../components/Search/SearchBar.jsx';
+import DropButton2 from '../components/Button/DropButton2.jsx';
+import PaginationButtons from '../components/Button/PaginationButtons.jsx';
 
 export default function Page() {
+  const itemsPerPage = 5;
   const [eventos, setEventos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 5; // Mostrar registros por página
 
   useEffect(() => {
-    const fetchEventos = async () => {
-      try {
-        const apiUrl = process.env.REACT_APP_BACKEND_URL;
-        const response = await axios.get(`${apiUrl}/api/getEventsFull`);
-        //const response = await axios.get(`http://localhost:3001/api/getEventsFull`);
-        if (response.data) {
-          const sortedEventos = response.data.sort((a, b) => b.EventoID - a.EventoID);
-          setEventos(sortedEventos);
-        } else {
-          console.error('Error al obtener eventos:', response.data.message);
-        }
-      } catch (error) {
-        console.error('Error en la solicitud para obtener eventos:', error);
-      }
-    };
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
-    fetchEventos();
+    try {
+      fetch(`${apiUrl}/api/getEventsFull`)
+        .then(response => response.json())
+        .then(response => {
+          if (response) {
+            const sortedEventos = response.sort((a, b) => b.EventoID - a.EventoID);
+            setEventos(sortedEventos);
+          } else {
+            console.error('Error al obtener eventos:', response.message);
+          }
+        })
+        .catch(error => console.error('Error fetching events:', error));
+    } catch (error) {
+      console.error('Error fetching events');
+    }
   }, []);
 
   const getEventsFull = async () => {
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
-      const response = await axios.get(`${apiUrl}/api/getEventsFull`);
-      //const response = await axios.get('http://localhost:3001/api/getEventsFull');
-      if (response.data) {
-        const sortedEventos = response.data.sort((a, b) => b.EventoID - a.EventoID);
-        setEventos(sortedEventos);
-      } else {
-        console.error('Error al obtener eventos:', response.data.message);
-      }
+      fetch(`${apiUrl}/api/getEventsFull`)
+        .then(response => response.json())
+        .then(response => {
+          if (response) {
+            const sortedEventos = response.sort((a, b) => b.EventoID - a.EventoID);
+            setEventos(sortedEventos);
+          } else {
+            console.error('Error al obtener eventos:', response.message);
+          }
+        })
     } catch (error) {
       console.error('Error en la solicitud para obtener eventos:', error);
     }
@@ -58,7 +58,6 @@ export default function Page() {
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.delete(`${apiUrl}/api/deleteEvent/${eventoID}`);
-      //const response = await axios.delete(`http://localhost:3001/api/deleteEvent/${eventoID}`);
       if (response.data.message) {
         alert(response.data.message);
       } else {
@@ -75,21 +74,20 @@ export default function Page() {
     sessionStorage.setItem('eventId', id);
   }
 
-  // Filtrar eventos basado en el término de búsqueda
   const filteredEventos = eventos.filter(evento => {
     const formattedDate = new Date(evento.Fecha).toLocaleDateString();
     const searchTermLower = searchTerm.toLowerCase();
 
     return (
       evento.Nombre.toLowerCase().includes(searchTermLower) ||
-      evento.Descripción.toLowerCase().includes(searchTermLower) ||
-      evento.Especialidad?.toLowerCase().includes(searchTermLower) || 
+      evento.Descripcion.toLowerCase().includes(searchTermLower) ||
+      evento.Especialidad?.toLowerCase().includes(searchTermLower) ||
       evento.EventoID.toString().includes(searchTerm) ||
-      formattedDate.includes(searchTerm)
+      formattedDate.includes(searchTerm) ||
+      evento.Link?.toLowerCase().includes(searchTermLower)
     );
   });
 
-  // Obtener los eventos correspondientes a la página actual
   const startIndex = currentPage * itemsPerPage;
   const selectedEventos = filteredEventos.slice(startIndex, startIndex + itemsPerPage);
 
@@ -102,14 +100,14 @@ export default function Page() {
   };
 
   return (
-    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
         <SearchBar
-        legendText= 'Eventos'
-        searchPlaceholder= 'Buscar evento'
-        searchValue={searchTerm}
-        onSearchChange={handleSearchChange}
-        buttonLink= '/Admin/eventos/crearEvento'
+          legendText='Eventos'
+          searchPlaceholder='Buscar evento'
+          searchValue={searchTerm}
+          onSearchChange={handleSearchChange}
+          buttonLink='/Admin/eventos/crearEvento'
         />
         <div className="table-responsive p-2 justify-content-center align-items-center text-center">
           <table className="table table-hover">
@@ -129,7 +127,7 @@ export default function Page() {
                   <td>{evento.EventoID}</td>
                   <td>{evento.Nombre}</td>
                   <td>{new Date(evento.Fecha).toLocaleDateString()}</td>
-                  <td>{evento.Descripción}</td>
+                  <td>{evento.Descripcion}</td>
                   <td>
                     {evento.Link && evento.Link.trim() ? (
                       <a
@@ -146,10 +144,10 @@ export default function Page() {
                   </td>
                   <td>
                     <DropButton2
-                      text1 ='Editar'
+                      text1='Editar'
                       link1='/Admin/eventos/editarEvento'
-                      dropOnClick1= {() => handleEventEdit(evento.EventoID)}
-                      text2 ='Eliminar'
+                      dropOnClick1={() => handleEventEdit(evento.EventoID)}
+                      text2='Eliminar'
                       dropOnClick2={() => handleDelete(evento.EventoID)}
                     />
                   </td>
@@ -158,10 +156,10 @@ export default function Page() {
             </tbody>
           </table>
           <PaginationButtons
-            onPrevious = {handlePrevious}
-            onNext = {handleNext}
-            isPreviousDisabled = {currentPage === 0}
-            isNextDisabled = {startIndex + itemsPerPage >= filteredEventos.length}
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+            isPreviousDisabled={currentPage === 0}
+            isNextDisabled={startIndex + itemsPerPage >= filteredEventos.length}
           />
         </div>
       </div>

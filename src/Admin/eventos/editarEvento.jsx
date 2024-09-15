@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-
+import React, { useState, useEffect } from 'react';
 import ButtonPrrincipal from '../../components/Button/ButtonPrincipalC.jsx';
-import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
 import LinkSecundary from '../../components/Link/LinkSecundaryCentered.jsx';
+import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
 
 export default function Page() {
-  const [showEditor, setShowEditor] = useState(false);
+  const [link, setLink] = useState('');
+  const [date, setDate] = useState('');
   const [eventId, setEventId] = useState();
   const [eventName, setEventName] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [specialties, setSpecialties] = useState([]);
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
-  const [link, setLink] = useState('');
+  const [showEditor, setShowEditor] = useState(false);
 
-  const navigate = useNavigate(); // Inicializa useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const eventId = sessionStorage.getItem('eventId');
@@ -29,9 +27,7 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    // Obtener especialidades
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
-    //axios.get(`http://localhost:3001/api/especialidades`)
     axios.get(`${apiUrl}/api/especialidades`)
       .then(response => {
         setSpecialties(response.data);
@@ -40,17 +36,15 @@ export default function Page() {
         console.error('Error al obtener especialidades:', error);
       });
 
-    // Obtener detalles del evento para editar
     if (eventId) {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
-     //axios.get(`http://localhost:3001/api/getEvent/${eventId}`)
       axios.get(`${apiUrl}/api/getEvent/${eventId}`)
         .then(response => {
-          const event = response.data;
+          const event = response.data[0];
           setEventId(event.EventoID);
           setEventName(event.Nombre);
           setSpecialty(event.Especialidad);
-          setDescription(event.Descripción);
+          setDescription(event.Descripcion);
           setDate(event.Fecha.split('T')[0]);
           setLink(event.Link || '');
         })
@@ -71,7 +65,6 @@ export default function Page() {
     };
 
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
-    //axios.put(`http://localhost:3001/api/updateEvent/${eventId}`, eventData)
     axios.put(`${apiUrl}/api/updateEvent/${eventId}`, eventData)
       .then(response => {
         alert('¡Evento actualizado exitosamente!');

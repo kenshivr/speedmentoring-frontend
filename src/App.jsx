@@ -10,7 +10,6 @@ import NavbarMentor from "./components/Layout/Navbar_mentor";
 import NavbarStudent from "./components/Layout/Navbar_student";
 
 import LoginPage from './Login/page';
-import BuscarCuentaPage from './Login/buscarCuenta/page';
 
 import NotFound from './Others/NotFound404';
 
@@ -115,7 +114,6 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
 
-        <Route path="/login/buscarCuenta" element={<BuscarCuentaPage />} />
         <Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
 
         <Route path="/Mentor/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPage} />} />

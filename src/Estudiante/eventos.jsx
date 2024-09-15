@@ -1,27 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
-import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
-
+import PaginationButtons from '../components/Button/PaginationButtons.jsx';
 
 export default function EventsPage() {
+  const itemsPerPage = 3;
   const [events, setEvents] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 3;
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const apiUrl = process.env.REACT_APP_BACKEND_URL;
-        const response = await axios.get(`${apiUrl}/api/getEventsFull`);
-        //const response = await axios.get(`http://localhost:3001/api/getEventsFull`);
-        setEvents(response.data);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      }
-    };
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
-    fetchEvents();
+    try {
+      fetch(`${apiUrl}/api/getEventsFull`)
+        .then(response => response.json())
+        .then(response => {
+          if (response && response.data) setEvents(response.data);
+        })
+        .catch(error => console.error('Error fetching events:', error));
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    }
   }, []);
 
   const handlePrevious = () => {
@@ -33,14 +30,14 @@ export default function EventsPage() {
   };
 
   const startIndex = currentPage * itemsPerPage;
-  const selectedEvents = events.slice(startIndex, startIndex + itemsPerPage);
+  const selectedEvents = events?.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="container-sm p-2" style={{ maxWidth: '1800px', margin: 'auto' }}>
       <div className="row justify-content-evenly">
         <div className="col-12 col-md-5 m-1 d-flex flex-column p-3">
           <div className='mb-3'>
-            <div className="container-sm mt-3" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+            <div className="container-sm mt-3" style={{ backgroundColor: '#002B7A', borderRadius: '25px', maxWidth: '1000px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
               <div className="container">
                 <div className="container text-center">
                   <div className="row align-items-start p-4">
@@ -55,7 +52,7 @@ export default function EventsPage() {
                 </div>
                 <div className="container p-2" style={{ color: 'white' }}>
                   <ul className="list-group">
-                    {selectedEvents.map(event => (
+                    {selectedEvents && selectedEvents.map(event => (
                       <li key={event.EventoID} className="list-group-item" style={{ backgroundColor: '#002B7A', border: 'none', color: 'white' }}>
                         <div className="row my-5">
                           <div className="col">
@@ -88,10 +85,10 @@ export default function EventsPage() {
                   </ul>
                   <div className="row my-5">
                     <PaginationButtons
-                      onPrevious = {handlePrevious}
-                      onNext = {handleNext}
-                      isPreviousDisabled = {currentPage === 0}
-                      isNextDisabled = {startIndex + itemsPerPage >= events.length}
+                      onPrevious={handlePrevious}
+                      onNext={handleNext}
+                      isPreviousDisabled={currentPage === 0}
+                      isNextDisabled={startIndex + itemsPerPage >= events.length}
                     />
                   </div>
                 </div>

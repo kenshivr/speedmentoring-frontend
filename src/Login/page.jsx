@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ButtonPrrincipal from '../components/Button/ButtonPrincipalC.jsx'; 
 
 export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
-  const [userCurrent, setUserCurrent] = useState('');
+  const [error, setError] = useState(null);
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null); // Estado para manejar errores
   const [showAlert, setShowAlert] = useState(false);
+  const [userCurrent, setUserCurrent] = useState('');
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(null); // Resetea el estado de error antes de intentar loguear
+    setError(null); 
 
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await fetch(`${apiUrl}/api/login`, {
-      //const response = await fetch('http://localhost:3001/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,7 +26,7 @@ export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
 
       if (!response.ok || response.status === 401) {
         console.log('Usuario o contraseña incorrectos!');
-        setError('Usuario o contraseña incorrectos...'); // Maneja el error de autenticación
+        setError('Usuario o contraseña incorrectos...');
         return;
       }
 
@@ -52,16 +51,16 @@ export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
             navigate('/');
         }
       } else {
-        setError('Error al obtener los datos'); // Maneja el error de datos
+        setError('Error al obtener los datos');
       }
     } catch (error) {
-      setError('Error en la solicitud al servidor'); // Maneja el error de red
+      setError('Error en la solicitud al servidor');
     }
   };
 
   const handleLinkClick = (e) => {
-    e.preventDefault(); // Prevenir la redirección
-    setShowAlert(true); // Mostrar el mensaje de alerta
+    e.preventDefault(); 
+    setShowAlert(true); 
   };
 
   return (
@@ -115,14 +114,6 @@ export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
                 )}
               </div>
   
-              <div className="mb-3">
-                <h6 style={{ color: 'white', fontSize: '13px', textAlign: 'center' }}>
-                  <Link to="#" onClick={handleLinkClick} style={{ color: 'white', textDecoration: 'underline' }}>
-                    ¿Has olvidado tu contraseña?
-                  </Link>
-                </h6>
-              </div>
-  
               <div className="pt-5">
                 <ButtonPrrincipal text="Ingresar" />
               </div>
@@ -133,7 +124,5 @@ export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
         </div>
       </div>
     </div>
-  );
-  
-  
+  ); 
 }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import LinkPrincipalCentered from './../components/Link/LinkPrincipalCentered.jsx';
-import SearchBarNoButton from '../components/Search/SearchBarNoButton.jsx'; 
-import DropButton1 from '../components/Button/DropButton1.jsx'; 
+import SearchBarNoButton from '../components/Search/SearchBarNoButton.jsx';
+import DropButton1 from '../components/Button/DropButton1.jsx';
 
 const MentorPage = () => {
   const [sessions, setSessions] = useState([]);
@@ -13,21 +13,22 @@ const MentorPage = () => {
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
+
     // Obtener sesiones desde el servidor
     fetch(`${apiUrl}/api/showSesionesMentor/${userId}`)
-//  fetch(`http://localhost:3001/api/showSesionesMentor/${userId}`)
       .then(response => response.json())
       .then(data => {
+
         if (Array.isArray(data.data)) {
-          setSessions(data.data);
-          setFilteredSessions(data.data);
-        } else {
-          console.error('Data is not an array:', data.data);
-        }
+          if (data.data.length > 0) {
+            setSessions(data.data);
+            setFilteredSessions(data.data);
+          }
+        } 
       })
-      .catch(error => console.error('Error fetching sessions:', error));
+
   }, [userId]);
-  
+
 
   useEffect(() => {
     const today = new Date();
@@ -35,8 +36,8 @@ const MentorPage = () => {
       const sessionDate = new Date(session.Fecha); // Convierte la fecha de la sesión a un objeto Date
       return (
         (session.SesionID?.toString().includes(search) ||
-        session.Fecha?.includes(search) ||
-        session.Titulo?.includes(search)) &&
+          session.Fecha?.includes(search) ||
+          session.Titulo?.includes(search)) &&
         sessionDate >= today // Filtra las sesiones cuya fecha es igual o posterior a hoy
       );
     });
@@ -59,11 +60,11 @@ const MentorPage = () => {
   };
 
   return (
-    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
         <SearchBarNoButton
-          legendText= 'Agenda'
-          searchPlaceholder= 'Buscar sesión'
+          legendText='Agenda'
+          searchPlaceholder='Buscar sesión'
           searchValue={search}
           onSearchChange={handleSearchChange}
         />
@@ -90,7 +91,7 @@ const MentorPage = () => {
                       <DropButton1
                         text='Editar'
                         link='/Mentor/sesiones/editarSesion'
-                        dropOnClick= {handleLink(session)}
+                        dropOnClick={handleLink(session)}
                       />
                     </td>
                   </tr>
