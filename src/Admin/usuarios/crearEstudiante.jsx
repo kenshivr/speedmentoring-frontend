@@ -61,9 +61,6 @@ export default function Page() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('formDataAlumno');
-    console.log(formDataAlumno);
-
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       await axios.post(`${apiUrl}/api/setNewAlumno`, formDataAlumno);

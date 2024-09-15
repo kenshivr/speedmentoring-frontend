@@ -1,33 +1,31 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx'; 
-import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx'; 
+import React, { useState, useEffect } from 'react';
+import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
+import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx';
 
 export default function EditStudentPage() {
+  const [mentores, setMentores] = useState([]);
   const id = sessionStorage.getItem('EstudianteID');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [especialidades, setEspecialidades] = useState([]);
   const [formDataAlumno, setFormDataAlumno] = useState({
     EstudianteID: '',
+    Periodo: '',
     Nombre: '',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
-    Periodo: '',
-    EspecialidadID: '',
     MentorRFC: '',
     CorreoElectronicoPersonal: '',
     NumeroTelefono: '',
-    Estado: 0
+    EspecialidadID: '',
   });
-  const [especialidades, setEspecialidades] = useState([]);
-  const [mentores, setMentores] = useState([]);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getStudent/${id}`);
-        //const response = await axios.get(`http://localhost:3001/api/getStudent/${id}`);
         if (response.data) {
           setFormDataAlumno(response.data);
         } else {
@@ -43,7 +41,6 @@ export default function EditStudentPage() {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getSpecialties`);
-        //const response = await axios.get(`http://localhost:3001/api/getSpecialties`);
         if (response.data) {
           setEspecialidades(response.data);
         } else {
@@ -58,7 +55,6 @@ export default function EditStudentPage() {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/mentors`);
-        //const response = await axios.get(`http://localhost:3001/api/mentors`);
         if (response.data) {
           setMentores(response.data);
         } else {
@@ -87,10 +83,10 @@ export default function EditStudentPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
-      const response = await axios.put(`${apiUrl}/api/students/${id}`, formDataAlumno);
-      //const response = await axios.put(`http://localhost:3001/api/students/${id}`, formDataAlumno);
-      if (response.data.success) {
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log(apiUrl);
+      const response = await axios.put(`${apiUrl}/api/updateStudent/${id}`, formDataAlumno);
+      if (response.success) {
         setSuccessMessage('Estudiante actualizado con éxito.');
       } else {
         setErrorMessage('Error al actualizar el estudiante.');
@@ -103,7 +99,7 @@ export default function EditStudentPage() {
 
   return (
     <div className='container mt-5 p-3' style={{ maxWidth: '950px' }}>
-      <div className='container-sm my-3 p-4' style={{ backgroundColor: '#002B7A', borderRadius: '50px', color: 'white', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <div className='container-sm my-3 p-4' style={{ backgroundColor: '#002B7A', borderRadius: '50px', color: 'white', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
         <h1 className='text-center mb-5 mt-3'>Editar Estudiante</h1>
         <form onSubmit={handleSubmit}>
           <div className="row justify-content-center">

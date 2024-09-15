@@ -65,9 +65,6 @@ export default function Page() {
       link
     };
 
-    console.log('eventData');
-    console.log(eventData);
-
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
     axios.put(`${apiUrl}/api/updateEvent/${eventId}`, eventData)
       .then(response => {

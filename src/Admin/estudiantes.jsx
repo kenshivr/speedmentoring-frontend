@@ -1,25 +1,22 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-
+import React, { useEffect, useState } from 'react';
 import SearchBar from '../components/Search/SearchBar.jsx'; 
-import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
 import DropButton3 from '../components/Button/DropButton3.jsx'; 
+import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
 
 export default function Page() {
-  const [students, setStudents] = useState([]);
-  const [studentSearchTerm, setStudentSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
+  const [students, setStudents] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [studentSearchTerm, setStudentSearchTerm] = useState('');
 
   useEffect(() => {
     const getStudents = async () => {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/students`);
-        //const response = await axios.get(`http://localhost:3001/api/students`);
         setStudents(response.data);
       } catch (error) {
         console.error("Error en la obtención de los estudiantes:", error);
@@ -31,7 +28,7 @@ export default function Page() {
 
   const handleSearchStudentChange = (event) => {
     setStudentSearchTerm(event.target.value);
-    setCurrentPage(0); // Reinicia a la primera página al buscar
+    setCurrentPage(0); 
   };
 
   const handleEditClickStudent = (id) => {
@@ -42,7 +39,6 @@ export default function Page() {
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       await axios.put(`${apiUrl}/api/students/${id}`, { Estatus: status });
-      //await axios.put(`http://localhost:3001/api/students/${id}`, { Estatus: status });
       setStudents(prev => prev.map(student => student.EstudianteID === id ? { ...student, Estatus: status } : student));
     } catch (error) {
       console.error(`Error al actualizar el estado del ${type}:`, error);
