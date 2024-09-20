@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonPrrincipal from '../components/Button/ButtonPrincipalC.jsx'; 
 
-export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
+export default function LoginPage({ setUser, setUserId, setSpecialty, setIsAuthenticated }) {
   const [error, setError] = useState(null);
   const [password, setPassword] = useState('');
   const [showAlert, setShowAlert] = useState(false);
@@ -22,6 +22,7 @@ export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ user: userCurrent, password: password }),
+        credentials: 'include'
       });
 
       if (!response.ok || response.status === 401) {
@@ -35,16 +36,18 @@ export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
         setUser(data.userType);
         setUserId(data.userId);
         setSpecialty(data.specialty);
+        setIsAuthenticated(true);
 
+        // Asegúrate de que la redirección ocurra después de que isAuthenticated se establezca en true.
         switch (data.userType) {
           case 'student':
-            navigate('/Estudiante/inicio');
+            setTimeout(() => navigate('/Estudiante/inicio'), 100);
             break;
           case 'mentor':
-            navigate('/Mentor/inicio');
+            setTimeout(() => navigate('/Mentor/inicio'), 100);
             break;
           case 'admin':
-            navigate('/Admin/eventos');
+            setTimeout(() => navigate('/Admin/eventos'), 100);
             break;
           default:
             navigate('/');
