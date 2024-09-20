@@ -22,6 +22,7 @@ export default function  LoginPage({ setUser, setUserId, setSpecialty }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ user: userCurrent, password: password }),
+        credentials: 'include'
       });
 
       if (!response.ok || response.status === 401) {
