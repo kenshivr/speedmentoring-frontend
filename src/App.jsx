@@ -74,26 +74,29 @@ function App() {
   const showNavbar = () => {
     // Mostrar la navbar si el usuario no está en la página login o en la página de buscar cuenta debido a contraseña perdida
     return location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/login/buscarCuenta';
-  };  
+  };
 
   // Almacenar el userId en sessionStorage cuando se establece 
   useEffect(() => {
     const storedUser = sessionStorage.getItem('user');
     const storedUserId = sessionStorage.getItem('userId');
-    if (storedUserId) {
+    if (storedUserId && storedUser) {
       setUserId(storedUserId);
+      setUser(storedUser);
       setIsAuthenticated(true);
-      if (storedUser) {
-        setUser(storedUser);
-      }
+    } else {
+      setIsAuthenticated(false);
     }
   }, []);
 
-  // Escuchar cambios en userId y actualizar sessionStorage
+  // Este `useEffect` asegura que los datos se actualicen correctamente en sessionStorage
   useEffect(() => {
-    sessionStorage.setItem('user', user);
-    sessionStorage.setItem('userId', userId);
+    if (user && userId) {
+      sessionStorage.setItem('user', user);
+      sessionStorage.setItem('userId', userId);
+    }
   }, [userId, user]);
+
 
   return (
     <>
@@ -112,18 +115,18 @@ function App() {
 
       <Routes>
         <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
+        {/* <Route path="/" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} /> */}
 
-        <Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} />} />
+        <Route path="/login" element={<LoginPage setUser={setUser} setUserId={setUserId} setSpecialty={setSpecialty} setIsAuthenticated={setIsAuthenticated}/>} />
 
         <Route path="/Mentor/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPage} />} />
         <Route path="/Mentor/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorPerfil} userId={userId} />} />
-        <Route path='/Mentor/eventos' element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorEvento} />}/>
+        <Route path='/Mentor/eventos' element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorEvento} />} />
         <Route path="/Mentor/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones} userId={userId} />} />
-        <Route path='/Mentor/sesiones/nuevaSesion' element={< ProtectedRoute isAuthenticated={isAuthenticated} element={MentorNuevaSesion} />}/>
-        <Route path='/Mentor/sesiones/editarSesion' element={< ProtectedRoute isAuthenticated={isAuthenticated} element={MentorEditarSesion} />}/>
+        <Route path='/Mentor/sesiones/nuevaSesion' element={< ProtectedRoute isAuthenticated={isAuthenticated} element={MentorNuevaSesion} />} />
+        <Route path='/Mentor/sesiones/editarSesion' element={< ProtectedRoute isAuthenticated={isAuthenticated} element={MentorEditarSesion} />} />
         <Route path="/Mentor/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1} />} />
-        <Route path="/Mentor/sesiones/verSesion/retroalimentacion" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1r} />}/>
+        <Route path="/Mentor/sesiones/verSesion/retroalimentacion" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={MentorSesiones1r} />} />
 
         <Route path="/Estudiante/inicio" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteInicio} specialty={specialty} userId={userId} />} />
         <Route path="/Estudiante/perfil" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudiantePerfil} />} />
@@ -131,7 +134,7 @@ function App() {
         <Route path="/Estudiante/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones} userId={userId} setSesionId={setSesionId} />} />
         <Route path="/Estudiante/sesiones/verSesion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1} sesionId={sesionId} setSesionId={setSesionId} />} />
         <Route path="/Estudiante/sesiones/verSesion/retroalimentacion" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={EstudianteSesiones1r} />} />
-        
+
         <Route path="/admin/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminPage} userId={userId} />} />
         <Route path="/Admin/eventos/editarEvento" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditEvent} />} />
         <Route path="/Admin/eventos/crearEvento" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
@@ -142,7 +145,7 @@ function App() {
         <Route path="/admin/estadisticas/mentores" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasMentores} />} />
         <Route path="/admin/estadisticas/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasEventos} />} />
         <Route path="/admin/estadisticas/feedbackEstudiantes" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasFeedbackEstudiantes} />} />
-        <Route path="/admin/estadisticas/feedbackMentores" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasFeedbackMentores} />}  />
+        <Route path="/admin/estadisticas/feedbackMentores" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasFeedbackMentores} />} />
         <Route path="/admin/estadisticas/reportes" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasReportes} />} />
         <Route path="/admin/estadisticas/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasSesiones} />} />
         <Route path="/admin/estadisticas/crearReporte" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminCrearReporte} />} />
@@ -158,8 +161,8 @@ function App() {
         <Route path="/Admin/usuarios/editarMentor" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarMentor} />} />
 
         <Route path="/admin/especialidades" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEspecialidades} />} />
-        <Route path="/Admin/especialidades/crearEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminNuevaEspecialidad} />}/>
-        <Route path="/Admin/especialidades/editarEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEspecialidad} />}/>
+        <Route path="/Admin/especialidades/crearEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminNuevaEspecialidad} />} />
+        <Route path="/Admin/especialidades/editarEspecialidad" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEditarEspecialidad} />} />
       </Routes>
 
       <Footer />
