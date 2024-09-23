@@ -10,7 +10,7 @@ function NavbarStudent() {
     sessionStorage.removeItem('user'); // Si también usas sessionStorage, asegúrate de limpiarlo
 
     // Redirigir al usuario a la página de inicio
-    navigate('/');
+    navigate('/login');
   };
 
   return (

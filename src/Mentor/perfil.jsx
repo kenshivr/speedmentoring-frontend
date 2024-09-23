@@ -17,7 +17,6 @@ export default function Page({ userId }) {
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.get(`${apiUrl}/api/getProfileMentor/${userId}`);
-      //const response = await axios.get(`http://localhost:3001/api/getProfileMentor/${userId}`);
       setNombre(response.data.Nombre);
       setPaterno(response.data.ApellidoPaterno);
       setMaterno(response.data.ApellidoMaterno);

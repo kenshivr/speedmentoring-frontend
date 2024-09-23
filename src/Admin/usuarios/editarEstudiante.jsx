@@ -11,14 +11,14 @@ export default function EditStudentPage() {
   const [especialidades, setEspecialidades] = useState([]);
   const [formDataAlumno, setFormDataAlumno] = useState({
     EstudianteID: '',
-    Periodo: '',
     Nombre: '',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
-    MentorRFC: '',
-    CorreoElectronicoPersonal: '',
-    NumeroTelefono: '',
+    Periodo: '',
     EspecialidadID: '',
+    NumeroTelefono: '',
+    CorreoElectronicoPersonal: '',
+    MentorRFC: '',
   });
 
   useEffect(() => {
@@ -84,9 +84,8 @@ export default function EditStudentPage() {
     e.preventDefault();
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
-      console.log(apiUrl);
       const response = await axios.put(`${apiUrl}/api/updateStudent/${id}`, formDataAlumno);
-      if (response.success) {
+      if (response.data.success) {
         setSuccessMessage('Estudiante actualizado con éxito.');
       } else {
         setErrorMessage('Error al actualizar el estudiante.');
@@ -104,7 +103,7 @@ export default function EditStudentPage() {
         <form onSubmit={handleSubmit}>
           <div className="row justify-content-center">
             <div className="col-12 col-md-8">
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label htmlFor="EstudianteID" className="form-label">Número de cuenta</label>
                 <input
                   type="text"
@@ -116,7 +115,7 @@ export default function EditStudentPage() {
                   onChange={handleChange}
                   required
                 />
-              </div>
+              </div> */}
               <div className="mb-3">
                 <label htmlFor="Periodo" className="form-label">Periodo</label>
                 <input

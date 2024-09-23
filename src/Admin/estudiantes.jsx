@@ -36,10 +36,14 @@ export default function Page() {
   };
 
   const updateStatus = async (type, id, status) => {
+
+    let Estatus = 'Inactivo';
+    if (status) Estatus = 'Activo';
+
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       await axios.put(`${apiUrl}/api/students/${id}`, { Estatus: status });
-      setStudents(prev => prev.map(student => student.EstudianteID === id ? { ...student, Estatus: status } : student));
+      setStudents(prev => prev.map(student => student.EstudianteID === id ? { ...student, Estatus: Estatus } : student));
     } catch (error) {
       console.error(`Error al actualizar el estado del ${type}:`, error);
     }
