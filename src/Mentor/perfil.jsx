@@ -5,14 +5,13 @@ import ButtonPrincipalC from './../components/Button/ButtonPrincipalC.jsx';
 
 export default function Page({ userId }) {
   const [nombre, setNombre] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [puesto, setPuesto] = useState('');
   const [paterno, setPaterno] = useState('');
   const [materno, setMaterno] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [correo, setCorreo] = useState('');
   const [empresa, setEmpresa] = useState('');
-  const [puesto, setPuesto] = useState('');
+  const [telefono, setTelefono] = useState('');
 
-  // Función para obtener datos de usuario
   const fetchUserData = useCallback(async () => {
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
@@ -35,14 +34,12 @@ export default function Page({ userId }) {
     }
   }, [userId, fetchUserData]);
 
-  // Función para manejar la actualización del perfil
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Evita el comportamiento por defecto del formulario
+    event.preventDefault(); 
 
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.post(`${apiUrl}/api/updateProfileMentor/${userId}`, {
-      //const response = await axios.post(`http://localhost:3001/api/updateProfileMentor/${userId}`, {
         telefono,
         correo,
         empresa,
@@ -59,7 +56,7 @@ export default function Page({ userId }) {
       <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', borderRadius: '25px', minHeight:'660px', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
         <div className='position-absolute top-50 start-50 translate-middle'>Cargando...</div>
       </div>
-    ); // Mostrar un mensaje de carga mientras se obtienen los datos
+    );
   }
 
   return (

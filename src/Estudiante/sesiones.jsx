@@ -12,7 +12,6 @@ export default function Page({ userId }) {
   useEffect(() => {
     if (userId) {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
-      //axios.get(`http://localhost:3001/api/showSesionesStudent/${userId}`)
       axios.get(`${apiUrl}/api/showSesionesStudent/${userId}`)
         .then((response) => {
           if (response.data.success) {

@@ -2,9 +2,9 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { useEffect, useState } from 'react';
-import SearchBar from '../components/Search/SearchBar.jsx'; 
-import DropButton3 from '../components/Button/DropButton3.jsx'; 
-import PaginationButtons from '../components/Button/PaginationButtons.jsx'; 
+import SearchBar from '../components/Search/SearchBar.jsx';
+import DropButton3 from '../components/Button/DropButton3.jsx';
+import PaginationButtons from '../components/Button/PaginationButtons.jsx';
 
 export default function Page() {
   const itemsPerPage = 5;
@@ -17,7 +17,14 @@ export default function Page() {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/students`);
-        setStudents(response.data);
+
+        const sortedStudents = response.data.sort((a, b) => {
+          if (a.ApellidoPaterno < b.ApellidoPaterno) return -1;
+          if (a.ApellidoPaterno > b.ApellidoPaterno) return 1;
+          return 0;
+        });
+
+        setStudents(sortedStudents);
       } catch (error) {
         console.error("Error en la obtención de los estudiantes:", error);
       }
@@ -28,7 +35,7 @@ export default function Page() {
 
   const handleSearchStudentChange = (event) => {
     setStudentSearchTerm(event.target.value);
-    setCurrentPage(0); 
+    setCurrentPage(0);
   };
 
   const handleEditClickStudent = (id) => {
@@ -57,7 +64,6 @@ export default function Page() {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(filteredStudents.length / itemsPerPage)));
   };
 
-  // Filtrar y paginar los estudiantes
   const filteredStudents = students.filter(student => {
     const searchTermLower = studentSearchTerm.toLowerCase();
     return (
@@ -77,14 +83,14 @@ export default function Page() {
   const selectedStudents = filteredStudents.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+    <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
         <SearchBar
-          legendText= 'Estudiantes'
-          searchPlaceholder= 'Buscar estudiante'
+          legendText='Estudiantes'
+          searchPlaceholder='Buscar estudiante'
           searchValue={studentSearchTerm}
           onSearchChange={handleSearchStudentChange}
-          buttonLink= '/Admin/usuarios/crearEstudiante'
+          buttonLink='/Admin/usuarios/crearEstudiante'
         />
         <div className="table-responsive p-2 justify-content-center align-items-center text-center">
           <table className="table table-hover">
@@ -122,7 +128,7 @@ export default function Page() {
                     <DropButton3
                       text1='Editar'
                       link1='/Admin/usuarios/editarEstudiante'
-                      dropOnClick1= {() => handleEditClickStudent(student.EstudianteID)}
+                      dropOnClick1={() => handleEditClickStudent(student.EstudianteID)}
                       text2='Habilitar'
                       dropOnClick2={() => updateStatus('students', student.EstudianteID, 1)}
                       text3='Deshabilitar'
@@ -135,11 +141,11 @@ export default function Page() {
           </table>
         </div>
         <PaginationButtons
-            onPrevious = {handlePrevious}
-            onNext = {handleNext}
-            isPreviousDisabled = {currentPage === 0}
-            isNextDisabled = {startIndex + itemsPerPage >= filteredStudents.length}
-          />
+          onPrevious={handlePrevious}
+          onNext={handleNext}
+          isPreviousDisabled={currentPage === 0}
+          isNextDisabled={startIndex + itemsPerPage >= filteredStudents.length}
+        />
       </div>
     </div>
   );
