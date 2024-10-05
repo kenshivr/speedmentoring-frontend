@@ -45,11 +45,14 @@ export default function Page() {
   };
 
   const updateStatus = async (type, id, status) => {
+
+    let Estatus = 'Inactivo';
+    if (status) Estatus = 'Activo';
+
     try {
-        const apiUrl = process.env.REACT_APP_BACKEND_URL;
-        await axios.put(`${apiUrl}/api/mentors/${id}`, { Estatus: status });
-        //await axios.put(`http://localhost:3001/api/mentors/${id}`, { Estatus: status });
-        setMentors(prev => prev.map(mentor => mentor.RFC === id ? { ...mentor, Estatus: status } : mentor));
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      await axios.put(`${apiUrl}/api/mentorsStatus/${id}`, { Estatus: status });
+      setMentors(prev => prev.map(mentor => mentor.RFC === id ? { ...mentor, Estatus: Estatus } : mentor));
     } catch (error) {
       console.error(`Error al actualizar el estado del ${type}:`, error);
     }
@@ -63,7 +66,6 @@ export default function Page() {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(filteredMentors.length / itemsPerPage)));
   };
 
-  // Filtrar y paginar los mentores
   const filteredMentors = mentors.filter(mentor => {
     const searchTermLower = mentorSearchTerm.toLowerCase();
     return (
