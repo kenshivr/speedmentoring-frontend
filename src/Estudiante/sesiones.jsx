@@ -8,6 +8,7 @@ export default function Page({ userId }) {
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Para almacenar mensajes de error
 
   useEffect(() => {
     if (userId) {
@@ -30,11 +31,11 @@ export default function Page({ userId }) {
             setSessions(uniqueSessions);
             setFilteredSessions(uniqueSessions);
           } else {
-            console.error('No se encontraron sesiones');
+            setErrorMessage('No se encontraron sesiones. Ponte en contacto con tu mentor para agendar una nueva...'); // Mensaje de error amigable
           }
         })
         .catch((error) => {
-          console.error('Error al obtener sesiones:', error);
+          setErrorMessage('Ocurrió un error al obtener las sesiones. Intente de nuevo más tarde.'); // Mensaje en caso de error en la solicitud
         });
     }
   }, [userId]);
@@ -67,16 +68,46 @@ export default function Page({ userId }) {
   const handleCLickLinkSesion = (sessionId) => () => {
     sessionStorage.setItem('sesionId', sessionId);
   }
+  
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    
+    // Asegura que día y mes tengan siempre dos dígitos
+    const formattedDay = day.padStart(2, '0');
+    const formattedMonth = month.padStart(2, '0');
+  
+    return `${formattedDay}-${formattedMonth}-${year}`;
+  };
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <div className="col d-flex align-items-center justify-content-center">
+        <header className="text-center my-4">
+          <p
+            className="text-uppercase font-weight-bold"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              color: 'white', 
+              letterSpacing: '2px'
+            }}
+          >
+           Sesiones
+          </p>
+        </header>
+      </div>
       <div className="container p-3">
         <SearchBarNoButton
-            legendText= 'Historial de sesiones'
-            searchPlaceholder= 'Buscar sesión'
+            legendText= 'Filtro'
+            searchPlaceholder= 'Buscar sesión por titulo o descripción...'
             searchValue={searchTerm}
             onSearchChange={handleSearchChange}
           />
+
+        {errorMessage && ( // Mostrar mensaje de error si existe
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
         <div className="table-responsive p-2 justify-content-center align-items-center text-center">
           <table className="table table-hover">
             <thead>
@@ -92,7 +123,7 @@ export default function Page({ userId }) {
               {filteredSessions.length > 0 ? (
                 filteredSessions.map((session, index) => (
                   <tr key={index}>
-                    <td>{new Date(session.Fecha).toLocaleDateString()}</td>
+                    <td>{formatDate(session.Fecha)}</td>
                     <td>{session.NumeroDeSesion}</td>
                     <td>{session.Titulo}</td>
                     <td>

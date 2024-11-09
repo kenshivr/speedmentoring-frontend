@@ -6,23 +6,46 @@ export default function Header() {
     <div>
       <nav className="navbar navbar-light" style={{ backgroundColor: '#002B7A' }}>
         <div className="container">
-          <div className="row w-100 no-gutters py-2 ms-2">
+          <div className="row no-gutters py-2 d-flex align-items-center justify-content-center">
 
-            <div className="col-4 d-flex align-items-center justify-content-start">
+            <div className="col-3 d-flex align-items-center justify-content-start">
               <a className="navbar-brand" href="https://www.acatlan.unam.mx/">
                 <img 
                   src="https://www.acatlan.unam.mx/identidad-acatlan/img/Logotipos/Logotipo/logo-blancoBis.png" 
                   alt="Logo Fes Acatlan" 
                   className={`d-inline-block align-text-start img-fluid ${styles.logoImg}`}
-                  style={{ minHeight:'50px', minWidth:'150px'}}
+                  style={{ minHeight:'50px', minWidth:'150px', marginRight: '30px'}}
                 />
               </a>
             </div>
 
-            <div className="col-4 d-flex align-items-center justify-content-center">
+            <div className="col-3 d-flex align-items-center justify-content-center">
+              <header className="text-center my-4">
+                <p
+                  className="text-uppercase font-weight-bold"
+                  style={{
+                    fontSize: 'clamp(1rem, 5vw, 3rem)',
+                    color: 'white', 
+                    letterSpacing: '2px',
+                    marginLeft: '15px'
+                  }}
+                    id="titulo"
+                >
+                 PLATAFORMA MENTORÍAS MAC
+                </p>
+                <style>
+                  {`
+                    @media (max-width: 1000px) {
+                      #titulo {
+                        display: none;
+                      }
+                    }
+                  `}
+                </style>
+              </header>
             </div>
 
-            <div className="col-4 d-flex align-items-center justify-content-end">
+            <div className="col-3 d-flex align-items-center justify-content-end">
               <a className="navbar-brand" href="https://mac.acatlan.unam.mx/">
                 <img 
                   src="https://dl.dropboxusercontent.com/s/z2maoh5yf7apv9ogvbt3m/logomac1-blanco.png?rlkey=rb71mpzb7uz1olo87d2vt2qmq&st=0828oyl6" 
@@ -31,7 +54,6 @@ export default function Header() {
                 />
               </a>
             </div>
-
           </div>
         </div>
       </nav>

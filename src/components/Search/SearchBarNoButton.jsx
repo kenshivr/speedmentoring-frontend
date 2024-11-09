@@ -1,6 +1,9 @@
 import React from 'react';
 
 function SearchBarNoButton({ legendText, searchPlaceholder, searchValue, onSearchChange }) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
   return (
     <div className="row g-0 text-center mb-3">
       <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
@@ -8,7 +11,7 @@ function SearchBarNoButton({ legendText, searchPlaceholder, searchValue, onSearc
           <legend className='mt-1'>{legendText}</legend>
         </div>
         <div className="col-sm-8 px-2 mt-2 pb-1">
-          <form className="d-flex" role="search">
+          <form className="d-flex" role="search" onSubmit={handleSubmit}>
             <input
               className="form-control me-2"
               type="search"
@@ -22,6 +25,7 @@ function SearchBarNoButton({ legendText, searchPlaceholder, searchValue, onSearc
                 boxShadow: "none", // Quitar sombra predeterminada
               }}
               value={searchValue}
+              maxLength={100}
               onChange={onSearchChange}
               onFocus={(e) => {
                 e.target.style.borderColor = '#FFD700'; // Cambiar color del borde

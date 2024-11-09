@@ -126,6 +126,7 @@ export default function Page() {
                   type="text"
                   className="form-control" 
                   id="inputTelefono" 
+                  max={9999999999}
                   value={telefono || ''} 
                   onChange={(e) => setTelefono(e.target.value)}
                   style={{ borderColor: 'white', borderRadius: '25px', boxShadow: 'none' }}
@@ -140,6 +141,7 @@ export default function Page() {
                   type="email"
                   className="form-control" 
                   id="inputCorreo" 
+                  maxLength={100}
                   value={correo || ''} 
                   onChange={(e) => setCorreo(e.target.value)}
                   style={{ borderColor: 'white', borderRadius: '25px', boxShadow: 'none' }}

@@ -112,9 +112,6 @@ export default function EditSessionPage() {
           </div>
           <div className="card p-4" style={{ borderRadius: '20px', backgroundColor: '#f8f9fa' }}>
             <div className="card-body">
-              {successMessage && <div className="alert alert-success">{successMessage}</div>}
-              {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-              {warningMessage && <div className="alert alert-warning">{warningMessage}</div>}
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="sessionTitle" className="form-label">Título de la Sesión</label>
@@ -155,7 +152,7 @@ export default function EditSessionPage() {
                       id="sessionDate"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
-                      min={getCurrentDateTime()} // Establecer fecha mínima
+                      //min={getCurrentDateTime()} // Establecer fecha mínima
                     />
                   </div>
                 )}
@@ -171,6 +168,9 @@ export default function EditSessionPage() {
                     maxLength="5000" // Limitar a 5000 caracteres
                   ></textarea>
                 </div>
+              {successMessage && <div className="alert alert-success">{successMessage}</div>}
+              {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+              {warningMessage && <div className="alert alert-warning">{warningMessage}</div>}
                 <div className="row justify-content-end mt-4 mb-3">
                   <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2">
                       <ButtonPrincipalC
