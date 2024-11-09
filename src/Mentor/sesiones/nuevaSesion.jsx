@@ -99,21 +99,6 @@ export default function Page() {
         </div>
         <div className="card p-4" style={{ borderRadius: '20px', backgroundColor: '#f8f9fa' }}>
           <div className="card-body">
-            {messageS && (
-              <div className="alert alert-success" role="alert">
-                {messageS}
-              </div>
-            )}
-            {messageE && (
-              <div className="alert alert-danger" role="alert">
-                {messageE}
-              </div>
-            )}
-            {messageD && (
-              <div className="alert alert-warning" role="alert">
-                {messageD}
-              </div>
-            )}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="sessionTitulo" className="form-label">Título de la Sesión: {date}</label>
@@ -158,7 +143,7 @@ export default function Page() {
                     id="sessionDate"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    min={getCurrentDateTime()}
+                    //min={getCurrentDateTime()}
                   />
                 </div>
               )}
@@ -174,6 +159,21 @@ export default function Page() {
                   maxLength="5000"
                 ></textarea>
               </div>
+            {messageS && (
+              <div className="alert alert-success" role="alert">
+                {messageS}
+              </div>
+            )}
+            {messageE && (
+              <div className="alert alert-danger" role="alert">
+                {messageE}
+              </div>
+            )}
+            {messageD && (
+              <div className="alert alert-warning" role="alert">
+                {messageD}
+              </div>
+            )}
               <div className="row justify-content-end pt-3">
                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2">
                   <ButtonPrincipalC

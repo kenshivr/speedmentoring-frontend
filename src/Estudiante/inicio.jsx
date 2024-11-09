@@ -44,16 +44,28 @@ const StudentPage = () => {
   }, []);
 
   useEffect(() => {
-    // Filtra sesiones basadas en la búsqueda
-    setFilteredSessions(
-      sessions.filter(session => 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Establece la hora a las 00:00 para comparar solo la fecha
+  
+    const filtered = sessions.filter(session => {
+      // Convierte la fecha de la sesión en un objeto Date
+      const sessionDate = new Date(session.Fecha);
+      sessionDate.setHours(0, 0, 0, 0); // Establece la hora a las 00:00 para comparar solo la fecha
+  
+      // Filtro de búsqueda en múltiples campos
+      const matchesSearch = 
         (session.Titulo ? session.Titulo.toString().toLowerCase() : '').includes(search.toLowerCase()) ||
         (session.NumeroDeSesion ? session.NumeroDeSesion.toString() : '').includes(search) ||
         (session.Fecha ? session.Fecha.toString() : '').includes(search) ||
-        (session.Descripcion ? session.Descripcion.toString().toLowerCase() : '').includes(search.toLowerCase())
-      )
-    );    
+        (session.Descripcion ? session.Descripcion.toString().toLowerCase() : '').includes(search.toLowerCase());
+  
+      // Retorna true solo si cumple con el filtro de búsqueda y la fecha
+      return matchesSearch && sessionDate >= today;
+    });
+  
+    setFilteredSessions(filtered);
   }, [search, sessions]);
+  
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -62,6 +74,20 @@ const StudentPage = () => {
   if (loading) {
     return <div className='container p-5'>
     <div className="container-sm p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto' }}>
+      <div className="col d-flex align-items-center justify-content-center">
+        <header className="text-center my-4">
+          <p
+            className="text-uppercase font-weight-bold"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              color: 'white', 
+              letterSpacing: '2px'
+            }}
+          >
+           Agenda
+          </p>
+        </header>
+      </div>
       <div className="container p-3">
         <SearchBarNoButton
           legendText= 'Agenda'
@@ -91,13 +117,37 @@ const StudentPage = () => {
   </div>
   }
 
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    
+    // Asegura que día y mes tengan siempre dos dígitos
+    const formattedDay = day.padStart(2, '0');
+    const formattedMonth = month.padStart(2, '0');
+  
+    return `${formattedDay}-${formattedMonth}-${year}`;
+  };
+
   return (
     <div className='container p-5'>
       <div className="container-sm p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+        <div className="col d-flex align-items-center justify-content-center">
+          <header className="text-center my-4">
+            <p
+              className="text-uppercase font-weight-bold"
+              style={{
+                fontSize: 'clamp(2rem, 5vw, 3rem)',
+                color: 'white', 
+                letterSpacing: '2px'
+              }}
+            >
+             Agenda
+            </p>
+          </header>
+        </div>
         <div className="container p-3">
           <SearchBarNoButton
-            legendText= 'Agenda'
-            searchPlaceholder= 'Buscar sesión'
+            legendText= 'Filtro'
+            searchPlaceholder= 'Buscar sesión por titulo o descripción...'
             searchValue={search}
             onSearchChange={handleSearchChange}
           />
@@ -115,7 +165,7 @@ const StudentPage = () => {
                 {filteredSessions.length > 0 ? (
                   filteredSessions.map((session, index) => (
                     <tr key={index}>
-                      <td>{session.Fecha ? session.Fecha.split('T')[0] : ''}</td>
+                      <td>{formatDate(session.Fecha)}</td>
                       <td>{session.NumeroDeSesion || ''}</td> 
                       <td>{session.Titulo || ''}</td> 
                       <td>{session.Descripcion || ''}</td>

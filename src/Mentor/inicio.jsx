@@ -11,38 +11,52 @@ const MentorPage = () => {
 
   const userId = sessionStorage.getItem('userId');
 
-  useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+useEffect(() => {
+  const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
-    // Obtener sesiones desde el servidor
-    fetch(`${apiUrl}/api/showSesionesMentor/${userId}`)
-      .then(response => response.json())
-      .then(data => {
+  // Obtener sesiones desde el servidor solo una vez al montar el componente
+  const fetchSessions = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/api/showSesionesMentor/${userId}`);
+      const data = await response.json();
 
-        if (Array.isArray(data.data)) {
-          if (data.data.length > 0) {
-            setSessions(data.data);
-            setFilteredSessions(data.data);
-          }
-        } 
-      })
+      if (Array.isArray(data.data) && data.data.length > 0) {
+        setSessions(data.data); // Guarda todas las sesiones para referencia
+      }
+    } catch (error) {
+      console.error("Error fetching sessions:", error);
+    }
+  };
 
-  }, [userId]);
+  fetchSessions();
+}, [userId]);
 
+useEffect(() => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Elimina la hora para comparar solo la fecha
 
-  useEffect(() => {
-    const today = new Date();
-    const filtered = sessions.filter(session => {
-      const sessionDate = new Date(session.Fecha); // Convierte la fecha de la sesión a un objeto Date
-      return (
-        (session.SesionID?.toString().includes(search) ||
-          session.Fecha?.includes(search) ||
-          session.Titulo?.includes(search)) &&
-        sessionDate >= today // Filtra las sesiones cuya fecha es igual o posterior a hoy
-      );
-    });
-    setFilteredSessions(filtered);
-  }, [search, sessions]);
+  const filtered = sessions.filter(session => {
+    // Convierte la fecha de la sesión en un objeto Date
+    const sessionDate = new Date(session.Fecha);
+    sessionDate.setHours(0, 0, 0, 0); // Elimina la hora para comparar solo la fecha
+
+    // Aplica ambos filtros: búsqueda y fecha posterior a hoy
+    return (
+      // Búsqueda en múltiples campos
+      ((session.Titulo ? session.Titulo.toString().toLowerCase() : '').includes(search.toLowerCase()) ||
+      (session.NumeroDeSesion ? session.NumeroDeSesion.toString() : '').includes(search) ||
+      (session.Fecha ? session.Fecha.toString() : '').includes(search) ||
+      (session.Nombre ? session.Nombre.toString().toLowerCase() : '').includes(search.toLowerCase()) ||
+      (session.ApellidoMaterno ? session.ApellidoMaterno.toString().toLowerCase() : '').includes(search.toLowerCase()) ||
+      (session.ApellidoPaterno ? session.ApellidoPaterno.toString().toLowerCase() : '').includes(search.toLowerCase())) &&
+      // Filtrar por fecha
+      sessionDate >= today
+    );
+  });
+
+  setFilteredSessions(filtered);
+}, [search, sessions]);
+
 
   function handleLink(session) {
     return () => {
@@ -52,8 +66,14 @@ const MentorPage = () => {
 
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split('T')[0].split('-');
-    return `${parseInt(day)}/${parseInt(month)}/${year}`;
+    
+    // Asegura que día y mes tengan siempre dos dígitos
+    const formattedDay = day.padStart(2, '0');
+    const formattedMonth = month.padStart(2, '0');
+  
+    return `${formattedDay}-${formattedMonth}-${year}`;
   };
+  
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -61,10 +81,24 @@ const MentorPage = () => {
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <div className="col d-flex align-items-center justify-content-center">
+        <header className="text-center my-4">
+          <p
+            className="text-uppercase font-weight-bold"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              color: 'white', 
+              letterSpacing: '2px'
+            }}
+          >
+           Agenda
+          </p>
+        </header>
+      </div>
       <div className="container p-3">
         <SearchBarNoButton
-          legendText='Agenda'
-          searchPlaceholder='Buscar sesión'
+          legendText='Filtrar'
+          searchPlaceholder='Buscar sesión por titulo o nombre de alumno...'
           searchValue={search}
           onSearchChange={handleSearchChange}
         />

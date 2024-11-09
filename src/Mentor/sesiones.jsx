@@ -50,6 +50,12 @@ export default function Page({ userId }) {
       const formattedDate = new Date(session.Fecha).toLocaleDateString();
       return (
         formattedDate.includes(term) ||
+        ((session.Titulo ? session.Titulo.toString().toLowerCase() : '').includes(term.toLowerCase()) ||
+        (session.NumeroDeSesion ? session.NumeroDeSesion.toString() : '').includes(term.toLowerCase()) ||
+        (session.Fecha ? session.Fecha.toString() : '').includes(term.toLowerCase()) ||
+        (session.Nombre ? session.Nombre.toString().toLowerCase() : '').includes(term.toLowerCase()) ||
+        (session.ApellidoMaterno ? session.ApellidoMaterno.toString().toLowerCase() : '').includes(term.toLowerCase()) ||
+        (session.ApellidoPaterno ? session.ApellidoPaterno.toString().toLowerCase() : '').includes(term.toLowerCase())) ||
         session.Nombre.toLowerCase().includes(term.toLowerCase()) ||
         (!session.reporteid && term.toLowerCase() === 'n/a')
       );
@@ -60,19 +66,39 @@ export default function Page({ userId }) {
 
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split('T')[0].split('-');
-    return `${parseInt(day)}/${parseInt(month)}/${year}`;
+    
+    // Asegura que día y mes tengan siempre dos dígitos
+    const formattedDay = day.padStart(2, '0');
+    const formattedMonth = month.padStart(2, '0');
+  
+    return `${formattedDay}-${formattedMonth}-${year}`;
   };
 
   const handleCLickLinkSesion = (sessionId) => () => {
     sessionStorage.setItem('sesionId', sessionId);
   }
+  
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <div className="col d-flex align-items-center justify-content-center">
+        <header className="text-center my-4">
+          <p
+            className="text-uppercase font-weight-bold"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              color: 'white', 
+              letterSpacing: '2px'
+            }}
+          >
+           Sesiones
+          </p>
+        </header>
+      </div>
       <div className="container p-3">
         <SearchBarNoButton
-          legendText= 'Historial de sesiones'
-          searchPlaceholder= 'Buscar sesión'
+          legendText= 'Filtrar'
+          searchPlaceholder= 'Buscar sesión por titulo o nombre de alumno...'
           searchValue={searchTerm}
           onSearchChange={handleSearchChange}
         />

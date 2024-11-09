@@ -2,6 +2,9 @@ import React from 'react';
 import LinkAddRed from '../Link/LinkAddRed.jsx';
 
 function SearchBar({ legendText, searchPlaceholder, searchValue, onSearchChange, buttonLink }) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
   return (
     <div className="row g-0 text-center mb-3">
       <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
@@ -9,7 +12,7 @@ function SearchBar({ legendText, searchPlaceholder, searchValue, onSearchChange,
           <legend className='mt-1'>{legendText}</legend>
         </div>
         <div className="col-sm-8 px-2 mt-2">
-          <form className="d-flex" role="search">
+          <form className="d-flex" role="search" onSubmit={handleSubmit}>
             <input
               className="form-control me-2"
               type="search"
@@ -23,6 +26,7 @@ function SearchBar({ legendText, searchPlaceholder, searchValue, onSearchChange,
                 boxShadow: "none", // Quitar sombra predeterminada
               }}
               value={searchValue}
+              maxLength={100}
               onChange={onSearchChange}
               onFocus={(e) => {
                 e.target.style.borderColor = '#FFD700'; // Cambiar color del borde

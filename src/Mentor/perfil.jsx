@@ -74,6 +74,7 @@ export default function Page({ userId }) {
                   className="form-control-plaintext ps-4" 
                   style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px' }} 
                   id="staticFullName" 
+                  maxLength={150}
                   value={`${nombre} ${paterno} ${materno}`} 
                 />
               </div>
@@ -88,6 +89,7 @@ export default function Page({ userId }) {
                   className="form-control-plaintext ps-4"
                   style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px' }} 
                   id="staticEmail" 
+                  maxLength={14}
                   value={userId}
                 />
               </div>
@@ -101,6 +103,7 @@ export default function Page({ userId }) {
                   type="text"
                   id="phoneNumber"
                   value={telefono}
+                  max={9999999999}
                   style={{ borderRadius:'25px' }}
                   onChange={(e) => setTelefono(e.target.value)}
                   aria-label="Número de teléfono"
@@ -116,6 +119,7 @@ export default function Page({ userId }) {
                   type="text"
                   id="email"
                   value={correo}
+                  maxLength={100}
                   style={{ borderRadius:'25px' }}
                   onChange={(e) => setCorreo(e.target.value)}
                   aria-label="Correo electrónico"
@@ -131,6 +135,7 @@ export default function Page({ userId }) {
                   type="text"
                   id="company"
                   value={empresa}
+                  maxLength={50}
                   style={{ borderRadius:'25px' }}
                   onChange={(e) => setEmpresa(e.target.value)}
                   aria-label="Empresa"
@@ -145,6 +150,7 @@ export default function Page({ userId }) {
                   className="form-control ps-4"
                   type="text"
                   id="position"
+                  maxLength={50}
                   value={puesto}
                   style={{ borderRadius:'25px' }}
                   onChange={(e) => setPuesto(e.target.value)}
