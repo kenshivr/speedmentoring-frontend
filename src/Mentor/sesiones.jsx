@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-
 import SearchBarNoButton from '../components/Search/SearchBarNoButton.jsx'; 
 import DropButton1 from '../components/Button/DropButton1.jsx'; 
 
@@ -8,12 +7,13 @@ export default function Page({ userId }) {
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Estado para manejar el mensaje de error
 
   useEffect(() => {
     if (userId) {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      
       axios.get(`${apiUrl}/api/showSesionesMentor/${userId}`)
-      //axios.get(`http://localhost:3001/api/showSesionesMentor/${userId}`)
         .then((response) => {
           if (response.data.success) {
             const pastSessions = response.data.data.filter(session => {
@@ -24,12 +24,13 @@ export default function Page({ userId }) {
 
             setSessions(pastSessions);
             setFilteredSessions(pastSessions); // Mostrar solo sesiones pasadas
+            setErrorMessage(''); // Limpiar el mensaje de error si todo fue bien
           } else {
-            console.error('No se encontraron sesiones');
+            setErrorMessage('No se encontraron sesiones. !Agenda una nueva en la sección de Agenda¡'); // Mostrar error si no hay datos
           }
         })
         .catch((error) => {
-          console.error('Error al obtener sesiones:', error);
+          setErrorMessage('Error al obtener sesiones. Intente nuevamente más tarde.'); // Mostrar error en caso de fallo en la petición
         });
     }
   }, [userId]);
@@ -75,6 +76,14 @@ export default function Page({ userId }) {
           searchValue={searchTerm}
           onSearchChange={handleSearchChange}
         />
+        
+        {/* Mostrar mensaje de error si lo hay */}
+        {errorMessage && (
+          <div className="alert alert-danger text-center" role="alert">
+            {errorMessage}
+          </div>
+        )}
+
         <div className="table-responsive p-2 justify-content-center align-items-center text-center">
           <table className="table table-hover">
             <thead>

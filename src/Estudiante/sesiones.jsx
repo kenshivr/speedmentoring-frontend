@@ -8,11 +8,11 @@ export default function Page({ userId }) {
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Para almacenar mensajes de error
 
   useEffect(() => {
     if (userId) {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
-      //axios.get(`http://localhost:3001/api/showSesionesStudent/${userId}`)
       axios.get(`${apiUrl}/api/showSesionesStudent/${userId}`)
         .then((response) => {
           if (response.data.success) {
@@ -31,11 +31,11 @@ export default function Page({ userId }) {
             setSessions(uniqueSessions);
             setFilteredSessions(uniqueSessions);
           } else {
-            console.error('No se encontraron sesiones');
+            setErrorMessage('No se encontraron sesiones. Ponte en contacto con tu mentor para agendar una nueva...'); // Mensaje de error amigable
           }
         })
         .catch((error) => {
-          console.error('Error al obtener sesiones:', error);
+          setErrorMessage('Ocurrió un error al obtener las sesiones. Intente de nuevo más tarde.'); // Mensaje en caso de error en la solicitud
         });
     }
   }, [userId]);
@@ -78,6 +78,12 @@ export default function Page({ userId }) {
             searchValue={searchTerm}
             onSearchChange={handleSearchChange}
           />
+
+        {errorMessage && ( // Mostrar mensaje de error si existe
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
         <div className="table-responsive p-2 justify-content-center align-items-center text-center">
           <table className="table table-hover">
             <thead>
