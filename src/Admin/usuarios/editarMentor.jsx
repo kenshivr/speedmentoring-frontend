@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx'; 
+import React, { useState, useEffect } from 'react';
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx'; 
+import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx'; 
 
 export default function AdminEditarMentor() {
   const RFC = sessionStorage.getItem('MentorRFC');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [especialidades, setEspecialidades] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
   const [mentor, setMentor] = useState({
-    RFC: '',
     Nombre: '',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
@@ -16,16 +18,12 @@ export default function AdminEditarMentor() {
     Puesto: '',
     EspecialidadID: ''
   });
-  const [especialidades, setEspecialidades] = useState([]);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchMentor = async () => {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getProfileMentor/${RFC}`);
-        //const response = await axios.get(`http://localhost:3001/api/getProfileMentor/${RFC}`);
         if (response.data) {
           setMentor(response.data);
         } else {
@@ -43,7 +41,6 @@ export default function AdminEditarMentor() {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getSpecialties`);
-        //const response = await axios.get(`http://localhost:3001/api/getSpecialties`);
         if (response.data) {
           setEspecialidades(response.data);
         } else {
@@ -68,9 +65,8 @@ export default function AdminEditarMentor() {
     e.preventDefault();
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
-      const response = await axios.put(`${apiUrl}/api/updateMentor/${RFC}`, mentor);
-      //const response = await axios.put(`http://localhost:3001/api/updateMentor/${RFC}`, mentor);
-      if (response.data.message) {
+      const response = await axios.put(`${apiUrl}/api/mentors/${RFC}`, mentor);
+      if (response.data.success) {
         setSuccessMessage('Mentor actualizado con éxito.');
       } else {
         setErrorMessage('Error al actualizar el mentor.');
@@ -88,7 +84,7 @@ export default function AdminEditarMentor() {
         <form onSubmit={handleSubmit}>
           <div className="row justify-content-center">
             <div className="col-12 col-md-8">
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label htmlFor="RFC" className="form-label">RFC</label>
                 <input
                   type="text"
@@ -100,7 +96,7 @@ export default function AdminEditarMentor() {
                   onChange={handleChange}
                   required
                 />
-              </div>
+              </div> */}
               <div className="mb-3">
                 <label htmlFor="Nombre" className="form-label">Nombre</label>
                 <input

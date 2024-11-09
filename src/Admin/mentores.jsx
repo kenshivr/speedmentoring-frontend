@@ -19,8 +19,14 @@ export default function Page() {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/mentors`);
-        //const response = await axios.get(`http://localhost:3001/api/mentors`);
-        setMentors(response.data);
+
+        const sortedMentors = response.data.sort((a, b) => {
+          if (a.ApellidoPaterno < b.ApellidoPaterno) return -1;
+          if (a.ApellidoPaterno > b.ApellidoPaterno) return 1;
+          return 0;
+        })
+
+        setMentors(sortedMentors);
       } catch (error) {
         console.error("Error en la obtención de los mentores:", error);
       }

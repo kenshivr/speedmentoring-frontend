@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx'; 
+import React, { useState, useEffect } from 'react';
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx'; 
+import LinkSecundaryC from '../../components/Link/LinkSecundaryCentered.jsx'; 
 
 export default function Page() {
   const [especialidades, setEspecialidades] = useState([]);
@@ -19,7 +19,7 @@ export default function Page() {
     NumeroTelefono: '',
     HASH: '',
     SALT: '',
-    Estado: 1
+    Estado: 'Activo'
   });
 
   const navigate = useNavigate();
@@ -29,7 +29,6 @@ export default function Page() {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/especialidades`);
-        //const response = await axios.get(`http://localhost:3001/api/especialidades`);
         setEspecialidades(response.data);
       } catch (error) {
         console.error("Error en la obtención de especialidades:", error);
@@ -52,7 +51,6 @@ export default function Page() {
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       await axios.post(`${apiUrl}/api/setNewMentor`, formDataMentor);
-      //await axios.post(`http://localhost:3001/api/setNewMentor`, formDataMentor);
       navigate('/Admin/mentores');
     } catch (error) {
       console.error('Error al registrar:', error);

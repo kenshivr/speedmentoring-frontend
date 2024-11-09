@@ -18,7 +18,6 @@ export default function Page() {
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.get(`${apiUrl}/api/getStudent/${user}`);
-      //const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`);
       const { EstudianteID, Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, Especialidad, NumeroTelefono, CorreoElectronicoPersonal, NombreMentor } = response.data;
 
       const fullName = `${Nombre || ''} ${ApellidoPaterno || ''} ${ApellidoMaterno || ''}`.trim();
