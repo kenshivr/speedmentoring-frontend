@@ -121,7 +121,7 @@ const MentorPage = () => {
           <table className="table table-hover">
             <thead>
               <tr>
-                <th scope="col">Fecha</th>
+                <th scope="col">Fecha agendada</th>
                 <th scope="col">Número de sesión</th>
                 <th scope="col">Título</th>
                 <th scope="col">Alumno</th>

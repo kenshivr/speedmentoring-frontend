@@ -94,6 +94,20 @@ export default function Page() {
 
   return (
     <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <div className="col d-flex align-items-center justify-content-center">
+        <header className="text-center mb-4">
+          <p
+            className="text-uppercase font-weight-bold"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              color: 'white', 
+              letterSpacing: '2px'
+            }}
+          >
+           Reporte
+          </p>
+        </header>
+      </div>
       <div className="row g-0 text-center mb-3">
           <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
             <div className='row'>

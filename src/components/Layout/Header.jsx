@@ -6,7 +6,7 @@ export default function Header() {
     <div>
       <nav className="navbar navbar-light" style={{ backgroundColor: '#002B7A' }}>
         <div className="container">
-          <div className="row no-gutters py-2 d-flex align-items-center justify-content-center">
+          <div className="row no-gutters d-flex align-items-center justify-content-center">
 
             <div className="col-3 d-flex align-items-center justify-content-start">
               <a className="navbar-brand" href="https://www.acatlan.unam.mx/">
@@ -20,13 +20,14 @@ export default function Header() {
             </div>
 
             <div className="col-3 d-flex align-items-center justify-content-center">
-              <header className="text-center my-4">
+              <header className="text-center">
                 <p
                   className="text-uppercase font-weight-bold"
                   style={{
-                    fontSize: 'clamp(1rem, 5vw, 3rem)',
+                    fontSize: 'clamp(0.6rem, 4vw, 1.5rem)',
                     color: 'white', 
                     letterSpacing: '2px',
+                    transform: 'scale(1)',
                     marginLeft: '15px'
                   }}
                     id="titulo"

@@ -8,33 +8,43 @@ export default function Page() {
   const [date, setDate] = useState('');
   const [titulo, setTitulo] = useState('');
   const [students, setStudents] = useState([]);
-  const [messageS, setMessageS] = useState(''); 
-  const [messageE, setMessageE] = useState(''); 
-  const [messageD, setMessageD] = useState(''); 
+  const [sessions, setSessions] = useState([]); // Nueva lista para sesiones existentes
+  const [messageS, setMessageS] = useState('');
+  const [messageE, setMessageE] = useState('');
+  const [messageD, setMessageD] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [selectedStudent, setSelectedStudent] = useState('');
   const [showDateEditor, setShowDateEditor] = useState(false);
 
   const mentorRFC = sessionStorage.getItem('userId');
+  const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BACKEND_URL;
-    fetch(`${apiUrl}/api/getStudentsOfMentor/${mentorRFC}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data) setStudents(data);
-      })
-      .catch(error => console.error('Error fetching students:', error));
+    fetchStudents();
+    fetchSessions();
   }, [mentorRFC]);
 
-  const getCurrentDateTime = () => {
-    const now = new Date();
-    return now.toISOString().slice(0, 16); 
+  const fetchStudents = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/api/getStudentsOfMentor/${mentorRFC}`);
+      const data = await response.json();
+      if (data) setStudents(data);
+    } catch (error) {
+      console.error('Error fetching students:', error);
+    }
+  };
+
+  // Obtener las sesiones existentes para el mentor
+  const fetchSessions = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/api/showSesionesMentor/${mentorRFC}`);
+      const data = await response.json();
+      if (Array.isArray(data.data) && data.data.length > 0) {
+        setSessions(data.data); // Guarda todas las sesiones para referencia
+      }
+    } catch (error) {
+      console.error("Error fetching sessions:", error);
+    }
   };
 
   const toggleDateEditor = () => {
@@ -44,12 +54,34 @@ export default function Page() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!titulo || !date || !descripcion || !selectedStudent) {
-      setMessageD('Todos los campos son obligatorios.'); 
+    const missingFields = [];
+    if (!titulo) missingFields.push("Título");
+    if (!date) missingFields.push("Fecha y Hora");
+    if (!descripcion) missingFields.push("Descripción");
+    if (!selectedStudent) missingFields.push("Alumno");
+
+    if (missingFields.length > 0) {
+      setMessageD(`Campos faltantes: ${missingFields.join(", ")}.`);
       return;
     }
 
-    setMessageD('');
+    setMessageD(''); // Limpiar mensaje si no hay campos faltantes
+
+    // Formatear la fecha ingresada a solo la fecha (sin hora) para comparar
+    const inputDate = new Date(date);
+    inputDate.setHours(0, 0, 0, 0);
+
+    // Verificar si ya existe una sesión en la misma fecha
+    const sameDaySession = sessions.some((session) => {
+      const sessionDate = new Date(session.Fecha);
+      sessionDate.setHours(0, 0, 0, 0); // Comparar solo la fecha sin hora
+      return sessionDate.getTime() === inputDate.getTime();
+    });
+
+    if (sameDaySession) {
+      setMessageE('Ya existe una sesión en esta fecha. Por favor selecciona otra fecha.');
+      return;
+    }
 
     const sessionData = {
       titulo,
@@ -58,8 +90,6 @@ export default function Page() {
       studentId: selectedStudent,
       userId: mentorRFC
     };
-  
-    const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
     fetch(`${apiUrl}/api/insertSession`, {
       method: 'POST',
@@ -77,31 +107,36 @@ export default function Page() {
           setDate('');
           setDescripcion('');
           setSelectedStudent('');
+          fetchSessions(); // Actualizar lista de sesiones después de agregar una nueva
         } else {
           setMessageE('Error al agendar la sesión');
-          setMessageS(''); 
+          setMessageS('');
         }
       })
       .catch(error => {
         console.error('Error saving session:', error);
-        setMessageE('Error al agendar la sesión'); 
+        setMessageE('Error al agendar la sesión');
         setMessageS('');
       });
   };
+
+  const closeSuccessAlert = () => setMessageS('');
+  const closeErrorAlert = () => setMessageE('');
+  const closeWarningAlert = () => setMessageD('');
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
         <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
           <div className='col-12 mt-2'>
-            <legend>Crear Nueva Sesión</legend>
+            <legend>Crear nueva sesión</legend>
           </div>
         </div>
         <div className="card p-4" style={{ borderRadius: '20px', backgroundColor: '#f8f9fa' }}>
           <div className="card-body">
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label htmlFor="sessionTitulo" className="form-label">Título de la Sesión: {date}</label>
+                <label htmlFor="sessionTitulo" className="form-label">Título de la sesión: {date}</label>
                 <input
                   type="text"
                   className="form-control"
@@ -143,7 +178,6 @@ export default function Page() {
                     id="sessionDate"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    //min={getCurrentDateTime()}
                   />
                 </div>
               )}
@@ -159,32 +193,30 @@ export default function Page() {
                   maxLength="5000"
                 ></textarea>
               </div>
-            {messageS && (
-              <div className="alert alert-success" role="alert">
-                {messageS}
-              </div>
-            )}
-            {messageE && (
-              <div className="alert alert-danger" role="alert">
-                {messageE}
-              </div>
-            )}
-            {messageD && (
-              <div className="alert alert-warning" role="alert">
-                {messageD}
-              </div>
-            )}
+              {messageS && (
+                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                  {messageS}
+                  <button type="button" className="btn-close" aria-label="Close" onClick={closeSuccessAlert}></button>
+                </div>
+              )}
+              {messageE && (
+                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                  {messageE}
+                  <button type="button" className="btn-close" aria-label="Close" onClick={closeErrorAlert}></button>
+                </div>
+              )}
+              {messageD && (
+                <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                  {messageD}
+                  <button type="button" className="btn-close" aria-label="Close" onClick={closeWarningAlert}></button>
+                </div>
+              )}
               <div className="row justify-content-end pt-3">
                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2">
-                  <ButtonPrincipalC
-                    text='Guardar'
-                  />
+                  <ButtonPrincipalC text='Guardar' />
                 </div>
                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-2">
-                  <LinkSecundaryCentered
-                    text='Cerrar'
-                    link="/Mentor/inicio"
-                  />
+                  <LinkSecundaryCentered text='Cancelar' link='/Mentor/sesiones'/>
                 </div>
               </div>
             </form>

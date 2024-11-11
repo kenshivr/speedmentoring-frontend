@@ -92,8 +92,35 @@ export default function Page() {
     }
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+  
+    return `${day}/${month}/${year} - ${hours}:${minutes}`;
+  };  
+
   return (
     <div className="container-sm my-5 p-5" style={{ backgroundColor: '#002B7A', borderRadius: '50px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
+      <div className="col d-flex align-items-center justify-content-center">
+        <header className="text-center mb-4">
+          <p
+            className="text-uppercase font-weight-bold"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              color: 'white', 
+              letterSpacing: '2px'
+            }}
+          >
+           Reporte
+          </p>
+        </header>
+      </div>
       <div className="row g-0 text-center mb-3">
         <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
           <div className='row'>
@@ -101,7 +128,7 @@ export default function Page() {
               <legend>{titulo}</legend>
             </div>
             <div className='col-sm-4'>
-              <legend>{new Date(fecha).toLocaleDateString()}</legend>
+              <legend>{formatDate(fecha)}</legend>
             </div>
             <div className='col-sm-2'>
               <legend>Sesión #{numeroDeSesion}</legend>
