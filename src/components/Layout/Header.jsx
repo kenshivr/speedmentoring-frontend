@@ -52,6 +52,7 @@ export default function Header() {
                   src="https://dl.dropboxusercontent.com/s/z2maoh5yf7apv9ogvbt3m/logomac1-blanco.png?rlkey=rb71mpzb7uz1olo87d2vt2qmq&st=0828oyl6" 
                   alt="Logo MAC" 
                   className={`d-inline-block align-text-top img-fluid logo-mac`}
+                  style={{ maxHeight: '75px' }}
                 />
               </a>
             </div>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ButtonPrincipalC from '../../components/Button/ButtonPrincipalC.jsx';
 import LinkSecundaryCentered from '../../components/Link/LinkSecundaryCentered.jsx';
 import ButtonPrincipalDroppingContent from '../../components/Button/ButtonPrincipalDroppingContent.jsx';
+import LinkPrimaryC from '../../components/Link/LinkPrincipalCentered.jsx';
 
 export default function Page() {
   const [date, setDate] = useState('');
@@ -15,6 +16,7 @@ export default function Page() {
   const [descripcion, setDescripcion] = useState('');
   const [selectedStudent, setSelectedStudent] = useState('');
   const [showDateEditor, setShowDateEditor] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false); // Para mostrar la alerta
 
   const mentorRFC = sessionStorage.getItem('userId');
   const apiUrl = process.env.REACT_APP_BACKEND_URL;
@@ -101,7 +103,7 @@ export default function Page() {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          setMessageS('Sesión agendada');
+          setShowSuccessAlert(true);
           setMessageE('');
           setTitulo('');
           setDate('');
@@ -120,13 +122,25 @@ export default function Page() {
       });
   };
 
-  const closeSuccessAlert = () => setMessageS('');
   const closeErrorAlert = () => setMessageE('');
   const closeWarningAlert = () => setMessageD('');
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
+        {/* Alerta centralizada */}
+        {showSuccessAlert && (
+          <div className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style={{ zIndex: 1050 }}>
+            <div className="container" style={{ width: '80%', maxWidth: '400px',  backgroundColor: '#002B7A', borderRadius: '50px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)'  }}>
+              <div className="container text-center" >
+                <label className='m-4' style={{ color:'white' }}>La sesión ha sido guardada correctamente.</label>
+                <div className='mb-4'>
+                  <LinkSecundaryCentered text = 'Aceptar' link='/Mentor/inicio'></LinkSecundaryCentered>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
           <div className='col-12 mt-2'>
             <legend>Crear nueva sesión</legend>
@@ -193,12 +207,6 @@ export default function Page() {
                   maxLength="5000"
                 ></textarea>
               </div>
-              {messageS && (
-                <div className="alert alert-success alert-dismissible fade show" role="alert">
-                  {messageS}
-                  <button type="button" className="btn-close" aria-label="Close" onClick={closeSuccessAlert}></button>
-                </div>
-              )}
               {messageE && (
                 <div className="alert alert-danger alert-dismissible fade show" role="alert">
                   {messageE}
@@ -216,7 +224,7 @@ export default function Page() {
                   <ButtonPrincipalC text='Guardar' />
                 </div>
                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-2">
-                  <LinkSecundaryCentered text='Cancelar' link='/Mentor/sesiones'/>
+                  <LinkSecundaryCentered text='Cancelar' link='/Mentor/inicio'/>
                 </div>
               </div>
             </form>

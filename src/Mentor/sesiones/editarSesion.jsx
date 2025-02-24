@@ -15,8 +15,8 @@ export default function EditSessionPage() {
   const [selectedStudent, setSelectedStudent] = useState('');
   const [sessions, setSessions] = useState([]); // Lista de sesiones existentes
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [warningMessage, setWarningMessage] = useState('');
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false); // Para mostrar la alerta
 
   useEffect(() => {
     if (!sesionId) {
@@ -123,26 +123,36 @@ export default function EditSessionPage() {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.put(`${apiUrl}/api/putSesionMentor/${sesionId}`, sessionData);
       if (response.data.success) {
-        setSuccessMessage('Sesión actualizada con éxito.');
+        setShowSuccessAlert(true);
         setErrorMessage(''); // Limpiar mensaje de error si existe
       } else {
         setErrorMessage('Error al actualizar la sesión.');
-        setSuccessMessage(''); // Limpiar mensaje de éxito si existe
       }
     } catch (error) {
       setErrorMessage('Error en la solicitud.');
-      setSuccessMessage(''); // Limpiar mensaje de éxito si existe
       console.error('Error:', error);
     }
   };
 
-  const closeSuccessAlert = () => setSuccessMessage('');
   const closeErrorAlert = () => setErrorMessage('');
   const closeWarningAlert = () => setWarningMessage('');
 
   return (
     <div className="container-sm my-5 p-3" style={{ backgroundColor: '#002B7A', borderRadius: '50px', maxWidth: '1000px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>
       <div className="container p-3">
+                {/* Alerta centralizada */}
+                {showSuccessAlert && (
+          <div className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style={{ zIndex: 1050 }}>
+            <div className="container" style={{ width: '80%', maxWidth: '400px',  backgroundColor: '#002B7A', borderRadius: '50px', margin: 'auto', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)'  }}>
+              <div className="container text-center" >
+                <label className='m-4' style={{ color:'white' }}>La sesión ha sido editada correctamente.</label>
+                <div className='mb-4'>
+                  <LinkSecundaryCentered text = 'Aceptar' link='/Mentor/inicio'></LinkSecundaryCentered>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
           <div className='col-12 mt-2'>
             <legend>Editar Sesión</legend>
@@ -205,12 +215,6 @@ export default function EditSessionPage() {
                   maxLength="5000"
                 ></textarea>
               </div>
-              {successMessage && (
-                <div className="alert alert-success alert-dismissible fade show" role="alert">
-                  {successMessage}
-                  <button type="button" className="btn-close" aria-label="Close" onClick={closeSuccessAlert}></button>
-                </div>
-              )}
               {errorMessage && (
                 <div className="alert alert-danger alert-dismissible fade show" role="alert">
                   {errorMessage}

@@ -5,13 +5,11 @@ function PaginationButtons({ onPrevious, onNext, isPreviousDisabled, isNextDisab
   const [pressedNext, setPressedNext] = useState(false);
 
   const handleMouseDownPrev = (e) => {
-    setPressedPrev(true);
     e.currentTarget.style.boxShadow = 'inset 0px 4px 8px rgba(0, 0, 0, 0.3)';
     e.currentTarget.style.transform = 'scale(0.98)';
   };
 
   const handleMouseUpPrev = (e) => {
-    setPressedPrev(false);
     e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)';
     e.currentTarget.style.transform = 'scale(1)';
   };
@@ -20,17 +18,18 @@ function PaginationButtons({ onPrevious, onNext, isPreviousDisabled, isNextDisab
     if (pressedPrev) {
       e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)';
       e.currentTarget.style.transform = 'scale(1)';
+    } else {
+      // Si no está presionado, aplicar sombra normal al alejar el cursor
+      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombra normal
     }
   };
 
   const handleMouseDownNext = (e) => {
-    setPressedNext(true);
     e.currentTarget.style.boxShadow = 'inset 0px 4px 8px rgba(0, 0, 0, 0.3)';
     e.currentTarget.style.transform = 'scale(0.98)';
   };
 
   const handleMouseUpNext = (e) => {
-    setPressedNext(false);
     e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)';
     e.currentTarget.style.transform = 'scale(1)';
   };
@@ -39,6 +38,9 @@ function PaginationButtons({ onPrevious, onNext, isPreviousDisabled, isNextDisab
     if (pressedNext) {
       e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)';
       e.currentTarget.style.transform = 'scale(1)';
+    } else {
+      // Si no está presionado, aplicar sombra normal al alejar el cursor
+      e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Sombra normal
     }
   };
 
