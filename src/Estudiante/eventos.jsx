@@ -14,9 +14,13 @@ export default function EventsPage() {
         .then(response => response.json())
         .then(response => {
           if (response && Array.isArray(response)) {
-            setEvents(response);
+            // Filtrar solo eventos futuros
+            const today = new Date();
+            const futureEvents = response.filter(event => new Date(event.Fecha) >= today);
+
+            setEvents(futureEvents);
           } else {
-            setEvents([]); // Si no es un array, lo tratamos como sin eventos
+            setEvents([]); 
           }
         })
         .catch(error => console.error('Error fetching events:', error));
@@ -34,7 +38,7 @@ export default function EventsPage() {
   };
 
   const startIndex = currentPage * itemsPerPage;
-  const selectedEvents = Array.isArray(events) ? events.slice(startIndex, startIndex + itemsPerPage) : [];
+  const selectedEvents = events.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="container-sm p-2" style={{ maxWidth: '1800px', margin: 'auto' }}>
@@ -47,7 +51,7 @@ export default function EventsPage() {
                   <div className="row align-items-start p-4">
                     <div className="col"></div>
                     <div className="col" style={{ borderBottom: "2px solid white" }}>
-                      <h4 style={{ color: "white" }}>Eventos recientes</h4>
+                      <h4 style={{ color: "white" }}>Próximos eventos</h4>
                     </div>
                     <div className="col"></div>
                   </div>
@@ -56,7 +60,7 @@ export default function EventsPage() {
                 {/* Mostrar mensaje si no hay eventos */}
                 <div className="container p-2" style={{ color: 'white' }}>
                   {selectedEvents.length === 0 ? (
-                    <p style={{ textAlign: 'center', color: 'white' }}>No hay eventos disponibles en este momento.</p>
+                    <p style={{ textAlign: 'center', color: 'white' }}>No hay nuevos eventos próximamente.</p>
                   ) : (
                     <ul className="list-group">
                       {selectedEvents.map(event => (
@@ -75,7 +79,7 @@ export default function EventsPage() {
                               </div>
                               <div className="row">
                                 <h6 style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '11px' }}>
-                                  Fecha de publicación: {new Date(event.Fecha).toLocaleDateString()}
+                                  Fecha del evento: {new Date(event.Fecha).toLocaleDateString()}
                                 </h6>
                               </div>
                               <div className="row">

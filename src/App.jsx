@@ -48,11 +48,9 @@ import AdminEstadisticasEstudiantes from './Admin/estadisticas/estudiantes';
 import AdminEstadisticasMentores from './Admin/estadisticas/mentores';
 import AdminEstadisticasSesiones from './Admin/estadisticas/sesiones';
 import AdminEstadisticasReportes from './Admin/estadisticas/reportes';
-import AdminEstadisticasEspecialidades from './Admin/estadisticas/especialidades';
 import AdminEstadisticasEventos from './Admin/estadisticas/eventos';
 import AdminEstadisticasFeedbackMentores from './Admin/estadisticas/feedbackMentores';
 import AdminEstadisticasFeedbackEstudiantes from './Admin/estadisticas/feedbackEstudiantes';
-import AdminCrearReporte from './Admin/estadisticas/crearReporte';
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ element: Element, isAuthenticated, ...rest }) => {
@@ -105,9 +103,9 @@ function App() {
         user === 'admin' ? (
           <NavbarAdmin />
         ) : user === 'student' ? (
-          <NavbarStudent />
+          <NavbarStudent  isAuthenticated={isAuthenticated} element={NavbarMentor} userId={userId}  />
         ) : user === 'mentor' ? (
-          <NavbarMentor />
+          <NavbarMentor  isAuthenticated={isAuthenticated} element={NavbarMentor} userId={userId} />
         ) : (
           <></>
         )
@@ -140,7 +138,6 @@ function App() {
         <Route path="/Admin/eventos/crearEvento" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminAgregarEvento} />} />
 
         <Route path="/admin/estadisticas" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticas} />} />
-        <Route path="/admin/estadisticas/especialidades" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasEspecialidades} />} />
         <Route path="/admin/estadisticas/estudiantes" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasEstudiantes} />} />
         <Route path="/admin/estadisticas/mentores" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasMentores} />} />
         <Route path="/admin/estadisticas/eventos" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasEventos} />} />
@@ -148,7 +145,6 @@ function App() {
         <Route path="/admin/estadisticas/feedbackMentores" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasFeedbackMentores} />} />
         <Route path="/admin/estadisticas/reportes" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasReportes} />} />
         <Route path="/admin/estadisticas/sesiones" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminEstadisticasSesiones} />} />
-        <Route path="/admin/estadisticas/crearReporte" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={AdminCrearReporte} />} />
 
         <Route path="/Admin/importarUsuarios" element={< ProtectedRoute isAuthenticated={isAuthenticated} element={AdminImportarUsuarios} />} />
 

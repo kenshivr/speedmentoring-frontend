@@ -33,7 +33,7 @@ export default function Page() {
       eventName,
       specialty,
       description,
-      date: date.split('T')[0],
+      date: date ? date.split('T')[0] : '',
       link: link ? link : ''
     };
 
@@ -57,9 +57,9 @@ export default function Page() {
     setShowEditor(!showEditor);
   };
 
-  const getCurrentDateTime = () => {
+  const getCurrentDate = () => {
     const now = new Date();
-    return now.toISOString().slice(0, 16);
+    return now.toISOString().split('T')[0]; // Extrae solo la fecha
   };
 
   return (
@@ -108,12 +108,12 @@ export default function Page() {
         <div className="mb-3">
           <label htmlFor="eventDate" className="form-label">Fecha y Hora</label>
           <input
-            type="datetime-local"
+            type="date"
             className="form-control"
             id="eventDate"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            min={getCurrentDateTime()}
+            min={getCurrentDate()}
           />
         </div>
 

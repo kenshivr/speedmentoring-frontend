@@ -9,76 +9,86 @@ import PaginationButtons from '../components/Button/PaginationButtons.jsx';
 export default function Page() {
   const itemsPerPage = 5;
   const [students, setStudents] = useState([]);
+  const [specialties, setSpecialties] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [studentSearchTerm, setStudentSearchTerm] = useState('');
-
+  
   useEffect(() => {
+    const fetchSpecialties = async () => {
+      try {
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        const response = await axios.get(`${apiUrl}/api/getSpecialties`);
+        if (response.data) {
+          setSpecialties(response.data);
+        } else {
+          console.error('Error al obtener especialidades:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error en la solicitud para obtener especialidades:', error);
+      }
+    };
+  
     const getStudents = async () => {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/students`);
-
-        const sortedStudents = response.data.sort((a, b) => {
-          if (a.ApellidoPaterno < b.ApellidoPaterno) return -1;
-          if (a.ApellidoPaterno > b.ApellidoPaterno) return 1;
-          return 0;
-        });
-
+        const sortedStudents = response.data.sort((a, b) => a.ApellidoPaterno.localeCompare(b.ApellidoPaterno));
         setStudents(sortedStudents);
       } catch (error) {
         console.error("Error en la obtención de los estudiantes:", error);
       }
     };
-
+  
+    fetchSpecialties();
     getStudents();
   }, []);
-
+  
   const handleSearchStudentChange = (event) => {
     setStudentSearchTerm(event.target.value);
     setCurrentPage(0);
   };
-
+  
   const handleEditClickStudent = (id) => {
     sessionStorage.setItem('EstudianteID', id);
   };
-
+  
   const updateStatus = async (type, id, status) => {
-
-    let Estatus = 'Inactivo';
-    if (status) Estatus = 'Activo';
-
+    let Estatus = status ? 'Activo' : 'Inactivo';
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       await axios.put(`${apiUrl}/api/students/${id}`, { Estatus: status });
-      setStudents(prev => prev.map(student => student.EstudianteID === id ? { ...student, Estatus: Estatus } : student));
+      setStudents(prev => prev.map(student => student.EstudianteID === id ? { ...student, Estatus } : student));
     } catch (error) {
       console.error(`Error al actualizar el estado del ${type}:`, error);
     }
   };
-
+  
   const handlePrevious = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
   };
-
+  
   const handleNext = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(filteredStudents.length / itemsPerPage)));
   };
-
-  const filteredStudents = students.filter(student => {
+  
+  const filteredStudents = students.map(student => {
+    const specialty = specialties.find(s => s.EspecialidadID === student.EspecialidadID);
+    return { ...student, Especialidad: specialty ? specialty.Especialidad : 'No Asignada' };
+  }).filter(student => {
     const searchTermLower = studentSearchTerm.toLowerCase();
     return (
-      (student.EstudianteID ? student.EstudianteID.toString().toLowerCase().includes(searchTermLower) : false) ||
-      (student.Nombre ? student.Nombre.toLowerCase().includes(searchTermLower) : false) ||
-      (student.ApellidoPaterno ? student.ApellidoPaterno.toLowerCase().includes(searchTermLower) : false) ||
-      (student.ApellidoMaterno ? student.ApellidoMaterno.toLowerCase().includes(searchTermLower) : false) ||
-      (student.NumeroTelefono ? student.NumeroTelefono.toLowerCase().includes(searchTermLower) : false) ||
-      (student.EspecialidadID ? student.EspecialidadID.toString().toLowerCase().includes(searchTermLower) : false) ||
-      (student.MentorRFC ? student.MentorRFC.toString().toLowerCase().includes(searchTermLower) : false) ||
-      (student.CorreoElectronicoPersonal ? student.CorreoElectronicoPersonal.toLowerCase().includes(searchTermLower) : false) ||
-      (student.Periodo ? student.Periodo.toLowerCase().includes(searchTermLower) : false)
+      student.EstudianteID.toString().toLowerCase().includes(searchTermLower) ||
+      student.Nombre.toLowerCase().includes(searchTermLower) ||
+      student.ApellidoPaterno.toLowerCase().includes(searchTermLower) ||
+      student.ApellidoMaterno.toLowerCase().includes(searchTermLower) ||
+      student.NumeroTelefono?.toLowerCase().includes(searchTermLower) ||
+      student.Especialidad.toLowerCase().includes(searchTermLower) ||
+      student.MentorNombre?.toLowerCase().includes(searchTermLower) ||
+      student.CorreoElectronicoPersonal?.toLowerCase().includes(searchTermLower) ||
+      student.Periodo.toLowerCase().includes(searchTermLower)
     );
   });
-
+  
   const startIndex = currentPage * itemsPerPage;
   const selectedStudents = filteredStudents.slice(startIndex, startIndex + itemsPerPage);
 
@@ -103,10 +113,9 @@ export default function Page() {
                 <th scope="col">Apellido materno</th>
                 <th scope="col">Teléfono</th>
                 <th scope="col">Especialidad</th>
-                <th scope="col">E-mail</th>
-                <th scope="col">E-mail institucional</th>
+                <th scope="col">Correo electrónico</th>
                 <th scope="col">Periodo</th>
-                <th scope="col">RFC mentor</th>
+                <th scope="col">Mentor</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -119,11 +128,10 @@ export default function Page() {
                   <td>{student.ApellidoPaterno}</td>
                   <td>{student.ApellidoMaterno}</td>
                   <td>{student.NumeroTelefono}</td>
-                  <td>{student.EspecialidadID}</td>
+                  <td>{student.Especialidad}</td>
                   <td>{student.CorreoElectronicoPersonal}</td>
-                  <td>{student.EstudianteID ? `${student.EstudianteID}@pcpuma.acatlan.unam.mx` : 'N/A'}</td>
                   <td>{student.Periodo}</td>
-                  <td>{student.MentorRFC}</td>
+                  <td>{student.MentorNombre || 'No asignado'}</td>
                   <td>
                     <DropButton3
                       text1='Editar'

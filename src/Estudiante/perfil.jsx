@@ -18,6 +18,7 @@ export default function Page() {
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.get(`${apiUrl}/api/getStudent/${user}`);
+      //const response = await axios.get(`http://localhost:3001/api/getStudent/${user}`); // Para desarrollo local
       const { EstudianteID, Nombre, ApellidoPaterno, ApellidoMaterno, Periodo, Especialidad, NumeroTelefono, CorreoElectronicoPersonal, NombreMentor } = response.data;
 
       const fullName = `${Nombre || ''} ${ApellidoPaterno || ''} ${ApellidoMaterno || ''}`.trim();
@@ -134,17 +135,15 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="mb-3 row justify-content-Evenly">
-              <label htmlFor="inputCorreo" className="col-sm-2 col-form-label">Correo Electrónico</label>
-              <div className="col-sm-10 ps-2" style={{ backgroundColor:'white', borderRadius:'25px'}}>
+            <div className="mb-3 row">
+              <label htmlFor="staticNombre" className="col-sm-2 col-form-label">Correo electrónico</label>
+              <div className="col-sm-10 ps-4" style={{ backgroundColor:'rgba(255,255,255,0.6)', borderRadius:'25px'}}>
                 <input 
-                  type="email"
-                  className="form-control" 
-                  id="inputCorreo" 
-                  maxLength={100}
-                  value={correo || ''} 
-                  onChange={(e) => setCorreo(e.target.value)}
-                  style={{ borderColor: 'white', borderRadius: '25px', boxShadow: 'none' }}
+                  type="text" 
+                  readOnly
+                  className="form-control-plaintext" 
+                  id="staticNombre" 
+                  value={estudianteID ? `${estudianteID}@pcpuma.acatlan.unam.mx` : ''} 
                 />
               </div>
             </div>

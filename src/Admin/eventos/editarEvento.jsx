@@ -20,9 +20,9 @@ export default function Page() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const eventId = sessionStorage.getItem('eventId');
-    if (eventId) {
-      setEventId(eventId);
+    const storedEventId = sessionStorage.getItem('eventId');
+    if (storedEventId) {
+      setEventId(storedEventId);
     }
   }, []);
 
@@ -37,13 +37,12 @@ export default function Page() {
       });
 
     if (eventId) {
-      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       axios.get(`${apiUrl}/api/getEvent/${eventId}`)
         .then(response => {
           const event = response.data[0];
           setEventId(event.EventoID);
           setEventName(event.Nombre);
-          setSpecialty(event.Especialidad);
+          setSpecialty(event.EspecialidadID);
           setDescription(event.Descripcion);
           setDate(event.Fecha.split('T')[0]);
           setLink(event.Link || '');
@@ -59,7 +58,7 @@ export default function Page() {
 
     const eventData = {
       eventName,
-      specialty,
+      EspecialidadID: specialty,
       description,
       date,
       link
@@ -80,6 +79,12 @@ export default function Page() {
   const toggleEditor = () => {
     setShowEditor(!showEditor);
   };
+
+  const getCurrentDate = () => {
+    const now = new Date();
+    return now.toISOString().split('T')[0]; // Extrae solo la fecha
+  };
+  
 
   return (
     <div className="container my-5 p-4" style={{ backgroundColor: '#002B7A', color: 'white', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
@@ -104,11 +109,11 @@ export default function Page() {
             className="form-select"
             aria-label="Especialidad"
             value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
+            onChange={(e) => setSpecialty(parseInt(e.target.value))} // Convertir a número
           >
             <option value="" disabled>Selecciona una especialidad</option>
             {specialties.map((spec, index) => (
-              <option key={index} value={spec.Especialidad}>{spec.Especialidad}</option>
+              <option key={index} value={spec.EspecialidadID}>{spec.Especialidad}</option> // Enviar ID correcto
             ))}
           </select>
         </div>
@@ -122,6 +127,18 @@ export default function Page() {
             placeholder="Escribe una descripción del evento que se mostrará a los alumnos ..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="eventDate" className="form-label">Fecha y Hora</label>
+          <input
+            type="date"
+            className="form-control"
+            id="eventDate"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            min={getCurrentDate()}
           />
         </div>
 
@@ -152,7 +169,7 @@ export default function Page() {
           <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
             <ButtonPrrincipal
               text='Guardar'
-              type="submit" // Corregido: Aquí ya no es necesario otro <form>
+              type="submit"
             />
           </div>
           <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">

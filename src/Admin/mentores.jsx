@@ -12,9 +12,24 @@ export default function Page() {
   const [mentors, setMentors] = useState([]);
   const [mentorSearchTerm, setMentorSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
+  const [specialties, setSpecialties] = useState([]);
   const itemsPerPage = 5;
 
   useEffect(() => {
+    const fetchSpecialties = async () => {
+      try {
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        const response = await axios.get(`${apiUrl}/api/getSpecialties`);
+        if (response.data) {
+          setSpecialties(response.data);
+        } else {
+          console.error('Error al obtener especialidades:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error en la solicitud para obtener especialidades:', error);
+      }
+    };
+
     const getMentors = async () => {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
@@ -24,7 +39,7 @@ export default function Page() {
           if (a.ApellidoPaterno < b.ApellidoPaterno) return -1;
           if (a.ApellidoPaterno > b.ApellidoPaterno) return 1;
           return 0;
-        })
+        });
 
         setMentors(sortedMentors);
       } catch (error) {
@@ -32,6 +47,7 @@ export default function Page() {
       }
     };
 
+    fetchSpecialties();
     getMentors();
   }, []);
 
@@ -45,7 +61,6 @@ export default function Page() {
   };
 
   const updateStatus = async (type, id, status) => {
-
     let Estatus = 'Inactivo';
     if (status) Estatus = 'Activo';
 
@@ -66,7 +81,14 @@ export default function Page() {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(filteredMentors.length / itemsPerPage)));
   };
 
-  const filteredMentors = mentors.filter(mentor => {
+  const filteredMentors = mentors.map(mentor => {
+    const specialty = specialties.find(s => s.EspecialidadID === mentor.EspecialidadID);
+    return { 
+      ...mentor, 
+      Especialidad: specialty ? specialty.Especialidad : 'No Asignada',
+      EstudiantesAsignados: mentor.EstudiantesAsignados || "Sin asignación"
+    };
+  }).filter(mentor => {
     const searchTermLower = mentorSearchTerm.toLowerCase();
     return (
       (mentor.RFC ? mentor.RFC.toLowerCase().includes(searchTermLower) : false) ||
@@ -77,7 +99,8 @@ export default function Page() {
       (mentor.EspecialidadID ? mentor.EspecialidadID.toString().toLowerCase().includes(searchTermLower) : false) ||
       (mentor.Empresa ? mentor.Empresa.toLowerCase().includes(searchTermLower) : false) ||
       (mentor.Puesto ? mentor.Puesto.toLowerCase().includes(searchTermLower) : false) ||
-      (mentor.CorreoElectronico ? mentor.CorreoElectronico.toLowerCase().includes(searchTermLower) : false)
+      (mentor.CorreoElectronico ? mentor.CorreoElectronico.toLowerCase().includes(searchTermLower) : false) ||
+      (mentor.EstudiantesAsignados ? mentor.EstudiantesAsignados.toLowerCase().includes(searchTermLower) : false)
     );
   });
 
@@ -89,7 +112,7 @@ export default function Page() {
       <div className="container p-3">
         <SearchBar
           legendText= 'Mentores'
-          searchPlaceholder= 'Buscar mentor'
+          searchPlaceholder= 'Buscar mentor por RFC, nombre, apellidos, especialidad, empresa o estudiantes asignados'
           searchValue={mentorSearchTerm}
           onSearchChange={handleSearchMentorChange}
           buttonLink= '/Admin/usuarios/crearMentor'
@@ -108,6 +131,7 @@ export default function Page() {
                   <th scope="col">Empresa</th>
                   <th scope="col">Puesto</th>
                   <th scope="col">E-mail</th>
+                  <th scope="col">Estudiante</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -120,10 +144,11 @@ export default function Page() {
                     <td>{mentor.ApellidoPaterno}</td>
                     <td>{mentor.ApellidoMaterno}</td>
                     <td>{mentor.NumeroTelefono}</td>
-                    <td>{mentor.EspecialidadID}</td>
+                    <td>{mentor.Especialidad}</td>
                     <td>{mentor.Empresa}</td>
                     <td>{mentor.Puesto}</td>
                     <td>{mentor.CorreoElectronico}</td>
+                    <td>{mentor.EstudiantesAsignados}</td>
                     <td>
                       <DropButton3
                         text1='Editar'

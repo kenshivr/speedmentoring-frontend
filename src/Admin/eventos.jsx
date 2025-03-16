@@ -13,42 +13,39 @@ export default function Page() {
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BACKEND_URL;
-
-    try {
-      fetch(`${apiUrl}/api/getEventsFull`)
-        .then(response => response.json())
-        .then(response => {
-          if (response) {
-            const sortedEventos = response.sort((a, b) => b.EventoID - a.EventoID);
-            setEventos(sortedEventos);
-          } else {
-            console.error('Error al obtener eventos:', response.message);
-          }
-        })
-        .catch(error => console.error('Error fetching events:', error));
-    } catch (error) {
-      console.error('Error fetching events');
-    }
+    const fetchEvents = async () => {
+      try {
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        const response = await fetch(`${apiUrl}/api/getEventsFull`);
+        const data = await response.json();
+        if (data) {
+          const sortedEventos = data.sort((a, b) => b.EventoID - a.EventoID);
+          setEventos(sortedEventos);
+        } else {
+          console.error('Error al obtener eventos:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+    fetchEvents();
   }, []);
 
   const getEventsFull = async () => {
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
-      fetch(`${apiUrl}/api/getEventsFull`)
-        .then(response => response.json())
-        .then(response => {
-          if (response) {
-            const sortedEventos = response.sort((a, b) => b.EventoID - a.EventoID);
-            setEventos(sortedEventos);
-          } else {
-            console.error('Error al obtener eventos:', response.message);
-          }
-        })
+      const response = await fetch(`${apiUrl}/api/getEventsFull`);
+      const data = await response.json();
+      if (data) {
+        const sortedEventos = data.sort((a, b) => b.EventoID - a.EventoID);
+        setEventos(sortedEventos);
+      } else {
+        console.error('Error al obtener eventos:', data.message);
+      }
     } catch (error) {
       console.error('Error en la solicitud para obtener eventos:', error);
     }
-  }
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -61,18 +58,17 @@ export default function Page() {
       if (response.data.message) {
         alert(response.data.message);
       } else {
-        alert('Ocurrio un error en la eliminacion del evento');
+        alert('Ocurrió un error en la eliminación del evento');
       }
+      getEventsFull();
     } catch (error) {
       console.error('Error al eliminar el evento:', error);
     }
-
-    getEventsFull();
   };
 
   const handleEventEdit = (id) => {
     sessionStorage.setItem('eventId', id);
-  }
+  };
 
   const filteredEventos = eventos.filter(evento => {
     const formattedDate = new Date(evento.Fecha).toLocaleDateString();
@@ -80,11 +76,11 @@ export default function Page() {
 
     return (
       evento.Nombre.toLowerCase().includes(searchTermLower) ||
-      evento.Descripcion.toLowerCase().includes(searchTermLower) ||
-      evento.Especialidad?.toLowerCase().includes(searchTermLower) ||
+      (evento.Descripcion && evento.Descripcion.toLowerCase().includes(searchTermLower)) ||
+      (evento.EspecialidadNombre && evento.EspecialidadNombre.toLowerCase().includes(searchTermLower)) ||
       evento.EventoID.toString().includes(searchTerm) ||
       formattedDate.includes(searchTerm) ||
-      evento.Link?.toLowerCase().includes(searchTermLower)
+      (evento.Link && evento.Link.toLowerCase().includes(searchTermLower))
     );
   });
 
@@ -116,6 +112,7 @@ export default function Page() {
                 <th scope="col">ID</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Fecha</th>
+                <th scope="col">Especialidad</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Link</th>
                 <th scope="col"></th>
@@ -127,7 +124,8 @@ export default function Page() {
                   <td>{evento.EventoID}</td>
                   <td>{evento.Nombre}</td>
                   <td>{new Date(evento.Fecha).toLocaleDateString()}</td>
-                  <td>{evento.Descripcion}</td>
+                  <td>{evento.EspecialidadNombre ? evento.EspecialidadNombre : 'Sin asignar'}</td>
+                  <td>{evento.descripcion ? evento.descripcion : 'Sin descripción'}</td>
                   <td>
                     {evento.Link && evento.Link.trim() ? (
                       <a

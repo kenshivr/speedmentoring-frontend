@@ -117,7 +117,7 @@ export default function Page() {
               letterSpacing: '2px'
             }}
           >
-           Reporte
+           Informe
           </p>
         </header>
       </div>
@@ -150,7 +150,7 @@ export default function Page() {
             value={texto || ''}
             onChange={handleTextoChange}
             disabled={!editableTexto}
-            placeholder="Escribe aquí tu reporte de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, etc."
+            placeholder="Escribe aquí tu informe de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, etc."
             rows={10}
           />
 
