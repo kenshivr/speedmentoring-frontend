@@ -14,8 +14,8 @@ export default function LoginPage({ setUser, setUserId, setSpecialty, setIsAuthe
     setError(null); 
 
     try {
-      const apiUrl = process.env.REACT_APP_BACKEND_URL; // Para producción
-      const response = await fetch(`${apiUrl}/api/login`, { // Para producción
+      const apiUrl = process.env.REACT_APP_BACKEND_URL; 
+      const response = await fetch(`${apiUrl}/api/login`, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

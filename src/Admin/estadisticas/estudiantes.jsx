@@ -56,70 +56,151 @@ export default function StatisticsPage() {
     return acc;
   }, {});
 
-  const loadLogo = async () => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.src = "/images/logo-azulBis.jpg"; // O usa logo si importaste la imagen
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL('image/jpeg'));
-      };
-    });
+  const getMaxKey = (obj) => Object.keys(obj).reduce((a, b) => (obj[a] > obj[b] ? a : b), '');
+  const getMinKey = (obj) => Object.keys(obj).reduce((a, b) => (obj[a] < obj[b] ? a : b), '');
+
+  const specialtyWithMostStudents = getMaxKey(specialtyDistribution);
+  const specialtyWithLeastStudents = getMinKey(specialtyDistribution);
+  const periodWithMostStudents = getMaxKey(periodDistribution);
+  const periodWithLeastStudents = getMinKey(periodDistribution);
+
+  const totalSpecialties = Object.keys(specialtyDistribution).length;
+  const totalPeriods = Object.keys(periodDistribution).length;
+  const avgStudentsPerSpecialty = totalSpecialties ? (totalStudents / totalSpecialties).toFixed(2) : 0;
+  const avgStudentsPerPeriod = totalPeriods ? (totalStudents / totalPeriods).toFixed(2) : 0;
+
+  const specialtiesWithOneStudent = Object.values(specialtyDistribution).filter(count => count === 1).length;
+
+  const studentCounts = Object.values(specialtyDistribution);
+  const medianStudentsPerSpecialty = () => {
+    const sorted = [...studentCounts].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
   };
-  
+  const modeStudentsPerSpecialty = () => {
+    const freq = {};
+    let max = 0, mode = null;
+    studentCounts.forEach(n => {
+      freq[n] = (freq[n] || 0) + 1;
+      if (freq[n] > max) {
+        max = freq[n];
+        mode = n;
+      }
+    });
+    return mode;
+  };
+
+  const stdDevStudentsPerSpecialty = () => {
+    const mean = avgStudentsPerSpecialty;
+    const variance = studentCounts.reduce((acc, count) => acc + Math.pow(count - mean, 2), 0) / studentCounts.length;
+    return Math.sqrt(variance).toFixed(2);
+  };
+
+  const addSectionToPDF = async (ref, title) => {
+    const canvas = await html2canvas(ref.current, {
+      willReadFrequently: true, // Optimización recomendada
+      scale: 2, // Mejora la resolución
+      useCORS: true, // Evita problemas con imágenes externas
+    });
+    const imgData = canvas.toDataURL('image/png');
+    return { imgData, title };
+  };
 
   const exportToPDF = async () => {
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-    const currentDate = new Date().toLocaleDateString();
-    const logo = await loadLogo();
-    if (logo) {
-      pdf.addImage(logo, 'JPEG', pdfWidth - 40, 10, 30, 30);
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    // Configuración de la fuente
+    doc.setFont('Times', 'normal');
+    doc.setFontSize(12);
+
+    // Logo
+    doc.addImage(logoURL, 'PNG', 10, 10, 50, 20);
+
+    // Título y subtítulo
+    doc.setFontSize(18);
+    doc.text("Informe de Estadísticas de Estudiantes", pageWidth / 2, 40, { align: 'center' });
+    doc.setFontSize(14);
+    doc.text("Resumen de datos y gráficos", pageWidth / 2, 50, { align: 'center' });
+
+    // Fecha de creación
+    const creationDate = new Date().toLocaleDateString();
+    doc.setFontSize(10);
+    doc.text(`Fecha de creación: ${creationDate}`, pageWidth - 20, 20, { align: 'right' });
+
+    // Contenido
+    let yOffset = 70;
+    doc.setFontSize(12);
+    doc.text(`Total de Estudiantes: ${totalStudents}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Estudiantes Activos: ${statusCount.active}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Estudiantes Inactivos: ${statusCount.inactive}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Especialidad con más estudiantes: ${specialtyWithMostStudents}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Especialidad con menos estudiantes: ${specialtyWithLeastStudents}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Período con más estudiantes: ${periodWithMostStudents}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Período con menos estudiantes: ${periodWithLeastStudents}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Promedio de estudiantes por especialidad: ${avgStudentsPerSpecialty}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Promedio de estudiantes por período: ${avgStudentsPerPeriod}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Mediana de estudiantes por especialidad: ${medianStudentsPerSpecialty()}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Moda de estudiantes por especialidad: ${modeStudentsPerSpecialty()}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Especialidades con solo un estudiante: ${specialtiesWithOneStudent}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(`Desviación estándar de estudiantes por especialidad: ${stdDevStudentsPerSpecialty()}`, 20, yOffset);
+    yOffset += 10;
+
+    // Agregar gráficos al PDF
+    const sections = [
+      await addSectionToPDF(pieChartRef, 'Distribución de Especialidades'),
+      await addSectionToPDF(periodChartRef, 'Distribución de Periodos'),
+      await addSectionToPDF(statusChartRef, 'Distribución de Estatus'),
+    ];
+
+    // Agregar gráficos de pastel en páginas separadas
+    doc.addPage();
+    doc.setFontSize(18);
+    doc.text(sections[0].title, pageWidth / 2, 20, { align: 'center' });
+    doc.addImage(sections[0].imgData, 'PNG', 20, 30, 160, 150);
+
+    // Agregar gráficos de barras en pares (2 por página)
+    for (let i = 1; i < sections.length; i += 2) {
+      doc.addPage();
+      doc.setFontSize(18);
+
+      // Primer gráfico de barras
+      doc.text(sections[i].title, pageWidth / 2, 20, { align: 'center' });
+      doc.addImage(sections[i].imgData, 'PNG', 20, 30, 160, 80);
+
+      // Segundo gráfico de barras (si existe)
+      if (i + 1 < sections.length) {
+        doc.text(sections[i + 1].title, pageWidth / 2, 120, { align: 'center' });
+        doc.addImage(sections[i + 1].imgData, 'PNG', 20, 130, 160, 80);
+      }
     }
 
-
-    const addHeader = (title) => {
-      if (logo) {
-        pdf.addImage(logo, 'JPEG', pdfWidth - 40, 10, 30, 30);
-      } else {
-        console.error("El logo no se cargó correctamente.");
-      }
-      pdf.setFontSize(18);
-      pdf.text('Nombre de la Institución', 10, 20);
-      pdf.setFontSize(14);
-      pdf.text(title, 10, 30);
-      pdf.line(10, 40, pdfWidth - 10, 40);
+    // Footer con número de página
+    const addFooter = (pageNumber) => {
+      doc.setFontSize(10);
+      doc.text(`Página ${pageNumber}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
     };
 
-    addHeader('Informe de Estadísticas');
-    pdf.setFontSize(12);
-    pdf.text(`Total de estudiantes: ${totalStudents}`, 10, 50);
-    pdf.text(`Estudiantes activos: ${statusCount.active}`, 10, 60);
-    pdf.text(`Estudiantes inactivos: ${statusCount.inactive}`, 10, 70);
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      addFooter(i);
+    }
 
-    const addSectionToPDF = async (elementRef, title) => {
-      if (elementRef.current) {
-        pdf.addPage();
-        addHeader(title);
-        const canvas = await html2canvas(elementRef.current);
-        const imgData = canvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', 10, 50, 190, 0);
-      }
-    };
-
-    await addSectionToPDF(pieChartRef, 'Distribución de Especialidades');
-    await addSectionToPDF(periodChartRef, 'Distribución de Periodos');
-    await addSectionToPDF(statusChartRef, 'Distribución de Estatus');
-
-    pdf.setFontSize(10);
-    pdf.text(`Fecha de generación: ${currentDate}`, 10, pdfHeight - 10);
-
-    pdf.save('estadisticas.pdf');
+    doc.save("Estadisticas_Estudiantes.pdf");
   };
 
   return (
@@ -131,6 +212,16 @@ export default function StatisticsPage() {
             <li className="list-group-item">Total de estudiantes: {totalStudents}</li>
             <li className="list-group-item">Estudiantes activos: {statusCount.active}</li>
             <li className="list-group-item">Estudiantes inactivos: {statusCount.inactive}</li>
+            <li className="list-group-item">Especialidad con más estudiantes: {specialtyWithMostStudents}</li>
+            <li className="list-group-item">Especialidad con menos estudiantes: {specialtyWithLeastStudents}</li>
+            <li className="list-group-item">Período con más estudiantes: {periodWithMostStudents}</li>
+            <li className="list-group-item">Período con menos estudiantes: {periodWithLeastStudents}</li>
+            <li className="list-group-item">Promedio de estudiantes por especialidad: {avgStudentsPerSpecialty}</li>
+            <li className="list-group-item">Promedio de estudiantes por período: {avgStudentsPerPeriod}</li>
+            <li className="list-group-item">Mediana de estudiantes por especialidad: {medianStudentsPerSpecialty()}</li>
+            <li className="list-group-item">Moda de estudiantes por especialidad: {modeStudentsPerSpecialty()}</li>
+            <li className="list-group-item">Especialidades con solo un estudiante: {specialtiesWithOneStudent}</li>
+            <li className="list-group-item">Desviación estándar de estudiantes por especialidad: {stdDevStudentsPerSpecialty()}</li>
           </ul>
         </div>
         <div className="my-4" ref={pieChartRef}>
