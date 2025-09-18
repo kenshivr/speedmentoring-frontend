@@ -21,18 +21,42 @@ export default function Page() {
   const mentorRFC = sessionStorage.getItem('userId');
   const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
+  // Normalizador de posibles respuestas
+  const normalizeStudents = (maybe) => {
+    if (!maybe) return [];
+    if (Array.isArray(maybe)) return maybe;
+    if (Array.isArray(maybe.data)) return maybe.data;
+    if (Array.isArray(maybe.students)) return maybe.students;
+    // Si viene un objeto con una propiedad diferente, intenta buscar la que sea array
+    for (const key in maybe) {
+      if (Array.isArray(maybe[key])) return maybe[key];
+    }
+    return [];
+  };
+
   useEffect(() => {
-    fetchStudents();
-    fetchSessions();
+    if (mentorRFC) {
+      fetchStudents();
+      fetchSessions();
+    } else {
+      // si no hay mentorRFC, deja students vacíos
+      setStudents([]);
+      setSessions([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mentorRFC]);
 
   const fetchStudents = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/getStudentsOfMentor/${mentorRFC}`);
       const data = await response.json();
-      if (data) setStudents(data);
+      const studentsArray = normalizeStudents(data);
+      setStudents(studentsArray);
+      console.log('DEBUG fetchStudents -> raw:', data);
+      console.log('DEBUG fetchStudents -> normalized array length:', studentsArray.length);
     } catch (error) {
       console.error('Error fetching students:', error);
+      setStudents([]); // fallback seguro
     }
   };
 
@@ -41,11 +65,16 @@ export default function Page() {
     try {
       const response = await fetch(`${apiUrl}/api/showSesionesMentor/${mentorRFC}`);
       const data = await response.json();
+      // Tu backend antes usaba data.data, lo respetamos y verificamos
       if (Array.isArray(data.data) && data.data.length > 0) {
-        setSessions(data.data); // Guarda todas las sesiones para referencia
+        setSessions(data.data);
+      } else {
+        setSessions([]); // fallback
       }
+      console.log('DEBUG fetchSessions ->', data);
     } catch (error) {
       console.error("Error fetching sessions:", error);
+      setSessions([]);
     }
   };
 
@@ -170,8 +199,13 @@ export default function Page() {
                   onChange={(e) => setSelectedStudent(e.target.value)}
                 >
                   <option value="">Selecciona un alumno</option>
-                  {students && students.map(student => (
-                    <option key={student.Nombre} value={student.Nombre}>{student.Nombre}</option>
+                  {students.map(student => (
+                    <option
+                      key={student.EstudianteID ?? student.Nombre ?? Math.random()}
+                      value={student.EstudianteID ?? student.Nombre ?? ''}
+                    >
+                      {`${student.Nombre ?? ''} ${student.ApellidoPaterno ?? ''} ${student.ApellidoMaterno ?? ''}`}
+                    </option>
                   ))}
                 </select>
               </div>
