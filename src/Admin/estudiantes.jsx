@@ -32,10 +32,29 @@ export default function Page() {
       try {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/students`);
-        const sortedStudents = response.data.sort((a, b) => a.ApellidoPaterno.localeCompare(b.ApellidoPaterno));
+        
+        // Validar y limpiar datos antes de ordenar
+        const validStudents = (response.data || []).filter(student => 
+          student && typeof student === 'object' && student.EstudianteID != null
+        );
+        
+        // Ordenar con manejo seguro de valores null/undefined
+        const sortedStudents = validStudents.sort((a, b) => {
+          const apellidoA = a.ApellidoPaterno || a.Nombre || '';
+          const apellidoB = b.ApellidoPaterno || b.Nombre || '';
+          
+          // Si ambos son strings vacíos, mantener orden original
+          if (!apellidoA && !apellidoB) return 0;
+          if (!apellidoA) return 1; // Los vacíos van al final
+          if (!apellidoB) return -1; // Los vacíos van al final
+          
+          return apellidoA.localeCompare(apellidoB);
+        });
+        
         setStudents(sortedStudents);
       } catch (error) {
         console.error("Error en la obtención de los estudiantes:", error);
+        setStudents([]); // Fallback seguro
       }
     };
   
@@ -71,21 +90,32 @@ export default function Page() {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(filteredStudents.length / itemsPerPage)));
   };
   
+  // Función segura para obtener texto de búsqueda
+  const getSearchableText = (value) => {
+    if (value == null) return '';
+    return String(value).toLowerCase();
+  };
+  
   const filteredStudents = students.map(student => {
     const specialty = specialties.find(s => s.EspecialidadID === student.EspecialidadID);
-    return { ...student, Especialidad: specialty ? specialty.Especialidad : 'No Asignada' };
+    return { 
+      ...student, 
+      Especialidad: specialty ? specialty.Especialidad : 'No Asignada',
+      MentorNombre: student.MentorNombre || 'No asignado'
+    };
   }).filter(student => {
     const searchTermLower = studentSearchTerm.toLowerCase();
+    
     return (
-      student.EstudianteID.toString().toLowerCase().includes(searchTermLower) ||
-      student.Nombre.toLowerCase().includes(searchTermLower) ||
-      student.ApellidoPaterno.toLowerCase().includes(searchTermLower) ||
-      student.ApellidoMaterno.toLowerCase().includes(searchTermLower) ||
-      student.NumeroTelefono?.toLowerCase().includes(searchTermLower) ||
-      student.Especialidad.toLowerCase().includes(searchTermLower) ||
-      student.MentorNombre?.toLowerCase().includes(searchTermLower) ||
-      student.CorreoElectronicoPersonal?.toLowerCase().includes(searchTermLower) ||
-      student.Periodo.toLowerCase().includes(searchTermLower)
+      getSearchableText(student.EstudianteID).includes(searchTermLower) ||
+      getSearchableText(student.Nombre).includes(searchTermLower) ||
+      getSearchableText(student.ApellidoPaterno).includes(searchTermLower) ||
+      getSearchableText(student.ApellidoMaterno).includes(searchTermLower) ||
+      getSearchableText(student.NumeroTelefono).includes(searchTermLower) ||
+      getSearchableText(student.Especialidad).includes(searchTermLower) ||
+      getSearchableText(student.MentorNombre).includes(searchTermLower) ||
+      getSearchableText(student.CorreoElectronicoPersonal).includes(searchTermLower) ||
+      getSearchableText(student.Periodo).includes(searchTermLower)
     );
   });
   
@@ -120,40 +150,50 @@ export default function Page() {
               </tr>
             </thead>
             <tbody className="table-light">
-              {selectedStudents.map(student => (
-                <tr key={student.EstudianteID}>
-                  <td>{student.EstudianteID}</td>
-                  <td>{student.Estatus}</td>
-                  <td>{student.Nombre}</td>
-                  <td>{student.ApellidoPaterno}</td>
-                  <td>{student.ApellidoMaterno}</td>
-                  <td>{student.NumeroTelefono}</td>
-                  <td>{student.Especialidad}</td>
-                  <td>{student.CorreoElectronicoPersonal}</td>
-                  <td>{student.Periodo}</td>
-                  <td>{student.MentorNombre || 'No asignado'}</td>
-                  <td>
-                    <DropButton3
-                      text1='Editar'
-                      link1='/Admin/usuarios/editarEstudiante'
-                      dropOnClick1={() => handleEditClickStudent(student.EstudianteID)}
-                      text2='Habilitar'
-                      dropOnClick2={() => updateStatus('students', student.EstudianteID, 1)}
-                      text3='Deshabilitar'
-                      dropOnClick3={() => updateStatus('students', student.EstudianteID, 0)}
-                    />
+              {selectedStudents.length > 0 ? (
+                selectedStudents.map(student => (
+                  <tr key={student.EstudianteID}>
+                    <td>{student.EstudianteID || 'N/A'}</td>
+                    <td>{student.Estatus || 'N/A'}</td>
+                    <td>{student.Nombre || 'N/A'}</td>
+                    <td>{student.ApellidoPaterno || 'N/A'}</td>
+                    <td>{student.ApellidoMaterno || 'N/A'}</td>
+                    <td>{student.NumeroTelefono || 'N/A'}</td>
+                    <td>{student.Especialidad}</td>
+                    <td>{student.CorreoElectronicoPersonal || 'N/A'}</td>
+                    <td>{student.Periodo || 'N/A'}</td>
+                    <td>{student.MentorNombre}</td>
+                    <td>
+                      <DropButton3
+                        text1='Editar'
+                        link1='/Admin/usuarios/editarEstudiante'
+                        dropOnClick1={() => handleEditClickStudent(student.EstudianteID)}
+                        text2='Habilitar'
+                        dropOnClick2={() => updateStatus('students', student.EstudianteID, 1)}
+                        text3='Deshabilitar'
+                        dropOnClick3={() => updateStatus('students', student.EstudianteID, 0)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="11" className="text-center">
+                    {students.length === 0 ? 'No hay estudiantes registrados' : 'No se encontraron estudiantes con los criterios de búsqueda'}
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
-        <PaginationButtons
-          onPrevious={handlePrevious}
-          onNext={handleNext}
-          isPreviousDisabled={currentPage === 0}
-          isNextDisabled={startIndex + itemsPerPage >= filteredStudents.length}
-        />
+        {filteredStudents.length > itemsPerPage && (
+          <PaginationButtons
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+            isPreviousDisabled={currentPage === 0}
+            isNextDisabled={startIndex + itemsPerPage >= filteredStudents.length}
+          />
+        )}
       </div>
     </div>
   );
