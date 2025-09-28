@@ -21,7 +21,8 @@ export default function Page({ userId }) {
           if (response.data.success) {
             const currentDate = new Date().setHours(0, 0, 0, 0);
             let pastSessions = response.data.data.filter(session => {
-              const sessionDate = new Date(session.Fecha.split('T')[0]).setHours(0, 0, 0, 0);
+              if (!session.Fecha) return false; // ignora sesiones sin fecha
+              const sessionDate = new Date(session.Fecha).setHours(0, 0, 0, 0);
               return sessionDate < currentDate;
             });
 
@@ -56,7 +57,7 @@ export default function Page({ userId }) {
     }
 
     const filtered = sessions.filter((session) => {
-      const formattedDate = new Date(session.Fecha).toLocaleDateString();
+      const formattedDate = session.Fecha ? new Date(session.Fecha).toLocaleDateString() : '';
       const title = session.Titulo ? session.Titulo.toLowerCase() : '';
 
       return (
@@ -74,7 +75,7 @@ export default function Page({ userId }) {
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return '';
+    if (!dateString) return 'Sin fecha';
 
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
@@ -135,15 +136,18 @@ export default function Page({ userId }) {
               {selectedSessions.length > 0 ? (
                 selectedSessions.map((session, index) => (
                   <tr key={index}>
-                    <td>{formatDate(session.Fecha)}</td>
-                    <td>{session.NumeroDeSesion}</td>
-                    <td>{session.Titulo}</td>
+                    <td>{formatDate(session.Fecha) || 'Sin fecha'}</td>
+                    <td>{session.NumeroDeSesion || 'N/A'}</td>
+                    <td>{session.Titulo || 'Sin título'}</td>
                     <td>
                       {session.EstudianteReporteID ? '✅' : '❌'}
                     </td>
                     <td>
                       <DropButton1
-                        text={session.EstudianteReporteID ? `Ver informe ${session.NumeroDeSesion}` : `Realizar informe ${session.NumeroDeSesion}`}
+                        text={session.EstudianteReporteID ? 
+                          `Ver informe ${session.NumeroDeSesion || ''}` : 
+                          `Realizar informe ${session.NumeroDeSesion || ''}`
+                        }
                         link="/Estudiante/sesiones/verSesion"
                         dropOnClick={handleClickLinkSesion(session.SesionID)}
                       />

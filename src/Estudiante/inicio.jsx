@@ -51,13 +51,14 @@ const StudentPage = () => {
       // Convierte la fecha de la sesión en un objeto Date
       const sessionDate = new Date(session.Fecha);
       sessionDate.setHours(0, 0, 0, 0); // Establece la hora a las 00:00 para comparar solo la fecha
-  
+      const safeString = (value) => value ? value.toString() : '';
+
       // Filtro de búsqueda en múltiples campos
-      const matchesSearch = 
-        (session.Titulo ? session.Titulo.toString().toLowerCase() : '').includes(search.toLowerCase()) ||
-        (session.NumeroDeSesion ? session.NumeroDeSesion.toString() : '').includes(search) ||
-        (session.Fecha ? session.Fecha.toString() : '').includes(search) ||
-        (session.Descripcion ? session.Descripcion.toString().toLowerCase() : '').includes(search.toLowerCase());
+      const matchesSearch =
+        safeString(session.Titulo).toLowerCase().includes(search.toLowerCase()) ||
+        safeString(session.NumeroDeSesion).includes(search) ||
+        safeString(session.Fecha).includes(search) ||
+        safeString(session.Descripcion).toLowerCase().includes(search.toLowerCase());
   
       // Retorna true solo si cumple con el filtro de búsqueda y la fecha
       return matchesSearch && sessionDate >= today;

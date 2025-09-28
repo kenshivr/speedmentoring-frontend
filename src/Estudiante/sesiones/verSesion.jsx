@@ -13,33 +13,38 @@ export default function Page() {
   const [descripcion, setDescripcion] = useState('');
   const [numeroDeSesion, setNumeroDeSesion] = useState('');
   const [reportExist, setReportExist] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const sesionId = sessionStorage.getItem('sesionId');
 
   useEffect(() => {
     const fetchReporte = async () => {
       try {
-        if (sesionId) {
-          const apiUrl = process.env.REACT_APP_BACKEND_URL;
-          const response = await axios.get(`${apiUrl}/api/getReportStudent/${sesionId}`);
-          //const response = await axios.get(`http://localhost:3001/api/getReportStudent/${sesionId}`);
-          if (response.data.success) {
-            if (response.data.data.texto) setReportExist(true);
-            setTexto(response.data.data.texto || '');
-            setOriginalTexto(response.data.data.texto || '');
-            setFecha(response.data.data.fecha || '');
-            setNumeroDeSesion(response.data.data.numeroDeSesion || '');
-            setTitulo(response.data.data.titulo || '');
-            setDescripcion(response.data.data.descripcion || '');
-          } else {
-            console.error('Error al obtener detalles del reporte:', response.data.message);
-          }
+        if (!sesionId) {
+          setErrorMessage('No se encontró la sesión seleccionada.');
+          return;
+        }
+
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
+        const response = await axios.get(`${apiUrl}/api/getReportStudent/${sesionId}`);
+
+        if (response.data.success && response.data.data) {
+          const data = response.data.data;
+
+          if (data.texto) setReportExist(true);
+          setTexto(data.texto || '');
+          setOriginalTexto(data.texto || '');
+          setFecha(data.fecha || '');
+          setNumeroDeSesion(data.numeroDeSesion || '');
+          setTitulo(data.titulo || 'Sin título');
+          setDescripcion(data.descripcion || 'Sin descripción');
         } else {
-          console.error('No se encontró sesionId en sessionStorage');
+          setErrorMessage('No se encontró información del reporte.');
         }
       } catch (error) {
         console.error('Error en la solicitud para obtener detalles del reporte:', error);
+        setErrorMessage('Error al cargar la sesión. Intenta de nuevo más tarde.');
       }
     };
 
@@ -49,9 +54,9 @@ export default function Page() {
   const handleEditTextoToggle = (e) => {
     e.preventDefault();
     if (editableTexto) {
-      setTexto(originalTexto); // Restaurar el texto original si se cancela la edición
+      setTexto(originalTexto);
     } else {
-      setOriginalTexto(texto); // Guardar el texto actual al comenzar a editar
+      setOriginalTexto(texto);
     }
     setEditableTexto(!editableTexto);
   };
@@ -64,32 +69,40 @@ export default function Page() {
     try {
       const sesionId = sessionStorage.getItem('sesionId');
       const userId = sessionStorage.getItem('userId');
-      const fechanueva = new Date(fecha).toISOString().split('T')[0];
 
-      if (sesionId) {
-        const apiUrl = process.env.REACT_APP_BACKEND_URL;
-        //const response = await axios.post(`http://localhost:3001/api/setReportStudent/${sesionId}`, {
-        const response = await axios.post(`${apiUrl}/api/setReportStudent/${sesionId}`, {
-          userId: userId,
-          fecha: fechanueva,
-          texto: texto,
-          titulo: titulo,
-          descripcion: descripcion
-        });
+      if (!sesionId || !userId) {
+        setErrorMessage('No se encontró información de sesión o usuario.');
+        return;
+      }
 
-        if (response.data.success) {
-          setEditableTexto(false);
-          setReportExist(true);
-          setSuccessMessage('Reporte guardado exitosamente.'); // Mensaje de éxito
-        } else {
-          console.error('Error al actualizar el texto:', response.data.message);
-        }
+      const fechanueva = fecha ? new Date(fecha).toISOString().split('T')[0] : null;
+
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      const response = await axios.post(`${apiUrl}/api/setReportStudent/${sesionId}`, {
+        userId,
+        fecha: fechanueva,
+        texto: texto || '',
+        titulo: titulo || 'Sin título',
+        descripcion: descripcion || 'Sin descripción'
+      });
+
+      if (response.data.success) {
+        setEditableTexto(false);
+        setReportExist(true);
+        setSuccessMessage('Reporte guardado exitosamente.');
       } else {
-        console.error('No se encontró sesionId en sessionStorage');
+        setErrorMessage('Error al guardar el reporte. Intenta de nuevo.');
       }
     } catch (error) {
       console.error('Error en la solicitud para actualizar el texto:', error);
+      setErrorMessage('Error al actualizar el reporte.');
     }
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Fecha no disponible';
+    const d = new Date(dateString);
+    return isNaN(d) ? 'Fecha inválida' : d.toLocaleDateString();
   };
 
   return (
@@ -108,26 +121,29 @@ export default function Page() {
           </p>
         </header>
       </div>
+
+      {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+
       <div className="row g-0 text-center mb-3">
-          <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
-            <div className='row'>
-              <div className='col-sm-6'>
-                <legend>{titulo}</legend>
-              </div>
-              <div className='col-sm-4'>
-                <legend>{new Date(fecha).toLocaleDateString()}</legend>
-              </div>
-              <div className='col-sm-2'>
-                <legend>Sesión #{numeroDeSesion}</legend>
-              </div>
+        <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
+          <div className='row'>
+            <div className='col-sm-6'>
+              <legend>{titulo}</legend>
             </div>
-            <div className='row'>
-              <div className='col-sm-6'>
-                <p>{descripcion}</p>
-              </div>
+            <div className='col-sm-4'>
+              <legend>{formatDate(fecha)}</legend>
+            </div>
+            <div className='col-sm-2'>
+              <legend>Sesión #{numeroDeSesion || 'N/A'}</legend>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col-sm-6'>
+              <p>{descripcion}</p>
             </div>
           </div>
         </div>
+      </div>
 
       <div className="row justify-content-evenly px-3">
         <div className="row p-2" style={{ backgroundColor: 'white', borderRadius:'10px', minHeight:'auto' }}>
@@ -140,25 +156,26 @@ export default function Page() {
             placeholder="Escribe aquí tu informe de la sesión. Debe contener: Objetivos establecidos y/o logrados, temas discutidos, acciones a seguir, etc."
             rows={10}
           />
-          {reportExist ? <></> : <div className='container d-flex justify-content-center mt-2'>
-                      <ButtonPrincipalDroppingContent2
-                        onClick1={handleUpdateTexto}
-                        show1={editableTexto}
-                        text1='Guardar cambios'
-                        onClick2={handleEditTextoToggle}
-                        text2='Cancelar'
-                        text3='Editar'
-                      />
-                    </div>}
-        
-                    {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>} {/* Mostrar mensaje de éxito */}
+          {!reportExist && (
+            <div className='container d-flex justify-content-center mt-2'>
+              <ButtonPrincipalDroppingContent2
+                onClick1={handleUpdateTexto}
+                show1={editableTexto}
+                text1='Guardar cambios'
+                onClick2={handleEditTextoToggle}
+                text2='Cancelar'
+                text3='Editar'
+              />
+            </div>
+          )}
+          {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>}
         </div>
 
         <div className="container d-flex flex-column align-items-center mt-auto pt-5">
           <div className='pt-3' style={{ minWidth:'199px' }}>
             <LinkSecundaryCentered
               text='Regresar'
-              link="/Estudiante/sesiones" // Usa el path relativo a tu enrutador
+              link="/Estudiante/sesiones"
             />
           </div>
         </div>

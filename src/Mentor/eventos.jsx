@@ -16,16 +16,23 @@ export default function EventsPage() {
           if (response && Array.isArray(response)) {
             // Filtrar solo eventos futuros
             const today = new Date();
-            const futureEvents = response.filter(event => new Date(event.Fecha) >= today);
+            const futureEvents = response.filter(event => {
+              const fecha = event?.Fecha ? new Date(event.Fecha) : null;
+              return fecha && !isNaN(fecha) && fecha >= today;
+            });
 
             setEvents(futureEvents);
           } else {
             setEvents([]); 
           }
         })
-        .catch(error => console.error('Error fetching events:', error));
+        .catch(error => {
+          console.error('Error fetching events:', error);
+          setEvents([]); // fallback
+        });
     } catch (error) {
       console.error('Error fetching events:', error);
+      setEvents([]); // fallback
     }
   }, []);
 
@@ -39,6 +46,13 @@ export default function EventsPage() {
 
   const startIndex = currentPage * itemsPerPage;
   const selectedEvents = events.slice(startIndex, startIndex + itemsPerPage);
+
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Fecha no disponible';
+    const date = new Date(dateString);
+    if (isNaN(date)) return 'Fecha inválida';
+    return date.toLocaleDateString();
+  };
 
   return (
     <div className="container-sm p-2" style={{ maxWidth: '1800px', margin: 'auto' }}>
@@ -64,29 +78,33 @@ export default function EventsPage() {
                   ) : (
                     <ul className="list-group">
                       {selectedEvents.map(event => (
-                        <li key={event.EventoID} className="list-group-item" style={{ backgroundColor: '#002B7A', border: 'none', color: 'white' }}>
+                        <li key={event?.EventoID || Math.random()} className="list-group-item" style={{ backgroundColor: '#002B7A', border: 'none', color: 'white' }}>
                           <div className="row my-5">
                             <div className="col">
                               <div className="row">
                                 <div className="col">
-                                  <h5>{event.Nombre}</h5>
+                                  <h5>{event?.Nombre || 'Evento sin título'}</h5>
                                 </div>
                               </div>
                               <div className="row">
                                 <h6 style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '15px' }}>
-                                  {event.Descripción}
+                                  {event?.Descripción || 'Sin descripción'}
                                 </h6>
                               </div>
                               <div className="row">
                                 <h6 style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '11px' }}>
-                                  Fecha del evento: {new Date(event.Fecha).toLocaleDateString()}
+                                  Fecha del evento: {formatDate(event?.Fecha)}
                                 </h6>
                               </div>
                               <div className="row">
                                 <div className='d-flex justify-content-start'>
-                                  <a href={event.Link} target="_blank" rel="noopener noreferrer" style={{ color: '#EFCA45', fontSize: '12px' }}>
-                                    {event.Link}
-                                  </a>
+                                  {event?.Link ? (
+                                    <a href={event.Link} target="_blank" rel="noopener noreferrer" style={{ color: '#EFCA45', fontSize: '12px' }}>
+                                      {event.Link}
+                                    </a>
+                                  ) : (
+                                    <span style={{ color: 'gray', fontSize: '12px' }}>Sin enlace</span>
+                                  )}
                                 </div>
                               </div>
                             </div>

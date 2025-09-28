@@ -15,9 +15,9 @@ export default function NavbarStudent({ userId }) {
         const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(`${apiUrl}/api/getStudent/${userId}`);
         //const response = await axios.get(`http://localhost:3001/api/getStudent/${userId}`);
-        setNombre(response.data.Nombre);
-        setPaterno(response.data.ApellidoPaterno);
-        setMaterno(response.data.ApellidoMaterno);
+        setNombre(response.data.Nombre || '');
+        setPaterno(response.data.ApellidoPaterno || '');
+        setMaterno(response.data.ApellidoMaterno || '');
       } catch (error) {
         alert('Error al obtener los datos del usuario: ' + (error.response?.data?.message || error.message));
       }
@@ -32,6 +32,7 @@ export default function NavbarStudent({ userId }) {
   
     const handleLogout = () => {
       sessionStorage.removeItem('user');
+      sessionStorage.removeItem('userId');
       navigate('/login');
     };
 
@@ -77,7 +78,7 @@ export default function NavbarStudent({ userId }) {
           <ul className="nav justify-content-end align-items-center">
             <li className="nav-item d-none d-md-block">
               <span className="navbar-text me-3" style={{ fontWeight: 'bold', color: '#3A2E01' }}>
-                {nombre ? `${nombre} ${paterno} ${materno}` : 'Cargando...'}
+                {nombre ? `${nombre} ${paterno} ${materno}` : 'Usuario'}
               </span>
             </li>
             

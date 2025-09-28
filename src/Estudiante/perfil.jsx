@@ -4,7 +4,7 @@ import LinkSecundaryCentered from './../components/Link/LinkSecundaryCentered.js
 import ButtonPrincipalC from './../components/Button/ButtonPrincipalC.jsx';
 
 export default function Page() {
-  const user = sessionStorage.getItem('userId');
+  const user = parseInt(sessionStorage.getItem('userId'), 10);
 
   const [nombre, setNombre] = useState('');
   const [estudianteID, setEstudianteID] = useState('');
@@ -23,13 +23,13 @@ export default function Page() {
 
       const fullName = `${Nombre || ''} ${ApellidoPaterno || ''} ${ApellidoMaterno || ''}`.trim();
 
-      setNombre(fullName);
-      setEstudianteID(EstudianteID);
-      setPeriodo(Periodo);
-      setEspecialidad(Especialidad);
-      setTelefono(NumeroTelefono);
-      setCorreo(CorreoElectronicoPersonal);
-      setMentorRFC(NombreMentor);
+      setNombre(fullName || 'Nombre no disponible');
+      setEstudianteID(EstudianteID || 'Sin ID');
+      setPeriodo(Periodo || 'Periodo no asignado');
+      setEspecialidad(Especialidad || 'Especialidad no registrada');
+      setTelefono(NumeroTelefono || '');
+      setCorreo(CorreoElectronicoPersonal || '');
+      setMentorRFC(NombreMentor || 'Mentor no asignado');
 
     } catch (error) {
       alert('Error al obtener los datos del usuario: ' + (error.response?.data?.message || error.message));
@@ -46,7 +46,6 @@ export default function Page() {
     event.preventDefault();
     try {
       const apiUrl = process.env.REACT_APP_BACKEND_URL;
-      //const response = await axios.put(`http://localhost:3001/api/updateStudent/${user}`, {
       const response = await axios.put(`${apiUrl}/api/updateStudent/${user}`, {
         NumeroTelefono: telefono, 
         CorreoElectronicoPersonal: correo
@@ -60,6 +59,7 @@ export default function Page() {
       alert('Error al guardar los cambios: ' + (error.response ? error.response.data.message : error.message));
     }
   };
+
 
   return (
     <div className="container-sm my-5" style={{ backgroundColor: '#002B7A', color:'white', borderRadius: '25px', boxShadow:'0px 4px 8px rgba(0, 0, 0, 0.5)' }}>

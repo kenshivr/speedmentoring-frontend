@@ -125,18 +125,18 @@ export default function Page() {
         <div className="row g-0 text-center mb-3 p-3" style={{ backgroundColor: 'white', borderRadius: '25px' }}>
           <div className='row'>
             <div className='col-sm-6'>
-              <legend>{titulo}</legend>
+              <legend>{titulo || 'Sin título'}</legend>
             </div>
             <div className='col-sm-4'>
               <legend>{formatDate(fecha)}</legend>
             </div>
             <div className='col-sm-2'>
-              <legend>Sesión #{numeroDeSesion}</legend>
+              <legend>Sesión #{numeroDeSesion || 'N/A'}</legend>
             </div>
           </div>
           <div className='row'>
             <div className='col-sm-6'>
-              <p>{descripcion}</p>
+              <p>{descripcion || 'Sin descripción'}</p>
             </div>
           </div>
         </div>
