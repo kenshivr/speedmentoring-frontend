@@ -194,7 +194,14 @@ export default function Page() {
     }
 
     // Verificar si el estudiante seleccionado existe
-    const selectedStudentObj = students.find(s => s.EstudianteID === selectedStudent);
+    const getStudentId = (student) => {
+  return student?.EstudianteID ?? student?.estudianteId ?? student?.id ?? null;
+};
+
+const selectedStudentObj = students.find(
+  s => String(getStudentId(s)) === String(selectedStudent)
+);
+
     if (!selectedStudentObj) {
       setMessageE('El estudiante seleccionado no es válido');
       setIsSubmitting(false);
@@ -226,6 +233,11 @@ export default function Page() {
       studentId: selectedStudent,
       userId: mentorRFC
     };
+    console.log('API base:', apiUrl);
+const url = `${apiUrl}/api/insertSession`;
+console.log('POST a:', url);
+console.log('Payload:', sessionData);
+
 
     try {
       const response = await fetch(`${apiUrl}/api/insertSession`, {
