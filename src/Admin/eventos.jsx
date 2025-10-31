@@ -125,7 +125,7 @@ export default function Page() {
                   <td>{evento.Nombre}</td>
                   <td>{new Date(evento.Fecha).toLocaleDateString()}</td>
                   <td>{evento.EspecialidadNombre ? evento.EspecialidadNombre : 'Sin asignar'}</td>
-                  <td>{evento.descripcion ? evento.descripcion : 'Sin descripción'}</td>
+                  <td>{evento.Descripcion ? evento.Descripcion : 'Sin descripción'}</td>
                   <td>
                     {evento.Link && evento.Link.trim() ? (
                       <a

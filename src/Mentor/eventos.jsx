@@ -88,7 +88,7 @@ export default function EventsPage() {
                               </div>
                               <div className="row">
                                 <h6 style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '15px' }}>
-                                  {event?.Descripción || 'Sin descripción'}
+                                  {event?.Descripcion || 'Sin descripción'}
                                 </h6>
                               </div>
                               <div className="row">
